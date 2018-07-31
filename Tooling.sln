@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -12,15 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8D15F2A7-BD58-4AC6-8E14-1723D3C209BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling", "src\Steeltoe.Tooling\Steeltoe.Tooling.csproj", "{6F04A20F-8B65-4766-9DA6-62C93F7C5FFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling", "src\Steeltoe.Tooling\Steeltoe.Tooling.csproj", "{6F04A20F-8B65-4766-9DA6-62C93F7C5FFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Test", "test\Steeltoe.Tooling.Test\Steeltoe.Tooling.Test.csproj", "{3559B899-270C-4F49-994A-9050E76AE955}"
 EndProject
 Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A443975C-C563-4CBC-9EBA-A21E6D258E77}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -42,8 +39,26 @@ Global
 		{6F04A20F-8B65-4766-9DA6-62C93F7C5FFD}.Release|x64.Build.0 = Release|Any CPU
 		{6F04A20F-8B65-4766-9DA6-62C93F7C5FFD}.Release|x86.ActiveCfg = Release|Any CPU
 		{6F04A20F-8B65-4766-9DA6-62C93F7C5FFD}.Release|x86.Build.0 = Release|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Debug|x64.Build.0 = Debug|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Debug|x86.Build.0 = Debug|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Release|x64.ActiveCfg = Release|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Release|x64.Build.0 = Release|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Release|x86.ActiveCfg = Release|Any CPU
+		{3559B899-270C-4F49-994A-9050E76AE955}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6F04A20F-8B65-4766-9DA6-62C93F7C5FFD} = {8D15F2A7-BD58-4AC6-8E14-1723D3C209BA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A443975C-C563-4CBC-9EBA-A21E6D258E77}
 	EndGlobalSection
 EndGlobal
