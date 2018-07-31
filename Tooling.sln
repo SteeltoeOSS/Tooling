@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8D15F2A7-BD58-4AC6-8E14-1723D3C209BA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling", "src\Steeltoe.Tooling\Steeltoe.Tooling.csproj", "{6F04A20F-8B65-4766-9DA6-62C93F7C5FFD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Test", "test\Steeltoe.Tooling.Test\Steeltoe.Tooling.Test.csproj", "{3559B899-270C-4F49-994A-9050E76AE955}"
