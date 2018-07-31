@@ -1,4 +1,7 @@
-# Steeltoe Developer Tools
+# Steeltoe Tooling
+
+This page decribes how to build and install Steeltoe Tooling.
+For other documentation, please see the [Steeltoe Tooling Wiki](https://github.com/SteeltoeOSS/Tooling/wiki).
 
 ## Install/Uninstall into Global Tools
 
