@@ -1,0 +1,13 @@
+version: '1.0.0-{branch}-{build}'
+init:
+  - git config --global core.autocrlf true
+image:
+  - Visual Studio 2017    
+branches:
+  only:
+    - master
+install:
+  - ps: dotnet --info
+environment:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
