@@ -262,3 +262,6 @@ __pycache__/
 
 # Visual Studio C0de cache/options directory
 .vscode/
+
+# vi/vim
+\.*\.sw[A-z]
