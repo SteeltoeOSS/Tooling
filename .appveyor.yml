@@ -8,6 +8,10 @@ branches:
     - master
 install:
   - ps: dotnet --info
+test_script:
+  - ps: dotnet test test\Steeltoe.Tooling.Test
+build_script:
+  - ps: dotnet pack
 environment:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
