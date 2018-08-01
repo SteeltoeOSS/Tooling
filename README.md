@@ -1,54 +1,11 @@
 # Steeltoe Tooling
 
-This page decribes how to build and install Steeltoe Tooling.
-For other documentation, please see the [Steeltoe Tooling Wiki](https://github.com/SteeltoeOSS/Tooling/wiki).
+Steeltoe developer tool collection.
 
-## Install/Uninstall into Global Tools
+For documentation, please see the [Steeltoe Tooling Wiki](https://github.com/SteeltoeOSS/Tooling/wiki).
 
-Install:
-```
-> dotnet pack --output ./
-> dotnet tool install -g steeltoe --add-source ./
-```
+## Latest Builds
 
-After installing, you can run the `steeltoe` command from a commandline:
-```
-> steeltoe -h
-Steeltoe Developer Tools
-
-Usage: steeltoe [options] [command]
-
-Options:
-  -?|-h|--help  Show help information
-
-Commands:
-  doctor        Health check for your Steeltoe development environment
-
-Run 'steeltoe [command] --help' for more information about a command.
-```
-
-Uninstall:
-```
-> dotnet tool uninstall -g steeltoe
-```
-
-
-## Running from within this Project
-
-Alternatively, you can run directly from within the project without having to install into Global Tools.
-
-Example: Run with no command or options
-```
-> dotnet run --project steeltoe
-```
-
-Example: Run a command
-```
-> dotnet run --project steeltoe doctor
-```
-
-Example: Run a command options (_note "`--`" delimiter_)
-```
-> dotnet run --project steeltoe -- doctor -h
-```
-
+Platform | Branch | Status
+-------- | ------ | ------
+Windows  | master | [![Build status](https://ci.appveyor.com/api/projects/status/bpwhsnue8j7iiwpp/branch/master?svg=true)](https://ci.appveyor.com/project/steeltoe/tooling/branch/master)
