@@ -15,5 +15,6 @@ branches:
     - master
 script:
   - dotnet --info
-  - dotnet test test\Steeltoe.Tooling.Test
+  - dotnet build
+  - dotnet test test/Steeltoe.Tooling.Test
   - dotnet pack
