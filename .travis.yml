@@ -9,7 +9,6 @@ dotnet: 2.1.300
 os:
   - linux
   - osx
-osx_image: xcode8.3
 branches:
   only:
     - master
