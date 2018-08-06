@@ -23,51 +23,44 @@ namespace Steeltoe.Tooling
     {
         protected override int OnExecute(CommandLineApplication app)
         {
-            bool healthy = true;
-            healthy = CheckDotnet() && healthy;
+            var healthy = true;
+            healthy = CheckDotnet(app) && healthy;
             return healthy ? 0 : 1;
         }
 
-        private bool CheckDotnet()
+        private static bool CheckDotnet(CommandLineApplication app)
         {
             Console.Write("checking dotnet, ");
-            ProcessStartInfo pinfo = new ProcessStartInfo("dotnet", "--version");
-            pinfo.RedirectStandardOutput = true;
-            pinfo.RedirectStandardError = true;
-            Process proc;
+            var pinfo = new ProcessStartInfo("dotnet", "--version")
+            {
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
             try
             {
-                proc = Process.Start(pinfo);
-            }
-            catch (System.ComponentModel.Win32Exception e)
-            {
-                if (e.Message.Equals("The system cannot find the file specified"))
+                var proc = Process.Start(pinfo);
+                proc.WaitForExit();
+                if (proc.ExitCode == 0)
                 {
-                    Console.WriteLine("not found");
+                    using (var pout = proc.StandardOutput)
+                    {
+                        app.Out.WriteLine("found version " + pout.ReadToEnd().Trim());
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("unexpected error: " + e.Message);
-
+                    using (var perr = proc.StandardError)
+                    {
+                        app.Out.WriteLine("oops ... " + perr.ReadToEnd().Trim());
+                    }
                 }
+                return proc.ExitCode == 0;
+            }
+            catch (Exception e)
+            {
+                app.Out.WriteLine("error: " + e.Message);
                 return false;
             }
-            proc.WaitForExit();
-            if (proc.ExitCode == 0)
-            {
-                using (System.IO.StreamReader pout = proc.StandardOutput)
-                {
-                    Console.WriteLine("found version " + pout.ReadToEnd().Trim());
-                }
-            }
-            else
-            {
-                using (System.IO.StreamReader perr = proc.StandardError)
-                {
-                    Console.WriteLine("oops ... " + perr.ReadToEnd().Trim());
-                }
-            }
-            return proc.ExitCode == 0;
         }
     }
 }
