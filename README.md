@@ -4,6 +4,19 @@ Steeltoe developer tool collection.
 
 For documentation, please see the [Steeltoe Tooling Wiki](https://github.com/SteeltoeOSS/Tooling/wiki).
 
+## Local Build
+
+Install:
+```
+> dotnet pack
+> dotnet tool install --global Steeltoe.Tooling --add-source ./src/Steeltoe.Tooling/bin/Debug
+```
+
+Uninstall:
+```
+> dotnet tool uninstall --global Steeltoe.Tooling
+```
+
 ## Latest Builds
 
 Platform | Branch | Status
