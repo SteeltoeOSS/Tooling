@@ -9,12 +9,12 @@ For documentation, please see the [Steeltoe Tooling Wiki](https://github.com/Ste
 Install:
 ```
 > dotnet pack
-> dotnet tool install --global Steeltoe.Tooling --add-source ./src/Steeltoe.Tooling/bin/Debug
+> dotnet tool install --global Steeltoe.Tooling --add-source src/Steeltoe.Tooling.DotnetCLI/bin/Debug 
 ```
 
 Uninstall:
 ```
-> dotnet tool uninstall --global Steeltoe.Tooling
+> dotnet tool uninstall --global Steeltoe.Tooling.DotnetCLI
 ```
 
 ## Latest Builds
