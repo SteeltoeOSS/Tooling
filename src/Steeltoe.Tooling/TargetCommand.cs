@@ -65,11 +65,11 @@ namespace Steeltoe.Tooling
 
         private int SetTargetToCloudFoundry(CommandLineApplication app)
         {
-            var file = Path.Combine(OutputDirectory, "manifest.yml");
-            if (File.Exists(file) && !Force)
+            var path = Path.Combine(OutputDirectory, "manifest.yml");
+            if (File.Exists(path) && !Force)
             {
                 app.Error.WriteLine("Running this command will make changes to the following file(s):");
-                app.Error.WriteLine("  Overwrite  " + file);
+                app.Error.WriteLine("  Overwrite  " + path);
                 app.Error.WriteLine();
                 app.Error.WriteLine("Rerun the command and pass --force.");
                 return 1;
@@ -85,10 +85,8 @@ namespace Steeltoe.Tooling
                 }
             };
                 
-            var serializer = new SerializerBuilder().Build();
-            var yaml = serializer.Serialize(config);
             Directory.CreateDirectory(OutputDirectory);
-            File.WriteAllText(file, yaml);
+            config.store(path);
             return 0;
         }
     }

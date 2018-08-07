@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using System.IO;
+using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
@@ -20,17 +22,47 @@ namespace Steeltoe.Tooling
     public class CloudFoundryConfiguration
     {
         public Application[] applications { get; set; }
+
+        public static CloudFoundryConfiguration load(string path)
+        {
+            using (var reader = new StreamReader(path))
+            {
+                return load(reader);
+            }
+        }
+
+        public static CloudFoundryConfiguration load(StreamReader reader)
+        {
+            var deserializer = new DeserializerBuilder()
+                .Build();
+            return deserializer.Deserialize<CloudFoundryConfiguration>(reader);
+        }
+
+        public void store(string path)
+        {
+            using (var writer = new StreamWriter(path))
+            {
+                store(writer);
+            }
+        }
+
+        public void store(StreamWriter writer)
+        {
+            var serializer = new SerializerBuilder().Build();
+            var yaml = serializer.Serialize(this);
+            writer.Write(yaml);
+        }
     }
     
     public class Application
     {
         public string name { get; set; }
-        public string buildpack { get; } = "dotnet_core_buildpack";
-        public Dictionary<string, string> env { get; } = new Dictionary<string, string>()
+        public string buildpack { get; set;  } = "dotnet_core_buildpack";
+        public Dictionary<string, string> env { get; set;  } = new Dictionary<string, string>()
         {
             {"ASPNETCORE_ENVIRONMENT", "development"}
         };
         public string[] services { get; set; }
     }
 }
-    
+
