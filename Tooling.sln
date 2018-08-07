@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE = LICENSE
 		README.md = README.md
+		scripts\unit-test.sh = scripts\unit-test.sh
+		scripts\feature-test.sh = scripts\feature-test.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D86CBDAE-DF37-4BDF-8F81-C79FB11DEC0D}"
