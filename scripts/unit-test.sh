@@ -2,11 +2,17 @@
 
 basedir=$(dirname $0)/..
 unitTestDir=$basedir/test
-rc=0
 
-for project in $unitTestDir/*
+errors=0
+
+for project in $unitTestDir/*.Test
 do
     dotnet test $project
-    [[ $? != 0 ]] && rc=1
+    errors=$(($errors + $?))
 done
-exit $rc
+
+if [[ $errors > 0 ]]
+then
+	echo "$errors unit test(s) failed" >&2
+    exit $errors
+fi
