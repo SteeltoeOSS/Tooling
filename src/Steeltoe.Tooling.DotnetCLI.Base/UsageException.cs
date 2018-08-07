@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+﻿// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,21 +13,11 @@
 // limitations under the License.
 
 using System;
-using McMaster.Extensions.CommandLineUtils;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.DotnetCLI
 {
-    [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
-    [Subcommand("doctor", typeof(DoctorCommand))]
-    [Subcommand("target", typeof(TargetCommand))]
-    class Program
+    public class UsageException : Exception
     {
-        public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
-
-        private int OnExecute(CommandLineApplication app)
-        {
-            app.ShowHelp();
-            return 0;
-        }
+        public UsageException(string message) : base(message) {}
     }
 }

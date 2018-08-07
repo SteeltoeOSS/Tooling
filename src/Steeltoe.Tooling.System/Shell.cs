@@ -14,10 +14,9 @@
 
 using System;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.System
 {
-    internal class UsageException : Exception
+    public class Shell
     {
-        internal UsageException(string message) : base(message) {}
     }
 }

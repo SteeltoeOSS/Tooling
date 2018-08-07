@@ -16,12 +16,12 @@ using McMaster.Extensions.CommandLineUtils;
 using System;
 using System.Diagnostics;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.DotnetCLI.Doctor
 {
     [Command(Description = "Run a health check on your Steeltoe development environment")]
-    internal class DoctorCommand : DotnetSteeltoeCommand
+    public class DoctorCommand
     {
-        protected override int OnExecute(CommandLineApplication app)
+        protected int OnExecute(CommandLineApplication app)
         {
             var healthy = true;
             healthy = CheckDotnet(app) && healthy;

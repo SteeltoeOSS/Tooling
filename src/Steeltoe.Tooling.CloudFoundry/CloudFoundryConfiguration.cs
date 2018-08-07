@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.CloudFoundry
 {
 
     public class CloudFoundryConfiguration

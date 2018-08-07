@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
+using System.Net.Mime;
 using McMaster.Extensions.CommandLineUtils;
-using YamlDotNet.Serialization;
+using Steeltoe.Tooling.CloudFoundry;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.DotnetCLI.Target
 {
     [Command(Description = "Set the target environment, e.g. Cloud Foundry")]
-    internal class TargetCommand : DotnetSteeltoeCommand
+    public class TargetCommand
     {
         [Argument(0, Description = "Specify one of: cloud-foundry.")]
         private string Environment { get; }
@@ -39,7 +41,7 @@ namespace Steeltoe.Tooling
         [Option("--force", Description = "Forces content to be generated even if it would change existing files.")]
         private bool Force { get; }
         
-        protected override int OnExecute(CommandLineApplication app)
+        protected int OnExecute(CommandLineApplication app)
         {
             try
             {

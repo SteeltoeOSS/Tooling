@@ -1,18 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ToolCommandName>steeltoe</ToolCommandName>
-    <PackAsTool>True</PackAsTool>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ToolCommandName>steeltoe</ToolCommandName>
+    <PackAsTool>true</PackAsTool>
+    <OutputType>exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
-    <PackageReference Include="YamlDotNet" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Steeltoe.Tooling.Doctor\Steeltoe.Tooling.Doctor.csproj" />
     <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Doctor\Steeltoe.Tooling.DotnetCLI.Doctor.csproj" />
     <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Target\Steeltoe.Tooling.DotnetCLI.Target.csproj" />
-    <ProjectReference Include="..\Steeltoe.Tooling.Target\Steeltoe.Tooling.Target.csproj" />
   </ItemGroup>
 </Project>
