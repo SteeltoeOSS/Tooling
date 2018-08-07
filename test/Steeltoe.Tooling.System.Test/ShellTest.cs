@@ -39,9 +39,10 @@ namespace Steeltoe.Tooling.System.Test
             // setup up list and error commands
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                listCommand = "dir";
+                listCommand = Path.Combine(testDir, "list.bat");
+                File.WriteAllText(listCommand, "@ECHO OFF\ndir %*\n");
                 errorCommand = Path.Combine(testDir, "error.bat");
-                File.WriteAllText(errorCommand, "exit /B 1\n");
+                File.WriteAllText(errorCommand, "@ECHO OFF\nexit /B 1\n");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -99,7 +100,7 @@ namespace Steeltoe.Tooling.System.Test
             sh.Command.ShouldBe(listCommand);
             sh.Arguments.ShouldBe(aDir);
             sh.ExitCode.ShouldBe(0);
-            sh.Out.Trim().ShouldBe("aFile");
+            sh.Out.ShouldContain("aFile");
             sh.Error.ShouldBeEmpty();
         }
 
@@ -110,7 +111,7 @@ namespace Steeltoe.Tooling.System.Test
             sh.Command.ShouldBe(listCommand);
             sh.Arguments.ShouldBeNull();
             sh.ExitCode.ShouldBe(0);
-            sh.Out.Trim().ShouldBe("anotherFile");
+            sh.Out.ShouldContain("anotherFile");
             sh.Error.ShouldBeEmpty();
         }
 
