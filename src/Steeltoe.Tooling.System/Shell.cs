@@ -12,11 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using System.Diagnostics;
 
 namespace Steeltoe.Tooling.System
 {
     public class Shell
     {
+        public string Command { get; private set; }
+        public string Arguments { get; private set; }
+        public int ExitCode { get; private set; }
+        public string Out { get; private set; }
+        public string Error { get; private set; }
+
+        public void Run(string command, string arguments = null, string workingDirectory = null)
+        {
+            Command = command;
+            Arguments = arguments;
+            var pinfo = new ProcessStartInfo(Command, Arguments)
+            {
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                WorkingDirectory = workingDirectory
+            };
+            var proc = Process.Start(pinfo);
+            proc.WaitForExit();
+            ExitCode = proc.ExitCode;
+            using (var pout = proc.StandardOutput)
+            {
+                Out = pout.ReadToEnd();
+            }
+            using (var perr = proc.StandardError)
+            {
+                Error = perr.ReadToEnd();
+            }
+        }
     }
 }
