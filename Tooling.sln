@@ -38,9 +38,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{D4A6859F-DE98-4113-8455-AD3FA17E84F4}"
 ProjectSection(SolutionItems) = preProject
 	scripts\feature-test.ps1 = scripts\feature-test.ps1
-	scripts\feature-test.sh = scripts\feature-test.sh
 	scripts\unit-test.ps1 = scripts\unit-test.ps1
-	scripts\unit-test.sh = scripts\unit-test.sh
+	scripts\feature-test = scripts\feature-test
+	scripts\unit-test = scripts\unit-test
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{E9B1FC73-80A5-42A7-863F-5413EA87FD5A}"
