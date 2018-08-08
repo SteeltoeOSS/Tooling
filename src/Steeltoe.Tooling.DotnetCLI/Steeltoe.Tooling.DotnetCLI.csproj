@@ -1,15 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\versions.props" />
+
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <ToolCommandName>steeltoe</ToolCommandName>
     <PackAsTool>true</PackAsTool>
     <OutputType>exe</OutputType>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtils)" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Doctor\Steeltoe.Tooling.DotnetCLI.Doctor.csproj" />
     <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Target\Steeltoe.Tooling.DotnetCLI.Target.csproj" />
   </ItemGroup>
+
 </Project>
