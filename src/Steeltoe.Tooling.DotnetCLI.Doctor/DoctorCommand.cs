@@ -23,6 +23,10 @@ namespace Steeltoe.Tooling.DotnetCLI.Doctor
     {
         protected int OnExecute(CommandLineApplication app)
         {
+            app.Out.WriteLine("*** ******************************* ***");
+            app.Out.WriteLine("*** This command under construction ***");
+            app.Out.WriteLine("*** ******************************* ***");
+            app.Out.WriteLine();
             var healthy = true;
             healthy = CheckDotnet(app) && healthy;
             return healthy ? 0 : 1;
