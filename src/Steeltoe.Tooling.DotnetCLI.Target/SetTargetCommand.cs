@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.IO;
-using System.Net.Mime;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.CloudFoundry;
+using Steeltoe.Tooling.DotnetCLI.Base;
 
 namespace Steeltoe.Tooling.DotnetCLI.Target
 {
-    [Command(Description = "Set the target environment, e.g. Cloud Foundry")]
-    public class TargetCommand
+    [Command(Description = "Set the target environment, e.g. Cloud Foundry.")]
+    public class SetTargetCommand : DotnetCLICommand
     {
         [Argument(0, Description = "Specify one of: cloud-foundry.")]
         private string Environment { get; }
@@ -41,31 +40,23 @@ namespace Steeltoe.Tooling.DotnetCLI.Target
         [Option("--force", Description = "Forces content to be generated even if it would change existing files.")]
         private bool Force { get; }
         
-        protected int OnExecute(CommandLineApplication app)
+        protected override void OnCommandExecute(CommandLineApplication app)
         {
-            try
+            if (string.IsNullOrEmpty(Environment))
             {
-                if (string.IsNullOrEmpty(Environment))
-                {
-                    throw new UsageException("environment not specified");
-                }
-                switch (Environment.ToLower())
-                {
-                    case "cloud-foundry":
-                        return SetTargetToCloudFoundry(app);
-                    default:
-                        throw new UsageException("not a valid environment [" + Environment + "]");
-                }
+                throw new UsageException("environment not specified");
             }
-            catch (UsageException e)
+            switch (Environment.ToLower())
             {
-                app.Error.WriteLine("Usage error: " + e.Message);
-                app.Error.WriteLine("Run with -h for help");
-                return 1;
+                case "cloud-foundry":
+                    SetTargetToCloudFoundry(app);
+                    break;
+                default:
+                    throw new UsageException("not a valid environment [" + Environment + "]");
             }
         }
 
-        private int SetTargetToCloudFoundry(CommandLineApplication app)
+        private void SetTargetToCloudFoundry(CommandLineApplication app)
         {
             var path = Path.Combine(OutputDirectory, "manifest.yml");
             if (File.Exists(path) && !Force)
@@ -74,7 +65,7 @@ namespace Steeltoe.Tooling.DotnetCLI.Target
                 app.Error.WriteLine("  Overwrite  " + path);
                 app.Error.WriteLine();
                 app.Error.WriteLine("Rerun the command and pass --force.");
-                return 1;
+                return;
             }
             var config = new CloudFoundryConfiguration
             {
@@ -89,7 +80,6 @@ namespace Steeltoe.Tooling.DotnetCLI.Target
                 
             Directory.CreateDirectory(OutputDirectory);
             config.store(path);
-            return 0;
         }
     }
 }

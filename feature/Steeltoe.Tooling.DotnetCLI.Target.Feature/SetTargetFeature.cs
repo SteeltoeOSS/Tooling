@@ -18,23 +18,24 @@ using LightBDD.XUnit2;
 
 [assembly: LightBddScope]
 
-namespace Steeltoe.Tooling.DotnetCLI.Doctor.Feature
+namespace Steeltoe.Tooling.DotnetCLI.Target.Feature
 {
-	[Label("doctor")]
+	[Label("target")]
 	[FeatureDescription(
-@"In order to sanity check a development environment
+@"In order to easily test code in a variety of environments
 As a developer
-I want to ask Steeltoe Tooling to run a sanity health check")]
-	public partial class DoctorFeature
+I want to simple tell Steeltoe Tooling what enviornment in which I want to run")]
+	public partial class SetTargetFeature
 	{
 		[Scenario]
-		public void RunTarget()
+		public void RunSetTarget()
 		{
-            Runner.RunScenario(
-                given => a_blank_project(),
-                when => the_developer_runs("doctor"),
-                then => the_command_succeeds(),
-                and => the_developer_sees_help_message_for_doctor_command());
+			Runner.RunScenario(
+				given => a_blank_project("run_set_target"),
+				when => the_developer_runs_steeltoe_("set-target"),
+				then => the_command_fails(),
+				and => the_developer_sees_the_error_message("environment not specified"),
+                and => the_developer_sees_the_error_message("run with -h for help"));
 		}
 	}
 }

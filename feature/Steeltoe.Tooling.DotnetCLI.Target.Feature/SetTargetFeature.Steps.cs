@@ -12,28 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.XUnit2;
-
-namespace Steeltoe.Tooling.DotnetCLI.Doctor.Feature
+namespace Steeltoe.Tooling.DotnetCLI.Target.Feature
 {
-	public partial class DoctorFeature: FeatureFixture
+	public partial class SetTargetFeature: DotnetCLI.Base.Feature.DotnetCLIFeatureFixture
 	{
-		private void a_blank_project()
-		{
-		}
-
-		private void the_developer_runs(string command)
-		{
-		}
-
-        private void the_developer_sees_help_message_for_doctor_command()
-        {
-        }
-
-        private void the_command_succeeds()
-        {
-        }
-
-
 	}
 }

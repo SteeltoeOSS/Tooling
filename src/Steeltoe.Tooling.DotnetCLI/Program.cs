@@ -18,7 +18,8 @@ namespace Steeltoe.Tooling.DotnetCLI
 {
     [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
     [Subcommand("doctor", typeof(Doctor.DoctorCommand))]
-    [Subcommand("target", typeof(Target.TargetCommand))]
+    [Subcommand("create-service", typeof(Service.CreateServiceCommand))]
+    [Subcommand("set-target", typeof(Target.SetTargetCommand))]
     class Program
     {
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);

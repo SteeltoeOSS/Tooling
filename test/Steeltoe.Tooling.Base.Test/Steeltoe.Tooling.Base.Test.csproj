@@ -10,8 +10,4 @@
     <PackageReference Include="xunit" Version="$(XunitVersion)" />
     <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitStudioVersion)" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Steeltoe.Tooling.CloudFoundry\Steeltoe.Tooling.CloudFoundry.csproj" />
-    <ProjectReference Include="..\Steeltoe.Tooling.Base.Test\Steeltoe.Tooling.Base.Test.csproj" />
-  </ItemGroup>
 </Project>

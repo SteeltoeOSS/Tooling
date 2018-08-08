@@ -14,13 +14,25 @@
 
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.DotnetCLI.Base
 {
-    internal abstract class DotnetSteeltoeCommand
+    public abstract class DotnetCLICommand
     {
         protected virtual int OnExecute(CommandLineApplication app)
         {
+            try
+            {
+                OnCommandExecute(app);
+            }
+            catch (UsageException e)
+            {
+                app.Error.WriteLine("Usage error: " + e.Message);
+                app.Error.WriteLine("Run with -h for help");
+                return 1;
+            }
             return 0;
         }
+
+        protected abstract void OnCommandExecute(CommandLineApplication app);
     }
 }

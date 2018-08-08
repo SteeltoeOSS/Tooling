@@ -18,7 +18,7 @@ using System.Diagnostics;
 
 namespace Steeltoe.Tooling.DotnetCLI.Doctor
 {
-    [Command(Description = "Run a health check on your Steeltoe development environment")]
+    [Command(Description = "Run a health check on your Steeltoe development environment.")]
     public class DoctorCommand
     {
         protected int OnExecute(CommandLineApplication app)

@@ -18,23 +18,24 @@ using LightBDD.XUnit2;
 
 [assembly: LightBddScope]
 
-namespace Steeltoe.Tooling.Test
+namespace Steeltoe.Tooling.DotnetCLI.Service.Feature
 {
-	[Label("target")]
+	[Label("service")]
 	[FeatureDescription(
-@"In order to easily test code in a variety of environments
+@"In order to define services for deployment
 As a developer
-I want to simple tell Steeltoe Tooling what enviornment in which I want to run")]
-	public partial class TargetFeature
+I want Steeltoe Tooling to create services definitions for me")]
+	public partial class CreateServiceFeature
 	{
 		[Scenario]
-		public void RunTarget()
+		public void RunCreateService()
 		{
-            Runner.RunScenario(
-                given => a_blank_project(),
-                when => the_developer_runs("target"),
-                then => the_command_succeeds(),
-                and => the_developer_sees_help_message_for_target_command());
+			Runner.RunScenario(
+				given => a_blank_project("run_create_service"),
+				when => the_developer_runs_steeltoe_("create-service"),
+				then => the_command_fails(),
+				and => the_developer_sees_the_error_message("name not specified"),
+                and => the_developer_sees_the_error_message("run with -h for help"));
 		}
 	}
 }

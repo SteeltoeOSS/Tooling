@@ -5,13 +5,14 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="LightBDD.XUnit2" Version="$(LightBDDXUnit2Version)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(TestSdkVersion)" />
-    <PackageReference Include="Shouldly" Version="3.0.0" />
+    <PackageReference Include="Shouldly" Version="$(ShouldlyVersion)" />
     <PackageReference Include="xunit" Version="$(XunitVersion)" />
     <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitStudioVersion)" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="$(XunitVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Steeltoe.Tooling.CloudFoundry\Steeltoe.Tooling.CloudFoundry.csproj" />
-    <ProjectReference Include="..\Steeltoe.Tooling.Base.Test\Steeltoe.Tooling.Base.Test.csproj" />
+    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Base.Feature\Steeltoe.Tooling.DotnetCLI.Base.Feature.csproj" />
   </ItemGroup>
 </Project>

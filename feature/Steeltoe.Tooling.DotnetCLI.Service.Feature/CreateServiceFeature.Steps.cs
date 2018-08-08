@@ -12,31 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
-using LightBDD.XUnit2;
-using Shouldly;
-
-namespace Steeltoe.Tooling.Test
+namespace Steeltoe.Tooling.DotnetCLI.Service.Feature
 {
-	public partial class TargetFeature: FeatureFixture
+	public partial class CreateServiceFeature : DotnetCLI.Base.Feature.DotnetCLIFeatureFixture
 	{
-		private void a_blank_project()
-		{
-		}
-
-		private void the_developer_runs(string command)
-		{
-            command.ShouldBe("target");
-		}
-
-        private void the_developer_sees_help_message_for_target_command()
-        {
-        }
-
-        private void the_command_succeeds()
-        {
-        }
-
-
 	}
 }
