@@ -22,6 +22,7 @@ namespace Steeltoe.Tooling.DotnetCli
     [Subcommand("list-services", typeof(Service.ListCommand))]
     [Subcommand("start-service", typeof(Service.StartCommand))]
     [Subcommand("stop-service", typeof(Service.StopCommand))]
+    [Subcommand("check-service", typeof(Service.CheckCommand))]
     [Subcommand("set-target", typeof(Target.SetCommand))]
     [Subcommand("list-targets", typeof(Target.ListCommand))]
     class Program
