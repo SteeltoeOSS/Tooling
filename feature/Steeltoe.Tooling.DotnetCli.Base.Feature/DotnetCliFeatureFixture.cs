@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using LightBDD.XUnit2;
+using Microsoft.Extensions.Logging;
 using Shouldly;
 using Steeltoe.Tooling.System;
 
@@ -28,7 +29,7 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
 
         private string ProjectSandbox { get; set; }
 
-        private Shell Shell { get; } = new Shell();
+        private Shell Shell { get; } = new Shell(Logging.LoggerFactory);
 
         protected void a_blank_project(string name)
         {

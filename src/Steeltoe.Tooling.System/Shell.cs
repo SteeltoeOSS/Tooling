@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace Steeltoe.Tooling.System
 {
@@ -24,9 +26,17 @@ namespace Steeltoe.Tooling.System
         public string Out { get; private set; }
         public string Error { get; private set; }
 
+        private ILogger<Shell> Logger { get; set; }
+
+        public Shell(ILoggerFactory loggerFactory)
+        {
+            Logger = loggerFactory.CreateLogger<Shell>();
+        }
+
         public void Run(string command, string arguments = null, string workingDirectory = null)
         {
             Command = command;
+            Logger.LogDebug($"command: ${command}");
             Arguments = arguments;
             var pinfo = new ProcessStartInfo(Command, Arguments)
             {

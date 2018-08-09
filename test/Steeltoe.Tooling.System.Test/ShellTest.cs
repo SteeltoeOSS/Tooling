@@ -17,6 +17,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
+using Steeltoe.Tooling.Base.Test;
 using Xunit;
 
 namespace Steeltoe.Tooling.System.Test
@@ -29,7 +30,7 @@ namespace Steeltoe.Tooling.System.Test
         private static string listCommand;
         private static string errorCommand;
 
-        private Shell sh;
+        private readonly Shell sh = new Shell(Logging.LoggerFactory);
 
         static ShellTest()
         {
@@ -66,11 +67,6 @@ namespace Steeltoe.Tooling.System.Test
             anotherDir = Path.Combine(testDir, "anotherDir");
             Directory.CreateDirectory(anotherDir);
             File.WriteAllText(Path.Combine(anotherDir, "anotherFile"), string.Empty);
-        }
-
-        public ShellTest()
-        {
-            sh = new Shell();
         }
 
         [Fact]
