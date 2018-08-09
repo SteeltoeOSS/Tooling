@@ -12,16 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.DotnetCli.Base;
-
-namespace Steeltoe.Tooling.DotnetCli.Service
+namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
-    [Command(Description = "List defined services.")]
-    public class ListCommand : DotnetCliCommand
+    public partial class UndefineFeature : DotnetCli.Base.Feature.DotnetCliFeatureFixture
     {
-        protected override void OnCommandExecute(CommandLineApplication app)
-        {
-        }
     }
 }

@@ -17,8 +17,8 @@ using Steeltoe.Tooling.DotnetCli.Base;
 
 namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Command(Description = "List defined services.")]
-    public class ListCommand : DotnetCliCommand
+    [Command(Description = "Undefine a service.")]
+    public class UndefineCommand : DotnetCliCommand
     {
         protected override void OnCommandExecute(CommandLineApplication app)
         {

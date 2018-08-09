@@ -18,6 +18,7 @@ namespace Steeltoe.Tooling.DotnetCli
 {
     [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
     [Subcommand("define-service", typeof(Service.DefineCommand))]
+    [Subcommand("undefine-service", typeof(Service.UndefineCommand))]
     [Subcommand("list-services", typeof(Service.ListCommand))]
     [Subcommand("set-target", typeof(Target.SetCommand))]
     [Subcommand("list-targets", typeof(Target.ListCommand))]
