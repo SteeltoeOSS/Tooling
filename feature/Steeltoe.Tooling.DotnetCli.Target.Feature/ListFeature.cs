@@ -16,22 +16,20 @@ using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-// [assembly: LightBddScope]
+//[assembly: LightBddScope]
 
 namespace Steeltoe.Tooling.DotnetCli.Target.Feature
 {
     [Label("target")]
-    public partial class SetTargetFeature
+    public partial class ListFeature
     {
         [Scenario]
-        public void RunSetTarget()
+        public void RunListTargets()
         {
             Runner.RunScenario(
-                given => a_blank_project("run_set_target"),
-                when => the_developer_runs_steeltoe_("set-target"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error("environment not specified"),
-                and => the_developer_sees_the_error("run with -h for help"));
+                given => a_blank_project("run_list_targets"),
+                when => the_developer_runs_steeltoe_("list-targets"),
+                then => the_command_succeeds());
         }
     }
 }

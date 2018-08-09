@@ -16,22 +16,20 @@ using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-[assembly: LightBddScope]
+//[assembly: LightBddScope]
 
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
     [Label("service")]
-    public partial class CreateServiceFeature
+    public partial class ListServicesFeature
     {
         [Scenario]
-        public void RunCreateService()
+        public void RunListServices()
         {
             Runner.RunScenario(
-                given => a_blank_project("run_create_service"),
-                when => the_developer_runs_steeltoe_("create-service"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error("name not specified"),
-                and => the_developer_sees_the_error("run with -h for help"));
+                given => a_blank_project("run_list_services"),
+                when => the_developer_runs_steeltoe_("list-services"),
+                then => the_command_succeeds());
         }
     }
 }

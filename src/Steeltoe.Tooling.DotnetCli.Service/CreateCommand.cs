@@ -18,7 +18,7 @@ using Steeltoe.Tooling.DotnetCli.Base;
 namespace Steeltoe.Tooling.DotnetCli.Service
 {
     [Command(Description = "Create a service, e.g. a Cloud Foundry Config Server.")]
-    public class CreateServiceCommand : DotnetCliCommand
+    public class CreateCommand : DotnetCliCommand
     {
         [Argument(0, Description = "The name of the service being created.")]
         private string Name { get; }

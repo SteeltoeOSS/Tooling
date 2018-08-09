@@ -12,17 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.DotnetCli.Base;
-
-namespace Steeltoe.Tooling.DotnetCli.Target
+namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
-    [Command(Description = "List available target environments.")]
-    public class ListTargetsCommand : DotnetCliCommand
+    public partial class ListServicesFeature : DotnetCli.Base.Feature.DotnetCliFeatureFixture
     {
-        protected override void OnCommandExecute(CommandLineApplication app)
-        {
-            app.Out.WriteLine("cloud-foundry");
-        }
     }
 }
