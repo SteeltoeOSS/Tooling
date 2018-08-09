@@ -16,8 +16,6 @@ using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-//[assembly: LightBddScope]
-
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
     [Label("service")]
