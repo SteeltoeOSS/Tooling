@@ -14,7 +14,7 @@
 
 using System;
 
-namespace Steeltoe.Tooling.DotnetCli
+namespace Steeltoe.Tooling.DotnetCli.Base
 {
     public class UsageException : Exception
     {
