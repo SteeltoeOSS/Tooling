@@ -14,7 +14,7 @@
 
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
-    public partial class ListServicesFeature : DotnetCli.Base.Feature.DotnetCliFeatureFixture
+    public partial class ListFeature : DotnetCli.Base.Feature.DotnetCliFeatureFixture
     {
     }
 }

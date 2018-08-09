@@ -12,9 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using LightBDD.Framework;
+using LightBDD.Framework.Scenarios.Extended;
+using LightBDD.XUnit2;
+
+//[assembly: LightBddScope]
+
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
-    public partial class CreateFeature : DotnetCli.Base.Feature.DotnetCliFeatureFixture
+    [Label("service")]
+    public partial class DefineFeature
     {
+        [Scenario]
+        public void RunDefineNoArgs()
+        {
+            Runner.RunScenario(
+                given => a_blank_project("define_no_args"),
+                when => the_developer_runs_steeltoe_("define-service"),
+                then => the_command_fails(),
+                and => the_developer_sees_the_error("name not specified"),
+                and => the_developer_sees_the_error("run with -h for help"));
+        }
     }
 }

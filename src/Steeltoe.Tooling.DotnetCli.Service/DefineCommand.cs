@@ -17,13 +17,13 @@ using Steeltoe.Tooling.DotnetCli.Base;
 
 namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Command(Description = "Create a service, e.g. a Cloud Foundry Config Server.")]
-    public class CreateCommand : DotnetCliCommand
+    [Command(Description = "Define a service.")]
+    public class DefineCommand : DotnetCliCommand
     {
-        [Argument(0, Description = "The name of the service being created.")]
+        [Argument(0, Description = "The name of the service being defined.")]
         private string Name { get; }
 
-        [Argument(1, Description = "The type of the service being created. One of: cloud-foundry-config-server")]
+        [Argument(1, Description = "The type of the service being defined.")]
         private string Type { get; }
 
         protected override void OnCommandExecute(CommandLineApplication app)
@@ -33,7 +33,7 @@ namespace Steeltoe.Tooling.DotnetCli.Service
                 throw new UsageException("name not specified");
             }
 
-            app.Out.WriteLine($"creating service named '{Name}' of type {Type}");
+            app.Out.WriteLine($"defining {Type} service '{Name}'");
         }
     }
 }

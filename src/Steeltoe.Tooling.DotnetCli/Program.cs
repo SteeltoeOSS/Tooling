@@ -17,7 +17,7 @@ using McMaster.Extensions.CommandLineUtils;
 namespace Steeltoe.Tooling.DotnetCli
 {
     [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
-    [Subcommand("create-service", typeof(Service.CreateCommand))]
+    [Subcommand("define-service", typeof(Service.DefineCommand))]
     [Subcommand("set-target", typeof(Target.SetCommand))]
     [Subcommand("list-targets", typeof(Target.ListCommand))]
     class Program

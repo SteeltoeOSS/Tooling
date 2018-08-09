@@ -21,13 +21,13 @@ using LightBDD.XUnit2;
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
     [Label("service")]
-    public partial class ListServicesFeature
+    public partial class ListFeature
     {
         [Scenario]
-        public void RunListServices()
+        public void RunListNoArgs()
         {
             Runner.RunScenario(
-                given => a_blank_project("run_list_services"),
+                given => a_blank_project("list_no_args"),
                 when => the_developer_runs_steeltoe_("list-services"),
                 then => the_command_succeeds());
         }

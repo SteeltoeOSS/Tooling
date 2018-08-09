@@ -24,10 +24,10 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
     public partial class ListFeature
     {
         [Scenario]
-        public void RunListTargets()
+        public void RunListNoArgs()
         {
             Runner.RunScenario(
-                given => a_blank_project("run_list_targets"),
+                given => a_blank_project("list_no_args"),
                 when => the_developer_runs_steeltoe_("list-targets"),
                 then => the_command_succeeds());
         }
