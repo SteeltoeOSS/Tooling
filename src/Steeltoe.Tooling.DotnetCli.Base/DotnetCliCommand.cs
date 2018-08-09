@@ -14,20 +14,25 @@
 
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Steeltoe.Tooling.DotnetCLI
+namespace Steeltoe.Tooling.DotnetCli.Base
 {
-    [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
-    [Subcommand("doctor", typeof(Doctor.DoctorCommand))]
-    [Subcommand("create-service", typeof(Service.CreateServiceCommand))]
-    [Subcommand("set-target", typeof(Target.SetTargetCommand))]
-    class Program
+    public abstract class DotnetCliCommand
     {
-        public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
-
-        private int OnExecute(CommandLineApplication app)
+        protected virtual int OnExecute(CommandLineApplication app)
         {
-            app.ShowHelp();
+            try
+            {
+                OnCommandExecute(app);
+            }
+            catch (UsageException e)
+            {
+                app.Error.WriteLine("Usage error: " + e.Message);
+                app.Error.WriteLine("Run with -h for help");
+                return 1;
+            }
             return 0;
         }
+
+        protected abstract void OnCommandExecute(CommandLineApplication app);
     }
 }

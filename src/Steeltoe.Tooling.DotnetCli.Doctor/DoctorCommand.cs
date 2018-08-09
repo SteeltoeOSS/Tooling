@@ -16,7 +16,7 @@ using McMaster.Extensions.CommandLineUtils;
 using System;
 using System.Diagnostics;
 
-namespace Steeltoe.Tooling.DotnetCLI.Doctor
+namespace Steeltoe.Tooling.DotnetCli.Doctor
 {
     [Command(Description = "Run a health check on your Steeltoe development environment.")]
     public class DoctorCommand

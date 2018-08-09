@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Steeltoe.Tooling.DotnetCLI.Target.Feature
+namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
-	public partial class SetTargetFeature: DotnetCLI.Base.Feature.DotnetCLIFeatureFixture
+	public partial class CreateServiceFeature : DotnetCli.Base.Feature.DotnetCliFeatureFixture
 	{
 	}
 }

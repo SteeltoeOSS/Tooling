@@ -12,12 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.DotnetCLI
+namespace Steeltoe.Tooling.DotnetCli.Doctor.Feature
 {
-    public class UsageException : Exception
-    {
-        public UsageException(string message) : base(message) {}
-    }
+	public partial class DoctorFeature: FeatureFixture
+	{
+		private void a_blank_project()
+		{
+		}
+
+		private void the_developer_runs(string command)
+		{
+		}
+
+        private void the_developer_sees_help_message_for_doctor_command()
+        {
+        }
+
+        private void the_command_succeeds()
+        {
+        }
+
+
+	}
 }

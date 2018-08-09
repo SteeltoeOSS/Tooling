@@ -13,12 +13,12 @@
 // limitations under the License.
 
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.DotnetCLI.Base;
+using Steeltoe.Tooling.DotnetCli.Base;
 
-namespace Steeltoe.Tooling.DotnetCLI.Service
+namespace Steeltoe.Tooling.DotnetCli.Service
 {
     [Command(Description = "Create a service, e.g. a Cloud Foundry Config Server.")]
-    public class CreateServiceCommand : DotnetCLICommand
+    public class CreateServiceCommand : DotnetCliCommand
     {
         [Argument(0, Description = "The name of the service being created.")]
         private string Name { get; }

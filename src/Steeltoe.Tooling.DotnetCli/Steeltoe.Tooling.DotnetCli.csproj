@@ -10,8 +10,8 @@
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtils)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Doctor\Steeltoe.Tooling.DotnetCLI.Doctor.csproj" />
-    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Service\Steeltoe.Tooling.DotnetCLI.Service.csproj" />
-    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Target\Steeltoe.Tooling.DotnetCLI.Target.csproj" />
+    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCli.Doctor\Steeltoe.Tooling.DotnetCli.Doctor.csproj" />
+    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCli.Service\Steeltoe.Tooling.DotnetCli.Service.csproj" />
+    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCli.Target\Steeltoe.Tooling.DotnetCli.Target.csproj" />
   </ItemGroup>
 </Project>

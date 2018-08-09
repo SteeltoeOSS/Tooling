@@ -18,13 +18,13 @@ using LightBDD.XUnit2;
 using Shouldly;
 using Steeltoe.Tooling.System;
 
-namespace Steeltoe.Tooling.DotnetCLI.Base.Feature
+namespace Steeltoe.Tooling.DotnetCli.Base.Feature
 {
-    public class DotnetCLIFeatureFixture : FeatureFixture
+    public class DotnetCliFeatureFixture : FeatureFixture
     {
 	    private string ProjectDirectory { get; } = Path.GetFullPath(Path.Combine(
 		    Directory.GetCurrentDirectory(),
-		    "../../../../../src/Steeltoe.Tooling.DotnetCLI"));
+		    "../../../../../src/Steeltoe.Tooling.DotnetCli"));
 
 	    private string ProjectSandbox { get; set; }
 

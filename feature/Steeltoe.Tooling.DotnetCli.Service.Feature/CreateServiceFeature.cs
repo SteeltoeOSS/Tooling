@@ -18,7 +18,7 @@ using LightBDD.XUnit2;
 
 [assembly: LightBddScope]
 
-namespace Steeltoe.Tooling.DotnetCLI.Service.Feature
+namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
 	[Label("service")]
 	[FeatureDescription(

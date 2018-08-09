@@ -23,15 +23,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.System.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.CloudFoundry", "src\Steeltoe.Tooling.CloudFoundry\Steeltoe.Tooling.CloudFoundry.csproj", "{8859BF4B-0EA8-415E-ACA6-83990B2300BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCLI", "src\Steeltoe.Tooling.DotnetCLI\Steeltoe.Tooling.DotnetCLI.csproj", "{51D148CB-D7E1-453F-9EC7-2381294C29A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli", "src\Steeltoe.Tooling.DotnetCli\Steeltoe.Tooling.DotnetCli.csproj", "{51D148CB-D7E1-453F-9EC7-2381294C29A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCLI.Base", "src\Steeltoe.Tooling.DotnetCLI.Base\Steeltoe.Tooling.DotnetCLI.Base.csproj", "{8A3CCF8A-2B40-499D-9590-E06369F76441}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Base", "src\Steeltoe.Tooling.DotnetCli.Base\Steeltoe.Tooling.DotnetCli.Base.csproj", "{8A3CCF8A-2B40-499D-9590-E06369F76441}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCLI.Doctor", "src\Steeltoe.Tooling.DotnetCLI.Doctor\Steeltoe.Tooling.DotnetCLI.Doctor.csproj", "{8384A2EF-FE17-405B-9614-210980B495D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Doctor", "src\Steeltoe.Tooling.DotnetCli.Doctor\Steeltoe.Tooling.DotnetCli.Doctor.csproj", "{8384A2EF-FE17-405B-9614-210980B495D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCLI.Target", "src\Steeltoe.Tooling.DotnetCLI.Target\Steeltoe.Tooling.DotnetCLI.Target.csproj", "{C62D7666-5A33-4A6D-8802-391CA60D7D46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Target", "src\Steeltoe.Tooling.DotnetCli.Target\Steeltoe.Tooling.DotnetCli.Target.csproj", "{C62D7666-5A33-4A6D-8802-391CA60D7D46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCLI.Target.Feature", "feature\Steeltoe.Tooling.DotnetCLI.Target.Feature\Steeltoe.Tooling.DotnetCLI.Target.Feature.csproj", "{825A174D-FA0B-45A5-99EB-53863EA970C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Target.Feature", "feature\Steeltoe.Tooling.DotnetCli.Target.Feature\Steeltoe.Tooling.DotnetCli.Target.Feature.csproj", "{825A174D-FA0B-45A5-99EB-53863EA970C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{E2FA27BE-FEBF-44C5-8C96-8541D638B641}"
 EndProject
@@ -54,15 +54,15 @@ ProjectSection(SolutionItems) = preProject
 	.travis.yml = .travis.yml
 EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCLI.Doctor.Feature", "feature\Steeltoe.Tooling.DotnetCLI.Doctor.Feature\Steeltoe.Tooling.DotnetCLI.Doctor.Feature.csproj", "{29402F66-EDA5-487B-B2CE-F94A21819E7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Doctor.Feature", "feature\Steeltoe.Tooling.DotnetCli.Doctor.Feature\Steeltoe.Tooling.DotnetCli.Doctor.Feature.csproj", "{29402F66-EDA5-487B-B2CE-F94A21819E7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.CloudFoundry.Test", "test\Steeltoe.Tooling.CloudFoundry.Test\Steeltoe.Tooling.CloudFoundry.Test.csproj", "{A6A0D080-3CE0-45A6-B6DA-ADF3954C376C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCLI.Service", "src\Steeltoe.Tooling.DotnetCLI.Service\Steeltoe.Tooling.DotnetCLI.Service.csproj", "{6CA1265A-33B0-4835-B9C8-5E677C424AA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Service", "src\Steeltoe.Tooling.DotnetCli.Service\Steeltoe.Tooling.DotnetCli.Service.csproj", "{6CA1265A-33B0-4835-B9C8-5E677C424AA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCLI.Service.Feature", "feature\Steeltoe.Tooling.DotnetCLI.Service.Feature\Steeltoe.Tooling.DotnetCLI.Service.Feature.csproj", "{2B2715AA-A499-491B-B0A3-398B6A437E9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Service.Feature", "feature\Steeltoe.Tooling.DotnetCli.Service.Feature\Steeltoe.Tooling.DotnetCli.Service.Feature.csproj", "{2B2715AA-A499-491B-B0A3-398B6A437E9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCLI.Base.Feature", "feature\Steeltoe.Tooling.DotnetCLI.Base.Feature\Steeltoe.Tooling.DotnetCLI.Base.Feature.csproj", "{ADFE4781-E63B-41F1-98D5-C1450B364D85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Base.Feature", "feature\Steeltoe.Tooling.DotnetCli.Base.Feature\Steeltoe.Tooling.DotnetCli.Base.Feature.csproj", "{ADFE4781-E63B-41F1-98D5-C1450B364D85}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.Base.Test", "test\Steeltoe.Tooling.Base.Test\Steeltoe.Tooling.Base.Test.csproj", "{5E8A4528-A1E3-425F-A924-C7CED998A457}"
 EndProject

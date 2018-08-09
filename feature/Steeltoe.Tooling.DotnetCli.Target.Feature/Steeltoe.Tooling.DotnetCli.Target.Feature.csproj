@@ -13,6 +13,6 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="$(XunitVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Base.Feature\Steeltoe.Tooling.DotnetCLI.Base.Feature.csproj" />
+    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCli.Base.Feature\Steeltoe.Tooling.DotnetCli.Base.Feature.csproj" />
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ using LightBDD.XUnit2;
 
 [assembly: LightBddScope]
 
-namespace Steeltoe.Tooling.DotnetCLI.Doctor.Feature
+namespace Steeltoe.Tooling.DotnetCli.Doctor.Feature
 {
 	[Label("doctor")]
 	[FeatureDescription(

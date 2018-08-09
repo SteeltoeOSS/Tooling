@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Steeltoe.Tooling.CloudFoundry\Steeltoe.Tooling.CloudFoundry.csproj" />
-    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCLI.Base\Steeltoe.Tooling.DotnetCLI.Base.csproj" />
+    <ProjectReference Include="..\Steeltoe.Tooling.DotnetCli.Base\Steeltoe.Tooling.DotnetCli.Base.csproj" />
   </ItemGroup>
 
 </Project>
