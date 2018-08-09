@@ -52,7 +52,7 @@ namespace Steeltoe.Tooling.System.Test
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 listCommand = "ls";
-                errorCommand = "/usr/false";
+                errorCommand = "/bin/false";
             }
             else
             {
