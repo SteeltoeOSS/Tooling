@@ -16,15 +16,15 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.DotnetCli.Doctor.Feature
 {
-	public partial class DoctorFeature: FeatureFixture
-	{
-		private void a_blank_project()
-		{
-		}
+    public partial class DoctorFeature : FeatureFixture
+    {
+        private void a_blank_project()
+        {
+        }
 
-		private void the_developer_runs(string command)
-		{
-		}
+        private void the_developer_runs(string command)
+        {
+        }
 
         private void the_developer_sees_help_message_for_doctor_command()
         {
@@ -33,7 +33,5 @@ namespace Steeltoe.Tooling.DotnetCli.Doctor.Feature
         private void the_command_succeeds()
         {
         }
-
-
-	}
+    }
 }

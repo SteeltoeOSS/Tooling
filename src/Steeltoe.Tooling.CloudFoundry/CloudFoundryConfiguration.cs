@@ -18,7 +18,6 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.CloudFoundry
 {
-
     public class CloudFoundryConfiguration
     {
         public Application[] applications { get; set; }
@@ -33,8 +32,7 @@ namespace Steeltoe.Tooling.CloudFoundry
 
         public static CloudFoundryConfiguration load(StreamReader reader)
         {
-            var deserializer = new DeserializerBuilder()
-                .Build();
+            var deserializer = new DeserializerBuilder().Build();
             return deserializer.Deserialize<CloudFoundryConfiguration>(reader);
         }
 
@@ -53,16 +51,17 @@ namespace Steeltoe.Tooling.CloudFoundry
             writer.Write(yaml);
         }
     }
-    
+
     public class Application
     {
         public string name { get; set; }
-        public string buildpack { get; set;  } = "dotnet_core_buildpack";
-        public Dictionary<string, string> env { get; set;  } = new Dictionary<string, string>()
+        public string buildpack { get; set; } = "dotnet_core_buildpack";
+
+        public Dictionary<string, string> env { get; set; } = new Dictionary<string, string>()
         {
             {"ASPNETCORE_ENVIRONMENT", "development"}
         };
+
         public string[] services { get; set; }
     }
 }
-

@@ -26,6 +26,7 @@ namespace Steeltoe.Tooling.DotnetCli.Target
         private string Environment { get; }
 
         private string name;
+
         [Option("-n|--name", Description =
             "The name for the output being created. If no name is specified, the name of the current directory is used.")]
         private string AppName
@@ -39,13 +40,14 @@ namespace Steeltoe.Tooling.DotnetCli.Target
 
         [Option("--force", Description = "Forces content to be generated even if it would change existing files.")]
         private bool Force { get; }
-        
+
         protected override void OnCommandExecute(CommandLineApplication app)
         {
             if (string.IsNullOrEmpty(Environment))
             {
                 throw new UsageException("environment not specified");
             }
+
             switch (Environment.ToLower())
             {
                 case "cloud-foundry":
@@ -67,9 +69,10 @@ namespace Steeltoe.Tooling.DotnetCli.Target
                 app.Error.WriteLine("Rerun the command and pass --force.");
                 return;
             }
+
             var config = new CloudFoundryConfiguration
             {
-                applications = new []
+                applications = new[]
                 {
                     new Application
                     {
@@ -77,7 +80,7 @@ namespace Steeltoe.Tooling.DotnetCli.Target
                     }
                 }
             };
-                
+
             Directory.CreateDirectory(OutputDirectory);
             config.store(path);
         }

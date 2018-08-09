@@ -20,21 +20,17 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.DotnetCli.Doctor.Feature
 {
-	[Label("doctor")]
-	[FeatureDescription(
-@"In order to sanity check a development environment
-As a developer
-I want to ask Steeltoe Tooling to run a sanity health check")]
-	public partial class DoctorFeature
-	{
-		[Scenario]
-		public void RunTarget()
-		{
+    [Label("doctor")]
+    public partial class DoctorFeature
+    {
+        [Scenario]
+        public void RunTarget()
+        {
             Runner.RunScenario(
                 given => a_blank_project(),
                 when => the_developer_runs("doctor"),
                 then => the_command_succeeds(),
                 and => the_developer_sees_help_message_for_doctor_command());
-		}
-	}
+        }
+    }
 }

@@ -20,22 +20,18 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
-	[Label("service")]
-	[FeatureDescription(
-@"In order to define services for deployment
-As a developer
-I want Steeltoe Tooling to create services definitions for me")]
-	public partial class CreateServiceFeature
-	{
-		[Scenario]
-		public void RunCreateService()
-		{
-			Runner.RunScenario(
-				given => a_blank_project("run_create_service"),
-				when => the_developer_runs_steeltoe_("create-service"),
-				then => the_command_fails(),
-				and => the_developer_sees_the_error_message("name not specified"),
+    [Label("service")]
+    public partial class CreateServiceFeature
+    {
+        [Scenario]
+        public void RunCreateService()
+        {
+            Runner.RunScenario(
+                given => a_blank_project("run_create_service"),
+                when => the_developer_runs_steeltoe_("create-service"),
+                then => the_command_fails(),
+                and => the_developer_sees_the_error_message("name not specified"),
                 and => the_developer_sees_the_error_message("run with -h for help"));
-		}
-	}
+        }
+    }
 }

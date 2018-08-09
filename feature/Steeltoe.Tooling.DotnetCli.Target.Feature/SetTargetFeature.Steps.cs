@@ -14,7 +14,7 @@
 
 namespace Steeltoe.Tooling.DotnetCli.Target.Feature
 {
-	public partial class SetTargetFeature: DotnetCli.Base.Feature.DotnetCliFeatureFixture
-	{
-	}
+    public partial class SetTargetFeature : DotnetCli.Base.Feature.DotnetCliFeatureFixture
+    {
+    }
 }

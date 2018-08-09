@@ -58,6 +58,7 @@ namespace Steeltoe.Tooling.DotnetCli.Doctor
                         app.Out.WriteLine("oops ... " + perr.ReadToEnd().Trim());
                     }
                 }
+
                 return proc.ExitCode == 0;
             }
             catch (Exception e)

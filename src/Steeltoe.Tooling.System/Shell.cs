@@ -41,6 +41,7 @@ namespace Steeltoe.Tooling.System
             {
                 Out = pout.ReadToEnd();
             }
+
             using (var perr = proc.StandardError)
             {
                 Error = perr.ReadToEnd();

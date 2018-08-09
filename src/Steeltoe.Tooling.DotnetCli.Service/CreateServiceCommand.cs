@@ -32,6 +32,7 @@ namespace Steeltoe.Tooling.DotnetCli.Service
             {
                 throw new UsageException("name not specified");
             }
+
             app.Out.WriteLine($"creating service named '{Name}' of type {Type}");
         }
     }

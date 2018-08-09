@@ -12,6 +12,6 @@ done
 
 if [[ $errors > 0 ]]
 then
-	echo "$errors unit test(s) failed" >&2
+    echo "$errors unit test(s) failed" >&2
     exit $errors
 fi

@@ -30,6 +30,7 @@ namespace Steeltoe.Tooling.DotnetCli.Base
                 app.Error.WriteLine("Run with -h for help");
                 return 1;
             }
+
             return 0;
         }
 

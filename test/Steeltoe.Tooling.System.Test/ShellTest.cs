@@ -58,6 +58,7 @@ namespace Steeltoe.Tooling.System.Test
             {
                 throw new Exception("Don't know how to list a directory on " + RuntimeInformation.OSDescription);
             }
+
             // setup some test directories
             aDir = Path.Combine(testDir, "aDir");
             Directory.CreateDirectory(aDir);
