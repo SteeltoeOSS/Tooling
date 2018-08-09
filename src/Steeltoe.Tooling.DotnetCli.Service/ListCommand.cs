@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+﻿// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,22 +13,15 @@
 // limitations under the License.
 
 using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling.DotnetCli.Base;
 
-namespace Steeltoe.Tooling.DotnetCli
+namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
-    [Subcommand("define-service", typeof(Service.DefineCommand))]
-    [Subcommand("list-services", typeof(Service.ListCommand))]
-    [Subcommand("set-target", typeof(Target.SetCommand))]
-    [Subcommand("list-targets", typeof(Target.ListCommand))]
-    class Program
+    [Command(Description = "Lists defined services.")]
+    public class ListCommand : DotnetCliCommand
     {
-        public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
-
-        private int OnExecute(CommandLineApplication app)
+        protected override void OnCommandExecute(CommandLineApplication app)
         {
-            app.ShowHelp();
-            return 0;
         }
     }
 }
