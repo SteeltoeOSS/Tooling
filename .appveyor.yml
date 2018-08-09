@@ -5,11 +5,11 @@ image:
   - Visual Studio 2017    
 branches:
   only:
-    - master
+    - prototype
 install:
   - ps: dotnet --info
 test_script:
-  - ps: dotnet test test\Steeltoe.Tooling.Test
+  - ps: scripts\unit-test
 build_script:
   - ps: dotnet pack
 environment:
