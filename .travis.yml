@@ -11,9 +11,9 @@ os:
   - osx
 branches:
   only:
-    - master
+    - prototype
 script:
   - dotnet --info
   - dotnet build
-  - dotnet test test/Steeltoe.Tooling.Test
+  - scripts/unit-test
   - dotnet pack
