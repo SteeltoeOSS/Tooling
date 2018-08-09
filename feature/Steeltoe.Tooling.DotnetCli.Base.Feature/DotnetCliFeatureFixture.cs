@@ -44,12 +44,22 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
             Shell.Run("dotnet", $"run --project {ProjectDirectory} -- {command}");
         }
 
+        protected void the_command_succeeds()
+        {
+            Shell.ExitCode.ShouldBe(0);
+        }
+
         protected void the_command_fails()
         {
             Shell.ExitCode.ShouldNotBe(0);
         }
 
-        protected void the_developer_sees_the_error_message(string message)
+        protected void the_developer_sees_the_output(string message)
+        {
+            Shell.Out.ShouldContain(message);
+        }
+
+        protected void the_developer_sees_the_error(string message)
         {
             Shell.Error.ShouldContain(message);
         }

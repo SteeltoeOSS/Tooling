@@ -18,20 +18,19 @@ using LightBDD.XUnit2;
 
 [assembly: LightBddScope]
 
-namespace Steeltoe.Tooling.DotnetCli.Service.Feature
+namespace Steeltoe.Tooling.DotnetCli.Target.Feature
 {
-    [Label("service")]
-    public partial class CreateServiceFeature
+    [Label("target")]
+    public partial class ListTargetsFeature
     {
         [Scenario]
-        public void RunCreateService()
+        public void RunListTargets()
         {
             Runner.RunScenario(
-                given => a_blank_project("run_create_service"),
-                when => the_developer_runs_steeltoe_("create-service"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error("name not specified"),
-                and => the_developer_sees_the_error("run with -h for help"));
+                given => a_blank_project("run_list_targets"),
+                when => the_developer_runs_steeltoe_("list-targets"),
+                then => the_command_succeeds(),
+                and => the_developer_sees_the_output("cloud-foundry"));
         }
     }
 }
