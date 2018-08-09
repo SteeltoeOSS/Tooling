@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtils)" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />
   </ItemGroup>
 
   <ItemGroup>
