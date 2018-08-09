@@ -27,7 +27,7 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         public void RunDefineNoArgs()
         {
             Runner.RunScenario(
-                given => a_blank_project("define_no_args"),
+                given => a_dotnet_project("define_no_args"),
                 when => the_developer_runs_steeltoe_("define-service"),
                 then => the_command_fails(),
                 and => the_developer_sees_the_error("name not specified"),

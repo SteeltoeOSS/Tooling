@@ -25,7 +25,7 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
         public void RunSetNoArgs()
         {
             Runner.RunScenario(
-                given => a_blank_project("set_no_args"),
+                given => a_dotnet_project("set_no_args"),
                 when => the_developer_runs_steeltoe_("set-target"),
                 then => the_command_fails(),
                 and => the_developer_sees_the_error("environment not specified"),

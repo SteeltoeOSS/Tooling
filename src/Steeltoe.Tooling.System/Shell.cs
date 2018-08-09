@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
@@ -36,26 +35,38 @@ namespace Steeltoe.Tooling.System
         public void Run(string command, string arguments = null, string workingDirectory = null)
         {
             Command = command;
-            Logger.LogDebug($"command: ${command}");
             Arguments = arguments;
+            Logger.LogDebug(string.IsNullOrEmpty(Arguments)
+                ? $"command: {command}"
+                : $"command: {command} {arguments}");
+
             var pinfo = new ProcessStartInfo(Command, Arguments)
             {
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 WorkingDirectory = workingDirectory
             };
+            Logger.LogDebug($"starting process ...");
             var proc = Process.Start(pinfo);
+            Logger.LogDebug($"... waiting ...");
             proc.WaitForExit();
             ExitCode = proc.ExitCode;
+            Logger.LogDebug($"exit code: {ExitCode}");
             using (var pout = proc.StandardOutput)
             {
                 Out = pout.ReadToEnd();
             }
+            Logger.LogDebug(string.IsNullOrEmpty(Out)
+                ? "stdout: <none>"
+                : $"stdout: {Out}");
 
             using (var perr = proc.StandardError)
             {
                 Error = perr.ReadToEnd();
             }
+            Logger.LogDebug(string.IsNullOrEmpty(Error)
+                ? "stderr: <none>"
+                : $"stderr: {Error}");
         }
     }
 }

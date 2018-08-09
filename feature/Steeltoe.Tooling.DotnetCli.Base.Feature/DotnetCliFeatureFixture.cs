@@ -23,26 +23,34 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
 {
     public class DotnetCliFeatureFixture : FeatureFixture
     {
-        private string ProjectDirectory { get; } = Path.GetFullPath(Path.Combine(
+        private static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<DotnetCliFeatureFixture>();
+
+        private string DotnetCliProjectDirectory { get; } = Path.GetFullPath(Path.Combine(
             Directory.GetCurrentDirectory(),
             "../../../../../src/Steeltoe.Tooling.DotnetCli"));
 
-        private string ProjectSandbox { get; set; }
+        private string ProjectDirectory { get; set; }
 
         private Shell Shell { get; } = new Shell(Logging.LoggerFactory);
 
-        protected void a_blank_project(string name)
+        protected void a_dotnet_project(string name)
         {
-            ProjectSandbox = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "features"), name);
-            Log("Setting project sandbox to " + ProjectSandbox);
-            Directory.CreateDirectory(ProjectSandbox);
-            Directory.SetCurrentDirectory(ProjectSandbox);
-            Log("Project directory is " + ProjectDirectory);
+            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "features"), name);
+            if (Directory.Exists(ProjectDirectory))
+            {
+                Directory.Delete(ProjectDirectory, true);
+            }
+
+            Directory.CreateDirectory(ProjectDirectory);
+            Directory.SetCurrentDirectory(ProjectDirectory);
+            Logger.LogInformation($"Creating dotnet project '{name}' at {ProjectDirectory}");
+            Shell.Run("dotnet", "new classlib");
         }
 
         protected void the_developer_runs_steeltoe_(string command)
         {
-            Shell.Run("dotnet", $"run --project {ProjectDirectory} -- {command}");
+            Logger.LogInformation($"Running 'steeltoe {command}'");
+            Shell.Run("dotnet", $"run --project {DotnetCliProjectDirectory} -- {command}");
         }
 
         protected void the_command_succeeds()
@@ -63,11 +71,6 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
         protected void the_developer_sees_the_error(string message)
         {
             Shell.Error.ShouldContain(message);
-        }
-
-        private static void Log(string message)
-        {
-            Console.WriteLine("--> " + message);
         }
     }
 }
