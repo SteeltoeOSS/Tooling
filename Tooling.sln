@@ -32,6 +32,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Target.Feature", "feature\Steeltoe.Tooling.DotnetCli.Target.Feature\Steeltoe.Tooling.DotnetCli.Target.Feature.csproj", "{825A174D-FA0B-45A5-99EB-53863EA970C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{E2FA27BE-FEBF-44C5-8C96-8541D638B641}"
+ProjectSection(SolutionItems) = preProject
+	config\versions.props = config\versions.props
+EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{D4A6859F-DE98-4113-8455-AD3FA17E84F4}"
 ProjectSection(SolutionItems) = preProject

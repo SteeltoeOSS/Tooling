@@ -6,9 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="LightBDD.XUnit2" Version="$(LightBDDXUnit2Version)" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsLoggingVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsLoggingVersion)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(TestSdkVersion)" />
     <PackageReference Include="Shouldly" Version="$(ShouldlyVersion)" />
     <PackageReference Include="xunit" Version="$(XunitVersion)" />
