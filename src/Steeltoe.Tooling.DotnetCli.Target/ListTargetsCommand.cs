@@ -18,7 +18,7 @@ using Steeltoe.Tooling.DotnetCli.Base;
 namespace Steeltoe.Tooling.DotnetCli.Target
 {
     [Command(Description = "List available target environments.")]
-    public class ListTargetCommand : DotnetCliCommand
+    public class ListTargetsCommand : DotnetCliCommand
     {
         protected override void OnCommandExecute(CommandLineApplication app)
         {

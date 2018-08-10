@@ -22,12 +22,35 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
     public partial class ListTargetsFeature
     {
         [Scenario]
-        public void RunListNoArgs()
+        public void ListTargetsHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_no_args"),
+                given => a_dotnet_project("list_targets_help"),
+                when => the_developer_runs_steeltoe_("list-targets --help"),
+                then => the_command_succeeds(),
+                and => the_developer_sees_("List available target environments.")
+            );
+        }
+
+        [Scenario]
+        public void ListTargets()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("list_targets"),
                 when => the_developer_runs_steeltoe_("list-targets"),
-                then => the_command_succeeds()
+                then => the_command_succeeds(),
+                and => the_developer_sees_("cloud-foundry")
+            );
+        }
+
+        [Scenario]
+        public void ListTargetTooManyArgs()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("list_targets_too_many_args"),
+                when => the_developer_runs_steeltoe_("list-targets arg1"),
+                then => the_command_fails(),
+                and => the_developer_sees_the_error_("Unrecognized command or argument 'arg1'")
             );
         }
     }
