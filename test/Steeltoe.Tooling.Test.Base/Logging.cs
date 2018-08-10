@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Steeltoe.Tooling.Base.Test
+namespace Steeltoe.Tooling.Test.Base
 {
     public static class Logging
     {

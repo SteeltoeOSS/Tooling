@@ -22,6 +22,7 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
     public partial class ListTargetsFeature
     {
         [Scenario]
+        [Label("help")]
         public void ListTargetsHelp()
         {
             Runner.RunScenario(

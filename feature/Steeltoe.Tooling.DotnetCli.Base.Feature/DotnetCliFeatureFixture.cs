@@ -17,6 +17,7 @@ using System.IO;
 using LightBDD.XUnit2;
 using Microsoft.Extensions.Logging;
 using Shouldly;
+using Steeltoe.Tooling.Base;
 using Steeltoe.Tooling.System;
 
 namespace Steeltoe.Tooling.DotnetCli.Base.Feature
@@ -33,45 +34,68 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
 
         private Shell.Result LastCommandResult { get; set; }
 
+        //
+        // Givens
+        //
+
         protected void a_dotnet_project(string name)
         {
-            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "features"), name);
+            Logger.LogInformation($"creating dotnet project '{name}'");
+            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "feature-tests"), name);
             if (Directory.Exists(ProjectDirectory))
             {
                 Directory.Delete(ProjectDirectory, true);
             }
 
             Directory.CreateDirectory(ProjectDirectory);
-            Logger.LogInformation($"Creating dotnet project '{name}' at {ProjectDirectory}");
+            Logger.LogInformation($"creating dotnet project '{name}' at {ProjectDirectory}");
             var result = Shell.Run("dotnet", "new classlib", ProjectDirectory);
             result.ExitCode.ShouldBe(0);
         }
 
+        //
+        // Whens
+        //
+
         protected void the_developer_runs_steeltoe_(string command)
         {
-            Logger.LogInformation($"Running 'steeltoe {command}'");
+            Logger.LogInformation($"running 'steeltoe {command}'");
             LastCommandResult = Shell.Run("dotnet", $"run --project {DotnetCliProjectDirectory} -- {command}",
                 ProjectDirectory);
         }
 
+        //
+        // Thens
+        //
+
         protected void the_command_succeeds()
         {
+            Logger.LogInformation($"checking the command succeeded");
             LastCommandResult.ExitCode.ShouldBe(0);
         }
 
         protected void the_command_fails()
         {
+            Logger.LogInformation($"checking the command failed");
             LastCommandResult.ExitCode.ShouldNotBe(0);
         }
 
         protected void the_developer_sees_(string message)
         {
-            LastCommandResult.Out.ShouldContain(message);
+            Logger.LogInformation($"checking the developer saw '{message}'");
+            LastCommandResult.Out.ShouldMatch($".*{message}.*");
         }
 
-        protected void the_developer_sees_the_error_(string message)
+        protected void the_developer_sees_the_error_(string error)
         {
-            LastCommandResult.Error.ShouldContain(message);
+            Logger.LogInformation($"checking the developer saw the error '{error}'");
+            LastCommandResult.Error.ShouldMatch($".*{error}.*");
+        }
+
+        protected void the_target_environment_is_(string environment)
+        {
+            Logger.LogInformation($"checking target environment is '{environment}'");
+//            var cfg = ToolingConfiguration.Load(ProjectDirectory);
         }
     }
 }

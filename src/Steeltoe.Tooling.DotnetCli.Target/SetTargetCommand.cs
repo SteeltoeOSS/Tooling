@@ -22,67 +22,68 @@ namespace Steeltoe.Tooling.DotnetCli.Target
     [Command(Description = "Set the target environment.")]
     public class SetTargetCommand : DotnetCliCommand
     {
-        [Argument(0, Description = "Specify one of: cloud-foundry.")]
-        private string Environment { get; }
+        [Argument(0, Description = "The target environment")]
+        private string environment { get; }
 
-        private string name;
+//        private string name;
 
-        [Option("-n|--name", Description =
-            "The name for the output being created. If no name is specified, the name of the current directory is used.")]
-        private string AppName
-        {
-            get => string.IsNullOrEmpty(name) ? Path.GetFileName(OutputDirectory) : name;
-            set => name = value;
-        }
+//        [Option("-n|--name", Description =
+//            "The name for the output being created. If no name is specified, the name of the current directory is used.")]
+//        private string AppName
+//        {
+//            get => string.IsNullOrEmpty(name) ? Path.GetFileName(OutputDirectory) : name;
+//            set => name = value;
+//        }
 
-        [Option("-o|--output", Description = "Location to place generated output.")]
-        private string OutputDirectory { get; set; } = Directory.GetCurrentDirectory();
+//        [Option("-o|--output", Description = "Location to place generated output.")]
+//        private string OutputDirectory { get; set; } = Directory.GetCurrentDirectory();
 
-        [Option("--force", Description = "Forces content to be generated even if it would change existing files.")]
-        private bool Force { get; }
+//        [Option("--force", Description = "Forces content to be generated even if it would change existing files.")]
+//        private bool Force { get; }
 
         protected override void OnCommandExecute(CommandLineApplication app)
         {
-            if (string.IsNullOrEmpty(Environment))
+            if (string.IsNullOrEmpty(environment))
             {
                 throw new UsageException("environment not specified");
             }
 
-            switch (Environment.ToLower())
-            {
-                case "cloud-foundry":
-                    SetTargetToCloudFoundry(app);
-                    break;
-                default:
-                    throw new UsageException("not a valid environment [" + Environment + "]");
-            }
+//            switch (Environment.ToLower())
+//            {
+//                case "cloud-foundry":
+//                    SetTargetToCloudFoundry(app);
+//                    break;
+//                default:
+//                    throw new UsageException("not a valid environment [" + Environment + "]");
+//            }
+            app.Out.WriteLine($"Target set to '{environment}'.");
         }
 
-        private void SetTargetToCloudFoundry(CommandLineApplication app)
-        {
-            var path = Path.Combine(OutputDirectory, "manifest.yml");
-            if (File.Exists(path) && !Force)
-            {
-                app.Error.WriteLine("Running this command will make changes to the following file(s):");
-                app.Error.WriteLine("  Overwrite  " + path);
-                app.Error.WriteLine();
-                app.Error.WriteLine("Rerun the command and pass --force.");
-                return;
-            }
+//        private void SetTargetToCloudFoundry(CommandLineApplication app)
+//        {
+//            var path = Path.Combine(OutputDirectory, "manifest.yml");
+//            if (File.Exists(path) && !Force)
+//            {
+//                app.Error.WriteLine("Running this command will make changes to the following file(s):");
+//                app.Error.WriteLine("  Overwrite  " + path);
+//                app.Error.WriteLine();
+//                app.Error.WriteLine("Rerun the command and pass --force.");
+//                return;
+//            }
 
-            var config = new CloudFoundryConfiguration
-            {
-                applications = new[]
-                {
-                    new Application
-                    {
-                        name = AppName
-                    }
-                }
-            };
+//            var config = new CloudFoundryConfiguration
+//            {
+//                applications = new[]
+//                {
+//                    new Application
+//                    {
+//                        name = AppName
+//                    }
+//                }
+//            };
 
-            Directory.CreateDirectory(OutputDirectory);
-            config.store(path);
-        }
+//            Directory.CreateDirectory(OutputDirectory);
+//            config.store(path);
+//        }
     }
 }

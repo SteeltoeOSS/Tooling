@@ -17,8 +17,6 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
-using Microsoft.Extensions.Logging;
-using Steeltoe.Tooling.Base.Test;
 using Xunit;
 
 namespace Steeltoe.Tooling.System.Test
