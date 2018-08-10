@@ -12,22 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
-
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
-    [Label("service")]
-    public partial class StartFeature
+    public partial class ListServicesFeature : DotnetCli.Base.Feature.DotnetCliFeatureFixture
     {
-        [Scenario]
-        public void RunStartNoArgs()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("start_no_args"),
-                when => the_developer_runs_steeltoe_("start-service"),
-                then => the_command_succeeds());
-        }
     }
 }

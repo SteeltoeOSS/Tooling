@@ -16,17 +16,17 @@ using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.DotnetCli.Target.Feature
+namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
-    [Label("target")]
-    public partial class ListFeature
+    [Label("service")]
+    public partial class CheckServiceFeature
     {
         [Scenario]
-        public void RunListNoArgs()
+        public void RunCheckNoArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_no_args"),
-                when => the_developer_runs_steeltoe_("list-targets"),
+                given => a_dotnet_project("check_no_args"),
+                when => the_developer_runs_steeltoe_("check-service"),
                 then => the_command_succeeds());
         }
     }

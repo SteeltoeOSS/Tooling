@@ -15,14 +15,13 @@
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.DotnetCli.Base;
 
-namespace Steeltoe.Tooling.DotnetCli.Target
+namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Command(Description = "List available target environments.")]
-    public class ListCommand : DotnetCliCommand
+    [Command(Description = "Start a service in the current target.")]
+    public class StartServiceCommand : DotnetCliCommand
     {
         protected override void OnCommandExecute(CommandLineApplication app)
         {
-            app.Out.WriteLine("cloud-foundry");
         }
     }
 }

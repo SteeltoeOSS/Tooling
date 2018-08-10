@@ -12,16 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.DotnetCli.Base;
+using LightBDD.Framework;
+using LightBDD.Framework.Scenarios.Extended;
+using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.DotnetCli.Service
+namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
-    [Command(Description = "List defined services.")]
-    public class ListCommand : DotnetCliCommand
+    [Label("service")]
+    public partial class UndefineServiceFeature
     {
-        protected override void OnCommandExecute(CommandLineApplication app)
+        [Scenario]
+        public void RunUndefineNoArgs()
         {
+            Runner.RunScenario(
+                given => a_dotnet_project("undefine_no_args"),
+                when => the_developer_runs_steeltoe_("undefine-service"),
+                then => the_command_succeeds());
         }
     }
 }

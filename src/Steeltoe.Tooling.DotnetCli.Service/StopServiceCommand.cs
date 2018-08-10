@@ -12,22 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling.DotnetCli.Base;
 
-namespace Steeltoe.Tooling.DotnetCli.Service.Feature
+namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Label("service")]
-    public partial class CheckFeature
+    [Command(Description = "Stop a service in the current target.")]
+    public class StopServiceCommand : DotnetCliCommand
     {
-        [Scenario]
-        public void RunCheckNoArgs()
+        protected override void OnCommandExecute(CommandLineApplication app)
         {
-            Runner.RunScenario(
-                given => a_dotnet_project("check_no_args"),
-                when => the_developer_runs_steeltoe_("check-service"),
-                then => the_command_succeeds());
         }
     }
 }

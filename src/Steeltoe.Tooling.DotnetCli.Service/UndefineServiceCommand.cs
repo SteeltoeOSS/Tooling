@@ -17,23 +17,11 @@ using Steeltoe.Tooling.DotnetCli.Base;
 
 namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Command(Description = "Define a service.")]
-    public class DefineCommand : DotnetCliCommand
+    [Command(Description = "Undefine a service.")]
+    public class UndefineServiceCommand : DotnetCliCommand
     {
-        [Argument(0, Description = "The name of the service being defined.")]
-        private string Name { get; }
-
-        [Argument(1, Description = "The type of the service being defined.")]
-        private string Type { get; }
-
         protected override void OnCommandExecute(CommandLineApplication app)
         {
-            if (string.IsNullOrEmpty(Name))
-            {
-                throw new UsageException("name not specified");
-            }
-
-            app.Out.WriteLine($"defining {Type} service '{Name}'");
         }
     }
 }

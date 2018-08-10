@@ -19,14 +19,14 @@ using LightBDD.XUnit2;
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
     [Label("service")]
-    public partial class UndefineFeature
+    public partial class ListServicesFeature
     {
         [Scenario]
-        public void RunUndefineNoArgs()
+        public void RunListNoArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("undefine_no_args"),
-                when => the_developer_runs_steeltoe_("undefine-service"),
+                given => a_dotnet_project("list_no_args"),
+                when => the_developer_runs_steeltoe_("list-services"),
                 then => the_command_succeeds());
         }
     }

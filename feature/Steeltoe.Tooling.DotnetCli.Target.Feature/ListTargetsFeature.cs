@@ -19,17 +19,15 @@ using LightBDD.XUnit2;
 namespace Steeltoe.Tooling.DotnetCli.Target.Feature
 {
     [Label("target")]
-    public partial class SetFeature
+    public partial class ListTargetsFeature
     {
         [Scenario]
-        public void RunSetNoArgs()
+        public void RunListNoArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("set_no_args"),
-                when => the_developer_runs_steeltoe_("set-target"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error("environment not specified"),
-                and => the_developer_sees_the_error("run with -h for help"));
+                given => a_dotnet_project("list_no_args"),
+                when => the_developer_runs_steeltoe_("list-targets"),
+                then => the_command_succeeds());
         }
     }
 }

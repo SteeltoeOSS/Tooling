@@ -17,14 +17,14 @@ using McMaster.Extensions.CommandLineUtils;
 namespace Steeltoe.Tooling.DotnetCli
 {
     [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
-    [Subcommand("define-service", typeof(Service.DefineCommand))]
-    [Subcommand("undefine-service", typeof(Service.UndefineCommand))]
-    [Subcommand("list-services", typeof(Service.ListCommand))]
-    [Subcommand("start-service", typeof(Service.StartCommand))]
-    [Subcommand("stop-service", typeof(Service.StopCommand))]
-    [Subcommand("check-service", typeof(Service.CheckCommand))]
-    [Subcommand("set-target", typeof(Target.SetCommand))]
-    [Subcommand("list-targets", typeof(Target.ListCommand))]
+    [Subcommand("define-service", typeof(Service.DefineServiceCommand))]
+    [Subcommand("undefine-service", typeof(Service.UndefineServiceCommand))]
+    [Subcommand("list-services", typeof(Service.ListServiceCommand))]
+    [Subcommand("start-service", typeof(Service.StartServiceCommand))]
+    [Subcommand("stop-service", typeof(Service.StopServiceCommand))]
+    [Subcommand("check-service", typeof(Service.CheckServiceCommand))]
+    [Subcommand("set-target", typeof(Target.SetTargetCommand))]
+    [Subcommand("list-targets", typeof(Target.ListTargetCommand))]
     class Program
     {
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);

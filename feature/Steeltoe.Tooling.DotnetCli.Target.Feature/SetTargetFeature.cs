@@ -16,21 +16,19 @@ using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-//[assembly: LightBddScope]
-
-namespace Steeltoe.Tooling.DotnetCli.Service.Feature
+namespace Steeltoe.Tooling.DotnetCli.Target.Feature
 {
-    [Label("service")]
-    public partial class DefineFeature
+    [Label("target")]
+    public partial class SetTargetFeature
     {
         [Scenario]
-        public void RunDefineNoArgs()
+        public void RunSetNoArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("define_no_args"),
-                when => the_developer_runs_steeltoe_("define-service"),
+                given => a_dotnet_project("set_no_args"),
+                when => the_developer_runs_steeltoe_("set-target"),
                 then => the_command_fails(),
-                and => the_developer_sees_the_error("name not specified"),
+                and => the_developer_sees_the_error("environment not specified"),
                 and => the_developer_sees_the_error("run with -h for help"));
         }
     }

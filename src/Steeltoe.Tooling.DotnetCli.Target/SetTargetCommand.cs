@@ -20,7 +20,7 @@ using Steeltoe.Tooling.DotnetCli.Base;
 namespace Steeltoe.Tooling.DotnetCli.Target
 {
     [Command(Description = "Set the target environment.")]
-    public class SetCommand : DotnetCliCommand
+    public class SetTargetCommand : DotnetCliCommand
     {
         [Argument(0, Description = "Specify one of: cloud-foundry.")]
         private string Environment { get; }
