@@ -22,9 +22,9 @@ using Steeltoe.Tooling.System;
 
 namespace Steeltoe.Tooling.DotnetCli.Base.Feature
 {
-    public class DotnetCliFeatureFixture : FeatureFixture
+    public class DotnetCliFeatureSpecs : FeatureFixture
     {
-        private static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<DotnetCliFeatureFixture>();
+        private static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<DotnetCliFeatureSpecs>();
 
         private string DotnetCliProjectDirectory { get; } = Path.GetFullPath(Path.Combine(
             Directory.GetCurrentDirectory(),

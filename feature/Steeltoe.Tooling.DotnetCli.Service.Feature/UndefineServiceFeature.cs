@@ -15,11 +15,12 @@
 using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
+using Steeltoe.Tooling.DotnetCli.Base.Feature;
 
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
     [Label("service")]
-    public partial class UndefineServiceFeature
+    public class UndefineServiceFeature : DotnetCliFeatureSpecs
     {
         [Scenario]
         public void RunUndefineNoArgs()

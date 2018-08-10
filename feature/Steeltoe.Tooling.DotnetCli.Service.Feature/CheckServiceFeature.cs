@@ -19,7 +19,7 @@ using LightBDD.XUnit2;
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
     [Label("service")]
-    public partial class CheckServiceFeature
+    public class CheckServiceFeature : DotnetCli.Base.Feature.DotnetCliFeatureSpecs
     {
         [Scenario]
         public void RunCheckNoArgs()
