@@ -64,12 +64,12 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
             LastCommandResult.ExitCode.ShouldNotBe(0);
         }
 
-        protected void the_developer_sees_the_output(string message)
+        protected void the_developer_sees_(string message)
         {
             LastCommandResult.Out.ShouldContain(message);
         }
 
-        protected void the_developer_sees_the_error(string message)
+        protected void the_developer_sees_the_error_(string message)
         {
             LastCommandResult.Error.ShouldContain(message);
         }

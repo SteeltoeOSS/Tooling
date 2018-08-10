@@ -28,8 +28,9 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
                 given => a_dotnet_project("set_no_args"),
                 when => the_developer_runs_steeltoe_("set-target"),
                 then => the_command_fails(),
-                and => the_developer_sees_the_error("environment not specified"),
-                and => the_developer_sees_the_error("run with -h for help"));
+                and => the_developer_sees_the_error_("environment not specified"),
+                and => the_developer_sees_the_error_("run with -h for help")
+            );
         }
     }
 }

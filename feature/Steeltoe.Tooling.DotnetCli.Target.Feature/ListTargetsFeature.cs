@@ -27,7 +27,8 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
             Runner.RunScenario(
                 given => a_dotnet_project("list_no_args"),
                 when => the_developer_runs_steeltoe_("list-targets"),
-                then => the_command_succeeds());
+                then => the_command_succeeds()
+            );
         }
     }
 }
