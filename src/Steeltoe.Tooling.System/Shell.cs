@@ -19,6 +19,8 @@ namespace Steeltoe.Tooling.System
 {
     public class Shell
     {
+        private static int count = 0;
+
         public string Command { get; private set; }
         public string Arguments { get; private set; }
         public int ExitCode { get; private set; }
@@ -34,11 +36,13 @@ namespace Steeltoe.Tooling.System
 
         public void Run(string command, string arguments = null, string workingDirectory = null)
         {
+            var commandId = ++count;
+
             Command = command;
             Arguments = arguments;
             Logger.LogDebug(string.IsNullOrEmpty(Arguments)
-                ? $"command: {command}"
-                : $"command: {command} {arguments}");
+                ? $"[{commandId}] command: {command}"
+                : $"[{commandId}] command: {command} {arguments}");
 
             var pinfo = new ProcessStartInfo(Command, Arguments)
             {
@@ -46,27 +50,25 @@ namespace Steeltoe.Tooling.System
                 RedirectStandardError = true,
                 WorkingDirectory = workingDirectory
             };
-            Logger.LogDebug($"starting process ...");
             var proc = Process.Start(pinfo);
-            Logger.LogDebug($"... waiting ...");
             proc.WaitForExit();
             ExitCode = proc.ExitCode;
-            Logger.LogDebug($"exit code: {ExitCode}");
+            Logger.LogDebug($"[{commandId}] exit code: {ExitCode}");
             using (var pout = proc.StandardOutput)
             {
                 Out = pout.ReadToEnd();
             }
             Logger.LogDebug(string.IsNullOrEmpty(Out)
-                ? "stdout: <none>"
-                : $"stdout: {Out}");
+                ? $"[{commandId}] stdout: <none>"
+                : $"[{commandId}] stdout: {Out}");
 
             using (var perr = proc.StandardError)
             {
                 Error = perr.ReadToEnd();
             }
             Logger.LogDebug(string.IsNullOrEmpty(Error)
-                ? "stderr: <none>"
-                : $"stderr: {Error}");
+                ? $"[{commandId}] stderr: <none>"
+                : $"[{commandId}] stderr: {Error}");
         }
     }
 }
