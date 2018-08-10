@@ -14,6 +14,7 @@
 
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Tooling.Base;
 
 namespace Steeltoe.Tooling.System
 {
@@ -21,54 +22,56 @@ namespace Steeltoe.Tooling.System
     {
         private static int count = 0;
 
-        public string Command { get; private set; }
-        public string Arguments { get; private set; }
-        public int ExitCode { get; private set; }
-        public string Out { get; private set; }
-        public string Error { get; private set; }
+        private static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<Shell>();
 
-        private ILogger<Shell> Logger { get; set; }
-
-        public Shell(ILoggerFactory loggerFactory)
+        public struct Result
         {
-            Logger = loggerFactory.CreateLogger<Shell>();
+            public int Id { get; internal set; }
+            public string Command { get; internal set; }
+            public string Arguments { get; internal set; }
+            public string WorkingDirectory { get; internal set; }
+            public int ExitCode { get; internal set; }
+            public string Out { get; internal set; }
+            public string Error { get; internal set; }
         }
 
-        public void Run(string command, string arguments = null, string workingDirectory = null)
+        public static Result Run(string command, string arguments = null, string workingDirectory = null)
         {
-            var commandId = ++count;
+            var result = new Result()
+            {
+                Id = ++count,
+                Command = command,
+                Arguments = arguments,
+                WorkingDirectory = workingDirectory
+            };
+            Logger.LogDebug($"[{result.Id}] command: {result.Command}");
+            Logger.LogDebug($"[{result.Id}] arguments: {result.Arguments}");
+            Logger.LogDebug($"[{result.Id}] working directory: {result.WorkingDirectory}");
 
-            Command = command;
-            Arguments = arguments;
-            Logger.LogDebug(string.IsNullOrEmpty(Arguments)
-                ? $"[{commandId}] command: {command}"
-                : $"[{commandId}] command: {command} {arguments}");
-
-            var pinfo = new ProcessStartInfo(Command, Arguments)
+            var pinfo = new ProcessStartInfo(result.Command, result.Arguments)
             {
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                WorkingDirectory = workingDirectory
+                WorkingDirectory = result.WorkingDirectory
             };
             var proc = Process.Start(pinfo);
             proc.WaitForExit();
-            ExitCode = proc.ExitCode;
-            Logger.LogDebug($"[{commandId}] exit code: {ExitCode}");
+            result.ExitCode = proc.ExitCode;
+            Logger.LogDebug($"[{result.Id}] exit code: {result.ExitCode}");
             using (var pout = proc.StandardOutput)
             {
-                Out = pout.ReadToEnd();
+                result.Out = pout.ReadToEnd();
             }
-            Logger.LogDebug(string.IsNullOrEmpty(Out)
-                ? $"[{commandId}] stdout: <none>"
-                : $"[{commandId}] stdout: {Out}");
+
+            Logger.LogDebug($"[{result.Id}] stdout: {result.Out}");
 
             using (var perr = proc.StandardError)
             {
-                Error = perr.ReadToEnd();
+                result.Error = perr.ReadToEnd();
             }
-            Logger.LogDebug(string.IsNullOrEmpty(Error)
-                ? $"[{commandId}] stderr: <none>"
-                : $"[{commandId}] stderr: {Error}");
+
+            Logger.LogDebug($"[{result.Id}] stderr: {result.Error}");
+            return result;
         }
     }
 }

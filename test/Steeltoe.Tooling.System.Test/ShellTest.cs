@@ -17,6 +17,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling.Base.Test;
 using Xunit;
 
@@ -29,8 +30,6 @@ namespace Steeltoe.Tooling.System.Test
         private static string anotherDir;
         private static string listCommand;
         private static string errorCommand;
-
-        private readonly Shell sh = new Shell(Logging.LoggerFactory);
 
         static ShellTest()
         {
@@ -70,59 +69,49 @@ namespace Steeltoe.Tooling.System.Test
         }
 
         [Fact]
-        public void TestConstructor()
-        {
-            sh.Command.ShouldBeNull();
-            sh.Arguments.ShouldBeNull();
-            sh.ExitCode.ShouldBe(0);
-            sh.Out.ShouldBeNull();
-            sh.Error.ShouldBeNull();
-        }
-
-        [Fact]
         public void TestRun()
         {
-            sh.Run(listCommand);
-            sh.Command.ShouldBe(listCommand);
-            sh.Arguments.ShouldBeNull();
-            sh.ExitCode.ShouldBe(0);
-            sh.Out.ShouldNotBeEmpty();
-            sh.Error.ShouldBeEmpty();
+            var result = Shell.Run(listCommand);
+            result.Command.ShouldBe(listCommand);
+            result.Arguments.ShouldBeNull();
+            result.ExitCode.ShouldBe(0);
+            result.Out.ShouldNotBeEmpty();
+            result.Error.ShouldBeEmpty();
         }
 
         [Fact]
         public void TestRunWithArguments()
         {
-            sh.Run(listCommand, aDir);
-            sh.Command.ShouldBe(listCommand);
-            sh.Arguments.ShouldBe(aDir);
-            sh.ExitCode.ShouldBe(0);
-            sh.Out.ShouldContain("aFile");
-            sh.Error.ShouldBeEmpty();
+            var result = Shell.Run(listCommand, aDir);
+            result.Command.ShouldBe(listCommand);
+            result.Arguments.ShouldBe(aDir);
+            result.ExitCode.ShouldBe(0);
+            result.Out.ShouldContain("aFile");
+            result.Error.ShouldBeEmpty();
         }
 
         [Fact]
         public void TestRunWithWorkingDirectory()
         {
-            sh.Run(listCommand, workingDirectory: anotherDir);
-            sh.Command.ShouldBe(listCommand);
-            sh.Arguments.ShouldBeNull();
-            sh.ExitCode.ShouldBe(0);
-            sh.Out.ShouldContain("anotherFile");
-            sh.Error.ShouldBeEmpty();
+            var result = Shell.Run(listCommand, workingDirectory: anotherDir);
+            result.Command.ShouldBe(listCommand);
+            result.Arguments.ShouldBeNull();
+            result.ExitCode.ShouldBe(0);
+            result.Out.ShouldContain("anotherFile");
+            result.Error.ShouldBeEmpty();
         }
 
         [Fact]
         public void TestRunCommandError()
         {
-            sh.Run(errorCommand);
-            sh.ExitCode.ShouldNotBe(0);
+            var result = Shell.Run(errorCommand);
+            result.ExitCode.ShouldNotBe(0);
         }
 
         [Fact]
         public void TestRunSystemError()
         {
-            Assert.Throws<Win32Exception>(() => sh.Run("NoSuchCommand"));
+            Assert.Throws<Win32Exception>(() => Shell.Run("NoSuchCommand"));
         }
     }
 }

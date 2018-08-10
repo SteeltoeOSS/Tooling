@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
 
         private string ProjectDirectory { get; set; }
 
-        private Shell Shell { get; } = new Shell(Logging.LoggerFactory);
+        private Shell.Result LastCommandResult { get; set; }
 
         protected void a_dotnet_project(string name)
         {
@@ -42,35 +42,36 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
             }
 
             Directory.CreateDirectory(ProjectDirectory);
-            Directory.SetCurrentDirectory(ProjectDirectory);
             Logger.LogInformation($"Creating dotnet project '{name}' at {ProjectDirectory}");
-            Shell.Run("dotnet", "new classlib");
+            var result = Shell.Run("dotnet", "new classlib", ProjectDirectory);
+            result.ExitCode.ShouldBe(0);
         }
 
         protected void the_developer_runs_steeltoe_(string command)
         {
             Logger.LogInformation($"Running 'steeltoe {command}'");
-            Shell.Run("dotnet", $"run --project {DotnetCliProjectDirectory} -- {command}");
+            LastCommandResult = Shell.Run("dotnet", $"run --project {DotnetCliProjectDirectory} -- {command}",
+                ProjectDirectory);
         }
 
         protected void the_command_succeeds()
         {
-            Shell.ExitCode.ShouldBe(0);
+            LastCommandResult.ExitCode.ShouldBe(0);
         }
 
         protected void the_command_fails()
         {
-            Shell.ExitCode.ShouldNotBe(0);
+            LastCommandResult.ExitCode.ShouldNotBe(0);
         }
 
         protected void the_developer_sees_the_output(string message)
         {
-            Shell.Out.ShouldContain(message);
+            LastCommandResult.Out.ShouldContain(message);
         }
 
         protected void the_developer_sees_the_error(string message)
         {
-            Shell.Error.ShouldContain(message);
+            LastCommandResult.Error.ShouldContain(message);
         }
     }
 }
