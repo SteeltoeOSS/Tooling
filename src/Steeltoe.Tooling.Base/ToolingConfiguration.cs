@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.Base
@@ -8,6 +9,8 @@ namespace Steeltoe.Tooling.Base
         public const string DefaultFileName = ".steeltoe.tooling.yml";
 
         public string target { get; set; }
+
+        public Dictionary<string, Service> services { get; set; } = new Dictionary<string, Service>();
 
         public static ToolingConfiguration Load(string path)
         {
@@ -39,6 +42,11 @@ namespace Steeltoe.Tooling.Base
             var yaml = serializer.Serialize(this);
             writer.Write(yaml);
             writer.Flush();
+        }
+
+        public class Service
+        {
+            public string type { get; set; }
         }
     }
 }

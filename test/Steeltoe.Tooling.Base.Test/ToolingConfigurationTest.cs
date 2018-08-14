@@ -39,8 +39,11 @@ namespace Steeltoe.Tooling.Base.Test
             var ostr = new StringWriter();
             var cfg = new ToolingConfiguration();
             cfg.target = "myTarget";
+            var svc = new ToolingConfiguration.Service();
+            svc.type = "myServiceType";
+            cfg.services.Add("myService", svc);
             cfg.Store(ostr);
-            ostr.ToString().Trim().ShouldBe("target: myTarget");
+            ostr.ToString().ShouldMatch(@"\s*target: myTarget\s+services:\s+myService:\s+type:\s+myServiceType\s*");
         }
 
         [Fact]
@@ -70,7 +73,10 @@ namespace Steeltoe.Tooling.Base.Test
         [Fact]
         public void TestLoadFromReader()
         {
-            var istr = new StringReader("target: myTarget");
+            var istr = new StringReader(@"target: myTarget
+services:
+  myService:
+    type: myServiceType");
             var cfg = ToolingConfiguration.Load(istr);
             cfg.target.ShouldBe("myTarget");
         }

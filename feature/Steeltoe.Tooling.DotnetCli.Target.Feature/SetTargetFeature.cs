@@ -58,10 +58,10 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
         }
 
         [Scenario]
-        public void SetTargetToUnknownEnvironment()
+        public void SetUnknownTarget()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("set_target_to_unknown_environment"),
+                given => a_dotnet_project("set_unknown_environment"),
                 when => the_developer_runs_steeltoe_("set-target no-such-environment"),
                 then => the_command_fails(),
                 and => the_developer_sees_the_error_("Unknown environment 'no-such-environment'")
@@ -69,14 +69,14 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
         }
 
         [Scenario]
-        public void SetTargetToCloudFoundry()
+        public void SetCloudFoundryTarget()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("set_target_to_cloud_foundry"),
+                given => a_dotnet_project("set_cloud_foundry_target"),
                 when => the_developer_runs_steeltoe_("set-target cloud-foundry"),
                 then => the_command_succeeds(),
                 and => the_developer_sees_("Target set to 'cloud-foundry'."),
-                and => the_target_environment_is_("cloud-foundry")
+                and => the_tooling_config_target_environment_is_("cloud-foundry")
             );
         }
     }

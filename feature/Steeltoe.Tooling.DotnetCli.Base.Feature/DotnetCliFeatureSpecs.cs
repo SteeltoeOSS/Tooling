@@ -92,11 +92,19 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
             LastCommandResult.Error.ShouldMatch($".*{error}.*");
         }
 
-        protected void the_target_environment_is_(string environment)
+        protected void the_tooling_config_target_environment_is_(string environment)
         {
-            Logger.LogInformation($"checking target environment is '{environment}'");
+            Logger.LogInformation($"checking tooling config target environment is '{environment}'");
             var cfg = ToolingConfiguration.Load(ProjectDirectory);
             cfg.target.ShouldBe(environment);
+        }
+
+        protected void the_tooling_config_defines_the_service_(string name, string type)
+        {
+            Logger.LogInformation($"checking tooling config defines the service '{name}' of type {type}");
+            var cfg = ToolingConfiguration.Load(ProjectDirectory);
+            cfg.services.ShouldContainKey(name);
+            cfg.services[name].type.ShouldBe(type);
         }
     }
 }
