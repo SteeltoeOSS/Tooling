@@ -17,11 +17,12 @@ using Steeltoe.Tooling.DotnetCli.Base;
 
 namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Command(Description = "List defined services.")]
-    public class ListServiceCommand : DotnetCliCommand
+    [Command(Description = "List available service types.")]
+    public class ListServicesCommand : DotnetCliCommand
     {
         protected override void OnCommandExecute(CommandLineApplication app)
         {
+            app.Out.WriteLine("cloud-foundry-config-server");
         }
     }
 }

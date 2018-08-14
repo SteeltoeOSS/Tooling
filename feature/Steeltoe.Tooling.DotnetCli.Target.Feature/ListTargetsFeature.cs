@@ -46,7 +46,7 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
         }
 
         [Scenario]
-        public void ListTargetTooManyArgs()
+        public void ListTargetsTooManyArgs()
         {
             Runner.RunScenario(
                 given => a_dotnet_project("list_targets_too_many_args"),
