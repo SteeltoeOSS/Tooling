@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+﻿// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,27 +13,13 @@
 // limitations under the License.
 
 using System;
-using McMaster.Extensions.CommandLineUtils;
 
 namespace Steeltoe.Tooling.DotnetCli.Base
 {
-    public abstract class DotnetCliCommand
+    public class CommandException : Exception
     {
-        protected virtual int OnExecute(CommandLineApplication app)
+        public CommandException(string message) : base(message)
         {
-            try
-            {
-                OnCommandExecute(app);
-            }
-            catch (Exception e)
-            {
-                app.Error.WriteLine(e.Message);
-                return 1;
-            }
-
-            return 0;
         }
-
-        protected abstract void OnCommandExecute(CommandLineApplication app);
     }
 }

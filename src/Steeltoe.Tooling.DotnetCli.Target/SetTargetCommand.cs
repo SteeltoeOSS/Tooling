@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.CloudFoundry;
+using Steeltoe.Tooling.Base;
 using Steeltoe.Tooling.DotnetCli.Base;
 
 namespace Steeltoe.Tooling.DotnetCli.Target
@@ -25,65 +24,24 @@ namespace Steeltoe.Tooling.DotnetCli.Target
         [Argument(0, Description = "The target environment")]
         private string environment { get; }
 
-//        private string name;
-
-//        [Option("-n|--name", Description =
-//            "The name for the output being created. If no name is specified, the name of the current directory is used.")]
-//        private string AppName
-//        {
-//            get => string.IsNullOrEmpty(name) ? Path.GetFileName(OutputDirectory) : name;
-//            set => name = value;
-//        }
-
-//        [Option("-o|--output", Description = "Location to place generated output.")]
-//        private string OutputDirectory { get; set; } = Directory.GetCurrentDirectory();
-
-//        [Option("--force", Description = "Forces content to be generated even if it would change existing files.")]
-//        private bool Force { get; }
-
         protected override void OnCommandExecute(CommandLineApplication app)
         {
             if (string.IsNullOrEmpty(environment))
             {
-                throw new UsageException("environment not specified");
+                throw new UsageException("Environment not specified");
             }
 
-//            switch (Environment.ToLower())
-//            {
-//                case "cloud-foundry":
-//                    SetTargetToCloudFoundry(app);
-//                    break;
-//                default:
-//                    throw new UsageException("not a valid environment [" + Environment + "]");
-//            }
+            switch (environment.ToLower())
+            {
+                case "cloud-foundry":
+                    break;
+                default:
+                    throw new CommandException($"Unknown environment '{environment}'");
+            }
+            var cfg = new ToolingConfiguration();
+            cfg.target = environment;
+            cfg.Store(".");
             app.Out.WriteLine($"Target set to '{environment}'.");
         }
-
-//        private void SetTargetToCloudFoundry(CommandLineApplication app)
-//        {
-//            var path = Path.Combine(OutputDirectory, "manifest.yml");
-//            if (File.Exists(path) && !Force)
-//            {
-//                app.Error.WriteLine("Running this command will make changes to the following file(s):");
-//                app.Error.WriteLine("  Overwrite  " + path);
-//                app.Error.WriteLine();
-//                app.Error.WriteLine("Rerun the command and pass --force.");
-//                return;
-//            }
-
-//            var config = new CloudFoundryConfiguration
-//            {
-//                applications = new[]
-//                {
-//                    new Application
-//                    {
-//                        name = AppName
-//                    }
-//                }
-//            };
-
-//            Directory.CreateDirectory(OutputDirectory);
-//            config.store(path);
-//        }
     }
 }

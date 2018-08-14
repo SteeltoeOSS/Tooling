@@ -95,7 +95,8 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
         protected void the_target_environment_is_(string environment)
         {
             Logger.LogInformation($"checking target environment is '{environment}'");
-//            var cfg = ToolingConfiguration.Load(ProjectDirectory);
+            var cfg = ToolingConfiguration.Load(ProjectDirectory);
+            cfg.target.ShouldBe(environment);
         }
     }
 }
