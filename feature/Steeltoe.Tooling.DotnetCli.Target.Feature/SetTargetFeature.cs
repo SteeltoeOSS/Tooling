@@ -28,10 +28,10 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_target_help"),
-                when => the_developer_runs_steeltoe_("set-target --help"),
-                then => the_command_succeeds(),
-                and => the_developer_sees_("Set the target environment."),
-                and => the_developer_sees_(@"environment\s+The target environment")
+                when => the_developer_runs_steeltoe_command("set-target --help"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("Set the target environment."),
+                and => the_developer_should_see(@"environment\s+The target environment")
             );
         }
 
@@ -40,9 +40,9 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_target_not_enough_args"),
-                when => the_developer_runs_steeltoe_("set-target"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error_("Environment not specified")
+                when => the_developer_runs_steeltoe_command("set-target"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("Environment not specified")
             );
         }
 
@@ -51,9 +51,9 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_target_too_many_args"),
-                when => the_developer_runs_steeltoe_("set-target arg1 arg2"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error_("Unrecognized command or argument 'arg2'")
+                when => the_developer_runs_steeltoe_command("set-target arg1 arg2"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
             );
         }
 
@@ -62,9 +62,9 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_unknown_environment"),
-                when => the_developer_runs_steeltoe_("set-target no-such-environment"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error_("Unknown environment 'no-such-environment'")
+                when => the_developer_runs_steeltoe_command("set-target no-such-environment"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("Unknown environment 'no-such-environment'")
             );
         }
 
@@ -73,10 +73,10 @@ namespace Steeltoe.Tooling.DotnetCli.Target.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_cloud_foundry_target"),
-                when => the_developer_runs_steeltoe_("set-target cloud-foundry"),
-                then => the_command_succeeds(),
-                and => the_developer_sees_("Target set to 'cloud-foundry'."),
-                and => the_tooling_config_target_environment_is_("cloud-foundry")
+                when => the_developer_runs_steeltoe_command("set-target cloud-foundry"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("Target set to 'cloud-foundry'."),
+                and => the_target_config_should_exist("cloud-foundry")
             );
         }
     }

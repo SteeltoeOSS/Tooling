@@ -26,8 +26,8 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("check_no_args"),
-                when => the_developer_runs_steeltoe_("check-service"),
-                then => the_command_succeeds()
+                when => the_developer_runs_steeltoe_command("check-service"),
+                then => the_command_should_succeed()
             );
         }
     }

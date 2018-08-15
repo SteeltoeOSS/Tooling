@@ -61,9 +61,9 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
             cfg.Store(ProjectDirectory);
         }
 
-        protected void a_service_named_(string name)
+        protected void a_service(string name)
         {
-            Logger.LogInformation($"rigging a service named '{name}'");
+            Logger.LogInformation($"rigging a service '{name}'");
             var cfg = GetProjectConfiguration();
             cfg.services.Add(name, new ToolingConfiguration.Service("foo-type"));
             cfg.Store(ProjectDirectory);
@@ -73,7 +73,7 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
         // Whens
         //
 
-        protected void the_developer_runs_steeltoe_(string command)
+        protected void the_developer_runs_steeltoe_command(string command)
         {
             Logger.LogInformation($"running 'steeltoe {command}'");
             LastCommandResult = Shell.Run("dotnet", $"run --project {DotnetCliProjectDirectory} -- {command}",
@@ -84,56 +84,50 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
         // Thens
         //
 
-        protected void the_command_succeeds()
+        protected void the_command_should_succeed()
         {
             Logger.LogInformation($"checking the command succeeded");
             LastCommandResult.ExitCode.ShouldBe(0);
         }
 
-        protected void the_command_fails()
+        protected void the_command_should_fail()
         {
             Logger.LogInformation($"checking the command failed");
             LastCommandResult.ExitCode.ShouldNotBe(0);
         }
 
-        protected void the_developer_sees_(string message)
+        protected void the_developer_should_see(string message)
         {
             Logger.LogInformation($"checking the developer saw '{message}'");
             LastCommandResult.Out.ShouldMatch($".*{message}.*");
         }
 
-        protected void the_developer_sees_the_error_(string error)
+        protected void the_developer_should_see_the_error(string error)
         {
             Logger.LogInformation($"checking the developer saw the error '{error}'");
             LastCommandResult.Error.ShouldMatch($".*{error}.*");
         }
 
-        protected void the_tooling_config_target_environment_is_(string environment)
+        protected void the_target_config_should_exist(string name)
         {
-            Logger.LogInformation($"checking tooling config target environment is '{environment}'");
+            Logger.LogInformation($"checking the target config '{name}' exists");
             var cfg = ToolingConfiguration.Load(ProjectDirectory);
-            cfg.target.ShouldBe(environment);
+            cfg.target.ShouldBe(name);
         }
 
-        protected void the_tooling_config_defines_the_service_(string name, string type)
+        protected void the_service_config_should_exist(string name, string type)
         {
-            Logger.LogInformation($"checking tooling config defines the service '{name}' of type {type}");
+            Logger.LogInformation($"checking the service config '{name}' exists");
             var cfg = ToolingConfiguration.Load(ProjectDirectory);
             cfg.services.ShouldContainKey(name);
             cfg.services[name].type.ShouldBe(type);
         }
 
-        protected void the_service_does_not_exist(string name)
+        protected void the_service_config_should_not_exist(string name)
         {
-            Logger.LogInformation($"checking tooling config does not define the service '{name}'");
+            Logger.LogInformation($"checking the service config '{name}' does not exist");
             var cfg = ToolingConfiguration.Load(ProjectDirectory);
             cfg.services.ShouldNotContainKey(name);
-        }
-
-        protected void the_target_exists(string name)
-        {
-            var cfg = ToolingConfiguration.Load(ProjectDirectory);
-            cfg.target.ShouldBe(name);
         }
 
         // utilities

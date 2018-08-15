@@ -28,9 +28,9 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("list_services_help"),
-                when => the_developer_runs_steeltoe_("list-services --help"),
-                then => the_command_succeeds(),
-                and => the_developer_sees_("List available service types.")
+                when => the_developer_runs_steeltoe_command("list-services --help"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("List available service types.")
             );
         }
 
@@ -39,9 +39,9 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("list_services"),
-                when => the_developer_runs_steeltoe_("list-services"),
-                then => the_command_succeeds(),
-                and => the_developer_sees_("cloud-foundry-config-server")
+                when => the_developer_runs_steeltoe_command("list-services"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("cloud-foundry-config-server")
             );
         }
 
@@ -50,9 +50,9 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("list_services_too_many_args"),
-                when => the_developer_runs_steeltoe_("list-services arg1"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error_("Unrecognized command or argument 'arg1'")
+                when => the_developer_runs_steeltoe_command("list-services arg1"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("Unrecognized command or argument 'arg1'")
             );
         }
     }

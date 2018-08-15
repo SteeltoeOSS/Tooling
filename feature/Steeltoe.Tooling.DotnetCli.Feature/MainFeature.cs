@@ -28,17 +28,17 @@ namespace Steeltoe.Tooling.DotnetCli.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("main_help"),
-                when => the_developer_runs_steeltoe_("--help"),
-                then => the_command_succeeds(),
-                and => the_developer_sees_("Steeltoe Developer Tools"),
-                and => the_developer_sees_(@"add-service\s+Add a service."),
-                and => the_developer_sees_(@"check-service\s+Check a service in the current target."),
-                and => the_developer_sees_(@"list-services\s+List available service types."),
-                and => the_developer_sees_(@"list-targets\s+List available target environments."),
-                and => the_developer_sees_(@"remove-service\s+Remove a service."),
-                and => the_developer_sees_(@"set-target\s+Set the target environment."),
-                and => the_developer_sees_(@"start-service\s+Start a service in the current target."),
-                and => the_developer_sees_(@"stop-service\s+Stop a service in the current target.")
+                when => the_developer_runs_steeltoe_command("--help"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("Steeltoe Developer Tools"),
+                and => the_developer_should_see(@"add-service\s+Add a service."),
+                and => the_developer_should_see(@"check-service\s+Check a service in the current target."),
+                and => the_developer_should_see(@"list-services\s+List available service types."),
+                and => the_developer_should_see(@"list-targets\s+List available target environments."),
+                and => the_developer_should_see(@"remove-service\s+Remove a service."),
+                and => the_developer_should_see(@"set-target\s+Set the target environment."),
+                and => the_developer_should_see(@"start-service\s+Start a service in the current target."),
+                and => the_developer_should_see(@"stop-service\s+Stop a service in the current target.")
             );
         }
 
@@ -47,8 +47,8 @@ namespace Steeltoe.Tooling.DotnetCli.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("main_no_args"),
-                when => the_developer_runs_steeltoe_(""),
-                then => the_command_succeeds()
+                when => the_developer_runs_steeltoe_command(""),
+                then => the_command_should_succeed()
             );
         }
     }

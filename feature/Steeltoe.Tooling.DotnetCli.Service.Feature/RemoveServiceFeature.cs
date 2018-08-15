@@ -28,10 +28,10 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("remove_service_help"),
-                when => the_developer_runs_steeltoe_("remove-service --help"),
-                then => the_command_succeeds(),
-                and => the_developer_sees_("Remove a service from the target environment."),
-                and => the_developer_sees_(@"name\s+The service name")
+                when => the_developer_runs_steeltoe_command("remove-service --help"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("Remove a service from the target environment."),
+                and => the_developer_should_see(@"name\s+The service name")
             );
         }
 
@@ -40,9 +40,9 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("remove_service_not_enough_args"),
-                when => the_developer_runs_steeltoe_("remove-service"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error_("Service name not specified")
+                when => the_developer_runs_steeltoe_command("remove-service"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("Service name not specified")
             );
         }
 
@@ -51,9 +51,9 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("remove_service_too_many_args"),
-                when => the_developer_runs_steeltoe_("remove-service arg1 arg2"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error_("Unrecognized command or argument 'arg2'")
+                when => the_developer_runs_steeltoe_command("remove-service arg1 arg2"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
             );
         }
 
@@ -62,9 +62,9 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("remove_service_without_tooling_configuration"),
-                when => the_developer_runs_steeltoe_("remove-service unknown-service"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error_("No such service 'unknown-service'")
+                when => the_developer_runs_steeltoe_command("remove-service unknown-service"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("No such service 'unknown-service'")
             );
         }
 
@@ -73,10 +73,10 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
         {
             Runner.RunScenario(
                 given => a_dotnet_project("remove_unknown_service"),
-                and => a_service_named_("known-service"),
-                when => the_developer_runs_steeltoe_("remove-service unknown-service"),
-                then => the_command_fails(),
-                and => the_developer_sees_the_error_("No such service 'unknown-service'")
+                and => a_service("known-service"),
+                when => the_developer_runs_steeltoe_command("remove-service unknown-service"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("No such service 'unknown-service'")
             );
         }
 
@@ -86,12 +86,12 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
             Runner.RunScenario(
                 given => a_dotnet_project("remove_known_service"),
                 and => a_target("keep-this-target"),
-                and => a_service_named_("known-service"),
-                when => the_developer_runs_steeltoe_("remove-service known-service"),
-                then => the_command_succeeds(),
-                and => the_developer_sees_("Removed service 'known-service'"),
-                and => the_service_does_not_exist("known-service"),
-                and => the_target_exists("keep-this-target")
+                and => a_service("known-service"),
+                when => the_developer_runs_steeltoe_command("remove-service known-service"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("Removed service 'known-service'"),
+                and => the_service_config_should_not_exist("known-service"),
+                and => the_target_config_should_exist("keep-this-target")
             );
         }
     }
