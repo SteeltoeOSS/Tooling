@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
 
@@ -47,6 +48,15 @@ namespace Steeltoe.Tooling.Base
         public class Service
         {
             public string type { get; set; }
+
+            public Service()
+            {
+            }
+
+            public Service(string type)
+            {
+                this.type = type;
+            }
         }
     }
 }

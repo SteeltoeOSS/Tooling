@@ -40,7 +40,7 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
 
         protected void a_dotnet_project(string name)
         {
-            Logger.LogInformation($"creating dotnet project '{name}'");
+            Logger.LogInformation($"rigging a dotnet project '{name}'");
             ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "feature-tests"), name);
             if (Directory.Exists(ProjectDirectory))
             {
@@ -51,6 +51,22 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
             Logger.LogInformation($"creating dotnet project '{name}' at {ProjectDirectory}");
             var result = Shell.Run("dotnet", "new classlib", ProjectDirectory);
             result.ExitCode.ShouldBe(0);
+        }
+
+        protected void a_target(string name)
+        {
+            Logger.LogInformation($"rigging a target '{name}'");
+            var cfg = GetProjectConfiguration();
+            cfg.target = name;
+            cfg.Store(ProjectDirectory);
+        }
+
+        protected void a_service_named_(string name)
+        {
+            Logger.LogInformation($"rigging a service named '{name}'");
+            var cfg = GetProjectConfiguration();
+            cfg.services.Add(name, new ToolingConfiguration.Service("foo-type"));
+            cfg.Store(ProjectDirectory);
         }
 
         //
@@ -105,6 +121,34 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
             var cfg = ToolingConfiguration.Load(ProjectDirectory);
             cfg.services.ShouldContainKey(name);
             cfg.services[name].type.ShouldBe(type);
+        }
+
+        protected void the_service_does_not_exist(string name)
+        {
+            Logger.LogInformation($"checking tooling config does not define the service '{name}'");
+            var cfg = ToolingConfiguration.Load(ProjectDirectory);
+            cfg.services.ShouldNotContainKey(name);
+        }
+
+        protected void the_target_exists(string name)
+        {
+            var cfg = ToolingConfiguration.Load(ProjectDirectory);
+            cfg.target.ShouldBe(name);
+        }
+
+        // utilities
+
+        private ToolingConfiguration GetProjectConfiguration()
+        {
+            try
+            {
+                return ToolingConfiguration.Load(ProjectDirectory);
+
+            }
+            catch (FileNotFoundException)
+            {
+                return new ToolingConfiguration();
+            }
         }
     }
 }

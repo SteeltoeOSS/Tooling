@@ -27,6 +27,7 @@ namespace Steeltoe.Tooling.DotnetCli.Base
             }
             catch (Exception e)
             {
+//                app.Error.WriteLine(e);
                 app.Error.WriteLine(e.Message);
                 return 1;
             }

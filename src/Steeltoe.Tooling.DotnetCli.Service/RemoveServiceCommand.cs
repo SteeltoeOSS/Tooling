@@ -19,14 +19,11 @@ using Steeltoe.Tooling.DotnetCli.Base;
 
 namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Command(Description = "Add a service.")]
-    public class AddServiceCommand : DotnetCliCommand
+    [Command(Description = "Remove a service.")]
+    public class RemoveServiceCommand : DotnetCliCommand
     {
         [Argument(0, Description = "The service name")]
         private string name { get; }
-
-        [Option("-s|--service-type", Description = "The service type")]
-        private string type { get; }
 
         protected override void OnCommandExecute(CommandLineApplication app)
         {
@@ -35,32 +32,23 @@ namespace Steeltoe.Tooling.DotnetCli.Service
                 throw new UsageException("Service name not specified");
             }
 
-            if (string.IsNullOrEmpty(type))
-            {
-                throw new UsageException("Service type not specified");
-            }
-
-            switch (type.ToLower())
-            {
-                case "cloud-foundry-config-server":
-                    break;
-                default:
-                    throw new CommandException($"Unknown service type '{type}'");
-            }
-
-            ToolingConfiguration cfg;
             try
             {
-                cfg = ToolingConfiguration.Load(".");
-
+                var cfg = ToolingConfiguration.Load(".");
+                if (cfg.services.ContainsKey(name))
+                {
+                    cfg.services.Remove(name);
+                    cfg.Store(".");
+                    app.Out.WriteLine($"Removed service '{name}'");
+                    return;
+                }
             }
             catch (FileNotFoundException)
             {
-                cfg = new ToolingConfiguration();
+                // pass
             }
-            cfg.services.Add(name, new ToolingConfiguration.Service(type));
-            cfg.Store(".");
-            app.Out.WriteLine($"Added {type} service '{name}'");
+
+            throw new CommandException($"No such service '{name}'");
         }
     }
 }
