@@ -20,7 +20,7 @@ using Steeltoe.Tooling.DotnetCli.Base.Feature;
 namespace Steeltoe.Tooling.DotnetCli.Service.Feature
 {
     [Label("service")]
-    public class UndefineServiceFeature : DotnetCliFeatureSpecs
+    public class RemoveServiceFeature : DotnetCliFeatureSpecs
     {
         [Scenario]
         [Label("help")]
@@ -30,7 +30,7 @@ namespace Steeltoe.Tooling.DotnetCli.Service.Feature
                 given => a_dotnet_project("remove_service_help"),
                 when => the_developer_runs_steeltoe_command("remove-service --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see("Remove a service from the target environment."),
+                and => the_developer_should_see("Remove a service."),
                 and => the_developer_should_see(@"name\s+The service name")
             );
         }
