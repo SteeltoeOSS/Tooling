@@ -41,16 +41,14 @@ namespace Steeltoe.Tooling.DotnetCli.Base.Feature
         protected void a_dotnet_project(string name)
         {
             Logger.LogInformation($"rigging a dotnet project '{name}'");
-            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "feature-tests"), name);
+            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), name);
             if (Directory.Exists(ProjectDirectory))
             {
                 Directory.Delete(ProjectDirectory, true);
             }
 
             Directory.CreateDirectory(ProjectDirectory);
-            Logger.LogInformation($"creating dotnet project '{name}' at {ProjectDirectory}");
-            var result = Shell.Run("dotnet", "new classlib", ProjectDirectory);
-            result.ExitCode.ShouldBe(0);
+            Shell.Run("dotnet", "new classlib", ProjectDirectory).ExitCode.ShouldBe(0);
         }
 
         protected void a_target(string name)

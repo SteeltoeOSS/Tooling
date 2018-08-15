@@ -32,7 +32,7 @@ namespace Steeltoe.Tooling.System.Test
         static ShellTest()
         {
             // setup a test sandbox
-            testDir = Path.Combine(Directory.GetCurrentDirectory(), "shelltest");
+            testDir =  Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), "shell-test");
             Directory.CreateDirectory(testDir);
             // setup up list and error commands
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
