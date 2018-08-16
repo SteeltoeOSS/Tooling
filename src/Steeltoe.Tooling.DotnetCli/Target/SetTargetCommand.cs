@@ -29,7 +29,7 @@ namespace Steeltoe.Tooling.DotnetCli.Target
         {
             if (string.IsNullOrEmpty(environment))
             {
-                throw new UsageException("Environment not specified");
+                throw new CommandException("Environment not specified");
             }
 
             switch (environment.ToLower())

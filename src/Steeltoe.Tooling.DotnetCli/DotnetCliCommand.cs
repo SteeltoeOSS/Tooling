@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Steeltoe.Tooling.DotnetCli
@@ -25,7 +24,7 @@ namespace Steeltoe.Tooling.DotnetCli
             {
                 OnCommandExecute(app);
             }
-            catch (Exception e)
+            catch (CommandException e)
             {
                 app.Error.WriteLine(e);
 //                app.Error.WriteLine(e.Message);

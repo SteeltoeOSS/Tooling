@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 
@@ -34,12 +33,12 @@ namespace Steeltoe.Tooling.DotnetCli.Service
         {
             if (string.IsNullOrEmpty(name))
             {
-                throw new UsageException("Service name not specified");
+                throw new CommandException("Service name not specified");
             }
 
             if (string.IsNullOrEmpty(type))
             {
-                throw new UsageException("Service type not specified");
+                throw new CommandException("Service type not specified");
             }
 
             switch (type.ToLower())

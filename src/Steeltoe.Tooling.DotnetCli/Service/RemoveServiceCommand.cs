@@ -30,7 +30,7 @@ namespace Steeltoe.Tooling.DotnetCli.Service
         {
             if (string.IsNullOrEmpty(name))
             {
-                throw new UsageException("Service name not specified");
+                throw new CommandException("Service name not specified");
             }
 
             try
