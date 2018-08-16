@@ -265,3 +265,6 @@ __pycache__/
 
 # vi/vim
 \.*\.sw[A-z]
+
+# test files
+\.steeltoe.tooling.yml
