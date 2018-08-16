@@ -2,9 +2,8 @@
 
 toolProject=Steeltoe.Tooling.DotnetCli
 
-basedir=$(dirname $0)/..
+cd $(dirname $0)/..
 
-cd $basedir
 dotnet tool uninstall --global $toolProject
 dotnet pack
 dotnet tool install --global --add-source src/$toolProject/bin/Debug $toolProject
