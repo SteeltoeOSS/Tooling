@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-basedir=$(dirname $0)/..
-cd $basedir
-dotnet pack
-dotnet tool install --global --add-source src/Steeltoe.Tooling.DotnetCli/bin/Debug Steeltoe.Tooling.DotnetCli
