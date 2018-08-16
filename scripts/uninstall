@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+basedir=$(dirname $0)/..
+cd $basedir
+dotnet tool uninstall --global Steeltoe.Tooling.DotnetCli
