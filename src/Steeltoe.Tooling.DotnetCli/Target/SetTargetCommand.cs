@@ -25,7 +25,7 @@ namespace Steeltoe.Tooling.DotnetCli.Target
         [Argument(0, Description = "The target environment")]
         private string environment { get; }
 
-        protected override void OnCommandExecute(CommandLineApplication app)
+        protected override void ValidateCommand()
         {
             if (string.IsNullOrEmpty(environment))
             {
@@ -39,10 +39,11 @@ namespace Steeltoe.Tooling.DotnetCli.Target
                 default:
                     throw new CommandException($"Unknown environment '{environment}'");
             }
-            var cfg = new ToolingConfiguration();
-            cfg.target = environment;
-            cfg.Store(".");
-            app.Out.WriteLine($"Target set to '{environment}'.");
+        }
+
+        protected override IDotnetCliCommand GetImplementation()
+        {
+            return new SetTargetCommandImpl(environment);
         }
     }
 }

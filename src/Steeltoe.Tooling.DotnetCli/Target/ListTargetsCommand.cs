@@ -22,9 +22,13 @@ namespace Steeltoe.Tooling.DotnetCli.Target
     [Command(Description = "List available target environments.")]
     public class ListTargetsCommand : DotnetCliCommand
     {
-        protected override void OnCommandExecute(CommandLineApplication app)
+        protected override void ValidateCommand()
         {
-            app.Out.WriteLine("cloud-foundry");
+        }
+
+        protected override IDotnetCliCommand GetImplementation()
+        {
+            return new ListTargetsCommandImpl();
         }
     }
 }

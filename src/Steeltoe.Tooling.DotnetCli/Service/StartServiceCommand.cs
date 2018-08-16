@@ -22,8 +22,13 @@ namespace Steeltoe.Tooling.DotnetCli.Service
     [Command(Description = "Start a service in the current target.")]
     public class StartServiceCommand : DotnetCliCommand
     {
-        protected override void OnCommandExecute(CommandLineApplication app)
+        protected override void ValidateCommand()
         {
+        }
+
+        protected override IDotnetCliCommand GetImplementation()
+        {
+            return new StartServiceCommandImpl();
         }
     }
 }

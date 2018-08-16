@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -23,20 +22,13 @@ namespace Steeltoe.Tooling.DotnetCli.Service
     [Command(Description = "List available services.")]
     public class ListServicesCommand : DotnetCliCommand
     {
-        protected override void OnCommandExecute(CommandLineApplication app)
+        protected override void ValidateCommand()
         {
-            try
-            {
-                var cfg = ToolingConfiguration.Load(".");
-                foreach (var entry in cfg.services)
-                {
-                    app.Out.WriteLine($"{entry.Key} ({entry.Value.type})");
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                // pass
-            }
+        }
+
+        protected override IDotnetCliCommand GetImplementation()
+        {
+            return new ListServicesCommandImpl();
         }
     }
 }

@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -29,7 +28,7 @@ namespace Steeltoe.Tooling.DotnetCli.Service
         [Option("-t|--type", Description = "The service type")]
         private string type { get; }
 
-        protected override void OnCommandExecute(CommandLineApplication app)
+        protected override void ValidateCommand()
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -48,25 +47,11 @@ namespace Steeltoe.Tooling.DotnetCli.Service
                 default:
                     throw new CommandException($"Unknown service type '{type}'");
             }
+        }
 
-            ToolingConfiguration cfg;
-            try
-            {
-                cfg = ToolingConfiguration.Load(".");
-            }
-            catch (FileNotFoundException)
-            {
-                cfg = new ToolingConfiguration();
-            }
-
-            if (cfg.services.ContainsKey(name))
-            {
-                throw new CommandException($"Service '{name}' already exists");
-            }
-
-            cfg.services.Add(name, new ToolingConfiguration.Service(type));
-            cfg.Store(".");
-            app.Out.WriteLine($"Added {type} service '{name}'");
+        protected override IDotnetCliCommand GetImplementation()
+        {
+            return new AddServiceCommandImpl(name, type);
         }
     }
 }

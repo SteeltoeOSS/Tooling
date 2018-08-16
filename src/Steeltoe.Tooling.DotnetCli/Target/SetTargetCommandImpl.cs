@@ -12,23 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using McMaster.Extensions.CommandLineUtils;
+using System.IO;
 
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
-
-namespace Steeltoe.Tooling.DotnetCli.Service
+namespace Steeltoe.Tooling.DotnetCli.Target
 {
-    [Command(Description = "List available service types.")]
-    public class ListServiceTypesCommand : DotnetCliCommand
+    public class SetTargetCommandImpl : IDotnetCliCommand
     {
-        protected override void ValidateCommand()
+        private string Environment { get; }
+
+        public SetTargetCommandImpl(string environment)
         {
+            Environment = environment;
         }
 
-        protected override IDotnetCliCommand GetImplementation()
+        public void Execute(TextWriter output)
         {
-            return new ListServiceTypesCommandImpl();
+            var cfg = new ToolingConfiguration();
+            cfg.target = Environment;
+            cfg.Store(".");
+            output.WriteLine($"Target set to '{Environment}'.");
         }
     }
 }

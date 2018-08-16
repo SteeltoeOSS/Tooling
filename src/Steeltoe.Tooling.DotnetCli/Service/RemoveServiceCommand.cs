@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -26,30 +25,17 @@ namespace Steeltoe.Tooling.DotnetCli.Service
         [Argument(0, Description = "The service name")]
         private string name { get; }
 
-        protected override void OnCommandExecute(CommandLineApplication app)
+        protected override void ValidateCommand()
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new CommandException("Service name not specified");
             }
+        }
 
-            try
-            {
-                var cfg = ToolingConfiguration.Load(".");
-                if (cfg.services.ContainsKey(name))
-                {
-                    cfg.services.Remove(name);
-                    cfg.Store(".");
-                    app.Out.WriteLine($"Removed service '{name}'");
-                    return;
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                // pass
-            }
-
-            throw new CommandException($"No such service '{name}'");
+        protected override IDotnetCliCommand GetImplementation()
+        {
+            return new RemoveServiceCommandImpl(name);
         }
     }
 }

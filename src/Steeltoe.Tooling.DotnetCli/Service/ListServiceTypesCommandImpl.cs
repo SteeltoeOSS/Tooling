@@ -12,23 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using McMaster.Extensions.CommandLineUtils;
-
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
+using System.IO;
 
 namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Command(Description = "List available service types.")]
-    public class ListServiceTypesCommand : DotnetCliCommand
+    public class ListServiceTypesCommandImpl : IDotnetCliCommand
     {
-        protected override void ValidateCommand()
+        public void Execute(TextWriter output)
         {
-        }
-
-        protected override IDotnetCliCommand GetImplementation()
-        {
-            return new ListServiceTypesCommandImpl();
+            output.WriteLine("cloud-foundry-config-server");
         }
     }
 }
