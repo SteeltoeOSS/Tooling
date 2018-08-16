@@ -27,8 +27,8 @@ namespace Steeltoe.Tooling.DotnetCli
             }
             catch (Exception e)
             {
-//                app.Error.WriteLine(e);
-                app.Error.WriteLine(e.Message);
+                app.Error.WriteLine(e);
+//                app.Error.WriteLine(e.Message);
                 return 1;
             }
 
