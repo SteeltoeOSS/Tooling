@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{D4A6
 		scripts\unit-test.ps1 = scripts\unit-test.ps1
 		scripts\feature-test = scripts\feature-test
 		scripts\unit-test = scripts\unit-test
+		scripts\reinstall = scripts\reinstall
+		scripts\reinstall.ps1 = scripts\reinstall.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{E9B1FC73-80A5-42A7-863F-5413EA87FD5A}"
