@@ -26,7 +26,7 @@ namespace Steeltoe.Tooling.DotnetCli.Service
         [Argument(0, Description = "The service name")]
         private string name { get; }
 
-        [Option("-s|--service-type", Description = "The service type")]
+        [Option("-t|--type", Description = "The service type")]
         private string type { get; }
 
         protected override void OnCommandExecute(CommandLineApplication app)

@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.DotnetCli.Feature.Service
                 then => the_command_should_succeed(),
                 and => the_developer_should_see("Add a service."),
                 and => the_developer_should_see(@"name\s+The service name"),
-                and => the_developer_should_see(@"-s|--service-type\s+The service type")
+                and => the_developer_should_see(@"-t\|--type\s+The service type")
             );
         }
 
@@ -73,7 +73,7 @@ namespace Steeltoe.Tooling.DotnetCli.Feature.Service
         {
             Runner.RunScenario(
                 given => a_dotnet_project("add_unknown_service_type"),
-                when => the_developer_runs_steeltoe_command("add-service foo -s no-such-type"),
+                when => the_developer_runs_steeltoe_command("add-service foo -t no-such-type"),
                 then => the_command_should_fail(),
                 and => the_developer_should_see_the_error("Unknown service type 'no-such-type'")
             );
@@ -85,7 +85,7 @@ namespace Steeltoe.Tooling.DotnetCli.Feature.Service
             Runner.RunScenario(
                 given => a_dotnet_project("add_cloud_foundry_config_server_service"),
                 and => a_target("keep-this-target"),
-                when => the_developer_runs_steeltoe_command("add-service MyConfigServer -s cloud-foundry-config-server"),
+                when => the_developer_runs_steeltoe_command("add-service MyConfigServer -t cloud-foundry-config-server"),
                 then => the_command_should_succeed(),
                 and => the_developer_should_see("Added cloud-foundry-config-server service 'MyConfigServer'"),
                 and => the_service_config_should_exist("MyConfigServer", "cloud-foundry-config-server"),
