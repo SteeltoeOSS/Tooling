@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+basedir=$(dirname $0)/..
+$basedir/scripts/uninstall
+$basedir/scripts/install
