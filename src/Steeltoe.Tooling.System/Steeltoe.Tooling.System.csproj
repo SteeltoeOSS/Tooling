@@ -7,6 +7,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsLoggingVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Steeltoe.Tooling.Base\Steeltoe.Tooling.Base.csproj" />
+    <ProjectReference Include="..\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
   </ItemGroup>
 </Project>

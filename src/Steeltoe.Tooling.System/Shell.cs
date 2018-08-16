@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Tooling.Base;
 
 namespace Steeltoe.Tooling.System
 {
     public class Shell
     {
-        private static int count = 0;
+        private static int _count;
 
         private static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<Shell>();
 
@@ -39,7 +39,7 @@ namespace Steeltoe.Tooling.System
         {
             var result = new Result()
             {
-                Id = ++count,
+                Id = ++_count,
                 Command = command,
                 Arguments = arguments,
                 WorkingDirectory = workingDirectory
@@ -55,6 +55,12 @@ namespace Steeltoe.Tooling.System
                 WorkingDirectory = result.WorkingDirectory
             };
             var proc = Process.Start(pinfo);
+            if (proc == null)
+            {
+                // TODO: better exception implementation
+                throw new Exception("OOPS, proc is null. Something bac happened.");
+            }
+
             proc.WaitForExit();
             result.ExitCode = proc.ExitCode;
             Logger.LogDebug($"[{result.Id}] exit code: {result.ExitCode}");
@@ -71,6 +77,7 @@ namespace Steeltoe.Tooling.System
             }
 
             Logger.LogDebug($"[{result.Id}] stderr: {result.Error}");
+
             return result;
         }
     }

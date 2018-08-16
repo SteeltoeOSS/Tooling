@@ -2,12 +2,10 @@
   <Import Project="..\..\versions.props" />
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <ToolCommandName>steeltoe</ToolCommandName>
-    <PackAsTool>true</PackAsTool>
-    <OutputType>exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsLoggingVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsLoggingVersion)" />
     <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
   </ItemGroup>
 </Project>

@@ -15,12 +15,11 @@
 using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
-using Steeltoe.Tooling.DotnetCli.Base.Feature;
 
 namespace Steeltoe.Tooling.DotnetCli.Feature
 {
     [Label("main")]
-    public class SetTargetFeature : DotnetCliFeatureSpecs
+    public class MainFeature : DotnetCliFeatureSpecs
     {
         [Scenario]
         [Label("help")]

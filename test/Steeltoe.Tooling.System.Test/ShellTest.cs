@@ -19,6 +19,10 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Xunit;
 
+// ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+// ReSharper disable InconsistentNaming
+
 namespace Steeltoe.Tooling.System.Test
 {
     public class ShellTest

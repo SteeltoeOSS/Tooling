@@ -29,6 +29,7 @@ namespace Steeltoe.Tooling.DotnetCli
     {
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
+        // ReSharper disable once UnusedMember.Local
         private int OnExecute(CommandLineApplication app)
         {
             app.ShowHelp();
