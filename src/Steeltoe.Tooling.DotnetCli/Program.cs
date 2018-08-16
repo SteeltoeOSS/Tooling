@@ -20,6 +20,7 @@ namespace Steeltoe.Tooling.DotnetCli
     [Subcommand("add-service", typeof(Service.AddServiceCommand))]
     [Subcommand("remove-service", typeof(Service.RemoveServiceCommand))]
     [Subcommand("list-services", typeof(Service.ListServicesCommand))]
+    [Subcommand("list-service-types", typeof(Service.ListServiceTypesCommand))]
     [Subcommand("start-service", typeof(Service.StartServiceCommand))]
     [Subcommand("stop-service", typeof(Service.StopServiceCommand))]
     [Subcommand("check-service", typeof(Service.CheckServiceCommand))]

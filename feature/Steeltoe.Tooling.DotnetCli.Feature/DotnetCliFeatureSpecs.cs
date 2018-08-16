@@ -57,11 +57,11 @@ namespace Steeltoe.Tooling.DotnetCli.Feature
             cfg.Store(ProjectDirectory);
         }
 
-        protected void a_service(string name)
+        protected void a_service(string name, string type)
         {
             Logger.LogInformation($"rigging a service '{name}'");
             var cfg = GetProjectConfiguration();
-            cfg.services.Add(name, new ToolingConfiguration.Service("foo-type"));
+            cfg.services.Add(name, new ToolingConfiguration.Service(type));
             cfg.Store(ProjectDirectory);
         }
 

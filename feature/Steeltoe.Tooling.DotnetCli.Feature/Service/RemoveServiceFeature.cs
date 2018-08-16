@@ -72,7 +72,7 @@ namespace Steeltoe.Tooling.DotnetCli.Feature.Service
         {
             Runner.RunScenario(
                 given => a_dotnet_project("remove_unknown_service"),
-                and => a_service("known-service"),
+                and => a_service("known-service", "known-service-type"),
                 when => the_developer_runs_steeltoe_command("remove-service unknown-service"),
                 then => the_command_should_fail(),
                 and => the_developer_should_see_the_error("No such service 'unknown-service'")
@@ -85,7 +85,7 @@ namespace Steeltoe.Tooling.DotnetCli.Feature.Service
             Runner.RunScenario(
                 given => a_dotnet_project("remove_known_service"),
                 and => a_target("keep-this-target"),
-                and => a_service("known-service"),
+                and => a_service("known-service", "known-service-type"),
                 when => the_developer_runs_steeltoe_command("remove-service known-service"),
                 then => the_command_should_succeed(),
                 and => the_developer_should_see("Removed service 'known-service'"),

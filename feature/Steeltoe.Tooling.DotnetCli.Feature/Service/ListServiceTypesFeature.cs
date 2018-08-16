@@ -19,42 +19,37 @@ using LightBDD.XUnit2;
 namespace Steeltoe.Tooling.DotnetCli.Feature.Service
 {
     [Label("service")]
-    public class ListServicesFeature : DotnetCliFeatureSpecs
+    public class ListServiceTypesFeature : DotnetCliFeatureSpecs
     {
         [Scenario]
         [Label("help")]
-        public void ListServicesHelp()
+        public void ListServiceTypesHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_services_help"),
-                when => the_developer_runs_steeltoe_command("list-services --help"),
+                given => a_dotnet_project("list_service_types_help"),
+                when => the_developer_runs_steeltoe_command("list-service-types --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see("List available services.")
+                and => the_developer_should_see("List available service types.")
             );
         }
 
         [Scenario]
-        public void ListServices()
+        public void ListServiceTypes()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_services"),
-                when => the_developer_runs_steeltoe_command("list-services"),
+                given => a_dotnet_project("list_service_types"),
+                when => the_developer_runs_steeltoe_command("list-service-types"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(""),
-                given => a_service("service-z", "service-type-Z"),
-                and => a_service("service-a", "service-type-A"),
-                when => the_developer_runs_steeltoe_command("list-services"),
-                then => the_command_should_succeed(),
-                and => the_developer_should_see(@"service-a\s+\(service-type-A\)\s+service-z\s\(service-type-Z\)")
+                and => the_developer_should_see("cloud-foundry-config-server")
             );
         }
 
         [Scenario]
-        public void ListServicesTooManyArgs()
+        public void ListServiceTypesTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_services_too_many_args"),
-                when => the_developer_runs_steeltoe_command("list-services arg1"),
+                given => a_dotnet_project("list_service_types_too_many_args"),
+                when => the_developer_runs_steeltoe_command("list-service-types arg1"),
                 then => the_command_should_fail(),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg1'")
             );

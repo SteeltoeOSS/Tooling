@@ -12,7 +12,7 @@ namespace Steeltoe.Tooling.DotnetCli
 
         public string target { get; set; }
 
-        public Dictionary<string, Service> services { get; set; } = new Dictionary<string, Service>();
+        public SortedDictionary<string, Service> services { get; set; } = new SortedDictionary<string, Service>();
 
         public static ToolingConfiguration Load(string path)
         {

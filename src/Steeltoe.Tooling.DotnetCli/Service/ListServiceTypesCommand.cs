@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -20,23 +19,12 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace Steeltoe.Tooling.DotnetCli.Service
 {
-    [Command(Description = "List available services.")]
-    public class ListServicesCommand : DotnetCliCommand
+    [Command(Description = "List available service types.")]
+    public class ListServiceTypesCommand : DotnetCliCommand
     {
         protected override void OnCommandExecute(CommandLineApplication app)
         {
-            try
-            {
-                var cfg = ToolingConfiguration.Load(".");
-                foreach (var entry in cfg.services)
-                {
-                    app.Out.WriteLine($"{entry.Key} ({entry.Value.type})");
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                // pass
-            }
+            app.Out.WriteLine("cloud-foundry-config-server");
         }
     }
 }
