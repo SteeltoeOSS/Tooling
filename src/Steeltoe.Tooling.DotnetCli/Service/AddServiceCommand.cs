@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 
@@ -57,6 +58,11 @@ namespace Steeltoe.Tooling.DotnetCli.Service
             catch (FileNotFoundException)
             {
                 cfg = new ToolingConfiguration();
+            }
+
+            if (cfg.services.ContainsKey(name))
+            {
+                throw new CommandException($"Service '{name}' already exists");
             }
 
             cfg.services.Add(name, new ToolingConfiguration.Service(type));

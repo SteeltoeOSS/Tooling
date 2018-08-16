@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Microsoft.Extensions.Logging;
 using YamlDotNet.Serialization;
 
 // ReSharper disable InconsistentNaming
@@ -8,6 +9,8 @@ namespace Steeltoe.Tooling.DotnetCli
 {
     public class ToolingConfiguration
     {
+        private static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<ToolingConfiguration>();
+
         public const string DefaultFileName = ".steeltoe.tooling.yml";
 
         public string target { get; set; }
@@ -17,9 +20,16 @@ namespace Steeltoe.Tooling.DotnetCli
         public static ToolingConfiguration Load(string path)
         {
             var realPath = Directory.Exists(path) ? Path.Combine(path, DefaultFileName) : path;
+            Logger.LogDebug($"loading tooling configuration from {realPath}");
             using (var reader = new StreamReader(realPath))
             {
-                return Load(reader);
+                var cfg = Load(reader);
+                if (cfg == null)
+                {
+                    cfg = new ToolingConfiguration();
+                }
+
+                return cfg;
             }
         }
 
@@ -32,6 +42,7 @@ namespace Steeltoe.Tooling.DotnetCli
         public void Store(string path)
         {
             var realPath = Directory.Exists(path) ? Path.Combine(path, DefaultFileName) : path;
+            Logger.LogDebug($"storing tooling configuration to {realPath}");
             using (var writer = new StreamWriter(realPath))
             {
                 Store(writer);

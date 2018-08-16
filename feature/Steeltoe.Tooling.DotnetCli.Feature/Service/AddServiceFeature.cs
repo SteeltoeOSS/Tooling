@@ -80,6 +80,18 @@ namespace Steeltoe.Tooling.DotnetCli.Feature.Service
         }
 
         [Scenario]
+        public void AddAlreadyExistingService()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("add_already_existing_service"),
+                and => a_service("existing-service", "existing-service-type"),
+                when => the_developer_runs_steeltoe_command("add-service existing-service -t cloud-foundry-config-server"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("Service 'existing-service' already exists")
+            );
+        }
+
+        [Scenario]
         public void AddCloudFoundryConfigServerService()
         {
             Runner.RunScenario(

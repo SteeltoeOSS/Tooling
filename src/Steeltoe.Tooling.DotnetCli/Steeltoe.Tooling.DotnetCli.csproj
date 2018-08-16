@@ -8,6 +8,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsLoggingVersion)" />
     <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
   </ItemGroup>
 </Project>
