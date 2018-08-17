@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -22,32 +23,13 @@ namespace Steeltoe.Tooling.DotnetCli.Service
     [Command(Description = "Add a service.")]
     public class AddServiceCommand : DotnetCliCommand
     {
+        [Required(ErrorMessage = "Service name not specified")]
         [Argument(0, Description = "The service name")]
         private string name { get; }
 
+        [Required(ErrorMessage = "Service type not specified")]
         [Option("-t|--type", Description = "The service type")]
         private string type { get; }
-
-        protected override void ValidateCommand()
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new CommandException("Service name not specified");
-            }
-
-            if (string.IsNullOrEmpty(type))
-            {
-                throw new CommandException("Service type not specified");
-            }
-
-            switch (type.ToLower())
-            {
-                case "cloud-foundry-config-server":
-                    break;
-                default:
-                    throw new CommandException($"Unknown service type '{type}'");
-            }
-        }
 
         protected override IDotnetCliCommand GetImplementation()
         {

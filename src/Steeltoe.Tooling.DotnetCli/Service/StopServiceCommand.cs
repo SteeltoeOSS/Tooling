@@ -22,10 +22,6 @@ namespace Steeltoe.Tooling.DotnetCli.Service
     [Command(Description = "Stop a service in the current target.")]
     public class StopServiceCommand : DotnetCliCommand
     {
-        protected override void ValidateCommand()
-        {
-        }
-
         protected override IDotnetCliCommand GetImplementation()
         {
             return new StopServiceCommandImpl();

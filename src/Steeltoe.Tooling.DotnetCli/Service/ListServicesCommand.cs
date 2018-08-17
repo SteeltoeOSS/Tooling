@@ -22,10 +22,6 @@ namespace Steeltoe.Tooling.DotnetCli.Service
     [Command(Description = "List available services.")]
     public class ListServicesCommand : DotnetCliCommand
     {
-        protected override void ValidateCommand()
-        {
-        }
-
         protected override IDotnetCliCommand GetImplementation()
         {
             return new ListServicesCommandImpl();

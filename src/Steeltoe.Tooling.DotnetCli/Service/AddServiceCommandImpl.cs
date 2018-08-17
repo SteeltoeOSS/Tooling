@@ -30,6 +30,14 @@ namespace Steeltoe.Tooling.DotnetCli.Service
 
         public void Execute(TextWriter output)
         {
+            switch (Type.ToLower())
+            {
+                case "cloud-foundry-config-server":
+                    break;
+                default:
+                    throw new CommandException($"Unknown service type '{Type}'");
+            }
+
             ToolingConfiguration cfg;
             try
             {

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -22,24 +23,9 @@ namespace Steeltoe.Tooling.DotnetCli.Target
     [Command(Description = "Set the target environment.")]
     public class SetTargetCommand : DotnetCliCommand
     {
+        [Required(ErrorMessage = "Environment not specified")]
         [Argument(0, Description = "The target environment")]
         private string environment { get; }
-
-        protected override void ValidateCommand()
-        {
-            if (string.IsNullOrEmpty(environment))
-            {
-                throw new CommandException("Environment not specified");
-            }
-
-            switch (environment.ToLower())
-            {
-                case "cloud-foundry":
-                    break;
-                default:
-                    throw new CommandException($"Unknown environment '{environment}'");
-            }
-        }
 
         protected override IDotnetCliCommand GetImplementation()
         {

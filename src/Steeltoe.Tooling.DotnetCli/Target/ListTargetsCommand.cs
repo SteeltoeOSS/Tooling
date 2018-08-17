@@ -22,10 +22,6 @@ namespace Steeltoe.Tooling.DotnetCli.Target
     [Command(Description = "List available target environments.")]
     public class ListTargetsCommand : DotnetCliCommand
     {
-        protected override void ValidateCommand()
-        {
-        }
-
         protected override IDotnetCliCommand GetImplementation()
         {
             return new ListTargetsCommandImpl();

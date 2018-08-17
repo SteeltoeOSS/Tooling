@@ -22,10 +22,6 @@ namespace Steeltoe.Tooling.DotnetCli.Service
     [Command(Description = "Check a service in the current target.")]
     public class CheckServiceCommand : DotnetCliCommand
     {
-        protected override void ValidateCommand()
-        {
-        }
-
         protected override IDotnetCliCommand GetImplementation()
         {
             return new CheckServiceCommandImpl();

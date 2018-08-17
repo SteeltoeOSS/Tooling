@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -22,16 +23,9 @@ namespace Steeltoe.Tooling.DotnetCli.Service
     [Command(Description = "Remove a service.")]
     public class RemoveServiceCommand : DotnetCliCommand
     {
+        [Required(ErrorMessage = "Service name not specified")]
         [Argument(0, Description = "The service name")]
         private string name { get; }
-
-        protected override void ValidateCommand()
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new CommandException("Service name not specified");
-            }
-        }
 
         protected override IDotnetCliCommand GetImplementation()
         {

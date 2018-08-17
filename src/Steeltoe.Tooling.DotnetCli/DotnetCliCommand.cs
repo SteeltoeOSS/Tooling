@@ -22,7 +22,6 @@ namespace Steeltoe.Tooling.DotnetCli
         {
             try
             {
-                ValidateCommand();
                 GetImplementation().Execute(app.Out);
             }
             catch (CommandException e)
@@ -34,8 +33,6 @@ namespace Steeltoe.Tooling.DotnetCli
 
             return 0;
         }
-
-        protected abstract void ValidateCommand();
 
         protected abstract IDotnetCliCommand GetImplementation();
     }

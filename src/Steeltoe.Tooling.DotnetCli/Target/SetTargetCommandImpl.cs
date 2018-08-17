@@ -27,6 +27,14 @@ namespace Steeltoe.Tooling.DotnetCli.Target
 
         public void Execute(TextWriter output)
         {
+            switch (Environment.ToLower())
+            {
+                case "cloud-foundry":
+                    break;
+                default:
+                    throw new CommandException($"Unknown environment '{Environment}'");
+            }
+
             var cfg = new ToolingConfiguration();
             cfg.target = Environment;
             cfg.Store(".");
