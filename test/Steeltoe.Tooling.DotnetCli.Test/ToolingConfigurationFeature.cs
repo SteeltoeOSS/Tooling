@@ -27,7 +27,7 @@ namespace Steeltoe.Tooling.DotnetCli.Test
                 when => the_target_is_set("myTarget"),
                 and => a_service_is_added("myService", "myServiceType"),
                 and => the_tooling_configuration_is_stored(),
-                then => the_stored_content_should_be("target: myTarget\nservices:\n  myService:\n    type: myServiceType\n")
+                then => the_stored_content_should_be(SAMPLE_CONFIG)
             );
         }
 
@@ -35,11 +35,17 @@ namespace Steeltoe.Tooling.DotnetCli.Test
         public void LoadFromStream()
         {
             Runner.RunScenario(
-                given => a_stream_containing("target: myTarget\nservices:\n  myService:\n    type: myServiceType\n"),
+                given => a_stream_containing(SAMPLE_CONFIG),
                 when => the_tooling_configuration_is_loaded(),
                 then => the_target_should_be("myTarget"),
                 and => a_service_should_be("myService", "myServiceType")
             );
         }
+
+        private const string SAMPLE_CONFIG = @"target: myTarget
+services:
+  myService:
+    type: myServiceType
+";
     }
 }
