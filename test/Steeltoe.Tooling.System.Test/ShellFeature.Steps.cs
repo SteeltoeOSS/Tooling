@@ -16,7 +16,6 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using LightBDD.XUnit2;
-using Microsoft.Extensions.Logging;
 using Shouldly;
 
 namespace Steeltoe.Tooling.System.Test
