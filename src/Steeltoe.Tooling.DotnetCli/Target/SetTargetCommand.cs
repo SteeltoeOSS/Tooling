@@ -20,16 +20,16 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace Steeltoe.Tooling.DotnetCli.Target
 {
-    [Command(Description = "Set the target environment.")]
+    [Command(Description = "Set the target environment type.")]
     public class SetTargetCommand : DotnetCliCommand
     {
-        [Required(ErrorMessage = "Environment not specified")]
-        [Argument(0, Description = "The target environment")]
-        private string environment { get; }
+        [Required(ErrorMessage = "Environment type not specified")]
+        [Option("-t|--type", Description = "The environment type")]
+        private string type { get; }
 
         protected override IDotnetCliCommand GetImplementation()
         {
-            return new SetTargetCommandImpl(environment);
+            return new SetTargetCommandImpl(type);
         }
     }
 }

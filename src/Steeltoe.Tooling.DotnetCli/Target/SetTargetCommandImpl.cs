@@ -32,13 +32,13 @@ namespace Steeltoe.Tooling.DotnetCli.Target
                 case "cloud-foundry":
                     break;
                 default:
-                    throw new CommandException($"Unknown environment '{Environment}'");
+                    throw new CommandException($"Unknown environment type '{Environment}'");
             }
 
             var cfg = new ToolingConfiguration();
             cfg.target = Environment;
             cfg.Store(".");
-            output.WriteLine($"Target set to '{Environment}'.");
+            output.WriteLine($"Target environment type set to '{Environment}'.");
         }
     }
 }

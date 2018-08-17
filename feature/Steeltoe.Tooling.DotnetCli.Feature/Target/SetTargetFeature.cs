@@ -29,19 +29,19 @@ namespace Steeltoe.Tooling.DotnetCli.Feature.Target
                 given => a_dotnet_project("set_target_help"),
                 when => the_developer_runs_steeltoe_command("set-target --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see("Set the target environment."),
-                and => the_developer_should_see(@"environment\s+The target environment")
+                and => the_developer_should_see("Set the target environment type."),
+                and => the_developer_should_see(@"-t\|--type\s+The environment type")
             );
         }
 
         [Scenario]
-        public void SetTargetNotEnoughArgs()
+        public void SetTargetMissingType()
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_target_not_enough_args"),
                 when => the_developer_runs_steeltoe_command("set-target"),
                 then => the_command_should_fail(),
-                and => the_developer_should_see_the_error("Environment not specified")
+                and => the_developer_should_see_the_error("Environment type not specified")
             );
         }
 
@@ -50,31 +50,31 @@ namespace Steeltoe.Tooling.DotnetCli.Feature.Target
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_target_too_many_args"),
-                when => the_developer_runs_steeltoe_command("set-target arg1 arg2"),
+                when => the_developer_runs_steeltoe_command("set-target arg1"),
                 then => the_command_should_fail(),
-                and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
+                and => the_developer_should_see_the_error("Unrecognized command or argument 'arg1'")
             );
         }
 
         [Scenario]
-        public void SetUnknownTarget()
+        public void SetUnknownTargetType()
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_unknown_environment"),
-                when => the_developer_runs_steeltoe_command("set-target no-such-environment"),
+                when => the_developer_runs_steeltoe_command("set-target --type no-such-environment"),
                 then => the_command_should_fail(),
-                and => the_developer_should_see_the_error("Unknown environment 'no-such-environment'")
+                and => the_developer_should_see_the_error("Unknown environment type 'no-such-environment'")
             );
         }
 
         [Scenario]
-        public void SetCloudFoundryTarget()
+        public void SetCloudFoundryTargetType()
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_cloud_foundry_target"),
-                when => the_developer_runs_steeltoe_command("set-target cloud-foundry"),
+                when => the_developer_runs_steeltoe_command("set-target --type cloud-foundry"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see("Target set to 'cloud-foundry'."),
+                and => the_developer_should_see("Target environment type set to 'cloud-foundry'."),
                 and => the_target_config_should_exist("cloud-foundry")
             );
         }
