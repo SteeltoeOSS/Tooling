@@ -133,7 +133,6 @@ namespace Steeltoe.Tooling.DotnetCli.Feature
             try
             {
                 return ToolingConfiguration.Load(ProjectDirectory);
-
             }
             catch (FileNotFoundException)
             {
