@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Steeltoe.Tooling.DotnetCli
 {
     [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
+    [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]
     [Subcommand("add-service", typeof(Service.AddServiceCommand))]
     [Subcommand("remove-service", typeof(Service.RemoveServiceCommand))]
     [Subcommand("list-services", typeof(Service.ListServicesCommand))]
@@ -30,11 +32,14 @@ namespace Steeltoe.Tooling.DotnetCli
     {
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
+        public static string GetVersion()
+            => typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+
         // ReSharper disable once UnusedMember.Local
         private int OnExecute(CommandLineApplication app)
         {
             app.ShowHelp();
-            return 0;
+            return 1;
         }
     }
 }

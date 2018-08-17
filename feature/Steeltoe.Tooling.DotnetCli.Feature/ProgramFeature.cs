@@ -18,12 +18,12 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.DotnetCli.Feature
 {
-    [Label("main")]
-    public class MainFeature : DotnetCliFeatureSpecs
+    [Label("program")]
+    public class ProgramFeature : DotnetCliFeatureSpecs
     {
         [Scenario]
         [Label("help")]
-        public void MainHelp()
+        public void ProgramHelp()
         {
             Runner.RunScenario(
                 given => a_dotnet_project("main_help"),
@@ -43,12 +43,24 @@ namespace Steeltoe.Tooling.DotnetCli.Feature
         }
 
         [Scenario]
-        public void MainNoArgs()
+        public void ProgramNoArgs()
         {
             Runner.RunScenario(
                 given => a_dotnet_project("main_no_args"),
                 when => the_developer_runs_steeltoe_command(""),
-                then => the_command_should_succeed()
+                then => the_command_should_fail(),
+                and => the_developer_should_see(@"Usage: steeltoe \[options\] \[command\]")
+            );
+        }
+
+        [Scenario]
+        public void ProgramVersion()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("main_version"),
+                when => the_developer_runs_steeltoe_command("--version"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("1.0.0")
             );
         }
     }
