@@ -26,7 +26,7 @@ namespace Steeltoe.Tooling.System.Test
 
         private static readonly string ErrorCommand;
 
-        private Shell.Result Result { get; set; }
+        private Shell.Result _result;
 
         static ShellFeature()
         {
@@ -75,17 +75,17 @@ namespace Steeltoe.Tooling.System.Test
 
         protected void the_command_is_run(string command)
         {
-            Result = Shell.Run(command);
+            _result = Shell.Run(command);
         }
 
         protected void the_command_is_run_with_args(string command, string args)
         {
-            Result = Shell.Run(command, args);
+            _result = Shell.Run(command, args);
         }
 
         protected void the_command_is_run_with_working_directory(string command, string path)
         {
-            Result = Shell.Run(command, workingDirectory: path);
+            _result = Shell.Run(command, workingDirectory: path);
         }
 
         //
@@ -94,22 +94,22 @@ namespace Steeltoe.Tooling.System.Test
 
         protected void the_command_should_succeed()
         {
-            Result.ExitCode.ShouldBe(0);
+            _result.ExitCode.ShouldBe(0);
         }
 
         protected void the_command_should_fail()
         {
-            Result.ExitCode.ShouldNotBe(0);
+            _result.ExitCode.ShouldNotBe(0);
         }
 
         protected void the_command_output_should_not_be_empty()
         {
-            Result.Out.ShouldNotBeNullOrEmpty();
+            _result.Out.ShouldNotBeNullOrEmpty();
         }
 
         protected void the_command_output_should_contain(string text)
         {
-            Result.Out.ShouldContain(text);
+            _result.Out.ShouldContain(text);
         }
     }
 }

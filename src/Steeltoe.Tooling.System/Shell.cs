@@ -20,7 +20,7 @@ namespace Steeltoe.Tooling.System
 {
     public class Shell
     {
-        private static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<Shell>();
+        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Shell>();
 
         private static int _count;
 

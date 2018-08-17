@@ -9,13 +9,13 @@ namespace Steeltoe.Tooling.DotnetCli
 {
     public class ToolingConfiguration
     {
-        private static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<ToolingConfiguration>();
+        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ToolingConfiguration>();
 
         public const string DefaultFileName = ".steeltoe.tooling.yml";
 
         public string target { get; set; }
 
-        public SortedDictionary<string, Service> services { get; set; } = new SortedDictionary<string, Service>();
+        public SortedDictionary<string, Service> services { get; set;  } = new SortedDictionary<string, Service>();
 
         public static ToolingConfiguration Load(string path)
         {

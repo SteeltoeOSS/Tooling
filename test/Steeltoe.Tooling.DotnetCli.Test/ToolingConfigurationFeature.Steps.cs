@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using LightBDD.XUnit2;
 using Shouldly;
 
@@ -22,11 +20,11 @@ namespace Steeltoe.Tooling.DotnetCli.Test
 {
     public partial class ToolingConfigurationFeature : FeatureFixture
     {
-        private ToolingConfiguration Config { get; set; }
+        private ToolingConfiguration _config;
 
-        private StringWriter ostream;
+        private StringWriter _ostream;
 
-        private StringReader istream;
+        private StringReader _istream;
 
         //
         // Givens
@@ -34,12 +32,12 @@ namespace Steeltoe.Tooling.DotnetCli.Test
 
         private void a_tooling_configuration()
         {
-            Config = new ToolingConfiguration();
+            _config = new ToolingConfiguration();
         }
 
         private void a_stream_containing(string text)
         {
-            istream = new StringReader(text);
+            _istream = new StringReader(text);
         }
 
         //
@@ -48,23 +46,23 @@ namespace Steeltoe.Tooling.DotnetCli.Test
 
         private void the_target_is_set(string name)
         {
-            Config.target = name;
+            _config.target = name;
         }
 
         private void a_service_is_added(string name, string type)
         {
-            Config.services.Add(name, new ToolingConfiguration.Service(type));
+            _config.services.Add(name, new ToolingConfiguration.Service(type));
         }
 
         private void the_tooling_configuration_is_stored()
         {
-            ostream = new StringWriter();
-            Config.Store(ostream);
+            _ostream = new StringWriter();
+            _config.Store(_ostream);
         }
 
         private void the_tooling_configuration_is_loaded()
         {
-            Config = ToolingConfiguration.Load(istream);
+            _config = ToolingConfiguration.Load(_istream);
         }
 
         //
@@ -73,18 +71,18 @@ namespace Steeltoe.Tooling.DotnetCli.Test
 
         private void the_stored_content_should_be(string content)
         {
-            ostream.ToString().ShouldBe(content);
+            _ostream.ToString().ShouldBe(content);
         }
 
         private void the_target_should_be(string name)
         {
-            Config.target.ShouldBe(name);
+            _config.target.ShouldBe(name);
         }
 
         private void a_service_should_be(string name, string type)
         {
-            Config.services.ShouldContainKey(name);
-            Config.services[name].type.ShouldBe(type);
+            _config.services.ShouldContainKey(name);
+            _config.services[name].type.ShouldBe(type);
         }
     }
 }
