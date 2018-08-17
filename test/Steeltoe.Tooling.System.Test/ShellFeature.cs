@@ -14,6 +14,7 @@
 
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
+using System.IO;
 
 namespace Steeltoe.Tooling.System.Test
 {
@@ -32,10 +33,10 @@ namespace Steeltoe.Tooling.System.Test
         [Scenario]
         public void RunCommandWithArgs()
         {
-            const string sandbox = "sandboxes/run_command_with_args";
+            string sandbox = Path.Combine("sandboxes", "run_command_with_args");
             Runner.RunScenario(
                 given => a_directory(sandbox),
-                and => a_file($"{sandbox}/aFile"),
+                and => a_file(Path.Combine(sandbox, "aFile")),
                 when => the_command_is_run_with_args(ListCommand, sandbox),
                 then => the_command_should_succeed(),
                 and => the_command_output_should_contain("aFile")
@@ -45,10 +46,10 @@ namespace Steeltoe.Tooling.System.Test
         [Scenario]
         public void RunCommandWithWorkingDirectory()
         {
-            const string sandbox = "sandboxes/run_command_with_working_directory";
+            string sandbox = Path.Combine("sandboxes", "run_command_with_working_directory");
             Runner.RunScenario(
                 given => a_directory(sandbox),
-                and => a_file($"{sandbox}/aFile"),
+                and => a_file(Path.Combine(sandbox, "aFile")),
                 when => the_command_is_run_with_working_directory(ListCommand, sandbox),
                 then => the_command_should_succeed(),
                 and => the_command_output_should_contain("aFile")
