@@ -18,10 +18,13 @@ namespace Steeltoe.Tooling.DotnetCli.Target
 {
     public class SetTargetCommandImpl : IDotnetCliCommand
     {
+        public ToolingConfiguration Config { get; }
+
         private string Environment { get; }
 
-        public SetTargetCommandImpl(string environment)
+        public SetTargetCommandImpl(ToolingConfiguration config, string environment)
         {
+            Config = config;
             Environment = environment;
         }
 
@@ -35,9 +38,8 @@ namespace Steeltoe.Tooling.DotnetCli.Target
                     throw new CommandException($"Unknown environment type '{Environment}'");
             }
 
-            var cfg = new ToolingConfiguration();
-            cfg.target = Environment;
-            cfg.Store(".");
+            Config.target = Environment;
+            Config.Store(".");
             output.WriteLine($"Target environment type set to '{Environment}'.");
         }
     }

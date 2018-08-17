@@ -18,7 +18,7 @@ using Shouldly;
 
 namespace Steeltoe.Tooling.DotnetCli.Test
 {
-    public partial class ToolingConfigurationFeature : FeatureFixture
+    public partial class ToolingConfigurationTest : FeatureFixture
     {
         private ToolingConfiguration _config;
 

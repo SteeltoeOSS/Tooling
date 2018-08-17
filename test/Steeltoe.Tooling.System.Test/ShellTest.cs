@@ -18,7 +18,7 @@ using System.IO;
 
 namespace Steeltoe.Tooling.System.Test
 {
-    public partial class ShellFeature
+    public partial class ShellTest
     {
         [Scenario]
         public void RunCommand()

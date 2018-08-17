@@ -20,7 +20,7 @@ using Shouldly;
 
 namespace Steeltoe.Tooling.System.Test
 {
-    public partial class ShellFeature : FeatureFixture
+    public partial class ShellTest : FeatureFixture
     {
         private static readonly string ListCommand;
 
@@ -28,7 +28,7 @@ namespace Steeltoe.Tooling.System.Test
 
         private Shell.Result _result;
 
-        static ShellFeature()
+        static ShellTest()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

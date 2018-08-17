@@ -29,7 +29,7 @@ namespace Steeltoe.Tooling.DotnetCli.Target
 
         protected override IDotnetCliCommand GetImplementation()
         {
-            return new SetTargetCommandImpl(type);
+            return new SetTargetCommandImpl(new ToolingConfiguration(), type);
         }
     }
 }
