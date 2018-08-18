@@ -19,12 +19,19 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Target
 {
     public partial class SetTargetExecutorTest : CliFeatureFixture
     {
-
         private void set_target_is_run(string name)
         {
-            Executor = new SetTargetExecutor(Config, name);
-            OutStream = new StringWriter();
-            Executor.Execute(OutStream);
+            Exception = null;
+            try
+            {
+                Executor = new SetTargetExecutor(Config, name);
+                OutStream = new StringWriter();
+                Executor.Execute(OutStream);
+            }
+            catch (CommandException e)
+            {
+                Exception = e;
+            }
         }
     }
 }

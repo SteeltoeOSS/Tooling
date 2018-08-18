@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
 using LightBDD.XUnit2;
 using Shouldly;
@@ -22,7 +23,7 @@ namespace Steeltoe.Tooling.Cli.Test
     {
         protected IExecutor Executor { get; set; }
 
-//        protected ToolingConfiguration Config { get; set; }
+        protected Exception Exception { get; set; }
 
         protected ToolingConfiguration Config { get; set; }
 
@@ -38,6 +39,10 @@ namespace Steeltoe.Tooling.Cli.Test
             OutStream = new StringWriter();
         }
 
+        //
+        // Thens
+        //
+
         protected void the_output_should_be(string text)
         {
             OutStream.ToString().Trim().ShouldBe(text);
@@ -46,6 +51,12 @@ namespace Steeltoe.Tooling.Cli.Test
         protected void the_target_should_be(string name)
         {
             Config.target.ShouldBe(name);
+        }
+
+        protected void an_exception_should_be_thrown<T>(string message)
+        {
+            Exception.ShouldBeOfType<T>();
+            Exception.Message.ShouldBe(message);
         }
     }
 }

@@ -20,7 +20,17 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Target
     public partial class SetTargetExecutorTest
     {
         [Scenario]
-        public void RunCommand()
+        public void SetUnknownTarget()
+        {
+            Runner.RunScenario(
+                given => a_project(),
+                when => set_target_is_run("unknown-environment"),
+                then => an_exception_should_be_thrown<CommandException>("Unknown environment 'unknown-environment'")
+            );
+        }
+
+        [Scenario]
+        public void SetTargetToCloudFoundry()
         {
             Runner.RunScenario(
                 given => a_project(),
