@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Cli
 {
     public static class Logging
     {

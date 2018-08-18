@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 using LightBDD.XUnit2;
 using Shouldly;
 
-namespace Steeltoe.Tooling.System.Test
+namespace Steeltoe.Tooling.Cli.Test
 {
     public partial class ShellTest : FeatureFixture
     {

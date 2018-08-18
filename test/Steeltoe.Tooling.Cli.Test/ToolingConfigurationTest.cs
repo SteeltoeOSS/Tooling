@@ -15,7 +15,7 @@
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.Test
+namespace Steeltoe.Tooling.Cli.Test
 {
     public partial class ToolingConfigurationTest
     {

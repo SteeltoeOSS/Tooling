@@ -16,7 +16,7 @@ using System.IO;
 using LightBDD.XUnit2;
 using Shouldly;
 
-namespace Steeltoe.Tooling.Test
+namespace Steeltoe.Tooling.Cli.Test
 {
     public partial class ToolingConfigurationTest : FeatureFixture
     {

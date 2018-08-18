@@ -16,7 +16,6 @@ using System.IO;
 using LightBDD.XUnit2;
 using Microsoft.Extensions.Logging;
 using Shouldly;
-using Steeltoe.Tooling.System;
 
 namespace Steeltoe.Tooling.Cli.Feature
 {

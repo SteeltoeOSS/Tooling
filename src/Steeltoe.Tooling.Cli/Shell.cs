@@ -16,7 +16,7 @@ using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
-namespace Steeltoe.Tooling.System
+namespace Steeltoe.Tooling.Cli
 {
     public class Shell
     {

@@ -19,7 +19,7 @@ using YamlDotNet.Serialization;
 
 // ReSharper disable InconsistentNaming
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Cli
 {
     public class ToolingConfiguration
     {
