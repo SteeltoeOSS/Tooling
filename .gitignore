@@ -268,3 +268,6 @@ __pycache__/
 
 # test files
 \.steeltoe.tooling.yml
+
+# OS X Finder state
+\.DS_Store
