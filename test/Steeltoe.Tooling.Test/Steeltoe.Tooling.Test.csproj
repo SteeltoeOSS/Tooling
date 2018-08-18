@@ -16,10 +16,6 @@
     <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Steeltoe.Tooling.DotnetCli\Steeltoe.Tooling.DotnetCli.csproj" />
-    <ProjectReference Include="..\..\src\Steeltoe.Tooling.System\Steeltoe.Tooling.System.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Executors" />
+    <ProjectReference Include="..\..\src\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
   </ItemGroup>
 </Project>

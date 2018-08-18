@@ -6,7 +6,9 @@ namespace Steeltoe.Tooling.DotnetCli.Test
 {
     public class DotnetCliFeatureFixture : FeatureFixture
     {
-        protected IDotnetCliCommand Command { get; set; }
+        protected IExecutor Executor { get; set; }
+
+//        protected ToolingConfiguration Config { get; set; }
 
         protected ToolingConfiguration Config { get; set; }
 
@@ -16,7 +18,7 @@ namespace Steeltoe.Tooling.DotnetCli.Test
         // Givens
         //
 
-        protected void a_tooling_configuration()
+        protected void a_project()
         {
             Config = new ToolingConfiguration();
             OutStream = new StringWriter();

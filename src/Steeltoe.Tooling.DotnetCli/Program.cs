@@ -14,20 +14,21 @@
 
 using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling.DotnetCli.Commands;
 
 namespace Steeltoe.Tooling.DotnetCli
 {
     [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
     [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]
-    [Subcommand("add-service", typeof(Service.AddServiceCommand))]
-    [Subcommand("remove-service", typeof(Service.RemoveServiceCommand))]
-    [Subcommand("list-services", typeof(Service.ListServicesCommand))]
-    [Subcommand("list-service-types", typeof(Service.ListServiceTypesCommand))]
-    [Subcommand("start-service", typeof(Service.StartServiceCommand))]
-    [Subcommand("stop-service", typeof(Service.StopServiceCommand))]
-    [Subcommand("check-service", typeof(Service.CheckServiceCommand))]
-    [Subcommand("set-target", typeof(Target.SetTargetCommand))]
-    [Subcommand("list-targets", typeof(Target.ListTargetsCommand))]
+    [Subcommand("add-service", typeof(AddServiceCommand))]
+    [Subcommand("remove-service", typeof(RemoveServiceCommand))]
+    [Subcommand("list-services", typeof(ListServicesCommand))]
+    [Subcommand("list-service-types", typeof(ListServiceTypesCommand))]
+    [Subcommand("start-service", typeof(StartServiceCommand))]
+    [Subcommand("stop-service", typeof(StopServiceCommand))]
+    [Subcommand("check-service", typeof(CheckServiceCommand))]
+    [Subcommand("set-target", typeof(SetTargetCommand))]
+    [Subcommand("list-targets", typeof(ListTargetsCommand))]
     class Program
     {
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);

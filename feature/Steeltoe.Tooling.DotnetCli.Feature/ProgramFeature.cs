@@ -30,15 +30,15 @@ namespace Steeltoe.Tooling.DotnetCli.Feature
                 when => the_developer_runs_steeltoe_command("--help"),
                 then => the_command_should_succeed(),
                 and => the_developer_should_see("Steeltoe Developer Tools"),
-                and => the_developer_should_see(@"add-service\s+Add a service."),
-                and => the_developer_should_see(@"check-service\s+Check a service in the current target."),
-                and => the_developer_should_see(@"list-service-types\s+List available service types."),
-                and => the_developer_should_see(@"list-services\s+List available services."),
-                and => the_developer_should_see(@"list-targets\s+List available target environments."),
-                and => the_developer_should_see(@"remove-service\s+Remove a service."),
-                and => the_developer_should_see(@"set-target\s+Set the target environment."),
-                and => the_developer_should_see(@"start-service\s+Start a service in the current target."),
-                and => the_developer_should_see(@"stop-service\s+Stop a service in the current target.")
+                and => the_developer_should_see(@"add-service\s+Add a service\."),
+                and => the_developer_should_see(@"check-service\s+Check a service in the current target\."),
+                and => the_developer_should_see(@"list-service-types\s+List available service types\."),
+                and => the_developer_should_see(@"list-services\s+List available services\."),
+                and => the_developer_should_see(@"list-targets\s+List available target environments\."),
+                and => the_developer_should_see(@"remove-service\s+Remove a service\."),
+                and => the_developer_should_see(@"set-target\s+Set the target environment\."),
+                and => the_developer_should_see(@"start-service\s+Start a service in the current target\."),
+                and => the_developer_should_see(@"stop-service\s+Stop a service in the current target\.")
             );
         }
 

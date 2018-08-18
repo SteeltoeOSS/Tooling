@@ -14,4 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Executors" />
+  </ItemGroup>
 </Project>
