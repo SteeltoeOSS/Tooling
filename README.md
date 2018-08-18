@@ -44,11 +44,11 @@ Run all feature test suites:
 Install:
 ```
 > dotnet pack
-> dotnet tool install --global Steeltoe.Tooling.DotnetCli --add-source src/Steeltoe.Tooling.DotnetCli/bin/Debug 
+> dotnet tool install --global Steeltoe.Tooling.Cli --add-source src/Steeltoe.Tooling.Cli/bin/Debug 
 ```
 
 Uninstall:
 ```
-> dotnet tool uninstall --global Steeltoe.Tooling.DotnetCli
+> dotnet tool uninstall --global Steeltoe.Tooling.Cli
 ```
 

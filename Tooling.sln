@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.System", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.System.Test", "test\Steeltoe.Tooling.System.Test\Steeltoe.Tooling.System.Test.csproj", "{BEC68D56-CA5C-4161-B581-5FD1D2E267C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli", "src\Steeltoe.Tooling.DotnetCli\Steeltoe.Tooling.DotnetCli.csproj", "{51D148CB-D7E1-453F-9EC7-2381294C29A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.Cli", "src\Steeltoe.Tooling.Cli\Steeltoe.Tooling.Cli.csproj", "{51D148CB-D7E1-453F-9EC7-2381294C29A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{E2FA27BE-FEBF-44C5-8C96-8541D638B641}"
 	ProjectSection(SolutionItems) = preProject
@@ -49,9 +49,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{7947B402-D36D-
 		.travis.yml = .travis.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Feature", "feature\Steeltoe.Tooling.DotnetCli.Feature\Steeltoe.Tooling.DotnetCli.Feature.csproj", "{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.Cli.Feature", "feature\Steeltoe.Tooling.Cli.Feature\Steeltoe.Tooling.Cli.Feature.csproj", "{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.DotnetCli.Test", "test\Steeltoe.Tooling.DotnetCli.Test\Steeltoe.Tooling.DotnetCli.Test.csproj", "{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.Cli.Test", "test\Steeltoe.Tooling.Cli.Test\Steeltoe.Tooling.Cli.Test.csproj", "{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling", "src\Steeltoe.Tooling\Steeltoe.Tooling.csproj", "{1F092B9B-98F2-4EDA-83BD-55E9AA9F7684}"
 EndProject
