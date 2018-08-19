@@ -22,7 +22,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
         {
             try
             {
-                var cfg = ToolingConfiguration.Load(".");
+                var cfg = Configuration.Load(".");
                 foreach (var entry in cfg.services)
                 {
                     output.WriteLine($"{entry.Key} ({entry.Value.type})");

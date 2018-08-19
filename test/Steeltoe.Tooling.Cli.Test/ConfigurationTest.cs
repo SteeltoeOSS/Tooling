@@ -17,7 +17,7 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.Cli.Test
 {
-    public partial class ToolingConfigurationTest
+    public partial class ConfigurationTest
     {
         [Scenario]
         public void StoreToStream()

@@ -18,13 +18,13 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
 {
     public class AddServiceExecutor : IExecutor
     {
-        private ToolingConfiguration Config { get; }
+        private Configuration Config { get; }
 
         private string Name { get; }
 
         private string Type { get; }
 
-        public AddServiceExecutor(ToolingConfiguration config, string name, string type)
+        public AddServiceExecutor(Configuration config, string name, string type)
         {
             Config = config;
             Name = name;
@@ -46,7 +46,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
                     throw new CommandException($"Unknown service type '{Type}'");
             }
 
-            Config.services.Add(Name, new ToolingConfiguration.Service(Type));
+            Config.services.Add(Name, new Configuration.Service(Type));
             Config.Store(".");
             output.WriteLine($"Added {Type} service '{Name}'");
         }

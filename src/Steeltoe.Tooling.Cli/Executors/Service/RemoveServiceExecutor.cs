@@ -29,7 +29,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
         {
             try
             {
-                var cfg = ToolingConfiguration.Load(".");
+                var cfg = Configuration.Load(".");
                 if (cfg.services.ContainsKey(Name))
                 {
                     cfg.services.Remove(Name);

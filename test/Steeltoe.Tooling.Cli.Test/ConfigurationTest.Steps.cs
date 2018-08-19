@@ -18,9 +18,9 @@ using Shouldly;
 
 namespace Steeltoe.Tooling.Cli.Test
 {
-    public partial class ToolingConfigurationTest : FeatureFixture
+    public partial class ConfigurationTest : FeatureFixture
     {
-        private ToolingConfiguration _config;
+        private Configuration _config;
 
         private StringWriter _ostream;
 
@@ -32,7 +32,7 @@ namespace Steeltoe.Tooling.Cli.Test
 
         private void a_tooling_configuration()
         {
-            _config = new ToolingConfiguration();
+            _config = new Configuration();
         }
 
         private void a_stream_containing(string text)
@@ -51,7 +51,7 @@ namespace Steeltoe.Tooling.Cli.Test
 
         private void a_service_is_added(string name, string type)
         {
-            _config.services.Add(name, new ToolingConfiguration.Service(type));
+            _config.services.Add(name, new Configuration.Service(type));
         }
 
         private void the_tooling_configuration_is_stored()
@@ -62,7 +62,7 @@ namespace Steeltoe.Tooling.Cli.Test
 
         private void the_tooling_configuration_is_loaded()
         {
-            _config = ToolingConfiguration.Load(_istream);
+            _config = Configuration.Load(_istream);
         }
 
         //

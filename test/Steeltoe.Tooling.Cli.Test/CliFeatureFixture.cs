@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Cli.Test
 
         protected Exception Exception { get; set; }
 
-        protected ToolingConfiguration Config { get; set; }
+        protected Configuration Config { get; set; }
 
         protected TextWriter OutStream { get; set; }
 
@@ -34,13 +34,13 @@ namespace Steeltoe.Tooling.Cli.Test
 
         protected void a_project()
         {
-            Config = new ToolingConfiguration();
+            Config = new Configuration();
             OutStream = new StringWriter();
         }
 
         protected void a_service(string name, string type)
         {
-            Config.services.Add(name, new ToolingConfiguration.Service(type));
+            Config.services.Add(name, new Configuration.Service(type));
         }
 
         //

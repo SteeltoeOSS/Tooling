@@ -21,9 +21,9 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.Cli
 {
-    public class ToolingConfiguration
+    public class Configuration
     {
-        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ToolingConfiguration>();
+        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Configuration>();
 
         public const string DefaultFileName = ".steeltoe.tooling.yml";
 
@@ -31,13 +31,13 @@ namespace Steeltoe.Tooling.Cli
 
         public SortedDictionary<string, Service> services { get; set; } = new SortedDictionary<string, Service>();
 
-        public static ToolingConfiguration Load()
+        public static Configuration Load()
         {
             var configFile = Path.Combine(Directory.GetCurrentDirectory(), DefaultFileName);
-            return File.Exists(configFile) ? Load(configFile) : new ToolingConfiguration();
+            return File.Exists(configFile) ? Load(configFile) : new Configuration();
         }
 
-        public static ToolingConfiguration Load(string path)
+        public static Configuration Load(string path)
         {
             if (Directory.Exists(path))
             {
@@ -51,10 +51,10 @@ namespace Steeltoe.Tooling.Cli
             }
         }
 
-        public static ToolingConfiguration Load(TextReader reader)
+        public static Configuration Load(TextReader reader)
         {
             var deserializer = new DeserializerBuilder().Build();
-            return deserializer.Deserialize<ToolingConfiguration>(reader);
+            return deserializer.Deserialize<Configuration>(reader);
         }
 
         public void Store(string path)

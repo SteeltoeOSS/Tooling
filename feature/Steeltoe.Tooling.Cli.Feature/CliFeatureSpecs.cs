@@ -60,7 +60,7 @@ namespace Steeltoe.Tooling.Cli.Feature
         {
             Logger.LogInformation($"rigging a service '{name}'");
             var cfg = GetProjectConfiguration();
-            cfg.services.Add(name, new ToolingConfiguration.Service(type));
+            cfg.services.Add(name, new Configuration.Service(type));
             cfg.Store(ProjectDirectory);
         }
 
@@ -106,14 +106,14 @@ namespace Steeltoe.Tooling.Cli.Feature
         protected void the_target_config_should_exist(string name)
         {
             Logger.LogInformation($"checking the target config '{name}' exists");
-            var cfg = ToolingConfiguration.Load(ProjectDirectory);
+            var cfg = Configuration.Load(ProjectDirectory);
             cfg.target.ShouldBe(name);
         }
 
         protected void the_service_config_should_exist(string name, string type)
         {
             Logger.LogInformation($"checking the service config '{name}' exists");
-            var cfg = ToolingConfiguration.Load(ProjectDirectory);
+            var cfg = Configuration.Load(ProjectDirectory);
             cfg.services.ShouldContainKey(name);
             cfg.services[name].type.ShouldBe(type);
         }
@@ -121,21 +121,21 @@ namespace Steeltoe.Tooling.Cli.Feature
         protected void the_service_config_should_not_exist(string name)
         {
             Logger.LogInformation($"checking the service config '{name}' does not exist");
-            var cfg = ToolingConfiguration.Load(ProjectDirectory);
+            var cfg = Configuration.Load(ProjectDirectory);
             cfg.services.ShouldNotContainKey(name);
         }
 
         // utilities
 
-        private ToolingConfiguration GetProjectConfiguration()
+        private Configuration GetProjectConfiguration()
         {
             try
             {
-                return ToolingConfiguration.Load(ProjectDirectory);
+                return Configuration.Load(ProjectDirectory);
             }
             catch (FileNotFoundException)
             {
-                return new ToolingConfiguration();
+                return new Configuration();
             }
         }
     }
