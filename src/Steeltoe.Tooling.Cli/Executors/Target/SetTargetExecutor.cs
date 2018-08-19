@@ -18,7 +18,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
 {
     public class SetTargetExecutor : IExecutor
     {
-        public ToolingConfiguration Config { get; }
+        private ToolingConfiguration Config { get; }
 
         private string Environment { get; }
 

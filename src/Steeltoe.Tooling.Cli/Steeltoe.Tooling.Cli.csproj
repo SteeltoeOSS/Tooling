@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsLoggingVersion)" />
     <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Executors\Service" />
+    <Folder Include="Executors\Target" />
+  </ItemGroup>
 </Project>

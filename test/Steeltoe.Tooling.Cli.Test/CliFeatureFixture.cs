@@ -21,7 +21,6 @@ namespace Steeltoe.Tooling.Cli.Test
 {
     public class CliFeatureFixture : FeatureFixture
     {
-        protected IExecutor Executor { get; set; }
 
         protected Exception Exception { get; set; }
 
@@ -39,6 +38,11 @@ namespace Steeltoe.Tooling.Cli.Test
             OutStream = new StringWriter();
         }
 
+        protected void a_service(string name, string type)
+        {
+            Config.services.Add(name, new ToolingConfiguration.Service(type));
+        }
+
         //
         // Thens
         //
@@ -53,10 +57,35 @@ namespace Steeltoe.Tooling.Cli.Test
             Config.target.ShouldBe(name);
         }
 
+        protected void the_services_should_include(string name, string type)
+        {
+            Config.services.ShouldContainKey(name);
+            Config.services[name].type.ShouldBe(type);
+        }
+
         protected void an_exception_should_be_thrown<T>(string message)
         {
             Exception.ShouldBeOfType<T>();
             Exception.Message.ShouldBe(message);
         }
+
+        //
+        // utils
+        //
+
+        protected void ExecuteCatchingAnyExceptions(IExecutor executor)
+        {
+            Exception = null;
+            try
+            {
+                OutStream = new StringWriter();
+                executor.Execute(OutStream);
+            }
+            catch (CommandException e)
+            {
+                Exception = e;
+            }
+        }
+
     }
 }

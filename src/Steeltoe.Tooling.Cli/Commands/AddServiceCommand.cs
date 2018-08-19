@@ -34,7 +34,7 @@ namespace Steeltoe.Tooling.Cli.Commands
 
         protected override IExecutor GetExecutor()
         {
-            return new AddServiceExecutor(name, type);
+            return new AddServiceExecutor(ToolingConfiguration.Load(), name, type);
         }
     }
 }

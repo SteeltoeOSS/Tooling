@@ -18,18 +18,26 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
 {
     public class AddServiceExecutor : IExecutor
     {
+        private ToolingConfiguration Config { get; }
+
         private string Name { get; }
 
         private string Type { get; }
 
-        public AddServiceExecutor(string name, string type)
+        public AddServiceExecutor(ToolingConfiguration config, string name, string type)
         {
+            Config = config;
             Name = name;
             Type = type;
         }
 
         public void Execute(TextWriter output)
         {
+            if (Config.services.ContainsKey(Name))
+            {
+                throw new CommandException($"Service '{Name}' already exists");
+            }
+
             switch (Type.ToLower())
             {
                 case "cloud-foundry-config-server":
@@ -38,23 +46,8 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
                     throw new CommandException($"Unknown service type '{Type}'");
             }
 
-            ToolingConfiguration cfg;
-            try
-            {
-                cfg = ToolingConfiguration.Load(".");
-            }
-            catch (FileNotFoundException)
-            {
-                cfg = new ToolingConfiguration();
-            }
-
-            if (cfg.services.ContainsKey(Name))
-            {
-                throw new CommandException($"Service '{Name}' already exists");
-            }
-
-            cfg.services.Add(Name, new ToolingConfiguration.Service(Type));
-            cfg.Store(".");
+            Config.services.Add(Name, new ToolingConfiguration.Service(Type));
+            Config.Store(".");
             output.WriteLine($"Added {Type} service '{Name}'");
         }
     }

@@ -29,21 +29,25 @@ namespace Steeltoe.Tooling.Cli
 
         public string target { get; set; }
 
-        public SortedDictionary<string, Service> services { get; set;  } = new SortedDictionary<string, Service>();
+        public SortedDictionary<string, Service> services { get; set; } = new SortedDictionary<string, Service>();
+
+        public static ToolingConfiguration Load()
+        {
+            var configFile = Path.Combine(Directory.GetCurrentDirectory(), DefaultFileName);
+            return File.Exists(configFile) ? Load(configFile) : new ToolingConfiguration();
+        }
 
         public static ToolingConfiguration Load(string path)
         {
-            var realPath = Directory.Exists(path) ? Path.Combine(path, DefaultFileName) : path;
-            Logger.LogDebug($"loading tooling configuration from {realPath}");
-            using (var reader = new StreamReader(realPath))
+            if (Directory.Exists(path))
             {
-                var cfg = Load(reader);
-                if (cfg == null)
-                {
-                    cfg = new ToolingConfiguration();
-                }
+                path = Path.Combine(path, DefaultFileName);
+            }
 
-                return cfg;
+            Logger.LogDebug($"loading tooling configuration from {path}");
+            using (var reader = new StreamReader(path))
+            {
+                return Load(reader);
             }
         }
 

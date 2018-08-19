@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Steeltoe.Tooling.Cli.Executors.Target;
+using Steeltoe.Tooling.Cli.Executors.Service;
 
-namespace Steeltoe.Tooling.Cli.Test.Executors.Target
+namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    public partial class SetTargetExecutorTest : CliFeatureFixture
+    public partial class AddServiceListTargetsExecutorTest : CliFeatureFixture
     {
-        private void set_target_is_run(string name)
+        private void add_service_is_run(string name, string type)
         {
-            ExecuteCatchingAnyExceptions(new SetTargetExecutor(Config, name));
+            ExecuteCatchingAnyExceptions(new AddServiceExecutor(Config, name, type));
         }
     }
 }

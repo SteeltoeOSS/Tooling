@@ -30,7 +30,7 @@ namespace Steeltoe.Tooling.Cli.Commands
 
         protected override IExecutor GetExecutor()
         {
-            return new SetTargetExecutor(new ToolingConfiguration(), environment);
+            return new SetTargetExecutor(ToolingConfiguration.Load(), environment);
         }
     }
 }

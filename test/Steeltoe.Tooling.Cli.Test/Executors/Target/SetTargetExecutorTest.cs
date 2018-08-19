@@ -35,7 +35,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Target
             Runner.RunScenario(
                 given => a_project(),
                 when => set_target_is_run("cloud-foundry"),
-                and => the_output_should_be("Target environment set to 'cloud-foundry'."),
+                then => the_output_should_be("Target environment set to 'cloud-foundry'."),
                 and => the_target_should_be("cloud-foundry")
             );
         }
