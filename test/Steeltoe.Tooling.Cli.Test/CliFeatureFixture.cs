@@ -66,6 +66,11 @@ namespace Steeltoe.Tooling.Cli.Test
             Config.services[name].type.ShouldBe(type);
         }
 
+        protected void the_services_should_not_include(string name)
+        {
+            Config.services.ShouldNotContainKey(name);
+        }
+
         protected void an_exception_should_be_thrown<T>(string message)
         {
             Exception.ShouldBeOfType<T>();

@@ -12,25 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using Steeltoe.Tooling.Cli.Executors.Service;
 
-namespace Steeltoe.Tooling.Cli.Executors.Service
+namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    public class RemoveServiceExecutor : IExecutor
+    public partial class RemoveServiceExecutorTest : CliFeatureFixture
     {
-        private string Name { get; }
-
-        public RemoveServiceExecutor(string name)
+        private void remove_service_is_run(string name)
         {
-            Name = name;
-        }
-
-        public bool Execute(Configuration config, TextWriter output)
-        {
-            if (!config.services.ContainsKey(Name)) throw new CommandException($"Unknown service '{Name}'");
-            config.services.Remove(Name);
-            output.WriteLine($"Removed service '{Name}'");
-            return true;
+            Execute(new RemoveServiceExecutor(name));
         }
     }
 }

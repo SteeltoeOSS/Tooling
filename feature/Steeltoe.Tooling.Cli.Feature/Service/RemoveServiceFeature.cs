@@ -63,7 +63,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Service
                 given => a_dotnet_project("remove_service_without_tooling_configuration"),
                 when => the_developer_runs_steeltoe_command("remove-service unknown-service"),
                 then => the_command_should_fail(),
-                and => the_developer_should_see_the_error("No such service 'unknown-service'")
+                and => the_developer_should_see_the_error("Unknown service 'unknown-service'")
             );
         }
 
@@ -75,7 +75,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Service
                 and => a_service("known-service", "known-service-type"),
                 when => the_developer_runs_steeltoe_command("remove-service unknown-service"),
                 then => the_command_should_fail(),
-                and => the_developer_should_see_the_error("No such service 'unknown-service'")
+                and => the_developer_should_see_the_error("Unknown service 'unknown-service'")
             );
         }
 
