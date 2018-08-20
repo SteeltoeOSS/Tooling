@@ -22,6 +22,17 @@ namespace Steeltoe.Tooling.Cli.Feature
     public class ProgramFeature : CliFeatureSpecs
     {
         [Scenario]
+        public void ProgramNoArgs()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("main_no_args"),
+                when => the_developer_runs_steeltoe_command(""),
+                then => the_command_should_fail(),
+                and => the_developer_should_see(@"Usage: steeltoe \[options\] \[command\]")
+            );
+        }
+
+        [Scenario]
         [Label("help")]
         public void ProgramHelp()
         {
@@ -45,17 +56,7 @@ namespace Steeltoe.Tooling.Cli.Feature
         }
 
         [Scenario]
-        public void ProgramNoArgs()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("main_no_args"),
-                when => the_developer_runs_steeltoe_command(""),
-                then => the_command_should_fail(),
-                and => the_developer_should_see(@"Usage: steeltoe \[options\] \[command\]")
-            );
-        }
-
-        [Scenario]
+        [Label("version")]
         public void ProgramVersion()
         {
             Runner.RunScenario(
