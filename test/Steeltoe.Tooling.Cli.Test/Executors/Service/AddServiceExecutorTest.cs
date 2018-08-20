@@ -46,7 +46,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Service
             Runner.RunScenario(
                 given => a_project(),
                 when => add_service_is_run("cfcs-service", "cloud-foundry-config-server"),
-                then => the_output_should_be("Added cloud-foundry-config-server service 'cfcs-service'"),
+                then => the_output_should_match("Added cloud-foundry-config-server service 'cfcs-service'"),
                 and => the_services_should_include("cfcs-service", "cloud-foundry-config-server")
             );
         }
