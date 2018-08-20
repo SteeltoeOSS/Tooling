@@ -12,23 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling.Cli.Executors.Service;
 
-namespace Steeltoe.Tooling.Cli.Feature.Service
+// ReSharper disable UnassignedGetOnlyAutoProperty
+// ReSharper disable InconsistentNaming
+
+namespace Steeltoe.Tooling.Cli.Commands.Service
 {
-    [Label("service")]
-    public class StopServiceFeature : CliFeatureSpecs
+    [Command(Description = "List available service types.")]
+    public class ListServiceTypesCommand : Command
     {
-        [Scenario]
-        public void RunStopNoArgs()
+        protected override IExecutor GetExecutor()
         {
-            Runner.RunScenario(
-                given => a_dotnet_project("stop_no_args"),
-                when => the_developer_runs_steeltoe_command("stop-service"),
-                then => the_command_should_succeed()
-            );
+            return new ListServiceTypesExecutor();
         }
     }
 }

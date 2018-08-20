@@ -16,17 +16,17 @@ using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.Cli.Feature.Service
+namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
 {
     [Label("service")]
-    public class CheckServiceFeature : CliFeatureSpecs
+    public class StopServiceFeature : CliFeatureSpecs
     {
         [Scenario]
-        public void RunCheckNoArgs()
+        public void RunStopNoArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("check_no_args"),
-                when => the_developer_runs_steeltoe_command("check-service"),
+                given => a_dotnet_project("stop_no_args"),
+                when => the_developer_runs_steeltoe_command("stop-service"),
                 then => the_command_should_succeed()
             );
         }

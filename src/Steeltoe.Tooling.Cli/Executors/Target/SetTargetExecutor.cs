@@ -18,25 +18,25 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
 {
     public class SetTargetExecutor : IExecutor
     {
-        private string Environment { get; }
+        private readonly string _environment;
 
         public SetTargetExecutor(string environment)
         {
-            Environment = environment;
+            _environment = environment;
         }
 
-        public bool Execute(Configuration config, TextWriter output)
+        public bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            switch (Environment.ToLower())
+            switch (_environment.ToLower())
             {
                 case "cloud-foundry":
                     break;
                 default:
-                    throw new CommandException($"Unknown environment '{Environment}'");
+                    throw new CommandException($"Unknown environment '{_environment}'");
             }
 
-            config.target = Environment;
-            output.WriteLine($"Target environment set to '{Environment}'.");
+            config.target = _environment;
+            output.WriteLine($"Target environment set to '{_environment}'.");
             return true;
         }
     }

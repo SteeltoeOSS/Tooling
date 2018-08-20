@@ -18,7 +18,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
 {
     public class StopServiceExecutor : IExecutor
     {
-        public bool Execute(Configuration config, TextWriter output)
+        public bool Execute(Configuration config, Shell shell, TextWriter output)
         {
             return false;
         }

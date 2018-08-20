@@ -18,14 +18,14 @@ using Steeltoe.Tooling.Cli.Executors.Service;
 // ReSharper disable UnassignedGetOnlyAutoProperty
 // ReSharper disable InconsistentNaming
 
-namespace Steeltoe.Tooling.Cli.Commands
+namespace Steeltoe.Tooling.Cli.Commands.Service
 {
-    [Command(Description = "Start a service in the current target.")]
-    public class StartServiceCommand : Command
+    [Command(Description = "Stop a service in the current target.")]
+    public class StopServiceCommand : Command
     {
         protected override IExecutor GetExecutor()
         {
-            return new StartServiceExecutor();
+            return new StopServiceExecutor();
         }
     }
 }

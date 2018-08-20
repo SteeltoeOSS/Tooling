@@ -44,7 +44,7 @@ namespace Steeltoe.Tooling.Cli.Feature
                 and => the_developer_should_see(@"\n\s*-V\|--version\s+Show version information\n"),
                 and => the_developer_should_see(@"\n\s*-\?\|-h\|--help\s+Show help information\n"),
                 and => the_developer_should_see(@"\n\s*add-service\s+Add a service\.\n"),
-                and => the_developer_should_see(@"\n\s*check-service\s+Check a service in the current target\.\n"),
+                and => the_developer_should_see(@"\n\s*check-service\s+Check the status of a service in the target environment\.\n"),
                 and => the_developer_should_see(@"\n\s*list-service-types\s+List available service types\.\n"),
                 and => the_developer_should_see(@"\n\s*list-services\s+List available services\.\n"),
                 and => the_developer_should_see(@"\n\s*list-targets\s+List available target environments\.\n"),

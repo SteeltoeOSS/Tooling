@@ -18,7 +18,7 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.Cli.Test.System
 {
-    public partial class ShellTest
+    public partial class SystemShellTest
     {
         [Scenario]
         public void RunCommand()

@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Service
         {
             Runner.RunScenario(
                 given => a_project(),
-                when => add_service_is_run("MyService", "unknown-service-type"),
+                when => add_service_is_run("unknown-service", "unknown-service-type"),
                 then => an_exception_should_be_thrown<CommandException>("Unknown service type 'unknown-service-type'")
             );
         }

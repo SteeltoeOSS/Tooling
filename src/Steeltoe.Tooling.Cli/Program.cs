@@ -14,7 +14,8 @@
 
 using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Cli.Commands;
+using Steeltoe.Tooling.Cli.Commands.Service;
+using Steeltoe.Tooling.Cli.Commands.Target;
 
 namespace Steeltoe.Tooling.Cli
 {

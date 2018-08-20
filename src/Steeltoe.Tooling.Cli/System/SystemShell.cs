@@ -18,24 +18,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Steeltoe.Tooling.Cli.System
 {
-    public class Shell
+    public class SystemShell : Shell
     {
-        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Shell>();
+        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<SystemShell>();
 
         private static int _count;
 
-        public struct Result
-        {
-            public int Id { get; internal set; }
-            public string Command { get; internal set; }
-            public string Arguments { get; internal set; }
-            public string WorkingDirectory { get; internal set; }
-            public int ExitCode { get; internal set; }
-            public string Out { get; internal set; }
-            public string Error { get; internal set; }
-        }
-
-        public Result Run(string command, string arguments = null, string workingDirectory = null)
+        public override Result Run(string command, string arguments = null, string workingDirectory = null)
         {
             var result = new Result()
             {

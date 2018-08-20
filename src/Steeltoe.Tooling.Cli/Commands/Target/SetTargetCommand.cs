@@ -12,20 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Cli.Executors.Target;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
 // ReSharper disable InconsistentNaming
 
-namespace Steeltoe.Tooling.Cli.Commands
+namespace Steeltoe.Tooling.Cli.Commands.Target
 {
-    [Command(Description = "List available target environments.")]
-    public class ListTargetsCommand : Command
+    [Command(Description = "Set the target environment.")]
+    public class SetTargetCommand : Command
     {
+        [Required(ErrorMessage = "Environment not specified")]
+        [Argument(0, Description = "The environment")]
+        private string environment { get; }
+
         protected override IExecutor GetExecutor()
         {
-            return new ListTargetsExecutor();
+            return new SetTargetExecutor(environment);
         }
     }
 }

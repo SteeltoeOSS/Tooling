@@ -27,6 +27,8 @@ namespace Steeltoe.Tooling.Cli.Test
 
         protected Exception Exception { get; set; }
 
+        protected MockShell Shell { get; set; } = new MockShell();
+
         //
         // Givens
         //
@@ -41,9 +43,39 @@ namespace Steeltoe.Tooling.Cli.Test
             Config.services.Add(name, new Configuration.Service(type));
         }
 
+        protected void a_cloud_foundry_service(string name)
+        {
+            Config.services.Add(name, new Configuration.Service("dummy-service-type"));
+            Shell.NextResponse = @"Showing info of service {{NAME}} in org my-org / space my-space as ...
+
+name:            {{NAME}}
+service:         ...
+tags:
+plan:            ...
+description:     ...
+documentation:
+dashboard:       https://...
+
+Showing status of last operation from service {{NAME}} ...
+
+status:    create succeeded
+message:
+started:   ...
+updated:   ...
+
+There are no bound apps for this service.
+"
+                .Replace("{{NAME}}", name);
+        }
+
         //
         // Thens
         //
+
+        protected void the_run_command_should_be(string command)
+        {
+            Shell.LastCommand.ShouldBe(command);
+        }
 
         protected void the_output_should_include(string text)
         {
@@ -87,7 +119,7 @@ namespace Steeltoe.Tooling.Cli.Test
             try
             {
                 ConsoleOut = new StringWriter();
-                executor.Execute(Config, ConsoleOut);
+                executor.Execute(Config, Shell, ConsoleOut);
             }
             catch (CommandException e)
             {

@@ -12,14 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
 {
     public class CheckServiceExecutor : IExecutor
     {
-        public bool Execute(Configuration config, TextWriter output)
+        private readonly string _name;
+
+        public CheckServiceExecutor(string name)
         {
+            _name = name;
+        }
+
+        public bool Execute(Configuration config, Shell shell, TextWriter output)
+        {
+            if (!config.services.ContainsKey(_name))
+            {
+                throw new CommandException($"Unknown service '{_name}'");
+            }
+
+            var result = shell.Run("cf", $"service {_name}");
+            var status = "offline";
+            if (result.Out != null)
+            {
+                Regex exp = new Regex(@"^status:\s+(.*)", RegexOptions.Multiline);
+                Match match = exp.Match(result.Out);
+                if (match.Groups[1].ToString().Equals("create succeeded"))
+                {
+                    status = "online";
+                }
+            }
+
+            output.WriteLine(status);
             return false;
         }
     }

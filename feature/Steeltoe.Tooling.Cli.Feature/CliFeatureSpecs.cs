@@ -28,7 +28,7 @@ namespace Steeltoe.Tooling.Cli.Feature
             Directory.GetCurrentDirectory(),
             "../../../../../src/Steeltoe.Tooling.Cli"));
 
-        private Shell _shell = new Shell();
+        private Shell _shell = new SystemShell();
 
         private Shell.Result _shellResult;
 

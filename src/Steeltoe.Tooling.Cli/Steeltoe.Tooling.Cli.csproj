@@ -13,6 +13,7 @@
     <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Environments" />
     <Folder Include="Executors\Service" />
     <Folder Include="Executors\Target" />
   </ItemGroup>

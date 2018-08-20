@@ -18,14 +18,14 @@ using Steeltoe.Tooling.Cli.Executors.Service;
 // ReSharper disable UnassignedGetOnlyAutoProperty
 // ReSharper disable InconsistentNaming
 
-namespace Steeltoe.Tooling.Cli.Commands
+namespace Steeltoe.Tooling.Cli.Commands.Service
 {
-    [Command(Description = "List available service types.")]
-    public class ListServiceTypesCommand : Command
+    [Command(Description = "List available services.")]
+    public class ListServicesCommand : Command
     {
         protected override IExecutor GetExecutor()
         {
-            return new ListServiceTypesExecutor();
+            return new ListServicesExectutor();
         }
     }
 }

@@ -13,19 +13,19 @@
 // limitations under the License.
 
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Cli.Executors.Service;
+using Steeltoe.Tooling.Cli.Executors.Target;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
 // ReSharper disable InconsistentNaming
 
-namespace Steeltoe.Tooling.Cli.Commands
+namespace Steeltoe.Tooling.Cli.Commands.Target
 {
-    [Command(Description = "Stop a service in the current target.")]
-    public class StopServiceCommand : Command
+    [Command(Description = "List available target environments.")]
+    public class ListTargetsCommand : Command
     {
         protected override IExecutor GetExecutor()
         {
-            return new StopServiceExecutor();
+            return new ListTargetsExecutor();
         }
     }
 }

@@ -19,22 +19,18 @@ using Steeltoe.Tooling.Cli.Executors.Service;
 // ReSharper disable UnassignedGetOnlyAutoProperty
 // ReSharper disable InconsistentNaming
 
-namespace Steeltoe.Tooling.Cli.Commands
+namespace Steeltoe.Tooling.Cli.Commands.Service
 {
-    [Command(Description = "Add a service.")]
-    public class AddServiceCommand : Command
+    [Command(Description = "Check the status of a service in the target environment.")]
+    public class CheckServiceCommand : Command
     {
         [Required(ErrorMessage = "Service name not specified")]
         [Argument(0, Description = "The service name")]
         private string name { get; }
 
-        [Required(ErrorMessage = "Service type not specified")]
-        [Option("-t|--type", Description = "The service type")]
-        private string type { get; }
-
         protected override IExecutor GetExecutor()
         {
-            return new AddServiceExecutor(name, type);
+            return new CheckServiceExecutor(name);
         }
     }
 }

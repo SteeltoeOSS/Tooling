@@ -21,17 +21,17 @@ using Steeltoe.Tooling.Cli.System;
 
 namespace Steeltoe.Tooling.Cli.Test.System
 {
-    public partial class ShellTest : FeatureFixture
+    public partial class SystemShellTest : FeatureFixture
     {
         private static readonly string ListCommand;
 
         private static readonly string ErrorCommand;
 
-        private Shell _shell = new Shell();
+        private Shell _shell = new SystemShell();
 
         private Shell.Result _result;
 
-        static ShellTest()
+        static SystemShellTest()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

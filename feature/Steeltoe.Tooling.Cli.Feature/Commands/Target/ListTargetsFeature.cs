@@ -16,7 +16,7 @@ using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.Cli.Feature.Target
+namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
 {
     [Label("target")]
     public class ListTargetsFeature : CliFeatureSpecs

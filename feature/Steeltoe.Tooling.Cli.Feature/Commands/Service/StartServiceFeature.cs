@@ -12,25 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
-using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Cli.Executors.Target;
+using LightBDD.Framework;
+using LightBDD.Framework.Scenarios.Extended;
+using LightBDD.XUnit2;
 
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
-
-namespace Steeltoe.Tooling.Cli.Commands
+namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
 {
-    [Command(Description = "Set the target environment.")]
-    public class SetTargetCommand : Command
+    [Label("service")]
+    public class StartServiceFeature : CliFeatureSpecs
     {
-        [Required(ErrorMessage = "Environment not specified")]
-        [Argument(0, Description = "The environment")]
-        private string environment { get; }
-
-        protected override IExecutor GetExecutor()
+        [Scenario]
+        public void RunStartNoArgs()
         {
-            return new SetTargetExecutor(environment);
+            Runner.RunScenario(
+                given => a_dotnet_project("start_no_args"),
+                when => the_developer_runs_steeltoe_command("start-service"),
+                then => the_command_should_succeed()
+            );
         }
     }
 }

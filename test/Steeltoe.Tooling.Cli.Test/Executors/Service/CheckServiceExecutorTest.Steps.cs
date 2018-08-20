@@ -12,20 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Cli.Executors.Service;
 
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
-
-namespace Steeltoe.Tooling.Cli.Commands
+namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    [Command(Description = "Check a service in the current target.")]
-    public class CheckServiceCommand : Command
+    public partial class CheckServiceExecutorTest : CliFeatureFixture
     {
-        protected override IExecutor GetExecutor()
+        private void check_service_is_run(string name)
         {
-            return new CheckServiceExecutor();
+            Execute(new CheckServiceExecutor(name ));
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
 {
     public class ListServicesExectutor : IExecutor
     {
-        public bool Execute(Configuration config, TextWriter console)
+        public bool Execute(Configuration config, Shell shell, TextWriter console)
         {
             foreach (var entry in config.services)
             {

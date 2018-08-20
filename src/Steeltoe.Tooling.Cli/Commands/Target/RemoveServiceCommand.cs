@@ -12,23 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using System.ComponentModel.DataAnnotations;
+using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling.Cli.Executors.Service;
 
-namespace Steeltoe.Tooling.Cli.Feature.Service
+// ReSharper disable UnassignedGetOnlyAutoProperty
+// ReSharper disable InconsistentNaming
+
+namespace Steeltoe.Tooling.Cli.Commands.Target
 {
-    [Label("service")]
-    public class StartServiceFeature : CliFeatureSpecs
+    [Command(Description = "Remove a service.")]
+    public class RemoveServiceCommand : Command
     {
-        [Scenario]
-        public void RunStartNoArgs()
+        [Required(ErrorMessage = "Service name not specified")]
+        [Argument(0, Description = "The service name")]
+        private string name { get; }
+
+        protected override IExecutor GetExecutor()
         {
-            Runner.RunScenario(
-                given => a_dotnet_project("start_no_args"),
-                when => the_developer_runs_steeltoe_command("start-service"),
-                then => the_command_should_succeed()
-            );
+            return new RemoveServiceExecutor(name);
         }
     }
 }

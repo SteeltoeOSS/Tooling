@@ -14,6 +14,7 @@
 
 using System.IO;
 using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling.Cli.System;
 
 namespace Steeltoe.Tooling.Cli
 {
@@ -28,7 +29,7 @@ namespace Steeltoe.Tooling.Cli
                 //
                 // TODO: Is there a better way to signal that config needs to be stores?  Perhaps a dirty bit?
                 //
-                if (GetExecutor().Execute(config, app.Out))
+                if (GetExecutor().Execute(config, new SystemShell(), app.Out))
                 {
                     config.Store(configFile);
                 }
@@ -37,8 +38,8 @@ namespace Steeltoe.Tooling.Cli
             }
             catch (CommandException e)
             {
-                app.Error.WriteLine(e);
-//                app.Error.WriteLine(e.Message);
+//                app.Error.WriteLine(e);
+                app.Error.WriteLine(e.Message);
                 return 1;
             }
         }

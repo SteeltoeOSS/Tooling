@@ -16,7 +16,7 @@ using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.Cli.Feature.Service
+namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
 {
     [Label("service")]
     public class AddServiceFeature : CliFeatureSpecs
