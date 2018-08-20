@@ -6,13 +6,13 @@
 
         public struct Result
         {
-            public int Id { get; internal set; }
-            public string Command { get; internal set; }
-            public string Arguments { get; internal set; }
-            public string WorkingDirectory { get; internal set; }
-            public int ExitCode { get; internal set; }
+            public int Id { get;  set; }
+            public string Command { get; set; }
+            public string Arguments { get; set; }
+            public string WorkingDirectory { get; set; }
+            public int ExitCode { get; set; }
             public string Out { get; set; }
-            public string Error { get; internal set; }
+            public string Error { get; set; }
         }
     }
 }
