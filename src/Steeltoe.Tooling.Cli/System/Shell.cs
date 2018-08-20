@@ -16,7 +16,7 @@ using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
-namespace Steeltoe.Tooling.Cli
+namespace Steeltoe.Tooling.Cli.System
 {
     public class Shell
     {
@@ -35,7 +35,7 @@ namespace Steeltoe.Tooling.Cli
             public string Error { get; internal set; }
         }
 
-        public static Result Run(string command, string arguments = null, string workingDirectory = null)
+        public Result Run(string command, string arguments = null, string workingDirectory = null)
         {
             var result = new Result()
             {

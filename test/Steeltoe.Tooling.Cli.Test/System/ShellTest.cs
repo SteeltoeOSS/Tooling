@@ -16,7 +16,7 @@ using System.IO;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.Cli.Test
+namespace Steeltoe.Tooling.Cli.Test.System
 {
     public partial class ShellTest
     {

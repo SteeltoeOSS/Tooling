@@ -17,14 +17,17 @@ using System.IO;
 using System.Runtime.InteropServices;
 using LightBDD.XUnit2;
 using Shouldly;
+using Steeltoe.Tooling.Cli.System;
 
-namespace Steeltoe.Tooling.Cli.Test
+namespace Steeltoe.Tooling.Cli.Test.System
 {
     public partial class ShellTest : FeatureFixture
     {
         private static readonly string ListCommand;
 
         private static readonly string ErrorCommand;
+
+        private Shell _shell = new Shell();
 
         private Shell.Result _result;
 
@@ -75,17 +78,17 @@ namespace Steeltoe.Tooling.Cli.Test
 
         protected void the_command_is_run(string command)
         {
-            _result = Shell.Run(command);
+            _result = _shell.Run(command);
         }
 
         protected void the_command_is_run_with_args(string command, string args)
         {
-            _result = Shell.Run(command, args);
+            _result = _shell.Run(command, args);
         }
 
         protected void the_command_is_run_with_working_directory(string command, string path)
         {
-            _result = Shell.Run(command, workingDirectory: path);
+            _result = _shell.Run(command, workingDirectory: path);
         }
 
         //

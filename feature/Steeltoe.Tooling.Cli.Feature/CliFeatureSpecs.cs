@@ -16,6 +16,7 @@ using System.IO;
 using LightBDD.XUnit2;
 using Microsoft.Extensions.Logging;
 using Shouldly;
+using Steeltoe.Tooling.Cli.System;
 
 namespace Steeltoe.Tooling.Cli.Feature
 {
@@ -27,11 +28,13 @@ namespace Steeltoe.Tooling.Cli.Feature
             Directory.GetCurrentDirectory(),
             "../../../../../src/Steeltoe.Tooling.Cli"));
 
-        private string ProjectDirectory { get; set; }
+        private Shell _shell = new Shell();
 
-        private string ConfigFile { get; set; }
+        private Shell.Result _shellResult;
 
-        private Shell.Result LastCommandResult { get; set; }
+        private string _projectDirectory;
+
+        private string _configFile;
 
         //
         // Givens
@@ -40,15 +43,15 @@ namespace Steeltoe.Tooling.Cli.Feature
         protected void a_dotnet_project(string name)
         {
             Logger.LogInformation($"rigging a dotnet project '{name}'");
-            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), name);
-            if (Directory.Exists(ProjectDirectory))
+            _projectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), name);
+            if (Directory.Exists(_projectDirectory))
             {
-                Directory.Delete(ProjectDirectory, true);
+                Directory.Delete(_projectDirectory, true);
             }
 
-            Directory.CreateDirectory(ProjectDirectory);
-            Shell.Run("dotnet", "new classlib", ProjectDirectory).ExitCode.ShouldBe(0);
-            ConfigFile = Path.Combine(ProjectDirectory, Configuration.DefaultFileName);
+            Directory.CreateDirectory(_projectDirectory);
+            _shell.Run("dotnet", "new classlib", _projectDirectory).ExitCode.ShouldBe(0);
+            _configFile = Path.Combine(_projectDirectory, Configuration.DefaultFileName);
         }
 
         protected void a_target(string name)
@@ -74,8 +77,8 @@ namespace Steeltoe.Tooling.Cli.Feature
         protected void the_developer_runs_steeltoe_command(string command)
         {
             Logger.LogInformation($"running 'steeltoe {command}'");
-            LastCommandResult = Shell.Run("dotnet", $"run --project {CliProjectDirectory} -- {command}",
-                ProjectDirectory);
+            _shellResult = _shell.Run("dotnet", $"run --project {CliProjectDirectory} -- {command}",
+                _projectDirectory);
         }
 
         //
@@ -85,25 +88,25 @@ namespace Steeltoe.Tooling.Cli.Feature
         protected void the_command_should_succeed()
         {
             Logger.LogInformation($"checking the command succeeded");
-            LastCommandResult.ExitCode.ShouldBe(0);
+            _shellResult.ExitCode.ShouldBe(0);
         }
 
         protected void the_command_should_fail()
         {
             Logger.LogInformation($"checking the command failed");
-            LastCommandResult.ExitCode.ShouldNotBe(0);
+            _shellResult.ExitCode.ShouldNotBe(0);
         }
 
         protected void the_developer_should_see(string message)
         {
             Logger.LogInformation($"checking the developer saw '{message}'");
-            LastCommandResult.Out.ShouldMatch($".*{message}.*");
+            _shellResult.Out.ShouldMatch($".*{message}.*");
         }
 
         protected void the_developer_should_see_the_error(string error)
         {
             Logger.LogInformation($"checking the developer saw the error '{error}'");
-            LastCommandResult.Error.ShouldMatch($".*{error}.*");
+            _shellResult.Error.ShouldMatch($".*{error}.*");
         }
 
         protected void the_target_config_should_exist(string name)
@@ -132,12 +135,12 @@ namespace Steeltoe.Tooling.Cli.Feature
 
         private void StoreProjectConfiguration(Configuration config)
         {
-            config.Store(ConfigFile);
+            config.Store(_configFile);
         }
 
         private Configuration LoadProjectConfiguration()
         {
-            return File.Exists(ConfigFile) ? Configuration.Load(ConfigFile) : new Configuration();
+            return File.Exists(_configFile) ? Configuration.Load(_configFile) : new Configuration();
         }
     }
 }
