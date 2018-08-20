@@ -25,25 +25,12 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
             Name = name;
         }
 
-        public void Execute(TextWriter output)
+        public bool Execute(Configuration config, TextWriter output)
         {
-            try
-            {
-                var cfg = Configuration.Load(".");
-                if (cfg.services.ContainsKey(Name))
-                {
-                    cfg.services.Remove(Name);
-                    cfg.Store(".");
-                    output.WriteLine($"Removed service '{Name}'");
-                    return;
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                // pass
-            }
-
-            throw new CommandException($"No such service '{Name}'");
+            if (!config.services.ContainsKey(Name)) throw new CommandException($"No such service '{Name}'");
+            config.services.Remove(Name);
+            output.WriteLine($"Removed service '{Name}'");
+            return true;
         }
     }
 }

@@ -18,6 +18,6 @@ namespace Steeltoe.Tooling.Cli
 {
     public interface IExecutor
     {
-        void Execute(TextWriter output);
+        bool Execute(Configuration config, TextWriter consoleOut);
     }
 }

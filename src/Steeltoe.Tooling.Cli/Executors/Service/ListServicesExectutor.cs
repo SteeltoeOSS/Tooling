@@ -18,20 +18,13 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
 {
     public class ListServicesExectutor : IExecutor
     {
-        public void Execute(TextWriter output)
+        public bool Execute(Configuration config, TextWriter console)
         {
-            try
+            foreach (var entry in config.services)
             {
-                var cfg = Configuration.Load(".");
-                foreach (var entry in cfg.services)
-                {
-                    output.WriteLine($"{entry.Key} ({entry.Value.type})");
-                }
+                console.WriteLine($"{entry.Key} ({entry.Value.type})");
             }
-            catch (FileNotFoundException)
-            {
-                // pass
-            }
+            return false;
         }
     }
 }

@@ -18,8 +18,9 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
 {
     public class CheckServiceExecutor : IExecutor
     {
-        public void Execute(TextWriter output)
+        public bool Execute(Configuration config, TextWriter output)
         {
+            return false;
         }
     }
 }

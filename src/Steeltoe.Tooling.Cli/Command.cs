@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Steeltoe.Tooling.Cli
@@ -20,9 +21,19 @@ namespace Steeltoe.Tooling.Cli
     {
         protected virtual int OnExecute(CommandLineApplication app)
         {
+            var configFile = Path.Combine(Directory.GetCurrentDirectory(), Configuration.DefaultFileName);
+            var config = File.Exists(configFile) ? Configuration.Load(configFile) : new Configuration();
             try
             {
-                GetExecutor().Execute(app.Out);
+                //
+                // TODO: Is there a better way to signal that config needs to be stores?  Perhaps a dirty bit?
+                //
+                if (GetExecutor().Execute(config, app.Out))
+                {
+                    config.Store(configFile);
+                }
+
+                return 0;
             }
             catch (CommandException e)
             {
@@ -30,8 +41,6 @@ namespace Steeltoe.Tooling.Cli
 //                app.Error.WriteLine(e.Message);
                 return 1;
             }
-
-            return 0;
         }
 
         protected abstract IExecutor GetExecutor();

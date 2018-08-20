@@ -29,6 +29,8 @@ namespace Steeltoe.Tooling.Cli.Feature
 
         private string ProjectDirectory { get; set; }
 
+        private string ConfigFile { get; set; }
+
         private Shell.Result LastCommandResult { get; set; }
 
         //
@@ -46,22 +48,23 @@ namespace Steeltoe.Tooling.Cli.Feature
 
             Directory.CreateDirectory(ProjectDirectory);
             Shell.Run("dotnet", "new classlib", ProjectDirectory).ExitCode.ShouldBe(0);
+            ConfigFile = Path.Combine(ProjectDirectory, Configuration.DefaultFileName);
         }
 
         protected void a_target(string name)
         {
             Logger.LogInformation($"rigging a target '{name}'");
-            var cfg = GetProjectConfiguration();
+            var cfg = LoadProjectConfiguration();
             cfg.target = name;
-            cfg.Store(ProjectDirectory);
+            StoreProjectConfiguration(cfg);
         }
 
         protected void a_service(string name, string type)
         {
             Logger.LogInformation($"rigging a service '{name}'");
-            var cfg = GetProjectConfiguration();
+            var cfg = LoadProjectConfiguration();
             cfg.services.Add(name, new Configuration.Service(type));
-            cfg.Store(ProjectDirectory);
+            StoreProjectConfiguration(cfg);
         }
 
         //
@@ -106,14 +109,14 @@ namespace Steeltoe.Tooling.Cli.Feature
         protected void the_target_config_should_exist(string name)
         {
             Logger.LogInformation($"checking the target config '{name}' exists");
-            var cfg = Configuration.Load(ProjectDirectory);
+            var cfg = LoadProjectConfiguration();
             cfg.target.ShouldBe(name);
         }
 
         protected void the_service_config_should_exist(string name, string type)
         {
             Logger.LogInformation($"checking the service config '{name}' exists");
-            var cfg = Configuration.Load(ProjectDirectory);
+            var cfg = LoadProjectConfiguration();
             cfg.services.ShouldContainKey(name);
             cfg.services[name].type.ShouldBe(type);
         }
@@ -121,22 +124,20 @@ namespace Steeltoe.Tooling.Cli.Feature
         protected void the_service_config_should_not_exist(string name)
         {
             Logger.LogInformation($"checking the service config '{name}' does not exist");
-            var cfg = Configuration.Load(ProjectDirectory);
+            var cfg = LoadProjectConfiguration();
             cfg.services.ShouldNotContainKey(name);
         }
 
         // utilities
 
-        private Configuration GetProjectConfiguration()
+        private void StoreProjectConfiguration(Configuration config)
         {
-            try
-            {
-                return Configuration.Load(ProjectDirectory);
-            }
-            catch (FileNotFoundException)
-            {
-                return new Configuration();
-            }
+            config.Store(ConfigFile);
+        }
+
+        private Configuration LoadProjectConfiguration()
+        {
+            return File.Exists(ConfigFile) ? Configuration.Load(ConfigFile) : new Configuration();
         }
     }
 }

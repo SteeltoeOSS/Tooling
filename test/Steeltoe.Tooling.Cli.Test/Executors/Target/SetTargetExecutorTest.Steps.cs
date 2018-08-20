@@ -20,7 +20,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Target
     {
         private void set_target_is_run(string name)
         {
-            ExecuteCatchingAnyExceptions(new SetTargetExecutor(Config, name));
+            Execute(new SetTargetExecutor(name));
         }
     }
 }

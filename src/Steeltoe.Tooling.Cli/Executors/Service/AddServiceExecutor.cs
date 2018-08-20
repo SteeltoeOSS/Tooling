@@ -18,22 +18,19 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
 {
     public class AddServiceExecutor : IExecutor
     {
-        private Configuration Config { get; }
-
         private string Name { get; }
 
         private string Type { get; }
 
-        public AddServiceExecutor(Configuration config, string name, string type)
+        public AddServiceExecutor(string name, string type)
         {
-            Config = config;
             Name = name;
             Type = type;
         }
 
-        public void Execute(TextWriter output)
+        public bool Execute(Configuration config, TextWriter output)
         {
-            if (Config.services.ContainsKey(Name))
+            if (config.services.ContainsKey(Name))
             {
                 throw new CommandException($"Service '{Name}' already exists");
             }
@@ -46,9 +43,9 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
                     throw new CommandException($"Unknown service type '{Type}'");
             }
 
-            Config.services.Add(Name, new Configuration.Service(Type));
-            Config.Store(".");
+            config.services.Add(Name, new Configuration.Service(Type));
             output.WriteLine($"Added {Type} service '{Name}'");
+            return true;
         }
     }
 }

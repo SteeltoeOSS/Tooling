@@ -18,17 +18,14 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
 {
     public class SetTargetExecutor : IExecutor
     {
-        private Configuration Config { get; }
-
         private string Environment { get; }
 
-        public SetTargetExecutor(Configuration config, string environment)
+        public SetTargetExecutor(string environment)
         {
-            Config = config;
             Environment = environment;
         }
 
-        public void Execute(TextWriter output)
+        public bool Execute(Configuration config, TextWriter output)
         {
             switch (Environment.ToLower())
             {
@@ -38,9 +35,9 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
                     throw new CommandException($"Unknown environment '{Environment}'");
             }
 
-            Config.target = Environment;
-            Config.Store(".");
+            config.target = Environment;
             output.WriteLine($"Target environment set to '{Environment}'.");
+            return true;
         }
     }
 }

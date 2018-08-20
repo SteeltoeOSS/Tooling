@@ -31,19 +31,8 @@ namespace Steeltoe.Tooling.Cli
 
         public SortedDictionary<string, Service> services { get; set; } = new SortedDictionary<string, Service>();
 
-        public static Configuration Load()
-        {
-            var configFile = Path.Combine(Directory.GetCurrentDirectory(), DefaultFileName);
-            return File.Exists(configFile) ? Load(configFile) : new Configuration();
-        }
-
         public static Configuration Load(string path)
         {
-            if (Directory.Exists(path))
-            {
-                path = Path.Combine(path, DefaultFileName);
-            }
-
             Logger.LogDebug($"loading tooling configuration from {path}");
             using (var reader = new StreamReader(path))
             {
@@ -59,9 +48,8 @@ namespace Steeltoe.Tooling.Cli
 
         public void Store(string path)
         {
-            var realPath = Directory.Exists(path) ? Path.Combine(path, DefaultFileName) : path;
-            Logger.LogDebug($"storing tooling configuration to {realPath}");
-            using (var writer = new StreamWriter(realPath))
+            Logger.LogDebug($"storing tooling configuration to {path}");
+            using (var writer = new StreamWriter(path))
             {
                 Store(writer);
             }

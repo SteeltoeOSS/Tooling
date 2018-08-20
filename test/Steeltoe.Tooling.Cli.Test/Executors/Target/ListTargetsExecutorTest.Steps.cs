@@ -20,7 +20,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Target
     {
         private void list_targets_is_run()
         {
-            new ListTargetsExecutor().Execute(OutStream);
+            Execute(new ListTargetsExecutor());
         }
     }
 }

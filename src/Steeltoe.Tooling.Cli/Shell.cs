@@ -58,7 +58,7 @@ namespace Steeltoe.Tooling.Cli
             if (proc == null)
             {
                 // TODO: better exception implementation
-                throw new Exception("OOPS, proc is null. Something bac happened.");
+                throw new Exception("OOPS, proc is null. Something bad happened.");
             }
 
             proc.WaitForExit();

@@ -18,9 +18,10 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
 {
     public class ListServiceTypesExecutor : IExecutor
     {
-        public void Execute(TextWriter output)
+        public bool Execute(Configuration config, TextWriter output)
         {
             output.WriteLine("cloud-foundry-config-server");
+            return false;
         }
     }
 }

@@ -17,7 +17,7 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    public partial class AddServiceListTargetsExecutorTest
+    public partial class AddServiceExecutorTest
     {
         [Scenario]
         public void AddUnknownServiceType()

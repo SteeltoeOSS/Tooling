@@ -16,11 +16,11 @@ using Steeltoe.Tooling.Cli.Executors.Service;
 
 namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    public partial class AddServiceListTargetsExecutorTest : CliFeatureFixture
+    public partial class AddServiceExecutorTest : CliFeatureFixture
     {
         private void add_service_is_run(string name, string type)
         {
-            ExecuteCatchingAnyExceptions(new AddServiceExecutor(Config, name, type));
+            Execute(new AddServiceExecutor(name, type));
         }
     }
 }

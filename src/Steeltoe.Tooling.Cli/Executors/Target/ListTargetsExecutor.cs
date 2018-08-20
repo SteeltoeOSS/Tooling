@@ -18,9 +18,10 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
 {
     public class ListTargetsExecutor : IExecutor
     {
-        public void Execute(TextWriter output)
+        public bool Execute(Configuration config, TextWriter output)
         {
             output.WriteLine("cloud-foundry");
+            return false;
         }
     }
 }
