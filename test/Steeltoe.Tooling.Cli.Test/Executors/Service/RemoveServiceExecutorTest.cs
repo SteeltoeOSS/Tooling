@@ -36,7 +36,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Service
                 given => a_project(),
                 and => a_service("existing-service", "existing-service-type"),
                 when => remove_service_is_run("existing-service"),
-                then => the_output_should_match("Removed service 'existing-service'"),
+                then => the_output_should_include("Removed service 'existing-service'"),
                 and => the_services_should_not_include("existing-service")
             );
         }

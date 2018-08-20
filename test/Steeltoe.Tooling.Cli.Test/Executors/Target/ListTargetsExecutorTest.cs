@@ -25,7 +25,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Target
             Runner.RunScenario(
                 given => a_project(),
                 when => list_targets_is_run(),
-                and => the_output_should_match("cloud-foundry")
+                and => the_output_should_include("cloud-foundry")
             );
         }
     }

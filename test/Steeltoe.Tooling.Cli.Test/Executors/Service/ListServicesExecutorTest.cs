@@ -37,7 +37,8 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Service
                 and => a_service("service-a", "service-a-type"),
                 and => a_service("service-z", "service-z-type"),
                 when => list_services_is_run(),
-                and => the_output_should_match(@"service-a \(service-a-type\)\n+service-z \(service-z-type\)")
+                and => the_output_should_include("service-a (service-a-type)"),
+                and => the_output_should_include("service-z (service-z-type)")
             );
         }
     }

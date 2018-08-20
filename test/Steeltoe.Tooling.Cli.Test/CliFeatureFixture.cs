@@ -45,9 +45,9 @@ namespace Steeltoe.Tooling.Cli.Test
         // Thens
         //
 
-        protected void the_output_should_match(string regex)
+        protected void the_output_should_include(string text)
         {
-            ConsoleOut.ToString().ShouldMatch(regex);
+            ConsoleOut.ToString().ShouldContain(text);
         }
 
         protected void the_output_should_be_empty()
