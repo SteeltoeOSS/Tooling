@@ -18,9 +18,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Steeltoe.Tooling.Cli\Steeltoe.Tooling.Cli.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Executors\Service" />
-    <Folder Include="Executors\Target" />
-    <Folder Include="System" />
-  </ItemGroup>
 </Project>
