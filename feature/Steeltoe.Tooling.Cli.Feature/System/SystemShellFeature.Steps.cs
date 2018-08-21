@@ -19,9 +19,9 @@ using LightBDD.XUnit2;
 using Shouldly;
 using Steeltoe.Tooling.Cli.System;
 
-namespace Steeltoe.Tooling.Cli.Test.System
+namespace Steeltoe.Tooling.Cli.Feature.System
 {
-    public partial class SystemShellTest : FeatureFixture
+    public partial class SystemShellFeature : FeatureFixture
     {
         private static readonly string ListCommand;
 
@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.Cli.Test.System
 
         private Shell.Result _result;
 
-        static SystemShellTest()
+        static SystemShellFeature()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

@@ -16,9 +16,9 @@ using System.IO;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.Cli.Test.System
+namespace Steeltoe.Tooling.Cli.Feature.System
 {
-    public partial class SystemShellTest
+    public partial class SystemShellFeature
     {
         [Scenario]
         public void RunCommand()
