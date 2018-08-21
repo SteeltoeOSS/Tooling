@@ -12,34 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using Shouldly;
+using Steeltoe.Tooling.Cli.Executors.Service;
+using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    public partial class ListServicesExecutorTest
+    public class ListServicesExecutorTest : ExecutorTest
     {
-        [Scenario]
-        public void RunListNoServices()
+        [Fact]
+        public void TestListNone()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => list_services_is_run(),
-                and => the_output_should_be_empty()
-            );
+            var svc = new ListServicesExecutor();
+            svc.Execute(Config, null, Output);
+            Output.ToString().ShouldBeEmpty();
         }
 
-        [Scenario]
-        public void RunListServices()
+        [Fact]
+        public void TestListSeveral()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                and => a_service("service-a", "service-a-type"),
-                and => a_service("service-z", "service-z-type"),
-                when => list_services_is_run(),
-                and => the_output_should_include("service-a (service-a-type)"),
-                and => the_output_should_include("service-z (service-z-type)")
-            );
+            Config.services.Add("service-a", new Configuration.Service("service-a-type"));
+            Config.services.Add("service-b", new Configuration.Service("service-b-type"));
+            var svc = new ListServicesExecutor();
+            svc.Execute(Config, Shell, Output);
+            Output.ToString().ShouldContain("service-a (service-a-type)");
+            Output.ToString().ShouldContain("service-b (service-b-type)");
         }
     }
 }

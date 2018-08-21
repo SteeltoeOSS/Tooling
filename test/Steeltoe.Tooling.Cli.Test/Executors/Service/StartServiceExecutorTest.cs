@@ -12,21 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using Shouldly;
+using Steeltoe.Tooling.Cli.Executors.Service;
+using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    public partial class StartServiceExecutorTest
+    public class StartServiceExecutorTest : ExecutorTest
     {
-        [Scenario]
-        public void StartUnknownService()
+        [Fact]
+        public void TestStartUnknown()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => start_service_is_run("unknown-service"),
-                then => an_exception_should_be_thrown<CommandException>("Unknown service 'unknown-service'")
-            );
+            var svc = new StartServiceExecutor("unknown-service");
+            var e = Assert.Throws<CommandException>(
+                () => svc.Execute(Config, Shell, Output)
+                );
+            e.Message.ShouldBe("Unknown service 'unknown-service'");
         }
     }
 }

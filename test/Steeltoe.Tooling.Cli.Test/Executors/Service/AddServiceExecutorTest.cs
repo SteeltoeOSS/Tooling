@@ -12,43 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using Shouldly;
+using Steeltoe.Tooling.Cli.Executors.Service;
+using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    public partial class AddServiceExecutorTest
+    public class AddServiceExecutorTest : ExecutorTest
     {
-        [Scenario]
-        public void AddUnknownServiceType()
+        [Fact]
+        public void TestAddUnknownTypeError()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => add_service_is_run("unknown-service", "unknown-service-type"),
-                then => an_exception_should_be_thrown<CommandException>("Unknown service type 'unknown-service-type'")
-            );
+            var svc = new AddServiceExecutor("unknown-service", "unknown-service-type");
+            var e = Assert.Throws<CommandException>(
+                () => svc.Execute(Config, Shell, Output)
+                );
+            e.Message.ShouldBe("Unknown service type 'unknown-service-type'");
         }
 
-        [Scenario]
-        public void RunAddExistingService()
+        [Fact]
+        public void TestAddExistingError()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                and => a_service("existing-service", "existing-service-type"),
-                when => add_service_is_run("existing-service", "existing-service-type"),
-                then => an_exception_should_be_thrown<CommandException>("Service 'existing-service' already exists")
-            );
+            Config.services.Add("existing-service", new Configuration.Service("existing-service-type"));
+            var svc = new AddServiceExecutor("existing-service", "existing-service-type");
+            var e = Assert.Throws<CommandException>(
+                () => svc.Execute(Config, Shell, Output)
+                );
+            e.Message.ShouldBe("Service 'existing-service' already exists");
         }
 
-        [Scenario]
-        public void RunAddCloudFoundryConfigServerService()
+        [Fact]
+        public void TestAddCloudFoundryConfigServer()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => add_service_is_run("cfcs-service", "cloud-foundry-config-server"),
-                then => the_output_should_include("Added cloud-foundry-config-server service 'cfcs-service'"),
-                and => the_services_should_include("cfcs-service", "cloud-foundry-config-server")
-            );
+            var svc = new AddServiceExecutor("my-service", "cloud-foundry-config-server");
+            svc.Execute(Config, Shell, Output);
+            Output.ToString().ShouldContain("Added cloud-foundry-config-server service 'my-service'");
+            Config.services.ShouldContainKey("my-service");
+            Config.services["my-service"].type.ShouldBe("cloud-foundry-config-server");
         }
     }
 }

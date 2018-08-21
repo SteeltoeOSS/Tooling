@@ -12,32 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using Shouldly;
+using Steeltoe.Tooling.Cli.Executors.Target;
+using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test.Executors.Target
 {
-    public partial class SetTargetExecutorTest
+    public class SetTargetExecutorTest : ExecutorTest
     {
-        [Scenario]
-        public void SetUnknownTarget()
+        [Fact]
+        public void TestSetUnknown()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => set_target_is_run("unknown-environment"),
-                then => an_exception_should_be_thrown<CommandException>("Unknown environment 'unknown-environment'")
-            );
+            var svc = new SetTargetExecutor("unknown-environment");
+            var e = Assert.Throws<CommandException>(
+                () => svc.Execute(Config, Shell, Output)
+                );
+            e.Message.ShouldBe("Unknown environment 'unknown-environment'");
         }
+        [Fact]
 
-        [Scenario]
-        public void SetTargetToCloudFoundry()
+        public void TestSetCloudFoundry()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => set_target_is_run("cloud-foundry"),
-                then => the_output_should_include("Target environment set to 'cloud-foundry'."),
-                and => the_target_should_be("cloud-foundry")
-            );
+            var svc = new SetTargetExecutor("cloud-foundry");
+            svc.Execute(Config, Shell, Output);
+            Output.ToString().ShouldContain("Target environment set to 'cloud-foundry'.");
+            Config.environment.ShouldBe("cloud-foundry");
         }
     }
 }

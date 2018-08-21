@@ -12,33 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using Shouldly;
+using Steeltoe.Tooling.Cli.Executors.Service;
+using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    public partial class RemoveServiceExecutorTest
+    public class RemoveServiceExecutorTest : ExecutorTest
     {
-        [Scenario]
-        public void RemoveUnknownService()
+        [Fact]
+        public void TestRemoveUnknown()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => remove_service_is_run("unknown-service"),
-                then => an_exception_should_be_thrown<CommandException>("Unknown service 'unknown-service'")
-            );
+            var svc = new RemoveServiceExecutor("unknown-service");
+            var e = Assert.Throws<CommandException>(
+                () => svc.Execute(Config, Shell, Output)
+                );
+            e.Message.ShouldBe("Unknown service 'unknown-service'");
         }
 
-        [Scenario]
-        public void RemoveKnownService()
+        [Fact]
+        public void TestRemove()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                and => a_service("known-service", "known-service-type"),
-                when => remove_service_is_run("known-service"),
-                then => the_output_should_include("Removed service 'known-service'"),
-                and => the_services_should_not_include("known-service")
-            );
+            Config.services.Add("service-a", new Configuration.Service("service-a-type"));
+            Config.services.Add("service-b", new Configuration.Service("service-b-type"));
+            var svc = new RemoveServiceExecutor("service-a");
+            svc.Execute(Config, Shell, Output);
+            Output.ToString().ShouldContain("Removed service 'service-a'");
+            Config.services.ShouldNotContainKey("service-a");
+            Config.services.ShouldContainKey("service-b");
         }
     }
 }

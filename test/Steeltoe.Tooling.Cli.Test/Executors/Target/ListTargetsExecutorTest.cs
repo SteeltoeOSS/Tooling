@@ -12,21 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using Shouldly;
+using Steeltoe.Tooling.Cli.Executors.Target;
+using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test.Executors.Target
 {
-    public partial class ListTargetsExecutorTest
+    public class ListTargetsExecutorTest : ExecutorTest
     {
-        [Scenario]
-        public void RunListTargets()
+        [Fact]
+        public void TestList()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => list_targets_is_run(),
-                and => the_output_should_include("cloud-foundry")
-            );
+            var svc = new ListTargetsExecutor();
+            svc.Execute(Config, null, Output);
+            Output.ToString().ShouldContain("cloud-foundry");
         }
     }
 }

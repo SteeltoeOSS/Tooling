@@ -25,7 +25,7 @@ namespace Steeltoe.Tooling.Cli.Commands.Service
     {
         protected override IExecutor GetExecutor()
         {
-            return new ListServicesExectutor();
+            return new ListServicesExecutor();
         }
     }
 }

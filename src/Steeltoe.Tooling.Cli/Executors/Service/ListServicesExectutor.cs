@@ -16,7 +16,7 @@ using System.IO;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
 {
-    public class ListServicesExectutor : IExecutor
+    public class ListServicesExecutor : IExecutor
     {
         public bool Execute(Configuration config, Shell shell, TextWriter console)
         {
