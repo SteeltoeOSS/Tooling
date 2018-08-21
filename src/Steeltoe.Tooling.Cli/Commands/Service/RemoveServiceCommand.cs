@@ -19,7 +19,7 @@ using Steeltoe.Tooling.Cli.Executors.Service;
 // ReSharper disable UnassignedGetOnlyAutoProperty
 // ReSharper disable InconsistentNaming
 
-namespace Steeltoe.Tooling.Cli.Commands.Target
+namespace Steeltoe.Tooling.Cli.Commands.Service
 {
     [Command(Description = "Remove a service.")]
     public class RemoveServiceCommand : Command

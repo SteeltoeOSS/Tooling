@@ -24,7 +24,11 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
 
         public override bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            if (!config.services.ContainsKey(Name)) throw new CommandException($"Unknown service '{Name}'");
+            if (!config.services.ContainsKey(Name))
+            {
+                throw new CommandException($"Unknown service '{Name}'");
+            }
+
             config.services.Remove(Name);
             output.WriteLine($"Removed service '{Name}'");
             return true;
