@@ -17,7 +17,7 @@ using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Cli.Commands.Service;
 using Steeltoe.Tooling.Cli.Commands.Target;
 
-namespace Steeltoe.Tooling.Cli
+namespace Steeltoe.Tooling.Cli.Commands
 {
     [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
     [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]

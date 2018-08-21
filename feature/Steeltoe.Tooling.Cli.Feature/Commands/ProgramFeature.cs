@@ -16,7 +16,7 @@ using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
-namespace Steeltoe.Tooling.Cli.Feature
+namespace Steeltoe.Tooling.Cli.Feature.Commands
 {
     [Label("program")]
     public class ProgramFeature : CliFeatureSpecs
