@@ -37,9 +37,9 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
             var status = "offline";
             if (result.Out != null)
             {
-                Regex exp = new Regex(@"^status:\s+(.*)", RegexOptions.Multiline);
+                Regex exp = new Regex(@"^status:\s+(.*)$", RegexOptions.Multiline);
                 Match match = exp.Match(result.Out);
-                if (match.Groups[1].ToString().Equals("create succeeded"))
+                if (match.Groups[1].ToString().TrimEnd().Equals("create succeeded"))
                 {
                     status = "online";
                 }
