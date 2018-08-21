@@ -35,7 +35,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
                     throw new CommandException($"Unknown environment '{_environment}'");
             }
 
-            config.target = _environment;
+            config.environment = _environment;
             output.WriteLine($"Target environment set to '{_environment}'.");
             return true;
         }

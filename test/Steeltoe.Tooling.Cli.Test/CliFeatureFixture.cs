@@ -89,7 +89,7 @@ There are no bound apps for this service.
 
         protected void the_target_should_be(string name)
         {
-            Config.target.ShouldBe(name);
+            Config.environment.ShouldBe(name);
         }
 
         protected void the_services_should_include(string name, string type)

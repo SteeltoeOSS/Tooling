@@ -27,7 +27,7 @@ namespace Steeltoe.Tooling.Cli
 
         public const string DefaultFileName = ".steeltoe.tooling.yml";
 
-        public string target { get; set; }
+        public string environment { get; set; }
 
         public SortedDictionary<string, Service> services { get; set; } = new SortedDictionary<string, Service>();
 

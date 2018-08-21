@@ -12,21 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
-
-namespace Steeltoe.Tooling.Cli.Test.Executors.Service
+namespace Steeltoe.Tooling.Cli.CloudFoundry
 {
-    public partial class StopServiceExecutorTest
+    public class CloudFoundryEnvironment : IEnvironment
     {
-        [Scenario]
-        public void StopUnknownService()
+        public IServiceManager GetServiceManager()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => stop_service_is_run("unknown-service"),
-                then => an_exception_should_be_thrown<CommandException>("Unknown service 'unknown-service'")
-            );
+            return new CloudFoundryServiceManager();
         }
     }
 }

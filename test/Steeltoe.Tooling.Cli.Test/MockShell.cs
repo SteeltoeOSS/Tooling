@@ -4,7 +4,7 @@
     {
         public string LastCommand { get; private set; }
 
-        public string NextResponse { get; set; }
+        public string NextResponse { get; set; } = "";
 
         public override Result Run(string command, string arguments = null, string workingDirectory = null)
         {

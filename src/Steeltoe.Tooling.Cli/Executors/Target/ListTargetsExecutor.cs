@@ -20,7 +20,10 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
     {
         public bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            output.WriteLine("cloud-foundry");
+            foreach (var name in Environments.GetNames())
+            {
+                output.WriteLine(name);
+            }
             return false;
         }
     }

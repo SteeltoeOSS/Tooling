@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
 {
@@ -30,18 +29,8 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
                 throw new CommandException($"Unknown service '{Name}'");
             }
 
-            var result = shell.Run("cf", $"service {Name}");
-            var status = "offline";
-            if (result.Out != null)
-            {
-                Regex exp = new Regex(@"^status:\s+(.*)$", RegexOptions.Multiline);
-                Match match = exp.Match(result.Out);
-                if (match.Groups[1].ToString().TrimEnd().Equals("create succeeded"))
-                {
-                    status = "online";
-                }
-            }
-
+            var env = Environments.ForName(config.environment);
+            var status = env.GetServiceManager().CheckService(shell, Name);
             output.WriteLine(status);
             return false;
         }

@@ -28,27 +28,5 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Service
                 then => an_exception_should_be_thrown<CommandException>("Unknown service 'unknown-service'")
             );
         }
-
-        [Scenario]
-        public void CheckCfCommand()
-        {
-            Runner.RunScenario(
-                given => a_project(),
-                and => a_service("known-service", "known-service-type"),
-                when => check_service_is_run("known-service"),
-                then => the_run_command_should_be("cf service known-service")
-            );
-        }
-
-        [Scenario]
-        public void CheckOnlineService()
-        {
-            Runner.RunScenario(
-                given => a_project(),
-                and => a_cloud_foundry_service("my-service"),
-                when => check_service_is_run("my-service"),
-                then => the_output_should_include("online")
-            );
-        }
     }
 }

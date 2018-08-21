@@ -46,7 +46,7 @@ namespace Steeltoe.Tooling.Cli.Test
 
         private void the_target_is_set(string name)
         {
-            _config.target = name;
+            _config.environment = name;
         }
 
         private void a_service_is_added(string name, string type)
@@ -76,7 +76,7 @@ namespace Steeltoe.Tooling.Cli.Test
 
         private void the_target_should_be(string name)
         {
-            _config.target.ShouldBe(name);
+            _config.environment.ShouldBe(name);
         }
 
         private void a_service_should_be(string name, string type)

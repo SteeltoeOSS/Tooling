@@ -58,7 +58,7 @@ namespace Steeltoe.Tooling.Cli.Feature
         {
             Logger.LogInformation($"rigging a target '{name}'");
             var cfg = LoadProjectConfiguration();
-            cfg.target = name;
+            cfg.environment = name;
             StoreProjectConfiguration(cfg);
         }
 
@@ -113,7 +113,7 @@ namespace Steeltoe.Tooling.Cli.Feature
         {
             Logger.LogInformation($"checking the target config '{name}' exists");
             var cfg = LoadProjectConfiguration();
-            cfg.target.ShouldBe(name);
+            cfg.environment.ShouldBe(name);
         }
 
         protected void the_service_config_should_exist(string name, string type)

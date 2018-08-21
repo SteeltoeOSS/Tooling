@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using Shouldly;
+using Steeltoe.Tooling.Cli.CloudFoundry;
+using Xunit;
 
-namespace Steeltoe.Tooling.Cli.Test.Executors.Service
+namespace Steeltoe.Tooling.Cli.Test.CloudFoundry
 {
-    public partial class StopServiceExecutorTest
+    public class CloudFoundryEnvironmentTest
     {
-        [Scenario]
-        public void StopUnknownService()
+        [Fact]
+        public void TestGetServiceManager()
         {
-            Runner.RunScenario(
-                given => a_project(),
-                when => stop_service_is_run("unknown-service"),
-                then => an_exception_should_be_thrown<CommandException>("Unknown service 'unknown-service'")
-            );
+            var env = new CloudFoundryEnvironment();
+            env.GetServiceManager().ShouldBeOfType<CloudFoundryServiceManager>();
         }
     }
 }

@@ -12,21 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
-
-namespace Steeltoe.Tooling.Cli.Test.Executors.Service
+namespace Steeltoe.Tooling.Cli
 {
-    public partial class StopServiceExecutorTest
+    public interface IServiceManager
     {
-        [Scenario]
-        public void StopUnknownService()
-        {
-            Runner.RunScenario(
-                given => a_project(),
-                when => stop_service_is_run("unknown-service"),
-                then => an_exception_should_be_thrown<CommandException>("Unknown service 'unknown-service'")
-            );
-        }
+        void StartService(Shell shell, string name, string type);
+
+        void StopService(Shell shell, string name);
+
+        string CheckService(Shell shell, string name);
     }
 }

@@ -12,26 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Steeltoe.Tooling.Cli.Executors.Service
+namespace Steeltoe.Tooling.Cli
 {
-    public class StartServiceExecutor : ServiceExecutor
+    public static class Environments
     {
-        public StartServiceExecutor(string name) : base(name)
+        private static SortedDictionary<string, IEnvironment> environments = new SortedDictionary<string, IEnvironment>
         {
+            {"cloud-foundry", new CloudFoundry.CloudFoundryEnvironment()}
+        };
+
+        public static IEnumerable<string> GetNames()
+        {
+            return environments.Keys.ToList();
         }
 
-        public override bool Execute(Configuration config, Shell shell, TextWriter output)
+        public static IEnvironment ForName(string name)
         {
-            if (!config.services.ContainsKey(Name))
+            try
             {
-                throw new CommandException($"Unknown service '{Name}'");
+                return environments[name];
             }
-
-            var env = Environments.ForName(config.environment);
-            env.GetServiceManager().StartService(shell, Name, config.services[Name].type);
-            return false;
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
         }
     }
 }

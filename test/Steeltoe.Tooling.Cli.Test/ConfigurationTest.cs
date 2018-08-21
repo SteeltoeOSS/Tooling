@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Cli.Test
         {
             Runner.RunScenario(
                 given => a_tooling_configuration(),
-                when => the_target_is_set("myTarget"),
+                when => the_target_is_set("myEnvironment"),
                 and => a_service_is_added("myService", "myServiceType"),
                 and => the_tooling_configuration_is_stored(),
                 then => the_stored_content_should_be(SampleConfig)
@@ -37,12 +37,12 @@ namespace Steeltoe.Tooling.Cli.Test
             Runner.RunScenario(
                 given => a_stream_containing(SampleConfig),
                 when => the_tooling_configuration_is_loaded(),
-                then => the_target_should_be("myTarget"),
+                then => the_target_should_be("myEnvironment"),
                 and => a_service_should_be("myService", "myServiceType")
             );
         }
 
-        private const string SampleConfig = @"target: myTarget
+        private const string SampleConfig = @"environment: myEnvironment
 services:
   myService:
     type: myServiceType

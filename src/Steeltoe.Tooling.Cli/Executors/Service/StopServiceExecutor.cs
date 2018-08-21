@@ -29,7 +29,8 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
                 throw new CommandException($"Unknown service '{Name}'");
             }
 
-            shell.Run("cf", $"delete-service {Name} -f");
+            var env = Environments.ForName(config.environment);
+            env.GetServiceManager().StopService(shell, Name);
             return false;
         }
     }
