@@ -29,8 +29,8 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
                 given => a_dotnet_project("remove_service_help"),
                 when => the_developer_runs_steeltoe_command("remove-service --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"^Remove a service\.\n"),
-                and => the_developer_should_see(@"\n\s*name\s+The service name\n")
+                and => the_developer_should_see(@"Remove a service\."),
+                and => the_developer_should_see(@"name\s+The service name")
             );
         }
 

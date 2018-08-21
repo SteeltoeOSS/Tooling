@@ -29,8 +29,8 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
                 given => a_dotnet_project("stop_service_help"),
                 when => the_developer_runs_steeltoe_command("stop-service --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"^\s*Stop a service in the target environment\.\n"),
-                and => the_developer_should_see(@"\n\s*name\s+The service name\n")
+                and => the_developer_should_see(@"Stop a service in the target environment\."),
+                and => the_developer_should_see(@"name\s+The service name")
             );
         }
 

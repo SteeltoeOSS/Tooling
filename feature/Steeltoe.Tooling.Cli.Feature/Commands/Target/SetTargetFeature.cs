@@ -29,8 +29,8 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
                 given => a_dotnet_project("set_target_help"),
                 when => the_developer_runs_steeltoe_command("set-target --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"^Set the target environment\.\n"),
-                and => the_developer_should_see(@"\n\s*environment\s+The environment\n")
+                and => the_developer_should_see(@"Set the target environment\."),
+                and => the_developer_should_see(@"environment\s+The environment")
             );
         }
 

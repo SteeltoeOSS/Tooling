@@ -29,7 +29,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
                 given => a_dotnet_project("list_service_types_help"),
                 when => the_developer_runs_steeltoe_command("list-service-types --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"^List available service types\.\n")
+                and => the_developer_should_see(@"List available service types\.")
             );
         }
 

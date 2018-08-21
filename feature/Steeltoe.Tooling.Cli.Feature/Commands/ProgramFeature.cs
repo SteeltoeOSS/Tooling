@@ -40,18 +40,18 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands
                 given => a_dotnet_project("main_help"),
                 when => the_developer_runs_steeltoe_command("--help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"\n\s*Steeltoe Developer Tools\n"),
-                and => the_developer_should_see(@"\n\s*-V\|--version\s+Show version information\n"),
-                and => the_developer_should_see(@"\n\s*-\?\|-h\|--help\s+Show help information\n"),
-                and => the_developer_should_see(@"\n\s*add-service\s+Add a service\.\n"),
-                and => the_developer_should_see(@"\n\s*check-service\s+Check the status of a service in the target environment\.\n"),
-                and => the_developer_should_see(@"\n\s*list-service-types\s+List available service types\.\n"),
-                and => the_developer_should_see(@"\n\s*list-services\s+List available services\.\n"),
-                and => the_developer_should_see(@"\n\s*list-targets\s+List available target environments\.\n"),
-                and => the_developer_should_see(@"\n\s*remove-service\s+Remove a service\.\n"),
-                and => the_developer_should_see(@"\n\s*set-target\s+Set the target environment\.\n"),
-                and => the_developer_should_see(@"\n\s*start-service\s+Start a service in the target environment\.\n"),
-                and => the_developer_should_see(@"\n\s*stop-service\s+Stop a service in the target environment\.\n")
+                and => the_developer_should_see(@"Steeltoe Developer Tools"),
+                and => the_developer_should_see(@"-V\|--version\s+Show version information"),
+                and => the_developer_should_see(@"-\?\|-h\|--help\s+Show help information"),
+                and => the_developer_should_see(@"add-service\s+Add a service\."),
+                and => the_developer_should_see(@"check-service\s+Check the status of a service in the target environment\."),
+                and => the_developer_should_see(@"list-service-types\s+List available service types\."),
+                and => the_developer_should_see(@"list-services\s+List available services\."),
+                and => the_developer_should_see(@"list-targets\s+List available target environments\."),
+                and => the_developer_should_see(@"remove-service\s+Remove a service\."),
+                and => the_developer_should_see(@"set-target\s+Set the target environment\."),
+                and => the_developer_should_see(@"start-service\s+Start a service in the target environment\."),
+                and => the_developer_should_see(@"stop-service\s+Stop a service in the target environment\.")
             );
         }
 

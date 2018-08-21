@@ -29,7 +29,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
                 given => a_dotnet_project("list_targets_help"),
                 when => the_developer_runs_steeltoe_command("list-targets --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"^List available target environments\.\n")
+                and => the_developer_should_see(@"List available target environments\.")
             );
         }
 

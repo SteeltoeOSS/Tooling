@@ -29,9 +29,9 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
                 given => a_dotnet_project("add_service_help"),
                 when => the_developer_runs_steeltoe_command("add-service --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"^\s*Add a service\.\n"),
-                and => the_developer_should_see(@"\n\s*name\s+The service name\n"),
-                and => the_developer_should_see(@"\n\s*-t\|--type\s+The service type\n")
+                and => the_developer_should_see(@"Add a service\."),
+                and => the_developer_should_see(@"name\s+The service name"),
+                and => the_developer_should_see(@"-t\|--type\s+The service type")
             );
         }
 
