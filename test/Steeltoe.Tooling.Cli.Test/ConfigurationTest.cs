@@ -18,7 +18,7 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test
 {
-    public partial class ConfigurationTest
+    public class ConfigurationTest
     {
         [Fact]
         public void TestStoreToStream()
