@@ -16,21 +16,15 @@ using System.IO;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
 {
-    public class StopServiceExecutor : ServiceExecutor
+    public abstract class ServiceExecutor : IExecutor
     {
-        public StopServiceExecutor(string name) : base(name)
+        protected string Name { get; }
+
+        public ServiceExecutor(string name)
         {
+            Name = name;
         }
 
-        public override bool Execute(Configuration config, Shell shell, TextWriter output)
-        {
-            if (!config.services.ContainsKey(Name))
-            {
-                throw new CommandException($"Unknown service '{Name}'");
-            }
-
-            shell.Run("cf", $"delete-service {Name} -f");
-            return false;
-        }
+        public abstract bool Execute(Configuration config, Shell shell, TextWriter consoleOut);
     }
 }

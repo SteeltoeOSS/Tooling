@@ -16,20 +16,17 @@ using System.IO;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
 {
-    public class RemoveServiceExecutor : IExecutor
+    public class RemoveServiceExecutor : ServiceExecutor
     {
-        private readonly string _name;
-
-        public RemoveServiceExecutor(string name)
+        public RemoveServiceExecutor(string name) : base(name)
         {
-            _name = name;
         }
 
-        public bool Execute(Configuration config, Shell shell, TextWriter output)
+        public override bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            if (!config.services.ContainsKey(_name)) throw new CommandException($"Unknown service '{_name}'");
-            config.services.Remove(_name);
-            output.WriteLine($"Removed service '{_name}'");
+            if (!config.services.ContainsKey(Name)) throw new CommandException($"Unknown service '{Name}'");
+            config.services.Remove(Name);
+            output.WriteLine($"Removed service '{Name}'");
             return true;
         }
     }

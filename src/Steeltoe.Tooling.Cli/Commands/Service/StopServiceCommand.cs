@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Cli.Executors.Service;
 
@@ -20,12 +21,16 @@ using Steeltoe.Tooling.Cli.Executors.Service;
 
 namespace Steeltoe.Tooling.Cli.Commands.Service
 {
-    [Command(Description = "Stop a service in the current target.")]
+    [Command(Description = "Stop a service in the target environment.")]
     public class StopServiceCommand : Command
     {
+        [Required(ErrorMessage = "Service name not specified")]
+        [Argument(0, Description = "The service name")]
+        private string name { get; }
+
         protected override IExecutor GetExecutor()
         {
-            return new StopServiceExecutor();
+            return new StopServiceExecutor(name);
         }
     }
 }

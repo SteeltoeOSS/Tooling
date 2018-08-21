@@ -50,8 +50,8 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands
                 and => the_developer_should_see(@"\n\s*list-targets\s+List available target environments\.\n"),
                 and => the_developer_should_see(@"\n\s*remove-service\s+Remove a service\.\n"),
                 and => the_developer_should_see(@"\n\s*set-target\s+Set the target environment\.\n"),
-                and => the_developer_should_see(@"\n\s*start-service\s+Start a service in the current target\.\n"),
-                and => the_developer_should_see(@"\n\s*stop-service\s+Stop a service in the current target\.\n")
+                and => the_developer_should_see(@"\n\s*start-service\s+Start a service in the target environment\.\n"),
+                and => the_developer_should_see(@"\n\s*stop-service\s+Stop a service in the target environment\.\n")
             );
         }
 

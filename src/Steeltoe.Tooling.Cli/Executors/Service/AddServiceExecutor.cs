@@ -16,35 +16,32 @@ using System.IO;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
 {
-    public class AddServiceExecutor : IExecutor
+    public class AddServiceExecutor : ServiceExecutor
     {
-        private readonly string _name;
+        private string Type { get; }
 
-        private readonly string _type;
-
-        public AddServiceExecutor(string name, string type)
+        public AddServiceExecutor(string name, string type) : base(name)
         {
-            _name = name;
-            _type = type;
+            Type = type;
         }
 
-        public bool Execute(Configuration config, Shell shell, TextWriter output)
+        public override bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            if (config.services.ContainsKey(_name))
+            if (config.services.ContainsKey(Name))
             {
-                throw new CommandException($"Service '{_name}' already exists");
+                throw new CommandException($"Service '{Name}' already exists");
             }
 
-            switch (_type.ToLower())
+            switch (Type.ToLower())
             {
                 case "cloud-foundry-config-server":
                     break;
                 default:
-                    throw new CommandException($"Unknown service type '{_type}'");
+                    throw new CommandException($"Unknown service type '{Type}'");
             }
 
-            config.services.Add(_name, new Configuration.Service(_type));
-            output.WriteLine($"Added {_type} service '{_name}'");
+            config.services.Add(Name, new Configuration.Service(Type));
+            output.WriteLine($"Added {Type} service '{Name}'");
             return true;
         }
     }

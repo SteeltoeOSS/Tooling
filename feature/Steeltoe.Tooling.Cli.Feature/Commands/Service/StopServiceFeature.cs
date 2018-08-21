@@ -22,12 +22,37 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
     public class StopServiceFeature : CliFeatureSpecs
     {
         [Scenario]
-        public void RunStopNoArgs()
+        [Label("help")]
+        public void StopServiceHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("stop_no_args"),
+                given => a_dotnet_project("stop_service_help"),
+                when => the_developer_runs_steeltoe_command("stop-service --help"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see(@"^\s*Stop a service in the target environment\.\n"),
+                and => the_developer_should_see(@"\n\s*name\s+The service name\n")
+            );
+        }
+
+        [Scenario]
+        public void StopServiceNotEnoughArgs()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("stop_service_not_enough_args"),
                 when => the_developer_runs_steeltoe_command("stop-service"),
-                then => the_command_should_succeed()
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("Service name not specified")
+            );
+        }
+
+        [Scenario]
+        public void StopServiceTooManyArgs()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("stop_service_too_many_args"),
+                when => the_developer_runs_steeltoe_command("stop-service arg1 arg2"),
+                then => the_command_should_fail(),
+                and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
             );
         }
     }

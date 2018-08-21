@@ -17,23 +17,20 @@ using System.Text.RegularExpressions;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
 {
-    public class CheckServiceExecutor : IExecutor
+    public class CheckServiceExecutor : ServiceExecutor
     {
-        private readonly string _name;
-
-        public CheckServiceExecutor(string name)
+        public CheckServiceExecutor(string name) : base(name)
         {
-            _name = name;
         }
 
-        public bool Execute(Configuration config, Shell shell, TextWriter output)
+        public override bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            if (!config.services.ContainsKey(_name))
+            if (!config.services.ContainsKey(Name))
             {
-                throw new CommandException($"Unknown service '{_name}'");
+                throw new CommandException($"Unknown service '{Name}'");
             }
 
-            var result = shell.Run("cf", $"service {_name}");
+            var result = shell.Run("cf", $"service {Name}");
             var status = "offline";
             if (result.Out != null)
             {

@@ -12,25 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using Steeltoe.Tooling.Cli.Executors.Service;
 
-namespace Steeltoe.Tooling.Cli.Executors.Service
+namespace Steeltoe.Tooling.Cli.Test.Executors.Service
 {
-    public class StopServiceExecutor : ServiceExecutor
+    public partial class StopServiceExecutorTest : CliFeatureFixture
     {
-        public StopServiceExecutor(string name) : base(name)
+        private void stop_service_is_run(string name)
         {
-        }
-
-        public override bool Execute(Configuration config, Shell shell, TextWriter output)
-        {
-            if (!config.services.ContainsKey(Name))
-            {
-                throw new CommandException($"Unknown service '{Name}'");
-            }
-
-            shell.Run("cf", $"delete-service {Name} -f");
-            return false;
+            Execute(new StopServiceExecutor(name ));
         }
     }
 }

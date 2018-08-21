@@ -16,10 +16,20 @@ using System.IO;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
 {
-    public class StartServiceExecutor : IExecutor
+    public class StartServiceExecutor : ServiceExecutor
     {
-        public bool Execute(Configuration config, Shell shell, TextWriter output)
+        public StartServiceExecutor(string name) : base(name)
         {
+        }
+
+        public override bool Execute(Configuration config, Shell shell, TextWriter output)
+        {
+            if (!config.services.ContainsKey(Name))
+            {
+                throw new CommandException($"Unknown service '{Name}'");
+            }
+
+            shell.Run("cf", $"create-service p-config-server standard {Name}");
             return false;
         }
     }
