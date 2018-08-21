@@ -12,34 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework.Scenarios.Extended;
-using LightBDD.XUnit2;
+using System.IO;
+using Shouldly;
+using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test
 {
     public partial class ConfigurationTest
     {
-        [Scenario]
-        public void StoreToStream()
+        [Fact]
+        public void TestStoreToStream()
         {
-            Runner.RunScenario(
-                given => a_tooling_configuration(),
-                when => the_target_is_set("myEnvironment"),
-                and => a_service_is_added("myService", "myServiceType"),
-                and => the_tooling_configuration_is_stored(),
-                then => the_stored_content_should_be(SampleConfig)
-            );
+            var cfg = new Configuration();
+            cfg.environment = "myEnvironment";
+            cfg.services.Add("myService", new Configuration.Service("myServiceType"));
+            var ostr = new StringWriter();
+            cfg.Store(ostr);
+            ostr.ToString().ShouldBe(SampleConfig);
+
         }
 
-        [Scenario]
-        public void LoadFromStream()
+        [Fact]
+        public void TestLoadFromStream()
         {
-            Runner.RunScenario(
-                given => a_stream_containing(SampleConfig),
-                when => the_tooling_configuration_is_loaded(),
-                then => the_target_should_be("myEnvironment"),
-                and => a_service_should_be("myService", "myServiceType")
-            );
+            var istr = new StringReader(SampleConfig);
+            var cfg = Configuration.Load(istr);
+            cfg.environment.ShouldBe("myEnvironment");
+            cfg.services.ShouldContainKey("myService");
+            cfg.services["myService"].type.ShouldBe("myServiceType");
         }
 
         private const string SampleConfig = @"environment: myEnvironment
