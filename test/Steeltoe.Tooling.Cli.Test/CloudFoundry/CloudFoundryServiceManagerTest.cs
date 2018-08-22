@@ -21,12 +21,21 @@ namespace Steeltoe.Tooling.Cli.Test.CloudFoundry
     public class CloudFoundryServiceManagerTest
     {
         [Fact]
-        public void TestStartCloudFoundryConfigServiceService()
+        public void TestStartConfigServer()
         {
             var mgr = new CloudFoundryServiceManager();
             var shell = new MockShell();
-            mgr.StartService(shell, "my-service", "cloud-foundry-config-server");
+            mgr.StartService(shell, "my-service", "config-server");
             shell.LastCommand.ShouldBe("cf create-service p-config-server standard my-service");
+        }
+
+        [Fact]
+        public void TestStartRegistry()
+        {
+            var mgr = new CloudFoundryServiceManager();
+            var shell = new MockShell();
+            mgr.StartService(shell, "my-service", "registry");
+            shell.LastCommand.ShouldBe("cf create-service p-service-registry standard my-service");
         }
 
         [Fact]

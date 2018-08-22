@@ -14,6 +14,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
 {
@@ -33,16 +34,14 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
                 throw new ArgumentException($"Service '{Name}' already exists");
             }
 
-            switch (Type.ToLower())
+            var type = Type.ToLower();
+            if (!ServiceTypes.GetList().Contains(type))
             {
-                case "cloud-foundry-config-server":
-                    break;
-                default:
-                    throw new ArgumentException($"Unknown service type '{Type}'");
+                throw new ArgumentException($"Unknown service type '{Type}'");
             }
 
-            config.services.Add(Name, new Configuration.Service(Type));
-            output.WriteLine($"Added {Type} service '{Name}'");
+            config.services.Add(Name, new Configuration.Service(type));
+            output.WriteLine($"Added {type} service '{Name}'");
             return true;
         }
     }

@@ -12,19 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using System.Collections.Generic;
 
-namespace Steeltoe.Tooling.Cli.Executors.Service
+namespace Steeltoe.Tooling.Cli
 {
-    public class ListServiceTypesExecutor : IExecutor
+    public static class ServiceTypes
     {
-        public bool Execute(Configuration config, Shell shell, TextWriter output)
+        private static List<string> _list = new List<string>
         {
-            foreach (var type in ServiceTypes.GetList())
-            {
-                output.WriteLine(type);
-            }
-            return false;
+            "config-server",
+            "registry"
+        };
+
+        public static IReadOnlyList<string> GetList()
+        {
+            return _list.AsReadOnly();
         }
     }
 }

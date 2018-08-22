@@ -92,16 +92,26 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
         }
 
         [Scenario]
-        public void AddCloudFoundryConfigServerService()
+        public void AddConfigServer()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("add_cloud_foundry_config_server_service"),
-                and => a_target("keep-this-target"),
-                when => the_developer_runs_steeltoe_command("add-service MyConfigServer --type cloud-foundry-config-server"),
+                given => a_dotnet_project("add_config_server"),
+                when => the_developer_runs_steeltoe_command("add-service MyConfigServer --type config-server"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see("Added cloud-foundry-config-server service 'MyConfigServer'"),
-                and => the_service_config_should_exist("MyConfigServer", "cloud-foundry-config-server"),
-                and => the_target_config_should_exist("keep-this-target")
+                and => the_developer_should_see("Added config-server service 'MyConfigServer'"),
+                and => the_service_config_should_exist("MyConfigServer", "config-server")
+            );
+        }
+
+        [Scenario]
+        public void AddRegistry()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("add_registry"),
+                when => the_developer_runs_steeltoe_command("add-service MyRegistryService --type registry"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("Added registry service 'MyRegistryService'"),
+                and => the_service_config_should_exist("MyRegistryService", "registry")
             );
         }
     }

@@ -43,13 +43,23 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Service
         }
 
         [Fact]
-        public void TestAddCloudFoundryConfigServer()
+        public void TestAddConfigServer()
         {
-            var svc = new AddServiceExecutor("my-service", "cloud-foundry-config-server");
+            var svc = new AddServiceExecutor("my-service", "config-server");
             svc.Execute(Config, Shell, Output);
-            Output.ToString().ShouldContain("Added cloud-foundry-config-server service 'my-service'");
+            Output.ToString().ShouldContain("Added config-server service 'my-service'");
             Config.services.ShouldContainKey("my-service");
-            Config.services["my-service"].type.ShouldBe("cloud-foundry-config-server");
+            Config.services["my-service"].type.ShouldBe("config-server");
+        }
+
+        [Fact]
+        public void TestAddRegistry()
+        {
+            var svc = new AddServiceExecutor("my-service", "registry");
+            svc.Execute(Config, Shell, Output);
+            Output.ToString().ShouldContain("Added registry service 'my-service'");
+            Config.services.ShouldContainKey("my-service");
+            Config.services["my-service"].type.ShouldBe("registry");
         }
     }
 }

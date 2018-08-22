@@ -21,7 +21,8 @@ namespace Steeltoe.Tooling.Cli.CloudFoundry
     {
         private static Dictionary<string, string> serviceMapping = new Dictionary<string, string>
         {
-            {"cloud-foundry-config-server", "p-config-server"}
+            {"config-server", "p-config-server"},
+            {"registry", "p-service-registry"}
         };
 
         public void StartService(Shell shell, string name, string type)
