@@ -13,20 +13,33 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Steeltoe.Tooling.Cli
 {
     public static class ServiceTypes
     {
-        private static List<string> _list = new List<string>
+        private static SortedDictionary<string, string> _types = new SortedDictionary<string, string>
         {
-            "config-server",
-            "registry"
+            {"config-server", "Spring Cloud Config Server"},
+            {"registry", "Netflix Eureka Server"}
         };
 
-        public static IReadOnlyList<string> GetList()
+        public static IEnumerable<string> GetNames()
         {
-            return _list.AsReadOnly();
+            return _types.Keys.ToList();
+        }
+
+        public static string GetDescription(string name)
+        {
+            try
+            {
+                return _types[name];
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
         }
     }
 }

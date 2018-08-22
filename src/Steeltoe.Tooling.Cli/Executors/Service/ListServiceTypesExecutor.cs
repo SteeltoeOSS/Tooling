@@ -20,10 +20,11 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
     {
         public bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            foreach (var type in ServiceTypes.GetList())
+            foreach (var name in ServiceTypes.GetNames())
             {
-                output.WriteLine(type);
+                output.WriteLine($"{name} ({ServiceTypes.GetDescription(name)})");
             }
+
             return false;
         }
     }

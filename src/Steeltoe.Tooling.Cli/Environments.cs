@@ -19,23 +19,24 @@ namespace Steeltoe.Tooling.Cli
 {
     public static class Environments
     {
-        private static SortedDictionary<string, IEnvironment> environments = new SortedDictionary<string, IEnvironment>
+        private static SortedDictionary<string, IEnvironment> _environments = new SortedDictionary<string, IEnvironment>
         {
-            {CloudFoundry.CloudFoundryEnvironment.Name,
-            new CloudFoundry.CloudFoundryEnvironment()}
+            {
+                CloudFoundry.CloudFoundryEnvironment.Name,
+                new CloudFoundry.CloudFoundryEnvironment()
+            }
         };
-
 
         public static IEnumerable<string> GetNames()
         {
-            return environments.Keys.ToList();
+            return _environments.Keys.ToList();
         }
 
         public static IEnvironment ForName(string name)
         {
             try
             {
-                return environments[name];
+                return _environments[name];
             }
             catch (KeyNotFoundException)
             {

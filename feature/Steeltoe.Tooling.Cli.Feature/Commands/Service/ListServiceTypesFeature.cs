@@ -40,8 +40,8 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
                 given => a_dotnet_project("list_service_types"),
                 when => the_developer_runs_steeltoe_command("list-service-types"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see("config-server"),
-                and => the_developer_should_see("registry")
+                and => the_developer_should_see(@"config-server\s+\(Spring Cloud Config Server\)"),
+                and => the_developer_should_see(@"registry\s+\(Netflix Eureka Server\)")
             );
         }
 
