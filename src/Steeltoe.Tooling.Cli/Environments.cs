@@ -21,8 +21,10 @@ namespace Steeltoe.Tooling.Cli
     {
         private static SortedDictionary<string, IEnvironment> environments = new SortedDictionary<string, IEnvironment>
         {
-            {"cloud-foundry", new CloudFoundry.CloudFoundryEnvironment()}
+            {CloudFoundry.CloudFoundryEnvironment.Name,
+            new CloudFoundry.CloudFoundryEnvironment()}
         };
+
 
         public static IEnumerable<string> GetNames()
         {

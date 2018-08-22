@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
 
 namespace Steeltoe.Tooling.Cli.Executors.Target
@@ -20,23 +21,34 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
     {
         private readonly string _environment;
 
-        public SetTargetExecutor(string environment)
+        private readonly bool _force;
+
+        public SetTargetExecutor(string environment, bool force = false)
         {
             _environment = environment;
+            _force = force;
         }
 
         public bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            switch (_environment.ToLower())
+            var envName = _environment.ToLower();
+            IEnvironment env = Environments.ForName(envName);
+            if (env == null)
             {
-                case "cloud-foundry":
-                    break;
-                default:
-                    throw new CommandException($"Unknown environment '{_environment}'");
+                throw new ArgumentException($"Unknown environment '{_environment}'");
             }
 
-            config.environment = _environment;
-            output.WriteLine($"Target environment set to '{_environment}'.");
+            if (!env.IsSane(shell, output))
+            {
+                if (!_force)
+                {
+                    output.WriteLine("Fix errors above or re-run with '-f|--force'");
+                    throw new CliException();
+                }
+            }
+
+            config.environment = envName;
+            output.WriteLine($"Target environment set to '{envName}'.");
             return true;
         }
     }

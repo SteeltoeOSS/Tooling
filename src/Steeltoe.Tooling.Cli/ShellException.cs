@@ -13,26 +13,13 @@
 // limitations under the License.
 
 using System;
-using System.IO;
 
-namespace Steeltoe.Tooling.Cli.Executors.Service
+namespace Steeltoe.Tooling.Cli
 {
-    public class StartServiceExecutor : ServiceExecutor
+    public class ShellException : Exception
     {
-        public StartServiceExecutor(string name) : base(name)
+        public ShellException(string message) : base(message)
         {
-        }
-
-        public override bool Execute(Configuration config, Shell shell, TextWriter output)
-        {
-            if (!config.services.ContainsKey(Name))
-            {
-                throw new ArgumentException($"Unknown service '{Name}'");
-            }
-
-            var env = Environments.ForName(config.environment);
-            env.GetServiceManager().StartService(shell, Name, config.services[Name].type);
-            return false;
         }
     }
 }

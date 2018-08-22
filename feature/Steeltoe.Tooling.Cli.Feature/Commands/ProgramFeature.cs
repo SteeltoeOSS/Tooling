@@ -27,7 +27,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands
             Runner.RunScenario(
                 given => a_dotnet_project("main_no_args"),
                 when => the_developer_runs_steeltoe_command(""),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see(@"Usage: steeltoe \[options\] \[command\]")
             );
         }

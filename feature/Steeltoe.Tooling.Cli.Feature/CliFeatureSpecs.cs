@@ -91,10 +91,10 @@ namespace Steeltoe.Tooling.Cli.Feature
             _shellResult.ExitCode.ShouldBe(0);
         }
 
-        protected void the_command_should_fail()
+        protected void the_command_should_fail_with(int rc)
         {
             Logger.LogInformation($"checking the command failed");
-            _shellResult.ExitCode.ShouldNotBe(0);
+            _shellResult.ExitCode.ShouldBe(rc);
         }
 
         protected void the_developer_should_see(string message)

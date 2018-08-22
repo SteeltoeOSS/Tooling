@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using Shouldly;
 using Steeltoe.Tooling.Cli.Executors.Service;
 using Xunit;
@@ -24,7 +25,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Service
         public void TestStartUnknown()
         {
             var svc = new StartServiceExecutor("unknown-service");
-            var e = Assert.Throws<CommandException>(
+            var e = Assert.Throws<ArgumentException>(
                 () => svc.Execute(Config, Shell, Output)
                 );
             e.Message.ShouldBe("Unknown service 'unknown-service'");

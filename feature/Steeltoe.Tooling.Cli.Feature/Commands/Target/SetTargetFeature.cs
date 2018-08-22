@@ -30,7 +30,8 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
                 when => the_developer_runs_steeltoe_command("set-target --help"),
                 then => the_command_should_succeed(),
                 and => the_developer_should_see(@"Set the target environment\."),
-                and => the_developer_should_see(@"environment\s+The environment")
+                and => the_developer_should_see(@"environment\s+The environment"),
+                and => the_developer_should_see(@"-F\|--force\s+Set the environment even if sanity checks fail")
             );
         }
 
@@ -40,7 +41,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
             Runner.RunScenario(
                 given => a_dotnet_project("set_target_not_enough_args"),
                 when => the_developer_runs_steeltoe_command("set-target"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Environment not specified")
             );
         }
@@ -51,7 +52,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
             Runner.RunScenario(
                 given => a_dotnet_project("set_target_too_many_args"),
                 when => the_developer_runs_steeltoe_command("set-target arg1 arg2"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
             );
         }
@@ -62,7 +63,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
             Runner.RunScenario(
                 given => a_dotnet_project("set_unknown_environment"),
                 when => the_developer_runs_steeltoe_command("set-target no-such-environment"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unknown environment 'no-such-environment'")
             );
         }

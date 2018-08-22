@@ -31,6 +31,8 @@ namespace Steeltoe.Tooling.Cli.Feature.System
 
         private Shell.Result _result;
 
+        private Exception _exception;
+
         static SystemShellFeature()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -78,7 +80,14 @@ namespace Steeltoe.Tooling.Cli.Feature.System
 
         protected void the_command_is_run(string command)
         {
-            _result = _shell.Run(command);
+            try
+            {
+                _result = _shell.Run(command);
+            }
+            catch (Exception e)
+            {
+                _exception = e;
+            }
         }
 
         protected void the_command_is_run_with_args(string command, string args)
@@ -113,6 +122,12 @@ namespace Steeltoe.Tooling.Cli.Feature.System
         protected void the_command_output_should_contain(string text)
         {
             _result.Out.ShouldContain(text);
+        }
+
+        protected void the_command_should_raise_exception<T>()
+        {
+            _exception.ShouldNotBeNull();
+            _exception.ShouldBeOfType<T>();
         }
     }
 }

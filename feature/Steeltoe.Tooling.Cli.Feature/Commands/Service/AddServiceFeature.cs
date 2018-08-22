@@ -41,7 +41,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("add_service_not_enough_args"),
                 when => the_developer_runs_steeltoe_command("add-service"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Service name not specified")
             );
         }
@@ -52,7 +52,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("add_service_too_many_args"),
                 when => the_developer_runs_steeltoe_command("add-service arg1 arg2"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
             );
         }
@@ -63,7 +63,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("add_service_missing_type"),
                 when => the_developer_runs_steeltoe_command("add-service foo"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Service type not specified")
             );
         }
@@ -74,7 +74,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("add_unknown_service_type"),
                 when => the_developer_runs_steeltoe_command("add-service foo --type no-such-type"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unknown service type 'no-such-type'")
             );
         }
@@ -86,7 +86,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
                 given => a_dotnet_project("add_already_existing_service"),
                 and => a_service("existing-service", "existing-service-type"),
                 when => the_developer_runs_steeltoe_command("add-service existing-service --type cloud-foundry-config-server"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Service 'existing-service' already exists")
             );
         }

@@ -16,9 +16,13 @@ using System;
 
 namespace Steeltoe.Tooling.Cli
 {
-    public class CommandException : Exception
+    public class CliException : Exception
     {
-        public CommandException(string message) : base(message)
+        public CliException()
+        {
+        }
+
+        public CliException(string message) : base(message)
         {
         }
     }

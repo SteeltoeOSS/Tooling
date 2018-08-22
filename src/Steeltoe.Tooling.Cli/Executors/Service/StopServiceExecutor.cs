@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
@@ -26,7 +27,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
         {
             if (!config.services.ContainsKey(Name))
             {
-                throw new CommandException($"Unknown service '{Name}'");
+                throw new ArgumentException($"Unknown service '{Name}'");
             }
 
             var env = Environments.ForName(config.environment);

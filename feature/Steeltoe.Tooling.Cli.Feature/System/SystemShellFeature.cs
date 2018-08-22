@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
@@ -62,6 +63,15 @@ namespace Steeltoe.Tooling.Cli.Feature.System
             Runner.RunScenario(
                 when => the_command_is_run(ErrorCommand),
                 then => the_command_should_fail()
+            );
+        }
+
+        [Scenario]
+        public void RunNoSuchCommand()
+        {
+            Runner.RunScenario(
+                when => the_command_is_run("NoSuchCommand"),
+                then => the_command_should_raise_exception<ShellException>()
             );
         }
     }

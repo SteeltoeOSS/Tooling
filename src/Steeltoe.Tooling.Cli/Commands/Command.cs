@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Cli.System;
 
-namespace Steeltoe.Tooling.Cli
+namespace Steeltoe.Tooling.Cli.Commands
 {
     public abstract class Command
     {
@@ -36,11 +37,24 @@ namespace Steeltoe.Tooling.Cli
 
                 return 0;
             }
-            catch (CommandException e)
+            catch (ArgumentException e)
             {
-//                app.Error.WriteLine(e);
                 app.Error.WriteLine(e.Message);
                 return 1;
+            }
+            catch (CliException e)
+            {
+                if (!string.IsNullOrEmpty(e.Message))
+                {
+                    app.Error.WriteLine(e.Message);
+                }
+
+                return 2;
+            }
+            catch (Exception e)
+            {
+                app.Error.WriteLine(e);
+                return -1;
             }
         }
 

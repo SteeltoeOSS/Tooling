@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
 
 namespace Steeltoe.Tooling.Cli.Executors.Service
@@ -29,7 +30,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
         {
             if (config.services.ContainsKey(Name))
             {
-                throw new CommandException($"Service '{Name}' already exists");
+                throw new ArgumentException($"Service '{Name}' already exists");
             }
 
             switch (Type.ToLower())
@@ -37,7 +38,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
                 case "cloud-foundry-config-server":
                     break;
                 default:
-                    throw new CommandException($"Unknown service type '{Type}'");
+                    throw new ArgumentException($"Unknown service type '{Type}'");
             }
 
             config.services.Add(Name, new Configuration.Service(Type));

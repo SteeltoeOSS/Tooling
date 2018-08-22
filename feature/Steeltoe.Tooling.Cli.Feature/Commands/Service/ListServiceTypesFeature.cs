@@ -50,7 +50,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("list_service_types_too_many_args"),
                 when => the_developer_runs_steeltoe_command("list-service-types arg1"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg1'")
             );
         }

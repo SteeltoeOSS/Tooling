@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
@@ -43,29 +43,35 @@ namespace Steeltoe.Tooling.Cli.System
                 RedirectStandardError = true,
                 WorkingDirectory = result.WorkingDirectory
             };
-            var proc = Process.Start(pinfo);
-            if (proc == null)
+            try
             {
-                // TODO: better exception implementation
-                throw new Exception("OOPS, proc is null. Something bad happened.");
-            }
+                var proc = Process.Start(pinfo);
+                if (proc == null)
+                {
+                    throw new ShellException("Unable to start process; no additional information available");
+                }
 
-            proc.WaitForExit();
-            result.ExitCode = proc.ExitCode;
-            Logger.LogDebug($"[{result.Id}] exit code: {result.ExitCode}");
-            using (var pout = proc.StandardOutput)
+                proc.WaitForExit();
+                result.ExitCode = proc.ExitCode;
+                Logger.LogDebug($"[{result.Id}] exit code: {result.ExitCode}");
+                using (var pout = proc.StandardOutput)
+                {
+                    result.Out = pout.ReadToEnd();
+                }
+
+                Logger.LogDebug($"[{result.Id}] stdout: {result.Out}");
+
+                using (var perr = proc.StandardError)
+                {
+                    result.Error = perr.ReadToEnd();
+                }
+
+                Logger.LogDebug($"[{result.Id}] stderr: {result.Error}");
+            }
+            catch (Win32Exception e)
             {
-                result.Out = pout.ReadToEnd();
+                throw new ShellException(e.Message);
             }
-
-            Logger.LogDebug($"[{result.Id}] stdout: {result.Out}");
-
-            using (var perr = proc.StandardError)
-            {
-                result.Error = perr.ReadToEnd();
-            }
-
-            Logger.LogDebug($"[{result.Id}] stderr: {result.Error}");
 
             return result;
         }

@@ -28,9 +28,12 @@ namespace Steeltoe.Tooling.Cli.Commands.Target
         [Argument(0, Description = "The environment")]
         private string environment { get; }
 
+        [Option("-F|--force", Description = "Set the environment even if sanity checks fail")]
+        private bool force { get; }
+
         protected override IExecutor GetExecutor()
         {
-            return new SetTargetExecutor(environment);
+            return new SetTargetExecutor(environment, force);
         }
     }
 }

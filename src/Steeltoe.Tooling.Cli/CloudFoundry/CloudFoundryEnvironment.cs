@@ -12,10 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
+
 namespace Steeltoe.Tooling.Cli.CloudFoundry
 {
     public class CloudFoundryEnvironment : IEnvironment
     {
+        public const string Name = "cloud-foundry";
+
+        public bool IsSane(Shell shell, TextWriter output)
+        {
+            var cli = new CloudFoundryCli(shell);
+            try
+            {
+                output.Write($"checking {cli.Command} ... ");
+                output.WriteLine(cli.GetVersion());
+            }
+            catch (ShellException e)
+            {
+                output.WriteLine($"ERROR: {e.Message.Trim()}");
+                return false;
+            }
+
+            try
+            {
+                output.Write("checking if logged in ... ");
+                cli.GetTargetInfo();
+                output.WriteLine("yes");
+            }
+            catch (CliException e)
+            {
+                output.WriteLine($"WARNING: {e.Message.Trim()}");
+                return false;
+            }
+
+            return true;
+        }
+
         public IServiceManager GetServiceManager()
         {
             return new CloudFoundryServiceManager();

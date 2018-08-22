@@ -40,7 +40,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("check_service_not_enough_args"),
                 when => the_developer_runs_steeltoe_command("check-service"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Service name not specified")
             );
         }
@@ -51,7 +51,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("check_service_too_many_args"),
                 when => the_developer_runs_steeltoe_command("check-service arg1 arg2"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
             );
         }

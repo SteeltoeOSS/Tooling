@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using Shouldly;
 using Steeltoe.Tooling.Cli.Executors.Service;
 using Xunit;
@@ -24,7 +25,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Service
         public void TestAddUnknownTypeError()
         {
             var svc = new AddServiceExecutor("unknown-service", "unknown-service-type");
-            var e = Assert.Throws<CommandException>(
+            var e = Assert.Throws<ArgumentException>(
                 () => svc.Execute(Config, Shell, Output)
                 );
             e.Message.ShouldBe("Unknown service type 'unknown-service-type'");
@@ -35,7 +36,7 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Service
         {
             Config.services.Add("existing-service", new Configuration.Service("existing-service-type"));
             var svc = new AddServiceExecutor("existing-service", "existing-service-type");
-            var e = Assert.Throws<CommandException>(
+            var e = Assert.Throws<ArgumentException>(
                 () => svc.Execute(Config, Shell, Output)
                 );
             e.Message.ShouldBe("Service 'existing-service' already exists");

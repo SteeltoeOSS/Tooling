@@ -40,7 +40,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("remove_service_not_enough_args"),
                 when => the_developer_runs_steeltoe_command("remove-service"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Service name not specified")
             );
         }
@@ -51,7 +51,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("remove_service_too_many_args"),
                 when => the_developer_runs_steeltoe_command("remove-service arg1 arg2"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
             );
         }
@@ -62,7 +62,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
             Runner.RunScenario(
                 given => a_dotnet_project("remove_service_without_tooling_configuration"),
                 when => the_developer_runs_steeltoe_command("remove-service unknown-service"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unknown service 'unknown-service'")
             );
         }
@@ -74,7 +74,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Service
                 given => a_dotnet_project("remove_unknown_service"),
                 and => a_service("known-service", "known-service-type"),
                 when => the_developer_runs_steeltoe_command("remove-service unknown-service"),
-                then => the_command_should_fail(),
+                then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unknown service 'unknown-service'")
             );
         }

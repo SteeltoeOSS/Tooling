@@ -26,19 +26,19 @@ namespace Steeltoe.Tooling.Cli.CloudFoundry
 
         public void StartService(Shell shell, string name, string type)
         {
-            shell.Run("cf", $"create-service {serviceMapping[type]} standard {name}");
+            new CloudFoundryCli(shell).CreateService(name, serviceMapping[type]);
         }
 
         public void StopService(Shell shell, string name)
         {
-            shell.Run("cf", $"delete-service {name} -f");
+            new CloudFoundryCli(shell).DeleteService(name);
         }
 
         public string CheckService(Shell shell, string name)
         {
-            var result = shell.Run("cf", $"service {name}");
+            var serviceInfo = new CloudFoundryCli(shell).GetServiceInfo(name);
             Regex exp = new Regex(@"^status:\s+(.*)$", RegexOptions.Multiline);
-            Match match = exp.Match(result.Out);
+            Match match = exp.Match(serviceInfo);
             if (match.Groups[1].ToString().TrimEnd().Equals("create succeeded"))
             {
                 return "online";
