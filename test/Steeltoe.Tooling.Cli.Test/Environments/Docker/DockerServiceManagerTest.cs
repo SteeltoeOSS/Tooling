@@ -34,14 +34,14 @@ namespace Steeltoe.Tooling.Cli.Test.Environments.Docker
         public void TestStartConfigServer()
         {
             _mgr.StartService(_shell, "my-service", "config-server");
-            _shell.LastCommand.ShouldBe("docker run --detach --rm --name my-service steeltoeoss/configserver");
+            _shell.LastCommand.ShouldBe("docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/configserver");
         }
 
         [Fact]
         public void TestStartRegistry()
         {
             _mgr.StartService(_shell, "my-service", "registry");
-            _shell.LastCommand.ShouldBe("docker run --detach --rm --name my-service steeltoeoss/eurekaserver");
+            _shell.LastCommand.ShouldBe("docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eurekaserver");
         }
 
         [Fact]

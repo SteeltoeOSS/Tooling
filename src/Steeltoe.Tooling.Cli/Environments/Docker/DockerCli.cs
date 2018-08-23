@@ -30,9 +30,9 @@ namespace Steeltoe.Tooling.Cli.Environments.Docker
             return RunCommand("--version").Trim();
         }
 
-        internal void StartContainer(string name, string image)
+        internal void StartContainer(string name, string image, int port)
         {
-            RunCommand($"run --detach --rm --name {name} {image}");
+            RunCommand($"run --name {name} --publish {port}:{port} --detach --rm {image}");
         }
 
         internal void StopContainer(string name)

@@ -19,15 +19,34 @@ namespace Steeltoe.Tooling.Cli.Environments.Docker
 {
     public class DockerServiceManager : IServiceManager
     {
-        private static Dictionary<string, string> imageMap = new Dictionary<string, string>
+        internal struct ImageSpec
         {
-            {"config-server", "steeltoeoss/configserver"},
-            {"registry", "steeltoeoss/eurekaserver"}
+            internal string Name { get; set; }
+            internal int Port { get; set; }
+        }
+
+        private static Dictionary<string, ImageSpec> imageSpecs = new Dictionary<string, ImageSpec>
+        {
+            {
+                "config-server", new ImageSpec
+                {
+                    Name = "steeltoeoss/configserver",
+                    Port = 8888
+                }
+            },
+            {
+                "registry", new ImageSpec
+                {
+                    Name = "steeltoeoss/eurekaserver",
+                    Port = 8761
+                }
+            }
         };
 
         public void StartService(Shell shell, string name, string type)
         {
-            new DockerCli(shell).StartContainer(name, imageMap[type]);
+            var spec = imageSpecs[type];
+            new DockerCli(shell).StartContainer(name, spec.Name, spec.Port);
         }
 
         public void StopService(Shell shell, string name)
