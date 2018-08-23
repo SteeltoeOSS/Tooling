@@ -14,38 +14,40 @@
 
 using System.Collections.Generic;
 using Shouldly;
-using Steeltoe.Tooling.Cli.CloudFoundry;
+using Steeltoe.Tooling.Cli.Environments.CloudFoundry;
 using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test
 {
-    public class EnvironmentsTest
+    public class EnvironmentRegistryTest
     {
         [Fact]
         public void TestEnvironmentNames()
         {
             var expected = new List<string>()
             {
-                "cloud-foundry"
+                "cloud-foundry",
+                "docker"
             };
-            foreach (var name in Environments.GetNames())
+            foreach (var name in EnvironmentRegistry.GetNames())
             {
                 expected.ShouldContain(name);
                 expected.Remove(name);
             }
+
             expected.ShouldBeEmpty();
         }
 
         [Fact]
         public void TestUnknown()
         {
-            Environments.ForName("unknown-name").ShouldBeNull();
+            EnvironmentRegistry.ForName("unknown-name").ShouldBeNull();
         }
 
         [Fact]
         public void TestCloudFoundry()
         {
-            Environments.ForName("cloud-foundry").ShouldBeOfType<CloudFoundryEnvironment>();
+            EnvironmentRegistry.ForName("cloud-foundry").ShouldBeOfType<CloudFoundryEnvironment>();
         }
     }
 }

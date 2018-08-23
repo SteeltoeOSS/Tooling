@@ -69,7 +69,7 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
         }
 
         [Scenario]
-        public void SetCloudFoundryTargetType()
+        public void SetCloudFoundryTarget()
         {
             Runner.RunScenario(
                 given => a_dotnet_project("set_cloud_foundry_target"),
@@ -77,6 +77,18 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
                 then => the_command_should_succeed(),
                 and => the_developer_should_see("Target environment set to 'cloud-foundry'."),
                 and => the_target_config_should_exist("cloud-foundry")
+            );
+        }
+
+        [Scenario]
+        public void SetDockerTarget()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("set_docker_target"),
+                when => the_developer_runs_steeltoe_command("set-target docker"),
+                then => the_command_should_succeed(),
+                and => the_developer_should_see("Target environment set to 'docker'"),
+                and => the_target_config_should_exist("docker")
             );
         }
     }

@@ -18,7 +18,7 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Cli.Test
 {
-    public class ServiceTypesTest
+    public class ServiceTypeRegistryTest
     {
         [Fact]
         public void TestNames()
@@ -28,7 +28,7 @@ namespace Steeltoe.Tooling.Cli.Test
                 "config-server",
                 "registry"
             };
-            foreach (var name in ServiceTypes.GetNames())
+            foreach (var name in ServiceTypeRegistry.GetNames())
             {
                 expected.ShouldContain(name);
                 expected.Remove(name);
@@ -40,14 +40,14 @@ namespace Steeltoe.Tooling.Cli.Test
         [Fact]
         public void TestDescriptions()
         {
-            ServiceTypes.GetDescription("config-server").ShouldBe("Spring Cloud Config Server");
-            ServiceTypes.GetDescription("registry").ShouldBe("Netflix Eureka Server");
+            ServiceTypeRegistry.GetDescription("config-server").ShouldBe("Spring Cloud Config Server");
+            ServiceTypeRegistry.GetDescription("registry").ShouldBe("Netflix Eureka Server");
         }
 
         [Fact]
         public void TestUnknown()
         {
-            ServiceTypes.GetDescription("unknown-name").ShouldBeNull();
+            ServiceTypeRegistry.GetDescription("unknown-name").ShouldBeNull();
         }
     }
 }

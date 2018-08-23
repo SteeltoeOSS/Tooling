@@ -30,14 +30,23 @@ namespace Steeltoe.Tooling.Cli.Test.Executors.Target
                 );
             e.Message.ShouldBe("Unknown environment 'unknown-environment'");
         }
-        [Fact]
 
+        [Fact]
         public void TestSetCloudFoundry()
         {
             var svc = new SetTargetExecutor("cloud-foundry");
             svc.Execute(Config, Shell, Output);
             Output.ToString().ShouldContain("Target environment set to 'cloud-foundry'.");
             Config.environment.ShouldBe("cloud-foundry");
+        }
+
+        [Fact]
+        public void TestSetDocker()
+        {
+            var svc = new SetTargetExecutor("docker");
+            svc.Execute(Config, Shell, Output);
+            Output.ToString().ShouldContain("Target environment set to 'docker'.");
+            Config.environment.ShouldBe("docker");
         }
     }
 }

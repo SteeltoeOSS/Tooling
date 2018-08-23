@@ -12,40 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
-namespace Steeltoe.Tooling.Cli.CloudFoundry
+namespace Steeltoe.Tooling.Cli.Environments.Docker
 {
-    public class CloudFoundryServiceManager : IServiceManager
+    public class DockerServiceManager : IServiceManager
     {
-        private static Dictionary<string, string> serviceMapping = new Dictionary<string, string>
+        private static Dictionary<string, string> imageMap = new Dictionary<string, string>
         {
-            {"config-server", "p-config-server"},
-            {"registry", "p-service-registry"}
+            {"config-server", "steeltoeoss/configserver"}
         };
 
         public void StartService(Shell shell, string name, string type)
         {
-            new CloudFoundryCli(shell).CreateService(name, serviceMapping[type]);
+            new DockerCli(shell).StartContainer(name, imageMap[type]);
         }
 
         public void StopService(Shell shell, string name)
         {
-            new CloudFoundryCli(shell).DeleteService(name);
+            new DockerCli(shell).StopContainer(name);
         }
 
         public string CheckService(Shell shell, string name)
         {
-            var serviceInfo = new CloudFoundryCli(shell).GetServiceInfo(name);
-            Regex exp = new Regex(@"^status:\s+(.*)$", RegexOptions.Multiline);
-            Match match = exp.Match(serviceInfo);
-            if (match.Groups[1].ToString().TrimEnd().Equals("create succeeded"))
-            {
-                return "online";
-            }
-
-            return "offline";
+            var containerInfo = new DockerCli(shell).GetContainerInfo(name).Split('\n');
+            if (containerInfo.Length <= 2) return "offline";
+            var statusStart = containerInfo[0].IndexOf("STATUS", StringComparison.Ordinal);
+            return containerInfo[1].Substring(statusStart).StartsWith("Up ") ? "online" : "offline";
         }
     }
 }

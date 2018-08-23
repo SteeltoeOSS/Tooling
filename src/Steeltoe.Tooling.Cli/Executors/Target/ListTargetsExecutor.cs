@@ -20,7 +20,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
     {
         public bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            foreach (var name in Environments.GetNames())
+            foreach (var name in EnvironmentRegistry.GetNames())
             {
                 output.WriteLine(name);
             }

@@ -32,7 +32,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Target
         public bool Execute(Configuration config, Shell shell, TextWriter output)
         {
             var envName = _environment.ToLower();
-            IEnvironment env = Environments.ForName(envName);
+            IEnvironment env = EnvironmentRegistry.ForName(envName);
             if (env == null)
             {
                 throw new ArgumentException($"Unknown environment '{_environment}'");

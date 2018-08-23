@@ -40,7 +40,8 @@ namespace Steeltoe.Tooling.Cli.Feature.Commands.Target
                 given => a_dotnet_project("list_targets"),
                 when => the_developer_runs_steeltoe_command("list-targets"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see("cloud-foundry")
+                and => the_developer_should_see("cloud-foundry"),
+                and => the_developer_should_see("docker")
             );
         }
 

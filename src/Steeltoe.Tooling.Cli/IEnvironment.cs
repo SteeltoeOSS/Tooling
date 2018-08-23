@@ -18,8 +18,10 @@ namespace Steeltoe.Tooling.Cli
 {
     public interface IEnvironment
     {
-        bool IsSane(Shell shell, TextWriter output);
+        string GetName();
 
         IServiceManager GetServiceManager();
+
+        bool IsSane(Shell shell, TextWriter output);
     }
 }

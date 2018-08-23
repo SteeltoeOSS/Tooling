@@ -17,26 +17,24 @@ using System.Linq;
 
 namespace Steeltoe.Tooling.Cli
 {
-    public static class Environments
+    public static class ServiceTypeRegistry
     {
-        private static SortedDictionary<string, IEnvironment> _environments = new SortedDictionary<string, IEnvironment>
+        private static SortedDictionary<string, string> _types = new SortedDictionary<string, string>
         {
-            {
-                CloudFoundry.CloudFoundryEnvironment.Name,
-                new CloudFoundry.CloudFoundryEnvironment()
-            }
+            {"config-server", "Spring Cloud Config Server"},
+            {"registry", "Netflix Eureka Server"}
         };
 
         public static IEnumerable<string> GetNames()
         {
-            return _environments.Keys.ToList();
+            return _types.Keys.ToList();
         }
 
-        public static IEnvironment ForName(string name)
+        public static string GetDescription(string name)
         {
             try
             {
-                return _environments[name];
+                return _types[name];
             }
             catch (KeyNotFoundException)
             {

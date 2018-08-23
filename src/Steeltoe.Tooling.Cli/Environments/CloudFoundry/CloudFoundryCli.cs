@@ -12,40 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Steeltoe.Tooling.Cli.CloudFoundry
+namespace Steeltoe.Tooling.Cli.Environments.CloudFoundry
 {
-    public class CloudFoundryCli
+    internal class CloudFoundryCli
     {
         private readonly Shell _shell;
 
-        public string Command { get; set; }  = "cf";
+        internal string Command { get; } = "cf";
 
-        public CloudFoundryCli(Shell shell)
+        internal CloudFoundryCli(Shell shell)
         {
             _shell = shell;
         }
 
-        public string GetVersion()
+        internal string GetVersion()
         {
             return RunCommand("version").Trim();
         }
 
-        public string GetTargetInfo()
+        internal string GetTargetInfo()
         {
             return RunCommand("target");
         }
 
-        public void CreateService(string name, string type, string plan = "standard")
+        internal void CreateService(string name, string type, string plan = "standard")
         {
             RunCommand($"create-service {type} {plan} {name}");
         }
 
-        public void DeleteService(string name)
+        internal void DeleteService(string name)
         {
             RunCommand($"delete-service {name} -f");
         }
 
-        public string GetServiceInfo(string name)
+        internal string GetServiceInfo(string name)
         {
             return RunCommand($"service {name}");
         }
@@ -60,8 +60,8 @@ namespace Steeltoe.Tooling.Cli.CloudFoundry
                 {
                     error = result.Out.Trim();
                 }
-            throw new CliException($"{CloudFoundryEnvironment.Name} error: {error}");
 
+                throw new CliException($"'{Command}' error: {error}");
             }
 
             return result.Out;

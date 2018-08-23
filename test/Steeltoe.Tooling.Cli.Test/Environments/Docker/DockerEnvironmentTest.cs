@@ -13,18 +13,30 @@
 // limitations under the License.
 
 using Shouldly;
-using Steeltoe.Tooling.Cli.CloudFoundry;
+using Steeltoe.Tooling.Cli.Environments.Docker;
 using Xunit;
 
-namespace Steeltoe.Tooling.Cli.Test.CloudFoundry
+namespace Steeltoe.Tooling.Cli.Test.Environments.Docker
 {
-    public class CloudFoundryEnvironmentTest
+    public class DockerEnvironmentTest
     {
+        private DockerEnvironment env;
+
+        public DockerEnvironmentTest()
+        {
+            env = new DockerEnvironment();
+        }
+
+        [Fact]
+        public void TestGetName()
+        {
+            env.GetName().ShouldBe("docker");
+        }
+
         [Fact]
         public void TestGetServiceManager()
         {
-            var env = new CloudFoundryEnvironment();
-            env.GetServiceManager().ShouldBeOfType<CloudFoundryServiceManager>();
+            env.GetServiceManager().ShouldBeOfType<DockerServiceManager>();
         }
     }
 }

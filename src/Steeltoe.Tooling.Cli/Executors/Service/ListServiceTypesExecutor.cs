@@ -20,9 +20,9 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
     {
         public bool Execute(Configuration config, Shell shell, TextWriter output)
         {
-            foreach (var name in ServiceTypes.GetNames())
+            foreach (var name in ServiceTypeRegistry.GetNames())
             {
-                output.WriteLine($"{name} ({ServiceTypes.GetDescription(name)})");
+                output.WriteLine($"{name} ({ServiceTypeRegistry.GetDescription(name)})");
             }
 
             return false;

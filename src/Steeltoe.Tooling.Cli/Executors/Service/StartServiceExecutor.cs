@@ -30,7 +30,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
                 throw new ArgumentException($"Unknown service '{Name}'");
             }
 
-            var env = Environments.ForName(config.environment);
+            var env = EnvironmentRegistry.ForName(config.environment);
             env.GetServiceManager().StartService(shell, Name, config.services[Name].type);
             return false;
         }

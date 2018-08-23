@@ -35,7 +35,7 @@ namespace Steeltoe.Tooling.Cli.Executors.Service
             }
 
             var type = Type.ToLower();
-            if (!ServiceTypes.GetNames().Contains(type))
+            if (!ServiceTypeRegistry.GetNames().Contains(type))
             {
                 throw new ArgumentException($"Unknown service type '{Type}'");
             }
