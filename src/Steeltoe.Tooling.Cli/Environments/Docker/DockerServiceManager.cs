@@ -21,7 +21,8 @@ namespace Steeltoe.Tooling.Cli.Environments.Docker
     {
         private static Dictionary<string, string> imageMap = new Dictionary<string, string>
         {
-            {"config-server", "steeltoeoss/configserver"}
+            {"config-server", "steeltoeoss/configserver"},
+            {"registry", "steeltoeoss/eurekaserver"}
         };
 
         public void StartService(Shell shell, string name, string type)

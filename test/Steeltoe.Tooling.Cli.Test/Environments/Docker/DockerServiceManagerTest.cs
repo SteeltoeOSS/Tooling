@@ -38,6 +38,13 @@ namespace Steeltoe.Tooling.Cli.Test.Environments.Docker
         }
 
         [Fact]
+        public void TestStartRegistry()
+        {
+            _mgr.StartService(_shell, "my-service", "registry");
+            _shell.LastCommand.ShouldBe("docker run --detach --rm --name my-service steeltoeoss/eurekaserver");
+        }
+
+        [Fact]
         public void TestStopService()
         {
             _mgr.StopService(_shell, "my-service");
