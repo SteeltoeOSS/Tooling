@@ -9,9 +9,9 @@ For documentation, please see the [Steeltoe Tooling Wiki](https://github.com/Ste
 Platform | Branch | Status
 -------- | ------ | ------
 Windows  | master | [![AppVeyor master status](https://ci.appveyor.com/api/projects/status/bpwhsnue8j7iiwpp/branch/master?svg=true)](https://ci.appveyor.com/project/steeltoe/tooling/branch/master)
-Windows  | prototype | [![AppVeyor prototype status](https://ci.appveyor.com/api/projects/status/bpwhsnue8j7iiwpp/branch/prototype?svg=true)](https://ci.appveyor.com/project/steeltoe/tooling/branch/prototype)
+Windows  | dev | [![AppVeyor dev status](https://ci.appveyor.com/api/projects/status/bpwhsnue8j7iiwpp/branch/dev?svg=true)](https://ci.appveyor.com/project/steeltoe/tooling/branch/dev)
 Linux/OS X  | master | [![Travis CI master status](https://travis-ci.org/SteeltoeOSS/Tooling.svg?branch=master)](https://travis-ci.org/SteeltoeOSS/Tooling)
-Linux/OS X  | prototype | [![Travis CI prototype status](https://travis-ci.org/SteeltoeOSS/Tooling.svg?branch=prototype)](https://travis-ci.org/SteeltoeOSS/Tooling)
+Linux/OS X  | dev | [![Travis CI dev status](https://travis-ci.org/SteeltoeOSS/Tooling.svg?branch=dev)](https://travis-ci.org/SteeltoeOSS/Tooling)
 
 ## Developer Chores
 

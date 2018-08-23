@@ -11,7 +11,7 @@ os:
   - osx
 branches:
   only:
-    - prototype
+    - dev
 script:
   - dotnet --info
   - dotnet build
