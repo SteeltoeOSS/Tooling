@@ -16,7 +16,7 @@ using System.IO;
 using LightBDD.XUnit2;
 using Microsoft.Extensions.Logging;
 using Shouldly;
-using Steeltoe.Tooling.Cli.System;
+using Steeltoe.Tooling.System;
 
 namespace Steeltoe.Tooling.Cli.Feature
 {
@@ -28,7 +28,7 @@ namespace Steeltoe.Tooling.Cli.Feature
             Directory.GetCurrentDirectory(),
             "../../../../../src/Steeltoe.Tooling.Cli"));
 
-        private Shell _shell = new SystemShell();
+        private Shell _shell = new CommandShell();
 
         private Shell.Result _shellResult;
 
