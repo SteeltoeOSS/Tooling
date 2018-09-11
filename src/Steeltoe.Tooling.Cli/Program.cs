@@ -19,15 +19,15 @@ namespace Steeltoe.Tooling.Cli
 {
     [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
     [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]
-    [Subcommand("add-service", typeof(AddServiceCommand))]
-    [Subcommand("remove-service", typeof(RemoveServiceCommand))]
-    [Subcommand("list-services", typeof(ListServicesCommand))]
-    [Subcommand("list-service-types", typeof(ListServiceTypesCommand))]
-    [Subcommand("start-service", typeof(StartServiceCommand))]
-    [Subcommand("stop-service", typeof(StopServiceCommand))]
-    [Subcommand("check-service", typeof(CheckServiceCommand))]
-    [Subcommand("set-target", typeof(SetTargetCommand))]
-    [Subcommand("list-targets", typeof(ListTargetsCommand))]
+    [Subcommand("target", typeof(TargetCommand))]
+    [Subcommand("add", typeof(AddCommand))]
+    [Subcommand("remove", typeof(RemoveCommand))]
+    [Subcommand("disable", typeof(DisableCommand))]
+    [Subcommand("enable", typeof(EnableCommand))]
+    [Subcommand("deploy", typeof(DeployCommand))]
+    [Subcommand("undeploy", typeof(UndeployCommand))]
+    [Subcommand("status", typeof(StatusCommand))]
+    [Subcommand("list", typeof(ListCommand))]
     class Program
     {
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);

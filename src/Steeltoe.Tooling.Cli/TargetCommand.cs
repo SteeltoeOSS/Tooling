@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
@@ -22,16 +23,19 @@ using Steeltoe.Tooling.Executor.Service;
 
 namespace Steeltoe.Tooling.Cli
 {
-    [Command(Description = "Check the status of a service in the target environment.")]
-    public class CheckServiceCommand : Command
+    [Command(Description = "Target the deployment environment.  If run with no args, show the targeted deployment environment.")]
+    public class TargetCommand : Command
     {
-        [Required(ErrorMessage = "Service name not specified")]
-        [Argument(0, Description = "The service name")]
-        private string name { get; }
+        [Argument(0, Name = "environment",
+        Description = "Deployment environment (run '" + CliName + " list targets' for available deployment environments)")]
+        private string Environment { get; }
+
+        [Option("-F|--force", Description = "Target the deployment environment even if checks fail")]
+        private string Force { get; }
 
         protected override IExecutor GetExecutor()
         {
-            return new CheckServiceExecutor(name);
+            return null;
         }
     }
 }

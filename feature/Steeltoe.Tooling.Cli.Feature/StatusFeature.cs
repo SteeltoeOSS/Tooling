@@ -18,39 +18,28 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.Cli.Feature
 {
-    [Label("service")]
-    public class CheckServiceFeature : CliFeatureSpecs
+    [Label("status")]
+    public class StatusFeature : CliFeatureSpecs
     {
         [Scenario]
         [Label("help")]
-        public void CheckServiceHelp()
+        public void StatusHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("check_service_help"),
-                when => the_developer_runs_steeltoe_command("check-service --help"),
+                given => a_dotnet_project("status_help"),
+                when => the_developer_runs_steeltoe_command("status --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"Check the status of a service in the target environment\."),
-                and => the_developer_should_see(@"name\s+The service name")
+                and => the_developer_should_see(@"Show the status of a service in the targeted deployment environment\.  If run with no args, show the status of all services\."),
+                and => the_developer_should_see(@"\s+name\s+Service name")
             );
         }
 
         [Scenario]
-        public void CheckServiceNotEnoughArgs()
+        public void StatusTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("check_service_not_enough_args"),
-                when => the_developer_runs_steeltoe_command("check-service"),
-                then => the_command_should_fail_with(1),
-                and => the_developer_should_see_the_error("Service name not specified")
-            );
-        }
-
-        [Scenario]
-        public void CheckServiceTooManyArgs()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("check_service_too_many_args"),
-                when => the_developer_runs_steeltoe_command("check-service arg1 arg2"),
+                given => a_dotnet_project("status_too_many_args"),
+                when => the_developer_runs_steeltoe_command("status arg1 arg2"),
                 then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
             );

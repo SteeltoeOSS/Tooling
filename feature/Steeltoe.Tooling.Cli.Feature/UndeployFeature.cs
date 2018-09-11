@@ -18,39 +18,27 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.Cli.Feature
 {
-    [Label("service")]
-    public class ListServiceTypesFeature : CliFeatureSpecs
+    [Label("undeploy")]
+    public class UndeployFeature : CliFeatureSpecs
     {
         [Scenario]
         [Label("help")]
-        public void ListServiceTypesHelp()
+        public void UndeployHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_service_types_help"),
-                when => the_developer_runs_steeltoe_command("list-service-types --help"),
+                given => a_dotnet_project("undeploy_help"),
+                when => the_developer_runs_steeltoe_command("undeploy --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"List available service types\.")
+                and => the_developer_should_see(@"Stop running services in the targeted deployment environment\.")
             );
         }
 
         [Scenario]
-        public void ListServiceTypes()
+        public void UndeployTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_service_types"),
-                when => the_developer_runs_steeltoe_command("list-service-types"),
-                then => the_command_should_succeed(),
-                and => the_developer_should_see(@"config-server\s+\(Spring Cloud Config Server\)"),
-                and => the_developer_should_see(@"registry\s+\(Netflix Eureka Server\)")
-            );
-        }
-
-        [Scenario]
-        public void ListServiceTypesTooManyArgs()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("list_service_types_too_many_args"),
-                when => the_developer_runs_steeltoe_command("list-service-types arg1"),
+                given => a_dotnet_project("undeploy_too_many_args"),
+                when => the_developer_runs_steeltoe_command("undeploy arg1"),
                 then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg1'")
             );

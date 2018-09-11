@@ -19,7 +19,4 @@
     <ProjectReference Include="..\..\src\Steeltoe.Tooling.Cli\Steeltoe.Tooling.Cli.csproj" />
     <ProjectReference Include="..\..\src\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="System" />
-  </ItemGroup>
 </Project>

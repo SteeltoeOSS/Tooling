@@ -18,39 +18,27 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.Cli.Feature
 {
-    [Label("target")]
-    public class ListTargetsFeature : CliFeatureSpecs
+    [Label("deploy")]
+    public class DeployFeature : CliFeatureSpecs
     {
         [Scenario]
         [Label("help")]
-        public void ListTargetsHelp()
+        public void DeployHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_targets_help"),
-                when => the_developer_runs_steeltoe_command("list-targets --help"),
+                given => a_dotnet_project("deploy_help"),
+                when => the_developer_runs_steeltoe_command("deploy --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"List available target environments\.")
+                and => the_developer_should_see(@"Start enabled services in the targeted deployment environment\.")
             );
         }
 
         [Scenario]
-        public void ListTargets()
+        public void DeployTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_targets"),
-                when => the_developer_runs_steeltoe_command("list-targets"),
-                then => the_command_should_succeed(),
-                and => the_developer_should_see("cloud-foundry"),
-                and => the_developer_should_see("docker")
-            );
-        }
-
-        [Scenario]
-        public void ListTargetsTooManyArgs()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("list_targets_too_many_args"),
-                when => the_developer_runs_steeltoe_command("list-targets arg1"),
+                given => a_dotnet_project("deploy_too_many_args"),
+                when => the_developer_runs_steeltoe_command("deploy arg1"),
                 then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg1'")
             );

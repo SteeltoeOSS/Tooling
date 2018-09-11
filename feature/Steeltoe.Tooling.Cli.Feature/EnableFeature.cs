@@ -18,39 +18,39 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Tooling.Cli.Feature
 {
-    [Label("service")]
-    public class StopServiceFeature : CliFeatureSpecs
+    [Label("enable")]
+    public class EnableFeature : CliFeatureSpecs
     {
         [Scenario]
         [Label("help")]
-        public void StopServiceHelp()
+        public void EnableHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("stop_service_help"),
-                when => the_developer_runs_steeltoe_command("stop-service --help"),
+                given => a_dotnet_project("enable_help"),
+                when => the_developer_runs_steeltoe_command("enable --help"),
                 then => the_command_should_succeed(),
-                and => the_developer_should_see(@"Stop a service in the target environment\."),
-                and => the_developer_should_see(@"name\s+The service name")
+                and => the_developer_should_see(@"Enable a service\."),
+                and => the_developer_should_see(@"\s+name\s+Service name")
             );
         }
 
         [Scenario]
-        public void StopServiceNotEnoughArgs()
+        public void EnableNotEnoughArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("stop_service_not_enough_args"),
-                when => the_developer_runs_steeltoe_command("stop-service"),
+                given => a_dotnet_project("enable_not_enough_args"),
+                when => the_developer_runs_steeltoe_command("enable"),
                 then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Service name not specified")
             );
         }
 
         [Scenario]
-        public void StopServiceTooManyArgs()
+        public void EnableTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("stop_service_too_many_args"),
-                when => the_developer_runs_steeltoe_command("stop-service arg1 arg2"),
+                given => a_dotnet_project("enable_too_many_args"),
+                when => the_developer_runs_steeltoe_command("enable arg1 arg2"),
                 then => the_command_should_fail_with(1),
                 and => the_developer_should_see_the_error("Unrecognized command or argument 'arg2'")
             );

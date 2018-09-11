@@ -21,6 +21,8 @@ namespace Steeltoe.Tooling.Cli
 {
     public abstract class Command
     {
+        public const string CliName = "steeltoe";
+
         protected virtual int OnExecute(CommandLineApplication app)
         {
             var configFile = Path.Combine(Directory.GetCurrentDirectory(), Configuration.DefaultFileName);
@@ -30,10 +32,11 @@ namespace Steeltoe.Tooling.Cli
                 //
                 // TODO: Is there a better way to signal that config needs to be stores?  Perhaps a dirty bit?
                 //
-                if (GetExecutor().Execute(config, new CommandShell(), app.Out))
-                {
-                    config.Store(configFile);
-                }
+                app.Out.WriteLine("!!! backend impl currently disconnected; commands are no-op'd for now !!!");
+//                if (GetExecutor().Execute(config, new CommandShell(), app.Out))
+//                {
+//                    config.Store(configFile);
+//                }
 
                 return 0;
             }

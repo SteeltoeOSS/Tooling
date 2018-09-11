@@ -12,29 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
-using Steeltoe.Tooling.Executor.Target;
+using Steeltoe.Tooling.Executor.Service;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
 // ReSharper disable InconsistentNaming
 
 namespace Steeltoe.Tooling.Cli
 {
-    [Command(Description = "Set the target environment.")]
-    public class SetTargetCommand : Command
+    [Command(Description = "Show the status of a service in the targeted deployment environment.  If run with no args, show the status of all services.")]
+    public class StatusCommand : Command
     {
-        [Required(ErrorMessage = "Environment not specified")]
-        [Argument(0, Description = "The environment")]
-        private string environment { get; }
-
-        [Option("-F|--force", Description = "Set the environment even if sanity checks fail")]
-        private bool force { get; }
+        [Argument(0, Name = "name", Description = "Service name")]
+        private string Name { get; }
 
         protected override IExecutor GetExecutor()
         {
-            return new SetTargetExecutor(environment, force);
+            return null;
         }
     }
 }

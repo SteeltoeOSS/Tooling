@@ -100,7 +100,7 @@ namespace Steeltoe.Tooling.Cli.Feature
         protected void the_developer_should_see(string message)
         {
             Logger.LogInformation($"checking the developer saw '{message}'");
-            _shellResult.Out.ShouldMatch($".*{message}.*");
+            _shellResult.Out.ShouldMatch(message);
         }
 
         protected void the_developer_should_see_the_error(string error)

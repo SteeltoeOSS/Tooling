@@ -43,15 +43,15 @@ namespace Steeltoe.Tooling.Cli.Feature
                 and => the_developer_should_see(@"Steeltoe Developer Tools"),
                 and => the_developer_should_see(@"-V\|--version\s+Show version information"),
                 and => the_developer_should_see(@"-\?\|-h\|--help\s+Show help information"),
-                and => the_developer_should_see(@"add-service\s+Add a service\."),
-                and => the_developer_should_see(@"check-service\s+Check the status of a service in the target environment\."),
-                and => the_developer_should_see(@"list-service-types\s+List available service types\."),
-                and => the_developer_should_see(@"list-services\s+List available services\."),
-                and => the_developer_should_see(@"list-targets\s+List available target environments\."),
-                and => the_developer_should_see(@"remove-service\s+Remove a service\."),
-                and => the_developer_should_see(@"set-target\s+Set the target environment\."),
-                and => the_developer_should_see(@"start-service\s+Start a service in the target environment\."),
-                and => the_developer_should_see(@"stop-service\s+Stop a service in the target environment\.")
+                and => the_developer_should_see(@"target\s+Target the deployment environment\."),
+                and => the_developer_should_see(@"add\s+Add a service\."),
+                and => the_developer_should_see(@"remove\s+Remove a service\."),
+                and => the_developer_should_see(@"enable\s+Enable a service\."),
+                and => the_developer_should_see(@"disable\s+Disable a service\."),
+                and => the_developer_should_see(@"deploy\s+Start enabled services in the targeted deployment environment\."),
+                and => the_developer_should_see(@"undeploy\s+Stop running services in the targeted deployment environment\."),
+                and => the_developer_should_see(@"status\s+Show the status of a service in the targeted deployment environment\.  If run with no args, show the status of all services\."),
+                and => the_developer_should_see(@"list\s+List services, service types, or deployment environments\.  If run with no args, list everything\.")
             );
         }
 

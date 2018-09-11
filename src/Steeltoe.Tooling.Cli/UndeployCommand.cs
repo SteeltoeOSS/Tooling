@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
@@ -22,16 +23,12 @@ using Steeltoe.Tooling.Executor.Service;
 
 namespace Steeltoe.Tooling.Cli
 {
-    [Command(Description = "Remove a service.")]
-    public class RemoveServiceCommand : Command
+    [Command(Description = "Stop running services in the targeted deployment environment.")]
+    public class UndeployCommand : Command
     {
-        [Required(ErrorMessage = "Service name not specified")]
-        [Argument(0, Description = "The service name")]
-        private string name { get; }
-
         protected override IExecutor GetExecutor()
         {
-            return new RemoveServiceExecutor(name);
+            return null;
         }
     }
 }

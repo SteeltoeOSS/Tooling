@@ -12,21 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
-using Steeltoe.Tooling.Executor.Target;
+using Steeltoe.Tooling.Executor.Service;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
 // ReSharper disable InconsistentNaming
 
 namespace Steeltoe.Tooling.Cli
 {
-    [Command(Description = "List available target environments.")]
-    public class ListTargetsCommand : Command
+    [Command(Description = "Remove a service.")]
+    public class RemoveCommand : Command
     {
+        [Required(ErrorMessage = "Service name not specified")]
+        [Argument(0, Name = "name", Description = "Service name")]
+        private string Name { get; }
+
         protected override IExecutor GetExecutor()
         {
-            return new ListTargetsExecutor();
+            return null;
         }
     }
 }

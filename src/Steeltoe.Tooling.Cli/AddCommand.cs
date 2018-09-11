@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
 using Steeltoe.Tooling.Executor.Service;
@@ -21,12 +23,21 @@ using Steeltoe.Tooling.Executor.Service;
 
 namespace Steeltoe.Tooling.Cli
 {
-    [Command(Description = "List available services.")]
-    public class ListServicesCommand : Command
+    [Command(Description = "Add a service.")]
+    public class AddCommand : Command
     {
+        [Required(ErrorMessage = "Service name not specified")]
+        [Argument(0, Name = "name", Description = "Service name")]
+        private string Name { get; }
+
+        [Required(ErrorMessage = "Service type not specified")]
+        [Argument(1, Name = "type",
+        Description = "Service type (run '" + CliName + " list types' for available service types)")]
+        private string Type { get; }
+
         protected override IExecutor GetExecutor()
         {
-            return new ListServicesExecutor();
+            return null;
         }
     }
 }
