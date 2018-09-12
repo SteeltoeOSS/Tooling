@@ -8,13 +8,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		config\versions.props = config\versions.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Library", "src\Steeltoe.Tooling.Library\Steeltoe.Tooling.Library.csproj", "{0C883901-4BDB-48D5-BCA8-46611D26B2A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling", "src\Steeltoe.Tooling\Steeltoe.Tooling.csproj", "{0C883901-4BDB-48D5-BCA8-46611D26B2A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Library.Test", "test\Steeltoe.Tooling.Library.Test\Steeltoe.Tooling.Library.Test.csproj", "{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Test", "test\Steeltoe.Tooling.Test\Steeltoe.Tooling.Test.csproj", "{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Cli", "src\Steeltoe.Tooling.Cli\Steeltoe.Tooling.Cli.csproj", "{51D148CB-D7E1-453F-9EC7-2381294C29A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Cli", "src\Steeltoe.Cli\Steeltoe.Cli.csproj", "{51D148CB-D7E1-453F-9EC7-2381294C29A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Cli.Feature", "test\Steeltoe.Tooling.Cli.Feature\Steeltoe.Tooling.Cli.Feature.csproj", "{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Cli.Feature", "test\Steeltoe.Cli.Feature\Steeltoe.Cli.Feature.csproj", "{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

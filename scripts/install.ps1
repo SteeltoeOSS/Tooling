@@ -1,4 +1,4 @@
-$globalToolProject = "Steeltoe.Tooling.Cli"
+$globalToolProject = "Steeltoe.Cli"
 
 Set-Location $PSScriptRoot\..
 

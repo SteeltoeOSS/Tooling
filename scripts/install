@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-toolProject=Steeltoe.Tooling.Cli
+toolProject=Steeltoe.Cli
 
 cd $(dirname $0)/..
 
-dotnet tool uninstall --global $toolProject
+dotnet tool uninstall --global $toolProject 2>/dev/null
 dotnet pack
 dotnet tool install --global --add-source src/$toolProject/bin/Debug $toolProject
