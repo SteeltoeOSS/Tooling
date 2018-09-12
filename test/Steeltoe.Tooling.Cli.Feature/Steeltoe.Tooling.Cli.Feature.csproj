@@ -19,4 +19,7 @@
     <ProjectReference Include="..\..\src\Steeltoe.Tooling.Cli\Steeltoe.Tooling.Cli.csproj" />
     <ProjectReference Include="..\..\src\Steeltoe.Tooling.Library\Steeltoe.Tooling.Library.csproj" />
   </ItemGroup>
+  <Target Name="SpicNSpan" AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
 </Project>
