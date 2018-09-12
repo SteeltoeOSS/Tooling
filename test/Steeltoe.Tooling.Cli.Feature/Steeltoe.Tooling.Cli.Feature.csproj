@@ -17,6 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Steeltoe.Tooling.Cli\Steeltoe.Tooling.Cli.csproj" />
-    <ProjectReference Include="..\..\src\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
+    <ProjectReference Include="..\..\src\Steeltoe.Tooling.Library\Steeltoe.Tooling.Library.csproj" />
   </ItemGroup>
 </Project>

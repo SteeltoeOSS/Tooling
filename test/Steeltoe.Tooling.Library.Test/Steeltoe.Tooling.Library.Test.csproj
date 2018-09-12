@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\versions.props" />
+  <Import Project="..\..\config\versions.props" />
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
@@ -15,6 +15,6 @@
     <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
+    <ProjectReference Include="..\..\src\Steeltoe.Tooling.Library\Steeltoe.Tooling.Library.csproj" />
   </ItemGroup>
 </Project>

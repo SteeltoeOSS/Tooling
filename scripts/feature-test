@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 basedir=$(dirname $0)/..
-featureTestDir=$basedir/feature
+featureTestDir=$basedir/test
 errors=0
 
 for project in $featureTestDir/*.Feature

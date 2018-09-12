@@ -5,51 +5,16 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AE726098-1F00-4674-A260-0E82339152DA}"
 	ProjectSection(SolutionItems) = preProject
-		CONTRIBUTING.md = CONTRIBUTING.md
-		LICENSE = LICENSE
-		README.md = README.md
-		versions.props = versions.props
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D86CBDAE-DF37-4BDF-8F81-C79FB11DEC0D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{67CB55E8-C6E9-471F-A799-7AE925E921ED}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "feature", "feature", "{D95EB329-EB3F-4287-90D6-304D509B305F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.Cli", "src\Steeltoe.Tooling.Cli\Steeltoe.Tooling.Cli.csproj", "{51D148CB-D7E1-453F-9EC7-2381294C29A2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{E2FA27BE-FEBF-44C5-8C96-8541D638B641}"
-	ProjectSection(SolutionItems) = preProject
 		config\versions.props = config\versions.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{D4A6859F-DE98-4113-8455-AD3FA17E84F4}"
-	ProjectSection(SolutionItems) = preProject
-		scripts\feature-test.ps1 = scripts\feature-test.ps1
-		scripts\unit-test.ps1 = scripts\unit-test.ps1
-		scripts\feature-test = scripts\feature-test
-		scripts\unit-test = scripts\unit-test
-		scripts\reinstall = scripts\reinstall
-		scripts\reinstall.ps1 = scripts\reinstall.ps1
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Library", "src\Steeltoe.Tooling.Library\Steeltoe.Tooling.Library.csproj", "{0C883901-4BDB-48D5-BCA8-46611D26B2A3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{E9B1FC73-80A5-42A7-863F-5413EA87FD5A}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Library.Test", "test\Steeltoe.Tooling.Library.Test\Steeltoe.Tooling.Library.Test.csproj", "{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{7947B402-D36D-4AFB-AA6A-A0BA7EECD6D7}"
-	ProjectSection(SolutionItems) = preProject
-		.appveyor.yml = .appveyor.yml
-		.travis.yml = .travis.yml
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Cli", "src\Steeltoe.Tooling.Cli\Steeltoe.Tooling.Cli.csproj", "{51D148CB-D7E1-453F-9EC7-2381294C29A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.Cli.Feature", "feature\Steeltoe.Tooling.Cli.Feature\Steeltoe.Tooling.Cli.Feature.csproj", "{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling.Test", "test\Steeltoe.Tooling.Test\Steeltoe.Tooling.Test.csproj", "{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.Tooling", "src\Steeltoe.Tooling\Steeltoe.Tooling.csproj", "{0C883901-4BDB-48D5-BCA8-46611D26B2A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Cli.Feature", "test\Steeltoe.Tooling.Cli.Feature\Steeltoe.Tooling.Cli.Feature.csproj", "{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +26,30 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|x64.Build.0 = Debug|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|x64.ActiveCfg = Release|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|x64.Build.0 = Release|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|x86.Build.0 = Release|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|x64.Build.0 = Debug|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|x86.Build.0 = Debug|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|x64.ActiveCfg = Release|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|x64.Build.0 = Release|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|x86.ActiveCfg = Release|Any CPU
+		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|x86.Build.0 = Release|Any CPU
 		{51D148CB-D7E1-453F-9EC7-2381294C29A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{51D148CB-D7E1-453F-9EC7-2381294C29A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51D148CB-D7E1-453F-9EC7-2381294C29A2}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -85,39 +74,9 @@ Global
 		{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}.Release|x64.Build.0 = Release|Any CPU
 		{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}.Release|x86.ActiveCfg = Release|Any CPU
 		{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}.Release|x86.Build.0 = Release|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|x64.Build.0 = Debug|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Debug|x86.Build.0 = Debug|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|x64.ActiveCfg = Release|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|x64.Build.0 = Release|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|x86.ActiveCfg = Release|Any CPU
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE}.Release|x86.Build.0 = Release|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|x64.Build.0 = Debug|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Debug|x86.Build.0 = Debug|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|x64.ActiveCfg = Release|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|x64.Build.0 = Release|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|x86.ActiveCfg = Release|Any CPU
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{51D148CB-D7E1-453F-9EC7-2381294C29A2} = {D86CBDAE-DF37-4BDF-8F81-C79FB11DEC0D}
-		{BD4A2CBD-33AF-48C3-914D-8A7F58A15348} = {D95EB329-EB3F-4287-90D6-304D509B305F}
-		{07D7EAA0-AE7F-4493-BAEE-B3FFF2ED74CE} = {67CB55E8-C6E9-471F-A799-7AE925E921ED}
-		{0C883901-4BDB-48D5-BCA8-46611D26B2A3} = {D86CBDAE-DF37-4BDF-8F81-C79FB11DEC0D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A443975C-C563-4CBC-9EBA-A21E6D258E77}

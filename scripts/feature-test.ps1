@@ -1,5 +1,5 @@
 $pwd = Get-Location
-Set-Location $PSScriptRoot\..\feature
+Set-Location $PSScriptRoot\..\test
 
 [int]$errors = 0
 

@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\versions.props" />
+  <Import Project="..\..\config\versions.props" />
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <ToolCommandName>steeltoe</ToolCommandName>
@@ -10,6 +10,6 @@
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
+    <ProjectReference Include="..\Steeltoe.Tooling.Library\Steeltoe.Tooling.Library.csproj" />
   </ItemGroup>
 </Project>
