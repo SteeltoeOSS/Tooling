@@ -15,24 +15,28 @@
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
 
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
-
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Target the deployment environment.  If run with no args, show the targeted deployment environment.")]
+    [Command(Description =
+        "Target the deployment environment.  If run with no args, show the targeted deployment environment.")]
     public class TargetCommand : Command
     {
         [Argument(0, Name = "environment",
-        Description = "Deployment environment (run '" + CliName + " list targets' for available deployment environments)")]
+            Description = "Deployment environment (run '" + CliName +
+                          " list targets' for available deployment environments)")]
         private string Environment { get; }
 
         [Option("-F|--force", Description = "Target the deployment environment even if checks fail")]
-        private string Force { get; }
+        private bool Force { get; }
 
         protected override IExecutor GetExecutor()
         {
-            return null;
+            if (Environment == null)
+            {
+                return new ShowTargetExecutor();
+            }
+
+            return new SetTargetExecutor(Environment, Force);
         }
     }
 }

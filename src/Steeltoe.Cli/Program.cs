@@ -14,11 +14,13 @@
 
 using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling;
 
 namespace Steeltoe.Cli
 {
     [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
     [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]
+    [Subcommand("init", typeof(InitCommand))]
     [Subcommand("target", typeof(TargetCommand))]
     [Subcommand("add", typeof(AddCommand))]
     [Subcommand("remove", typeof(RemoveCommand))]
@@ -33,7 +35,15 @@ namespace Steeltoe.Cli
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
         public static string GetVersion()
-            => typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            => typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                .InformationalVersion;
+
+        [Option("-D|--debug", Description = "Enable debug output")]
+        public static bool DebugEnabled
+        {
+            get => Settings.DebugEnabled;
+            set => Settings.DebugEnabled = value;
+        }
 
         // ReSharper disable once UnusedMember.Local
         private int OnExecute(CommandLineApplication app)

@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Tooling.Test", "te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Cli", "src\Steeltoe.Cli\Steeltoe.Cli.csproj", "{51D148CB-D7E1-453F-9EC7-2381294C29A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Cli.Feature", "test\Steeltoe.Cli.Feature\Steeltoe.Cli.Feature.csproj", "{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steeltoe.Cli.Test", "test\Steeltoe.Cli.Test\Steeltoe.Cli.Test.csproj", "{BD4A2CBD-33AF-48C3-914D-8A7F58A15348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

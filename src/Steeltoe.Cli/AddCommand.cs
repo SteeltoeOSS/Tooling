@@ -16,9 +16,6 @@ using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
 
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
-
 namespace Steeltoe.Cli
 {
     [Command(Description = "Add a service.")]
@@ -26,16 +23,16 @@ namespace Steeltoe.Cli
     {
         [Required(ErrorMessage = "Service name not specified")]
         [Argument(0, Name = "name", Description = "Service name")]
-        private string Name { get; }
+        private string Name { get; } = null;
 
         [Required(ErrorMessage = "Service type not specified")]
         [Argument(1, Name = "type",
-        Description = "Service type (run '" + CliName + " list types' for available service types)")]
-        private string Type { get; }
+            Description = "Service type (run '" + CliName + " list types' for available service types)")]
+        private string Type { get; } = null;
 
         protected override IExecutor GetExecutor()
         {
-            return null;
+            return new AddServiceExecutor(Name, Type);
         }
     }
 }

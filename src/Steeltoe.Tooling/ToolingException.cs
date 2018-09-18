@@ -18,10 +18,6 @@ namespace Steeltoe.Tooling
 {
     public class ToolingException : Exception
     {
-        public ToolingException()
-        {
-        }
-
         public ToolingException(string message) : base(message)
         {
         }

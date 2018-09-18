@@ -12,20 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
-
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
+using Steeltoe.Tooling.Executor.Service;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Stop running services in the targeted deployment environment.")]
+    [Command(Description = "Stop an enabled service in the targeted deployment environment.")]
     public class UndeployCommand : Command
     {
+        [Required(ErrorMessage = "Service name not specified")]
+        [Argument(0, Name = "name", Description = "Service name")]
+        private string Name { get; } = null;
+
         protected override IExecutor GetExecutor()
         {
-            return null;
+            return new UndeployServiceExecutor(Name);
         }
     }
 }

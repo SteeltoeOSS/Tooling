@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using Shouldly;
 using Xunit;
 
@@ -21,31 +20,23 @@ namespace Steeltoe.Tooling.Test
     public class ConfigurationTest
     {
         [Fact]
-        public void TestStoreToStream()
+        public void TestChangeEvent()
         {
             var cfg = new Configuration();
-            cfg.environment = "myEnvironment";
-            cfg.services.Add("myService", new Configuration.Service("myServiceType"));
-            var ostr = new StringWriter();
-            cfg.Store(ostr);
-            ostr.ToString().ShouldBe(SampleConfig);
-
+            var listener = new MyListener();
+            cfg.AddListener(listener);
+            cfg.NotifyListeners();
+            listener.ReceivedEvent.ShouldBeTrue();
         }
 
-        [Fact]
-        public void TestLoadFromStream()
+        internal class MyListener : IConfigurationListener
         {
-            var istr = new StringReader(SampleConfig);
-            var cfg = Configuration.Load(istr);
-            cfg.environment.ShouldBe("myEnvironment");
-            cfg.services.ShouldContainKey("myService");
-            cfg.services["myService"].type.ShouldBe("myServiceType");
-        }
+            internal bool ReceivedEvent { get; set; }
 
-        private const string SampleConfig = @"environment: myEnvironment
-services:
-  myService:
-    type: myServiceType
-";
+            public void ConfigurationChangeEvent()
+            {
+                ReceivedEvent = true;
+            }
+        }
     }
 }

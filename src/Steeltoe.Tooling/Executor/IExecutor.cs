@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
-using Steeltoe.Tooling.System;
-
 namespace Steeltoe.Tooling.Executor
 {
     public interface IExecutor
     {
-        bool Execute(Configuration config, Shell shell, TextWriter consoleOut);
+        void Execute(Context context);
     }
 }

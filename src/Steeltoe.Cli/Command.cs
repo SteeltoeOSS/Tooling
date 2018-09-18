@@ -14,37 +14,51 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling;
 using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    public abstract class Command
+    public abstract class Command : IConfigurationListener
     {
         public const string CliName = "steeltoe";
 
-        protected virtual int OnExecute(CommandLineApplication app)
+        private bool _configDirty;
+
+        protected int OnExecute(CommandLineApplication app)
         {
-            var configFile = Path.Combine(Directory.GetCurrentDirectory(), Configuration.DefaultFileName);
-            var config = File.Exists(configFile) ? Configuration.Load(configFile) : new Configuration();
             try
             {
-                //
-                // TODO: Is there a better way to signal that config needs to be stores?  Perhaps a dirty bit?
-                //
-                app.Out.WriteLine("!!! backend impl currently disconnected; commands are no-op'd for now !!!");
-//                if (GetExecutor().Execute(config, new CommandShell(), app.Out))
-//                {
-//                    config.Store(configFile);
-//                }
+                var requiresInitializedProject = true;
+                {
+                    var executor = GetExecutor();
+                    MemberInfo minfo = executor.GetType();
+                    foreach (var attr in minfo.GetCustomAttributes(true))
+                    {
+                        var initAttr = attr as RequiresInitializationAttribute;
+                        if (initAttr != null)
+                        {
+                            requiresInitializedProject = initAttr.IsRequired;
+                        }
+                    }
+                }
+                var projectDirectory = Directory.GetCurrentDirectory();
+                var config = new ConfigurationFile(projectDirectory);
+                if (requiresInitializedProject && !config.Exists())
+                {
+                    throw new ToolingException("Project has not been initialized for Steeltoe Developer Tools");
+                }
 
+                config.AddListener(this);
+                var context = new Context(projectDirectory, config, new CommandShell(app.Out));
+                GetExecutor().Execute(context);
+                if (_configDirty)
+                {
+                    config.Store();
+                }
                 return 0;
-            }
-            catch (ArgumentException e)
-            {
-                app.Error.WriteLine(e.Message);
-                return 1;
             }
             catch (ToolingException e)
             {
@@ -63,5 +77,10 @@ namespace Steeltoe.Cli
         }
 
         protected abstract IExecutor GetExecutor();
+
+        public void ConfigurationChangeEvent()
+        {
+            _configDirty = true;
+        }
     }
 }

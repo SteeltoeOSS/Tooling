@@ -16,9 +16,6 @@ using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
 
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
-
 namespace Steeltoe.Cli
 {
     [Command(Description = "Enable a service.")]
@@ -30,7 +27,7 @@ namespace Steeltoe.Cli
 
         protected override IExecutor GetExecutor()
         {
-            return null;
+            return new EnableServiceExecutor(Name);
         }
     }
 }

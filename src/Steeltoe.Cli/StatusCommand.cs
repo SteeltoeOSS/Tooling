@@ -14,13 +14,12 @@
 
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
-
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
+using Steeltoe.Tooling.Executor.Service;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Show the status of a service in the targeted deployment environment.  If run with no args, show the status of all services.")]
+    [Command(Description =
+        "Show the status of a service in the targeted deployment environment.  If run with no args, show the status of all services.")]
     public class StatusCommand : Command
     {
         [Argument(0, Name = "name", Description = "Service name")]
@@ -28,7 +27,7 @@ namespace Steeltoe.Cli
 
         protected override IExecutor GetExecutor()
         {
-            return null;
+            return new StatusServiceExecutor(Name);
         }
     }
 }

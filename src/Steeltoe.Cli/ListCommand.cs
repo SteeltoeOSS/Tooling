@@ -12,23 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling;
 using Steeltoe.Tooling.Executor;
-
-// ReSharper disable UnassignedGetOnlyAutoProperty
-// ReSharper disable InconsistentNaming
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "List services, service types, or deployment environments.  If run with no args, list everything.")]
+    [Command(Description =
+        "List services, service types, or deployment environments.  If run with no args, list everything.")]
     public class ListCommand : Command
     {
+        [Required(ErrorMessage = "List scope not specified")]
         [Argument(0, Name = "scope", Description = "One of: services, types, environments")]
         private string Scope { get; }
 
         protected override IExecutor GetExecutor()
         {
-            return null;
+            switch (Scope)
+            {
+                case "environments":
+                    return new ListEnvironmentsExecutor();
+                case "types":
+                    return new ListServiceTypesExecutor();
+                case "services":
+                    return new ListServicesExecutor();
+                default:
+                    throw new ToolingException($"Unknown list scope '{Scope}'");
+            }
         }
     }
 }
