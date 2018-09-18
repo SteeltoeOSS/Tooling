@@ -63,11 +63,17 @@ namespace Steeltoe.Tooling.Docker
 
         public ServiceLifecycle.State GetServiceLifecleState(string name)
         {
-            throw new NotImplementedException();
-//            var containerInfo = new DockerCli(shell).GetContainerInfo(name).Split('\n');
-//            if (containerInfo.Length <= 2) return "offline";
-//            var statusStart = containerInfo[0].IndexOf("STATUS", StringComparison.Ordinal);
-//            return containerInfo[1].Substring(statusStart).StartsWith("Up ") ? "online" : "offline";
+            var containerInfo = _cli.GetContainerInfo(name).Split('\n');
+            if (containerInfo.Length > 2)
+            {
+                var statusStart = containerInfo[0].IndexOf("STATUS", StringComparison.Ordinal);
+                if (containerInfo[1].Substring(statusStart).StartsWith("Up "))
+                {
+                    return ServiceLifecycle.State.Online;
+                }
+            }
+
+            return ServiceLifecycle.State.Offline;
         }
     }
 }
