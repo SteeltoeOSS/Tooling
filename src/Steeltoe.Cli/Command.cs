@@ -60,6 +60,15 @@ namespace Steeltoe.Cli
                 }
                 return 0;
             }
+            catch (ArgumentException e)
+            {
+                if (!string.IsNullOrEmpty(e.Message))
+                {
+                    app.Error.WriteLine(e.Message);
+                }
+
+                return 1;
+            }
             catch (ToolingException e)
             {
                 if (!string.IsNullOrEmpty(e.Message))

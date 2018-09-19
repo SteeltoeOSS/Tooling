@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
+using System;
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling;
 using Steeltoe.Tooling.Executor;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -22,26 +21,33 @@ using Steeltoe.Tooling.Executor;
 namespace Steeltoe.Cli
 {
     [Command(Description =
-        "List services, service types, or deployment environments.  If run with no args, list everything.")]
+        "List services, service types, or deployment environments.  If run with no options, list services.")]
     public class ListCommand : Command
     {
-        [Required(ErrorMessage = "List scope not specified")]
-        [Argument(0, Name = "scope", Description = "One of: services, types, environments")]
-        private string Scope { get; }
+        [Option("-e|--environments", Description = "List deployment environments")]
+        private bool ListEnvironments { get; }
+
+        [Option("-t|--service-types", Description = "List service types")]
+        private bool ListServiceTypes { get; }
 
         protected override IExecutor GetExecutor()
         {
-            switch (Scope)
+            if (ListEnvironments && ListServiceTypes)
             {
-                case "environments":
-                    return new ListEnvironmentsExecutor();
-                case "types":
-                    return new ListServiceTypesExecutor();
-                case "services":
-                    return new ListServicesExecutor();
-                default:
-                    throw new ToolingException($"Unknown list scope '{Scope}'");
+                throw new ArgumentException("Specify at most one of: -e|--environments, -t|--service-types");
             }
+
+            if (ListEnvironments)
+            {
+                return new ListEnvironmentsExecutor();
+            }
+
+            if (ListServiceTypes)
+            {
+                return new ListServiceTypesExecutor();
+            }
+
+            return new ListServicesExecutor();
         }
     }
 }

@@ -29,18 +29,10 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("list_help"),
                 when => the_developer_runs_cli_command("list --help"),
                 and => the_cli_should_output(
-                    "List services, service types, or deployment environments. If run with no args, list everything."),
-                and => the_cli_should_output("scope One of: services, types, environments")
-            );
-        }
-
-        [Scenario]
-        public void ListNotEnoughArgs()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("list_not_enough_args"),
-                when => the_developer_runs_cli_command("list"),
-                and => the_cli_should_error(ErrorCode.Argument, "List scope not specified")
+                    "List services, service types, or deployment environments. If run with no options, list services."),
+                and => the_cli_should_output("-e|--environments List deployment environments"),
+                and => the_cli_should_output("-t|--service-types List service types"),
+                and => the_cli_should_output("-v|--verbose Verbose listing")
             );
         }
 
@@ -49,38 +41,19 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_dotnet_project("list_too_many_args"),
-                when => the_developer_runs_cli_command("list arg1 arg2"),
-                and => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
+                when => the_developer_runs_cli_command("list arg1"),
+                and => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg1'")
             );
         }
 
         [Scenario]
-        public void ListUnknownScope()
+        public void ListMutallyExclusiveOptions()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_unknown_scope"),
-                when => the_developer_runs_cli_command("list unknown-scope"),
-                and => the_cli_should_error(ErrorCode.Tooling, "Unknown list scope 'unknown-scope")
-            );
-        }
-
-        [Scenario]
-        public void ListEnvironments()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("list_environments"),
-                when => the_developer_runs_cli_command("list environments"),
-                and => the_cli_should_list_available_environments()
-            );
-        }
-
-        [Scenario]
-        public void ListTypes()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("list_types"),
-                when => the_developer_runs_cli_command("list types"),
-                and => the_cli_should_list_available_service_types()
+                given => a_steeltoe_project("list_mutually_exclusive_options"),
+                and => the_developer_runs_cli_command("list -e -t"),
+                and => the_cli_should_error(ErrorCode.Argument,
+                    "Specify at most one of: -e|--environments, -t|--service-types")
             );
         }
 
@@ -92,8 +65,28 @@ namespace Steeltoe.Cli.Test
                 and => the_developer_runs_cli_command("add z-service dummy-svc"),
                 when => the_developer_runs_cli_command("add a-service dummy-svc"),
                 and => the_developer_runs_cli_command("add 9-service dummy-svc"),
-                and => the_developer_runs_cli_command("list services"),
+                and => the_developer_runs_cli_command("list"),
                 then => the_cli_should_list_services(new[]{"a-service", "z-service", "9-service"})
+            );
+        }
+
+        [Scenario]
+        public void ListEnvironments()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("list_environments"),
+                when => the_developer_runs_cli_command("list -e"),
+                and => the_cli_should_list_available_environments()
+            );
+        }
+
+        [Scenario]
+        public void ListServiceTypes()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("list_service_types"),
+                when => the_developer_runs_cli_command("list -t"),
+                and => the_cli_should_list_available_service_types()
             );
         }
     }
