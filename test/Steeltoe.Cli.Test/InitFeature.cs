@@ -28,7 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("init_help"),
                 when => the_developer_runs_cli_command("init --help"),
-                and => the_cli_should_output("Initialize a project for Steeltoe Developer Tools."),
+                then => the_cli_should_output("Initialize a project for Steeltoe Developer Tools."),
                 and => the_cli_should_output("-F|--force Initialize the project even if already initialized")
             );
         }
@@ -39,7 +39,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("init_too_many_args"),
                 when => the_developer_runs_cli_command("init arg1"),
-                and => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg1'")
+                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg1'")
             );
         }
 
@@ -49,7 +49,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("init_project"),
                 when => the_developer_runs_cli_command("init"),
-                and => the_cli_should_output("Project initialized for Steeltoe Developer Tools")
+                then => the_cli_should_output("Project initialized for Steeltoe Developer Tools")
             );
         }
 
@@ -59,9 +59,9 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("init_project_already_initialized"),
                 when => the_developer_runs_cli_command("init"),
-                and => the_cli_should_error(ErrorCode.Tooling, "Project already initialized"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Project already initialized"),
                 when => the_developer_runs_cli_command("init --force"),
-                and => the_cli_should_output("Project initialized for Steeltoe Developer Tools")
+                then => the_cli_should_output("Project initialized for Steeltoe Developer Tools")
             );
         }
     }

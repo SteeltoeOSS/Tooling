@@ -28,7 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("undeploy_help"),
                 when => the_developer_runs_cli_command("undeploy --help"),
-                and => the_cli_should_output("Stop an enabled service in the targeted deployment environment."),
+                then => the_cli_should_output("Stop an enabled service in the targeted deployment environment."),
                 and => the_cli_should_output("name Service name")
             );
         }
@@ -39,7 +39,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("undeploy_not_enough_args"),
                 when => the_developer_runs_cli_command("undeploy"),
-                and => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
             );
         }
 
@@ -60,7 +60,7 @@ namespace Steeltoe.Cli.Test
                 given => a_steeltoe_project("undeploy_service"),
                 when => the_developer_runs_cli_command("add my-service dummy-svc"),
                 and => the_developer_runs_cli_command("deploy my-service"),
-                when => the_developer_runs_cli_command("status my-service"),
+                and => the_developer_runs_cli_command("status my-service"),
                 then => the_cli_should_output("starting"),
                 when => the_developer_runs_cli_command("status my-service"),
                 then => the_cli_should_output("online"),

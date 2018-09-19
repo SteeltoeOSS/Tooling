@@ -28,7 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("enable_help"),
                 when => the_developer_runs_cli_command("enable --help"),
-                and => the_cli_should_output("Enable a service."),
+                then => the_cli_should_output("Enable a service."),
                 and => the_cli_should_output("name Service name")
             );
         }
@@ -39,7 +39,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("enable_not_enough_args"),
                 when => the_developer_runs_cli_command("enable"),
-                and => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
             );
         }
 
@@ -49,7 +49,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("enable_too_many_args"),
                 when => the_developer_runs_cli_command("enable arg1 arg2"),
-                and => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
+                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
             );
         }
 
@@ -72,7 +72,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("enable_non_existing_service"),
                 when => the_developer_runs_cli_command("enable unknown-service"),
-                and => the_cli_should_error(ErrorCode.Tooling, "Service 'unknown-service' not found")
+                then => the_cli_should_error(ErrorCode.Tooling, "Service 'unknown-service' not found")
             );
         }
     }

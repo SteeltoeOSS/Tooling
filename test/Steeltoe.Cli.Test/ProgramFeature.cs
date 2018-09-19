@@ -38,7 +38,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("program_help"),
                 when => the_developer_runs_cli_command("--help"),
-                and => the_cli_should_output("Steeltoe Developer Tools"),
+                then => the_cli_should_output("Steeltoe Developer Tools"),
                 and => the_cli_should_output("-D|--debug Enable debug output"),
                 and => the_cli_should_output("-V|--version Show version information"),
                 and => the_cli_should_output("-?|-h|--help Show help information"),
@@ -65,7 +65,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("program_version"),
                 when => the_developer_runs_cli_command("--version"),
-                and => the_cli_should_output("1.0.0")
+                then => the_cli_should_output("1.0.0")
             );
         }
     }

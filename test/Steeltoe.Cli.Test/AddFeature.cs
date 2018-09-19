@@ -28,7 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("add_help"),
                 when => the_developer_runs_cli_command("add --help"),
-                and => the_cli_should_output("Add a service."),
+                then => the_cli_should_output("Add a service."),
                 and => the_cli_should_output("name Service name"),
                 and => the_cli_should_output(
                     "type Service type (run 'steeltoe list types' for available service types)")
@@ -41,12 +41,12 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("add_not_enough_args0"),
                 when => the_developer_runs_cli_command("add"),
-                and => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
             );
             Runner.RunScenario(
                 given => a_dotnet_project("add_not_enough_args1"),
                 when => the_developer_runs_cli_command("add myservice"),
-                and => the_cli_should_error(ErrorCode.Argument, "Service type not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "Service type not specified")
             );
         }
 
@@ -56,7 +56,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("add_too_many_args"),
                 when => the_developer_runs_cli_command("add arg1 arg2 arg3"),
-                and => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg3'")
+                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg3'")
             );
         }
 
@@ -66,7 +66,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("add_unknown_service_type"),
                 when => the_developer_runs_cli_command("add foo no-such-type"),
-                and => the_cli_should_error(ErrorCode.Tooling, "Unknown service type 'no-such-type'")
+                then => the_cli_should_error(ErrorCode.Tooling, "Unknown service type 'no-such-type'")
             );
         }
 
@@ -76,7 +76,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("add_service"),
                 when => the_developer_runs_cli_command("add my-service dummy-svc"),
-                and => the_cli_should_output("Added dummy-svc service 'my-service'"),
+                then => the_cli_should_output("Added dummy-svc service 'my-service'"),
                 and => the_configuration_should_contain_service("my-service"),
                 and => the_configuration_service_should_be_enabled("my-service")
             );

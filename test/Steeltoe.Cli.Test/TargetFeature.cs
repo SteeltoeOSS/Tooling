@@ -28,7 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("target_help"),
                 when => the_developer_runs_cli_command("target --help"),
-                and => the_cli_should_output(
+                then => the_cli_should_output(
                     "Target the deployment environment. If run with no args, show the targeted deployment environment."),
                 and => the_cli_should_output(
                     "environment Deployment environment (run 'steeltoe list targets' for available deployment environments)"),
@@ -42,7 +42,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("target_too_many_args"),
                 when => the_developer_runs_cli_command("target arg1 arg2"),
-                and => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
+                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
             );
         }
 
@@ -53,7 +53,7 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("target_environment"),
                 when => the_developer_runs_cli_command("init"),
                 and => the_developer_runs_cli_command("target dummy-env"),
-                and => the_cli_should_output("Target deployment environment set to 'dummy-env'."),
+                then => the_cli_should_output("Target deployment environment set to 'dummy-env'."),
                 and => the_configuration_should_target("dummy-env")
             );
         }
@@ -64,7 +64,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("target_unknown_environment"),
                 when => the_developer_runs_cli_command("target no-such-environment"),
-                and => the_cli_should_error(ErrorCode.Tooling, "Unknown deployment environment 'no-such-environment'")
+                then => the_cli_should_error(ErrorCode.Tooling, "Unknown deployment environment 'no-such-environment'")
             );
         }
 
@@ -74,7 +74,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("target_uninitialized_project"),
                 when => the_developer_runs_cli_command("target"),
-                and => the_cli_should_error(ErrorCode.Tooling,
+                then => the_cli_should_error(ErrorCode.Tooling,
                     "Project has not been initialized for Steeltoe Developer Tools")
             );
         }
@@ -85,7 +85,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("show_target_environment"),
                 when => the_developer_runs_cli_command("target"),
-                and => the_cli_should_output("Target deployment environment set to 'dummy-env'.")
+                then => the_cli_should_output("Target deployment environment set to 'dummy-env'.")
             );
         }
     }

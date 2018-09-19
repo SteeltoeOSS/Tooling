@@ -28,7 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("list_help"),
                 when => the_developer_runs_cli_command("list --help"),
-                and => the_cli_should_output("List services, service types, or deployment environments."),
+                then => the_cli_should_output("List services, service types, or deployment environments."),
                 and => the_cli_should_output("If run with no options, list services."),
                 and => the_cli_should_output("-e|--environments List deployment environments"),
                 and => the_cli_should_output("-s|--services List services"),
@@ -42,7 +42,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("list_too_many_args"),
                 when => the_developer_runs_cli_command("list arg1"),
-                and => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg1'")
+                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg1'")
             );
         }
 
@@ -51,8 +51,8 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("list_mutually_exclusive_options"),
-                and => the_developer_runs_cli_command("list -e -t"),
-                and => the_cli_should_error(ErrorCode.Argument,
+                when => the_developer_runs_cli_command("list -e -t"),
+                then => the_cli_should_error(ErrorCode.Argument,
                     "Specify at most one of: -e|--environments, -t|--service-types")
             );
         }
@@ -62,11 +62,11 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("list_services"),
-                and => the_developer_runs_cli_command("add z-service dummy-svc"),
-                when => the_developer_runs_cli_command("add a-service dummy-svc"),
+                when => the_developer_runs_cli_command("add z-service dummy-svc"),
+                and => the_developer_runs_cli_command("add a-service dummy-svc"),
                 and => the_developer_runs_cli_command("add 9-service dummy-svc"),
                 and => the_developer_runs_cli_command("list"),
-                then => the_cli_should_list_services(new[]{"a-service", "z-service", "9-service"})
+                then => the_cli_should_list_services(new[] {"a-service", "z-service", "9-service"})
             );
         }
 
@@ -76,7 +76,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("list_environments"),
                 when => the_developer_runs_cli_command("list -e"),
-                and => the_cli_should_list_available_environments()
+                then => the_cli_should_list_available_environments()
             );
         }
 
@@ -86,7 +86,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("list_service_types"),
                 when => the_developer_runs_cli_command("list -t"),
-                and => the_cli_should_list_available_service_types()
+                then => the_cli_should_list_available_service_types()
             );
         }
     }

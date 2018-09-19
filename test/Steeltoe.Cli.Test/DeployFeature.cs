@@ -28,7 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("deploy_help"),
                 when => the_developer_runs_cli_command("deploy --help"),
-                and => the_cli_should_output("Start an enabled service in the targeted deployment environment."),
+                then => the_cli_should_output("Start an enabled service in the targeted deployment environment."),
                 and => the_cli_should_output("name Service name")
             );
         }
@@ -39,7 +39,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("deploy_not_enough_args"),
                 when => the_developer_runs_cli_command("deploy"),
-                and => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
             );
         }
 
@@ -74,7 +74,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("deploy_non_existing_service"),
                 when => the_developer_runs_cli_command("deploy unknown-service"),
-                and => the_cli_should_error(ErrorCode.Tooling, "Service 'unknown-service' not found")
+                then => the_cli_should_error(ErrorCode.Tooling, "Service 'unknown-service' not found")
             );
         }
 
@@ -86,7 +86,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add my-service dummy-svc"),
                 and => the_developer_runs_cli_command("disable my-service"),
                 and => the_developer_runs_cli_command("deploy my-service"),
-                and => the_cli_should_error(ErrorCode.Tooling, "Invalid service status 'disabled'")
+                then => the_cli_should_error(ErrorCode.Tooling, "Invalid service status 'disabled'")
             );
         }
     }

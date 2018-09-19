@@ -28,7 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("remove_help"),
                 when => the_developer_runs_cli_command("remove --help"),
-                and => the_cli_should_output("Remove a service."),
+                then => the_cli_should_output("Remove a service."),
                 and => the_cli_should_output("name Service name")
             );
         }
@@ -39,7 +39,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("remove_not_enough_args"),
                 when => the_developer_runs_cli_command("remove"),
-                and => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
             );
         }
 
@@ -49,7 +49,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("remove_too_many_args"),
                 when => the_developer_runs_cli_command("remove arg1 arg2"),
-                and => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
+                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
             );
         }
 
@@ -71,7 +71,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("remove_non_existing_service"),
                 when => the_developer_runs_cli_command("remove unknown-service"),
-                and => the_cli_should_error(ErrorCode.Tooling, "Service 'unknown-service' not found")
+                then => the_cli_should_error(ErrorCode.Tooling, "Service 'unknown-service' not found")
             );
         }
     }

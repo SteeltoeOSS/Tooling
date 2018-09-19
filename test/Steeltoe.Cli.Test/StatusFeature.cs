@@ -28,7 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("status_help"),
                 when => the_developer_runs_cli_command("status --help"),
-                and => the_cli_should_output(
+                then => the_cli_should_output(
                     "Show the status of a service in the targeted deployment environment. If run with no args, show the status of all services."),
                 and => the_cli_should_output("name Service name")
             );
@@ -40,7 +40,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("status_too_many_args"),
                 when => the_developer_runs_cli_command("status arg1 arg2"),
-                and => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
+                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
             );
         }
 
@@ -52,7 +52,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add a-service dummy-svc"),
                 and => the_developer_runs_cli_command("disable a-service"),
                 and => the_developer_runs_cli_command("status a-service"),
-                and => the_cli_should_output("disabled")
+                then => the_cli_should_output("disabled")
             );
         }
 
@@ -64,7 +64,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add a-service dummy-svc"),
                 and => the_developer_runs_cli_command("enable a-service"),
                 and => the_developer_runs_cli_command("status a-service"),
-                and => the_cli_should_output("offline")
+                then => the_cli_should_output("offline")
             );
         }
     }
