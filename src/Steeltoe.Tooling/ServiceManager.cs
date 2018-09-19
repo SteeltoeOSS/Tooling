@@ -19,16 +19,16 @@ namespace Steeltoe.Tooling
 {
     public class ServiceManager
     {
-        protected internal readonly Context _context;
+        protected internal readonly Context Context;
 
         public ServiceManager(Context context)
         {
-            _context = context;
+            Context = context;
         }
 
         public IServiceBackend GetServiceBackend()
         {
-            return EnvironmentRegistry.ForName(_context.Configuration.EnvironmentName).GetServiceBackend(_context);
+            return EnvironmentRegistry.ForName(Context.Configuration.EnvironmentName).GetServiceBackend(Context);
         }
 
         public Service AddService(string name, string type)
@@ -38,31 +38,31 @@ namespace Steeltoe.Tooling
                 throw new ToolingException($"Unknown service type '{type}'");
             }
 
-            if (_context.Configuration.Services.ContainsKey(name))
+            if (Context.Configuration.Services.ContainsKey(name))
             {
                 throw new ToolingException($"Service '{name}' already exists");
             }
 
-            _context.Configuration.Services[name] = new Configuration.Service {ServiceTypeName = type};
-            _context.Configuration.NotifyListeners();
+            Context.Configuration.Services[name] = new Configuration.Service {ServiceTypeName = type};
+            Context.Configuration.NotifyListeners();
             return GetService(name);
         }
 
         public void RemoveService(string name)
         {
-            if (!_context.Configuration.Services.Remove(name))
+            if (!Context.Configuration.Services.Remove(name))
             {
                 throw new ServiceNotFoundException(name);
             }
 
-            _context.Configuration.NotifyListeners();
+            Context.Configuration.NotifyListeners();
         }
 
         public Service GetService(string name)
         {
             try
             {
-                var svccfg = _context.Configuration.Services[name];
+                var svccfg = Context.Configuration.Services[name];
                 return new Service(name, svccfg.ServiceTypeName);
             }
             catch (KeyNotFoundException)
@@ -73,37 +73,37 @@ namespace Steeltoe.Tooling
 
         public List<string> GetServiceNames()
         {
-            return _context.Configuration.Services.Keys.ToList();
+            return Context.Configuration.Services.Keys.ToList();
         }
 
         public bool HasService(string name)
         {
-            return _context.Configuration.Services.ContainsKey(name);
+            return Context.Configuration.Services.ContainsKey(name);
         }
 
         public string GetServiceStatus(string name)
         {
-            return new ServiceLifecycle(_context, name).GetState().ToString().ToLower();
+            return new ServiceLifecycle(Context, name).GetState().ToString().ToLower();
         }
 
         public void EnableService(string name)
         {
-            new ServiceLifecycle(_context, name).Enable();
+            new ServiceLifecycle(Context, name).Enable();
         }
 
         public void DisableService(string name)
         {
-            new ServiceLifecycle(_context, name).Disable();
+            new ServiceLifecycle(Context, name).Disable();
         }
 
         public void DeployService(string name)
         {
-            new ServiceLifecycle(_context, name).Deploy();
+            new ServiceLifecycle(Context, name).Deploy();
         }
 
         public void UndeployService(string name)
         {
-            new ServiceLifecycle(_context, name).Undeploy();
+            new ServiceLifecycle(Context, name).Undeploy();
         }
     }
 }

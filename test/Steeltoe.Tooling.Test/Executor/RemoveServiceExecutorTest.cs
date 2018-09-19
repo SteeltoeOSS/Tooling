@@ -14,7 +14,6 @@
 
 using Shouldly;
 using Steeltoe.Tooling.Executor;
-using Steeltoe.Tooling.Executor.Service;
 using Xunit;
 
 namespace Steeltoe.Tooling.Test.Executor

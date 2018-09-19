@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Steeltoe.Tooling.Executor.Service
+namespace Steeltoe.Tooling.Executor
 {
     public class DeployServiceExecutor : ServiceExecutor
     {

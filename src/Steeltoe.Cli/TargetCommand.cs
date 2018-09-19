@@ -15,6 +15,8 @@
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
 
+// ReSharper disable UnassignedGetOnlyAutoProperty
+
 namespace Steeltoe.Cli
 {
     [Command(Description =

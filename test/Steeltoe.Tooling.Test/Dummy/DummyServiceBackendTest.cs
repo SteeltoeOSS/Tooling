@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.IO;
 using Shouldly;
 using Steeltoe.Tooling.Dummy;
 using Xunit;
+
+// ReSharper disable ObjectCreationAsStatement
 
 namespace Steeltoe.Tooling.Test.Dummy
 {

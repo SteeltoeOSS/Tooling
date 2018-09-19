@@ -29,7 +29,7 @@ namespace Steeltoe.Cli.Test
             };
             foreach (string env in expected)
             {
-                _shellOut.ShouldContain(env);
+                ShellOut.ShouldContain(env);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Steeltoe.Cli.Test
             };
             foreach (string type in expected)
             {
-                _shellOut.ShouldContain(type);
+                ShellOut.ShouldContain(type);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Steeltoe.Cli.Test
             the_cli_command_should_succeed();
             foreach (string service in expected)
             {
-                _shellOut.ShouldContain(service);
+                ShellOut.ShouldContain(service);
             }
         }
     }

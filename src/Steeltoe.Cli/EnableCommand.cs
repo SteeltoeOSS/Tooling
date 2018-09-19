@@ -16,6 +16,8 @@ using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
 
+// ReSharper disable UnassignedGetOnlyAutoProperty
+
 namespace Steeltoe.Cli
 {
     [Command(Description = "Enable a service.")]

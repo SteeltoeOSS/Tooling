@@ -47,8 +47,12 @@ namespace Steeltoe.Cli
             {
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                WorkingDirectory = result.WorkingDirectory
             };
+            if (result.WorkingDirectory != null)
+            {
+                pinfo.WorkingDirectory = result.WorkingDirectory;
+            }
+
             try
             {
                 var proc = Process.Start(pinfo);

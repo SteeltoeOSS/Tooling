@@ -35,15 +35,15 @@ namespace Steeltoe.Cli.Test
 
         protected static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<FeatureSpecs>();
 
-        protected Shell _shell = new CommandShell();
+        protected readonly Shell Shell = new CommandShell();
 
-        protected Shell.Result _shellResult;
+        protected Shell.Result ShellResult;
 
-        protected string _shellOut;
+        protected string ShellOut;
 
-        protected string _shellError;
+        protected string ShellError;
 
-        protected string _projectDirectory;
+        protected string ProjectDirectory;
 
         //
         // Givens
@@ -52,22 +52,22 @@ namespace Steeltoe.Cli.Test
         protected void a_dotnet_project(string name)
         {
             Logger.LogInformation($"rigging a dotnet project '{name}'");
-            _projectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), name);
-            if (Directory.Exists(_projectDirectory))
+            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), name);
+            if (Directory.Exists(ProjectDirectory))
             {
-                Directory.Delete(_projectDirectory, true);
+                Directory.Delete(ProjectDirectory, true);
             }
 
-            Directory.CreateDirectory(_projectDirectory);
-            _shell.Run("dotnet", "new classlib", _projectDirectory).ExitCode.ShouldBe(0);
-            File.Create(Path.Combine(_projectDirectory, ".steeltoe.dummies")).Dispose();
+            Directory.CreateDirectory(ProjectDirectory);
+            Shell.Run("dotnet", "new classlib", ProjectDirectory).ExitCode.ShouldBe(0);
+            File.Create(Path.Combine(ProjectDirectory, ".steeltoe.dummies")).Dispose();
         }
 
         protected void a_steeltoe_project(string name)
         {
             a_dotnet_project(name);
             Logger.LogInformation($"enabling steeltoe developer tools");
-            var cfg = new ConfigurationFile(_projectDirectory);
+            var cfg = new ConfigurationFile(ProjectDirectory);
             cfg.EnvironmentName = "dummy-env";
             cfg.Store();
         }
@@ -79,11 +79,11 @@ namespace Steeltoe.Cli.Test
         protected void the_developer_runs_cli_command(string command)
         {
             Logger.LogInformation($"checking the developer runs cli command '{command}'");
-            _shellResult = _shell.Run("dotnet", $"run --project {CliProjectDirectory} -- {command}",
-                _projectDirectory);
-            _shellOut = string.Join(" ", _shellResult.Out.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
-            _shellError = string.Join(" ",
-                _shellResult.Error.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
+            ShellResult = Shell.Run("dotnet", $"run --project {CliProjectDirectory} -- {command}",
+                ProjectDirectory);
+            ShellOut = string.Join(" ", ShellResult.Out.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
+            ShellError = string.Join(" ",
+                ShellResult.Error.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
         }
 
         //
@@ -93,22 +93,22 @@ namespace Steeltoe.Cli.Test
         protected void the_cli_command_should_succeed()
         {
             Logger.LogInformation($"checking the command succeeded");
-            _shellResult.ExitCode.ShouldBe(0);
+            ShellResult.ExitCode.ShouldBe(0);
         }
 
         protected void the_cli_should_output(string message)
         {
             the_cli_command_should_succeed();
             Logger.LogInformation($"checking the cli output '{message}'");
-            _shellOut.ShouldContain(message);
+            ShellOut.ShouldContain(message);
         }
 
         protected void the_cli_should_error(ErrorCode code, string error)
         {
             Logger.LogInformation($"checking the command failed with {(int) code}");
-            _shellResult.ExitCode.ShouldBe((int) code);
+            ShellResult.ExitCode.ShouldBe((int) code);
             Logger.LogInformation($"checking the cli errored '{error}'");
-            _shellError.ShouldContain(error);
+            ShellError.ShouldContain(error);
         }
     }
 }

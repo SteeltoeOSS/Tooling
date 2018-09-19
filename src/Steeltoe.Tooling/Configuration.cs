@@ -32,16 +32,16 @@ namespace Steeltoe.Tooling
             [YamlMember(Alias = "enabled")] public bool Enabled { get; set; }
         }
 
-        private readonly List<IConfigurationListener> listeners = new List<IConfigurationListener>();
+        private readonly List<IConfigurationListener> _listeners = new List<IConfigurationListener>();
 
         public void AddListener(IConfigurationListener listener)
         {
-            listeners.Add(listener);
+            _listeners.Add(listener);
         }
 
         public void NotifyListeners()
         {
-            foreach (var listener in listeners)
+            foreach (var listener in _listeners)
             {
                 listener.ConfigurationChangeEvent();
             }

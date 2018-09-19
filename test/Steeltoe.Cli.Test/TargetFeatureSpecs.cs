@@ -23,7 +23,7 @@ namespace Steeltoe.Cli.Test
         protected void the_configuration_should_target(string env)
         {
             Logger.LogInformation($"checking the target config '{env}' exists");
-            new ConfigurationFile(_projectDirectory).EnvironmentName.ShouldBe(env);
+            new ConfigurationFile(ProjectDirectory).EnvironmentName.ShouldBe(env);
         }
     }
 }

@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.IO;
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 using Steeltoe.Tooling;
@@ -25,7 +24,8 @@ namespace Steeltoe.Cli.Test
         [Scenario]
         public void RunCommand()
         {
-            ExtendedScenarioExtensions.RunScenario<NoContext>(Runner, when => the_command_is_run(SystemShellFeature.ListCommand),
+            Runner.RunScenario(
+                when => the_command_is_run(ListCommand),
                 then => the_command_should_succeed(),
                 and => the_command_output_should_not_be_empty()
             );
@@ -35,9 +35,10 @@ namespace Steeltoe.Cli.Test
         public void RunCommandWithArgs()
         {
             string sandbox = Path.Combine("sandboxes", "run_command_with_args");
-            ExtendedScenarioExtensions.RunScenario<NoContext>(Runner, given => a_directory(sandbox),
+            Runner.RunScenario(
+                given => a_directory(sandbox),
                 and => a_file(Path.Combine(sandbox, "aFile")),
-                when => the_command_is_run_with_args(SystemShellFeature.ListCommand, sandbox),
+                when => the_command_is_run_with_args(ListCommand, sandbox),
                 then => the_command_should_succeed(),
                 and => the_command_output_should_contain("aFile")
             );
@@ -47,9 +48,10 @@ namespace Steeltoe.Cli.Test
         public void RunCommandWithWorkingDirectory()
         {
             string sandbox = Path.Combine("sandboxes", "run_command_with_working_directory");
-            ExtendedScenarioExtensions.RunScenario<NoContext>(Runner, given => a_directory(sandbox),
+            Runner.RunScenario(
+                given => a_directory(sandbox),
                 and => a_file(Path.Combine(sandbox, "aFile")),
-                when => the_command_is_run_with_working_directory(SystemShellFeature.ListCommand, sandbox),
+                when => the_command_is_run_with_working_directory(ListCommand, sandbox),
                 then => the_command_should_succeed(),
                 and => the_command_output_should_contain("aFile")
             );
@@ -58,7 +60,8 @@ namespace Steeltoe.Cli.Test
         [Scenario]
         public void RunCommandThatErrors()
         {
-            ExtendedScenarioExtensions.RunScenario<NoContext>(Runner, when => the_command_is_run(SystemShellFeature.ErrorCommand),
+            Runner.RunScenario(
+                when => the_command_is_run(ErrorCommand),
                 then => the_command_should_fail()
             );
         }
@@ -66,7 +69,8 @@ namespace Steeltoe.Cli.Test
         [Scenario]
         public void RunNoSuchCommand()
         {
-            ExtendedScenarioExtensions.RunScenario<NoContext>(Runner, when => the_command_is_run("NoSuchCommand"),
+            Runner.RunScenario(
+                when => the_command_is_run("NoSuchCommand"),
                 then => the_command_should_raise_exception<ShellException>()
             );
         }

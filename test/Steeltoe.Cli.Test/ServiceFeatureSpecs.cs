@@ -23,25 +23,25 @@ namespace Steeltoe.Cli.Test
         protected void the_configuration_should_contain_service(string service)
         {
             Logger.LogInformation($"checking the service '{service}' exists");
-            new ConfigurationFile(_projectDirectory).Services.Keys.ShouldContain(service);
+            new ConfigurationFile(ProjectDirectory).Services.Keys.ShouldContain(service);
         }
 
         protected void the_configuration_should_not_contain_service(string service)
         {
             Logger.LogInformation($"checking the service '{service}' does not exist");
-            new ConfigurationFile(_projectDirectory).Services.Keys.ShouldNotContain(service);
+            new ConfigurationFile(ProjectDirectory).Services.Keys.ShouldNotContain(service);
         }
 
         protected void the_configuration_service_should_be_enabled(string service)
         {
             Logger.LogInformation($"checking the service '{service}' is enabled");
-            new ConfigurationFile(_projectDirectory).Services[service].Enabled.ShouldBeTrue();
+            new ConfigurationFile(ProjectDirectory).Services[service].Enabled.ShouldBeTrue();
         }
 
         protected void the_configuration_service_should_not_be_enabled(string service)
         {
             Logger.LogInformation($"checking the service '{service}' is not enabled");
-            new ConfigurationFile(_projectDirectory).Services[service].Enabled.ShouldBeFalse();
+            new ConfigurationFile(ProjectDirectory).Services[service].Enabled.ShouldBeFalse();
         }
     }
 }

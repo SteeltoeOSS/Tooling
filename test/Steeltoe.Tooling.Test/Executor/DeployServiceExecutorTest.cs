@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Shouldly;
-using Steeltoe.Tooling.Executor.Service;
+using Steeltoe.Tooling.Executor;
 using Xunit;
 
 namespace Steeltoe.Tooling.Test.Executor
