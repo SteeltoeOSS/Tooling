@@ -14,28 +14,28 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
 
 namespace Steeltoe.Tooling.Docker
 {
     public class DockerServiceBackend : IServiceBackend
     {
-        private static Dictionary<string, ImageSpec> imageSpecs = new Dictionary<string, ImageSpec>
+        private static Dictionary<string, string> _imageMap = new Dictionary<string, string>
         {
-            {
-                "config-server", new ImageSpec
-                {
-                    Name = "steeltoeoss/configserver",
-                    Port = 8888
-                }
-            },
-            {
-                "registry", new ImageSpec
-                {
-                    Name = "steeltoeoss/eurekaserver",
-                    Port = 8761
-                }
-            }
+            {"config-server", "steeltoeoss/configserver"},
+            {"eureka", "steeltoeoss/eurekaserver"}
         };
+
+        private static Dictionary<string, string> _serviceMap = new Dictionary<string, string>();
+
+        static DockerServiceBackend()
+        {
+            foreach (var entry in _imageMap)
+            {
+                _serviceMap[entry.Value] = entry.Key;
+            }
+        }
 
         private readonly DockerCli _cli;
 
@@ -46,8 +46,9 @@ namespace Steeltoe.Tooling.Docker
 
         public void DeployService(string name, string type)
         {
-            var imageSpec = imageSpecs[type];
-            _cli.Run($"run --name {name} --publish {imageSpec.Port}:{imageSpec.Port} --detach --rm {imageSpec.Name}");
+            var image = _imageMap[type];
+            var port = GetServicePort(type);
+            _cli.Run($"run --name {name} --publish {port}:{port} --detach --rm {image}");
         }
 
         public void UndeployService(string name)
@@ -63,17 +64,28 @@ namespace Steeltoe.Tooling.Docker
                 var statusStart = containerInfo[0].IndexOf("STATUS", StringComparison.Ordinal);
                 if (containerInfo[1].Substring(statusStart).StartsWith("Up "))
                 {
-                    return ServiceLifecycle.State.Online;
+                    var imageStart = containerInfo[0].IndexOf("IMAGE", StringComparison.Ordinal);
+                    var image = new Regex(@"\S+").Match(containerInfo[1].Substring(imageStart)).ToString();
+                    var svc = _serviceMap[image];
+                    var port = GetServicePort(svc);
+                    try
+                    {
+                        new TcpClient("localhost", port).Dispose();
+                        return ServiceLifecycle.State.Online;
+                    }
+                    catch (SocketException)
+                    {
+                        return ServiceLifecycle.State.Starting;
+                    }
                 }
             }
 
             return ServiceLifecycle.State.Offline;
         }
 
-        private struct ImageSpec
+        private int GetServicePort(string name)
         {
-            internal string Name { get; set; }
-            internal int Port { get; set; }
+            return ServiceTypeRegistry.ForName(name).Port;
         }
     }
 }

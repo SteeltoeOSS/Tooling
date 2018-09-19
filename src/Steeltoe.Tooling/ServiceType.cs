@@ -14,15 +14,18 @@
 
 namespace Steeltoe.Tooling
 {
-    internal class ServiceType
+    public class ServiceType
     {
-        internal string Name { get; }
+        public string Name { get; }
 
-        internal string Description { get; }
+        public int Port { get; }
 
-        internal ServiceType(string name, string description)
+        public string Description { get; }
+
+        public ServiceType(string name, int port, string description)
         {
             Name = name;
+            Port = port;
             Description = description;
         }
 

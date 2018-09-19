@@ -42,7 +42,7 @@ namespace Steeltoe.Tooling.Test.Docker
         [Fact]
         public void TestStartRegistry()
         {
-            _mgr.DeployService("my-service", "registry");
+            _mgr.DeployService("my-service", "eureka");
             _shell.LastCommand.ShouldBe(
                 "docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eurekaserver");
         }

@@ -27,7 +27,7 @@ namespace Steeltoe.Tooling.Test
             {
                 "dummy-svc",
                 "config-server",
-                "registry"
+                "eureka"
             };
             foreach (var name in ServiceTypeRegistry.Names)
             {

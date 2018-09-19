@@ -186,6 +186,11 @@ namespace Steeltoe.Tooling
             internal ServiceStarting(Context context, string name, State state) : base(context, name, state)
             {
             }
+
+            internal override void Undeploy()
+            {
+                Context.ServiceManager.GetServiceBackend().UndeployService(Name);
+            }
         }
 
         private class ServiceStopping : StateManager

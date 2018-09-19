@@ -23,7 +23,7 @@ namespace Steeltoe.Tooling.Test.Executor
         [Fact]
         public void TestListServiceTypes()
         {
-            var expected = new[] {"dummy-svc", "config-server", "registry"};
+            var expected = new[] {"dummy-svc", "config-server", "eureka"};
             new ListServiceTypesExecutor().Execute(Context);
             foreach (var env in expected)
             {

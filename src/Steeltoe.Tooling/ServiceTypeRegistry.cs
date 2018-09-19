@@ -23,11 +23,11 @@ namespace Steeltoe.Tooling
 
         static ServiceTypeRegistry()
         {
-            Register(new ServiceType("config-server", "Cloud Foundry Config Server"));
-            Register(new ServiceType("registry", "Netflix Eureka Server"));
+            Register(new ServiceType("config-server", 8888, "Cloud Foundry Config Server"));
+            Register(new ServiceType("eureka", 8761, "Netflix Eureka Server"));
             if (Settings.DummiesEnabled)
             {
-                Register(new ServiceType("dummy-svc", "A dummy service for testing Steeltoe Developer Tools"));
+                Register(new ServiceType("dummy-svc", -1, "A dummy service for testing Steeltoe Developer Tools"));
             }
         }
 
