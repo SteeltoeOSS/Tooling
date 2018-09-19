@@ -14,57 +14,10 @@
 
 namespace Steeltoe.Tooling.CloudFoundry
 {
-    internal class CloudFoundryCli
+    internal class CloudFoundryCli : Cli
     {
-        private readonly Shell _shell;
-
-        internal string Command { get; } = "cf";
-
-        internal CloudFoundryCli(Shell shell)
+        internal CloudFoundryCli(Shell shell) : base("cf", shell)
         {
-            _shell = shell;
-        }
-
-        internal string GetVersion()
-        {
-            return RunCommand("version").Trim();
-        }
-
-        internal string GetTargetInfo()
-        {
-            return RunCommand("target");
-        }
-
-        internal void CreateService(string name, string type, string plan = "standard")
-        {
-            RunCommand($"create-service {type} {plan} {name}");
-        }
-
-        internal void DeleteService(string name)
-        {
-            RunCommand($"delete-service {name} -f");
-        }
-
-        internal string GetServiceInfo(string name)
-        {
-            return RunCommand($"service {name}");
-        }
-
-        private string RunCommand(string arguments)
-        {
-            var result = _shell.Run(Command, arguments);
-            if (result.ExitCode != 0)
-            {
-                var error = result.Error.Trim();
-                if (string.IsNullOrEmpty(error))
-                {
-                    error = result.Out.Trim();
-                }
-
-                throw new ToolingException($"'{Command}' error: {error}");
-            }
-
-            return result.Out;
         }
     }
 }

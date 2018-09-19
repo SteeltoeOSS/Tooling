@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Steeltoe.Tooling.Docker
+namespace Steeltoe.Tooling
 {
-    internal class DockerCli : Cli
+    public class Cli
     {
-        internal DockerCli(Shell shell) : base("docker", shell)
+        public string Command { get; }
+
+        public Shell Shell { get; }
+
+        public Cli(string command, Shell shell)
         {
+            Command = command;
+            Shell = shell;
+        }
+
+        public string Run(string args)
+        {
+            var result = Shell.Run(Command, args);
+            if (result.ExitCode != 0)
+            {
+                throw new CliException(result.ExitCode, $"{Command} {args}", result.Error.Trim());
+            }
+
+            return result.Out;
         }
     }
 }

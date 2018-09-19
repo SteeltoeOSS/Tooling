@@ -20,16 +20,16 @@ namespace Steeltoe.Tooling
     {
         public TextWriter Console { get; }
 
-        public Shell(TextWriter console)
+        protected Shell(TextWriter console)
         {
             Console = console;
         }
 
-        public abstract Result Run(string command, string arguments = null, string workingDirectory = null);
+        public abstract Result Run(string command, string args = null, string workingDirectory = null);
 
         public struct Result
         {
-            public int Id { get;  set; }
+            public int Id { get; set; }
             public string Command { get; set; }
             public string Arguments { get; set; }
             public string WorkingDirectory { get; set; }

@@ -27,19 +27,17 @@ namespace Steeltoe.Tooling.Docker
 
         public override bool IsSane(Shell shell)
         {
-            var cli = new DockerCli(shell);
             try
             {
-                shell.Console.Write($"checking {cli.Command} ... ");
-                shell.Console.WriteLine(cli.GetVersion());
+                shell.Console.Write("checking Docker version ... ");
+                shell.Console.WriteLine(new DockerCli(shell).Run("--version").Trim());
+                return true;
             }
             catch (ShellException e)
             {
-                shell.Console.WriteLine($"ERROR: {e.Message.Trim()}");
+                shell.Console.WriteLine($"ERROR: {e.Message}");
                 return false;
             }
-
-            return true;
         }
     }
 }

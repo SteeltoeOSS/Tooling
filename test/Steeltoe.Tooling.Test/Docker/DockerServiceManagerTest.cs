@@ -20,14 +20,15 @@ namespace Steeltoe.Tooling.Test.Docker
 {
     public class DockerServiceManagerTest
     {
-        private readonly DockerServiceBackend _mgr;
+        private readonly IServiceBackend _mgr;
 
         private readonly MockShell _shell;
 
         public DockerServiceManagerTest()
         {
             _shell = new MockShell(null);
-            _mgr = new DockerServiceBackend(_shell);
+            _mgr = new DockerEnvironment().GetServiceBackend(new Context(null, null, _shell));
+            _mgr.ShouldBeOfType(typeof(DockerServiceBackend));
         }
 
         [Fact]
@@ -56,8 +57,8 @@ namespace Steeltoe.Tooling.Test.Docker
         [Fact]
         public void TestCheckService()
         {
-//            _mgr.GetServiceStatus("my-service");
-//            _shell.LastCommand.ShouldBe("docker ps --no-trunc --filter name=^/my-service$");
+            _mgr.GetServiceLifecleState("my-service");
+            _shell.LastCommand.ShouldBe("docker ps --no-trunc --filter name=^/my-service$");
         }
     }
 }

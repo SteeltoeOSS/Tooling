@@ -19,12 +19,6 @@ namespace Steeltoe.Tooling.Docker
 {
     public class DockerServiceBackend : IServiceBackend
     {
-        internal struct ImageSpec
-        {
-            internal string Name { get; set; }
-            internal int Port { get; set; }
-        }
-
         private static Dictionary<string, ImageSpec> imageSpecs = new Dictionary<string, ImageSpec>
         {
             {
@@ -45,25 +39,25 @@ namespace Steeltoe.Tooling.Docker
 
         private readonly DockerCli _cli;
 
-        public DockerServiceBackend(Shell shell)
+        internal DockerServiceBackend(Shell shell)
         {
             _cli = new DockerCli(shell);
         }
 
         public void DeployService(string name, string type)
         {
-            var spec = imageSpecs[type];
-            _cli.StartContainer(name, spec.Name, spec.Port);
+            var imageSpec = imageSpecs[type];
+            _cli.Run($"run --name {name} --publish {imageSpec.Port}:{imageSpec.Port} --detach --rm {imageSpec.Name}");
         }
 
         public void UndeployService(string name)
         {
-            _cli.StopContainer(name);
+            _cli.Run($"stop {name}");
         }
 
         public ServiceLifecycle.State GetServiceLifecleState(string name)
         {
-            var containerInfo = _cli.GetContainerInfo(name).Split('\n');
+            var containerInfo = _cli.Run($"ps --no-trunc --filter name=^/{name}$").Split('\n');
             if (containerInfo.Length > 2)
             {
                 var statusStart = containerInfo[0].IndexOf("STATUS", StringComparison.Ordinal);
@@ -74,6 +68,12 @@ namespace Steeltoe.Tooling.Docker
             }
 
             return ServiceLifecycle.State.Offline;
+        }
+
+        private struct ImageSpec
+        {
+            internal string Name { get; set; }
+            internal int Port { get; set; }
         }
     }
 }

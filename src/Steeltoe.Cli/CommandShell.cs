@@ -30,13 +30,13 @@ namespace Steeltoe.Cli
         {
         }
 
-        public override Result Run(string command, string arguments = null, string workingDirectory = null)
+        public override Result Run(string command, string args = null, string workingDirectory = null)
         {
             var result = new Result()
             {
                 Id = ++_count,
                 Command = command,
-                Arguments = arguments,
+                Arguments = args,
                 WorkingDirectory = workingDirectory
             };
             Logger.LogDebug($"[{result.Id}] command: {result.Command}");

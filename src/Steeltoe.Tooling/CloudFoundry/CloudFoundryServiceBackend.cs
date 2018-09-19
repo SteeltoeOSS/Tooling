@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Steeltoe.Tooling.CloudFoundry
 {
@@ -34,26 +35,32 @@ namespace Steeltoe.Tooling.CloudFoundry
 
         public void DeployService(string name, string type)
         {
-            _cli.CreateService(name, serviceMap[type]);
+            _cli.Run($"create-service {serviceMap[type]} standard {name}");
         }
 
         public void UndeployService(string name)
         {
-            _cli.DeleteService(name);
+            _cli.Run($"delete-service {name} -f");
         }
 
         public ServiceLifecycle.State GetServiceLifecleState(string name)
         {
-            throw new NotImplementedException();
-//            var serviceInfo = new CloudFoundryCli(shell).GetServiceInfo(name);
-//            Regex exp = new Regex(@"^status:\s+(.*)$", RegexOptions.Multiline);
-//            Match match = exp.Match(serviceInfo);
-//            if (match.Groups[1].ToString().TrimEnd().Equals("create succeeded"))
-//            {
-//                return "online";
-//            }
+            try
+            {
+                var serviceInfo = _cli.Run($"service {name}");
+                Regex exp = new Regex(@"^status:\s+(.*)$", RegexOptions.Multiline);
+                Match match = exp.Match(serviceInfo);
+                if (match.Groups[1].ToString().TrimEnd().Equals("create succeeded"))
+                {
+                    return ServiceLifecycle.State.Online;
+                }
+            }
+            catch (CliException)
+            {
+                // TODO: check to ensure error is due to missing service and not some other error
+            }
 
-//            return "offline";
+            return ServiceLifecycle.State.Offline;
         }
     }
 }

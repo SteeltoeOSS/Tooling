@@ -22,15 +22,28 @@ namespace Steeltoe.Tooling.Test
         {
         }
 
-        public string LastCommand { get; private set; }
-
         public string NextResponse { get; set; } = "";
 
-        public override Result Run(string command, string arguments = null, string workingDirectory = null)
+        public int NextExitCode;
+
+        public string LastCommand { get; private set; }
+
+        public override Result Run(string command, string args = null, string workingDirectory = null)
         {
-            LastCommand = $"{command} {arguments}";
+            LastCommand = $"{command} {args}";
             var result = new Result();
-            result.Out = NextResponse;
+            result.ExitCode = NextExitCode;
+            if (NextExitCode == 0)
+            {
+                result.Out = NextResponse;
+            }
+            else
+            {
+                result.Error = NextResponse;
+            }
+
+            NextResponse = "";
+            NextExitCode = 0;
             return result;
         }
     }

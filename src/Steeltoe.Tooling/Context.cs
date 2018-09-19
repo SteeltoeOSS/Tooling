@@ -32,7 +32,7 @@ namespace Steeltoe.Tooling
             Configuration = config;
             Shell = shell;
             ServiceManager = new ServiceManager(this);
-            if (Configuration.EnvironmentName != null)
+            if (Configuration?.EnvironmentName != null)
             {
                 Environment = EnvironmentRegistry.ForName(Configuration.EnvironmentName);
             }

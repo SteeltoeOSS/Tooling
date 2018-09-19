@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             try
             {
                 shell.Console.Write($"checking {cli.Command} ... ");
-                shell.Console.WriteLine(cli.GetVersion());
+                shell.Console.WriteLine(cli.Run("version"));
             }
             catch (ShellException e)
             {
@@ -42,7 +42,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             try
             {
                 shell.Console.Write("checking if logged in ... ");
-                cli.GetTargetInfo();
+                cli.Run("target");
                 shell.Console.WriteLine("yes");
             }
             catch (ToolingException e)

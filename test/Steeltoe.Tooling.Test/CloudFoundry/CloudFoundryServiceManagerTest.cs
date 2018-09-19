@@ -54,8 +54,8 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         [Fact]
         public void TestCheckService()
         {
-//            _mgr.GetServiceStatus("my-service");
-//            _shell.LastCommand.ShouldBe("cf service my-service");
+            _mgr.GetServiceLifecleState("my-service");
+            _shell.LastCommand.ShouldBe("cf service my-service");
         }
     }
 }
