@@ -42,18 +42,19 @@ namespace Steeltoe.Cli.Test
                 and => the_cli_should_output("-D|--debug Enable debug output"),
                 and => the_cli_should_output("-V|--version Show version information"),
                 and => the_cli_should_output("-?|-h|--help Show help information"),
+                and => the_cli_should_output("init Initialize a project for Steeltoe Developer Tools."),
                 and => the_cli_should_output("target Target the deployment environment."),
                 and => the_cli_should_output("add Add a service."),
                 and => the_cli_should_output("remove Remove a service."),
                 and => the_cli_should_output("enable Enable a service."),
                 and => the_cli_should_output("disable Disable a service."),
                 and => the_cli_should_output("deploy Start an enabled service in the targeted deployment environment."),
-                and => the_cli_should_output("init Initialize a project for Steeltoe Developer Tools."),
-                and => the_cli_should_output("undeploy Stop an enabled service in the targeted deployment environment."),
+                and => the_cli_should_output(
+                    "undeploy Stop an enabled service in the targeted deployment environment."),
                 and => the_cli_should_output(
                     "status Show the status of a service in the targeted deployment environment. If run with no args, show the status of all services"),
                 and => the_cli_should_output(
-                    "list List services, service types, or deployment environments. If run with no args, list everything.")
+                    "list List services, service types, or deployment environments.")
             );
         }
 

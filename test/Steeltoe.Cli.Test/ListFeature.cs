@@ -28,11 +28,11 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("list_help"),
                 when => the_developer_runs_cli_command("list --help"),
-                and => the_cli_should_output(
-                    "List services, service types, or deployment environments. If run with no options, list services."),
+                and => the_cli_should_output("List services, service types, or deployment environments."),
+                and => the_cli_should_output("If run with no options, list services."),
                 and => the_cli_should_output("-e|--environments List deployment environments"),
-                and => the_cli_should_output("-t|--service-types List service types"),
-                and => the_cli_should_output("-v|--verbose Verbose listing")
+                and => the_cli_should_output("-s|--services List services"),
+                and => the_cli_should_output("-t|--service-types List service types")
             );
         }
 

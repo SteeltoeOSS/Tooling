@@ -20,21 +20,24 @@ using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description =
-        "List services, service types, or deployment environments.  If run with no options, list services.")]
+    [Command(Description = "List services, service types, or deployment environments.",
+        ExtendedHelpText = "If run with no options, list services.")]
     public class ListCommand : Command
     {
         [Option("-e|--environments", Description = "List deployment environments")]
         private bool ListEnvironments { get; }
+
+        [Option("-s|--services", Description = "List services")]
+        private bool ListServices { get; }
 
         [Option("-t|--service-types", Description = "List service types")]
         private bool ListServiceTypes { get; }
 
         protected override IExecutor GetExecutor()
         {
-            if (ListEnvironments && ListServiceTypes)
+            if (ListServices && ListEnvironments && ListServiceTypes)
             {
-                throw new ArgumentException("Specify at most one of: -e|--environments, -t|--service-types");
+                throw new ArgumentException("Specify at most one of: -s|--services, -e|--environments, -t|--service-types");
             }
 
             if (ListEnvironments)
