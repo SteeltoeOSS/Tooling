@@ -15,40 +15,37 @@ Linux/OS X  | dev | [![Travis CI dev status](https://travis-ci.org/SteeltoeOSS/T
 
 ## Developer Chores
 
-### Unit Testing
+### Testing
 
-Run a single unit test suite:
-```
-> dotnet test test/<project>
-```
-
-Run all unit test suites:
+Run unit test suites:
 ```
 > scripts/unit-test
+
+# Alternatively
+> dotnet test test/Steeltoe.Tooling.Test
 ```
 
-### Feature Testing
+Run CLI test suites (takes several minutes):
+```
+> scripts/cli-test
 
-Run a single feature test suite:
-```
-> dotnet test feature/<project>
-```
-
-Run all feature test suites:
-```
-> scripts/feature-test
+# Alternatively
+> dotnet test test/Steeltoe.Cli.Test
 ```
 
 ### Install into .NET Global Tools
 
 Install:
 ```
+> scripts/install
+
+# Alternatively
 > dotnet pack
-> dotnet tool install --global Steeltoe.Tooling.Cli --add-source src/Steeltoe.Tooling.Cli/bin/Debug 
+> dotnet tool install -g --add-source src/Steeltoe.Cli/bin/Debug Steeltoe.Cli
 ```
 
 Uninstall:
 ```
-> dotnet tool uninstall --global Steeltoe.Tooling.Cli
+> dotnet tool uninstall -g Steeltoe.Cli
 ```
 
