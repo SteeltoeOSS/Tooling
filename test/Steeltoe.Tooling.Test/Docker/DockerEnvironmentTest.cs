@@ -44,5 +44,12 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _env.GetServiceBackend(Context).ShouldBeOfType<DockerServiceBackend>();
         }
+
+        [Fact]
+        public void TestIsSane()
+        {
+            _env.IsSane(Context.Shell);
+            Shell.LastCommand.ShouldBe("docker info");
+        }
     }
 }

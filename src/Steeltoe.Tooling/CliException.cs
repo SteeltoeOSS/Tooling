@@ -23,7 +23,7 @@ namespace Steeltoe.Tooling
         public string Error { get; }
 
         public CliException(int returnCode, string command, string error) : base(
-            $"Error: {error} [rc={returnCode},cmd='{command}']")
+            $"{error} [rc={returnCode},cmd='{command}']")
         {
             ReturnCode = returnCode;
             Command = command;

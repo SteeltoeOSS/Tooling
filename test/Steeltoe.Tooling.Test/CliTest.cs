@@ -38,7 +38,7 @@ namespace Steeltoe.Tooling.Test
             e.ReturnCode.ShouldBe(3);
             e.Command.ShouldBe("mycommand bad args");
             e.Error.ShouldBe("some error message");
-            e.Message.ShouldBe("Error: some error message [rc=3,cmd='mycommand bad args']");
+            e.Message.ShouldBe("some error message [rc=3,cmd='mycommand bad args']");
         }
     }
 }

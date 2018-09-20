@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using System.IO;
 
 namespace Steeltoe.Tooling.Test
@@ -28,9 +29,12 @@ namespace Steeltoe.Tooling.Test
 
         public string LastCommand { get; private set; }
 
+        public List<string> Commands { get; } = new List<string>();
+
         public override Result Run(string command, string args = null, string workingDirectory = null)
         {
             LastCommand = $"{command} {args}";
+            Commands.Add(LastCommand);
             var result = new Result();
             result.ExitCode = NextExitCode;
             if (NextExitCode == 0)

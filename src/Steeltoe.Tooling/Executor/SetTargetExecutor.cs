@@ -38,6 +38,8 @@ namespace Steeltoe.Tooling.Executor
                     context.Shell.Console.WriteLine("Fix errors above or re-run with '-f|--force'");
                     throw new ToolingException($"Environment '{envName}' not sane");
                 }
+
+                context.Shell.Console.WriteLine("Ignoring errors above :-(");
             }
 
             context.Configuration.EnvironmentName = envName;

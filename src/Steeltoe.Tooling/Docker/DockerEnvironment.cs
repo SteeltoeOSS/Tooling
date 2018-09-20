@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.RegularExpressions;
+
 namespace Steeltoe.Tooling.Docker
 {
     public class DockerEnvironment : Environment
@@ -30,10 +32,13 @@ namespace Steeltoe.Tooling.Docker
             try
             {
                 shell.Console.Write("checking Docker version ... ");
-                shell.Console.WriteLine(new DockerCli(shell).Run("--version").Trim());
+                var dockerInfo = new DockerCli(shell).Run("info");
+                Regex exp = new Regex(@"Server Version:\s*(\S+)", RegexOptions.Multiline);
+                Match match = exp.Match(dockerInfo);
+                shell.Console.WriteLine(match.Groups[1].ToString());
                 return true;
             }
-            catch (ShellException e)
+            catch (CliException e)
             {
                 shell.Console.WriteLine($"ERROR: {e.Message}");
                 return false;
