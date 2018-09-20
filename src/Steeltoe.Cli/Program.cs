@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
 using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling;
@@ -38,12 +39,21 @@ namespace Steeltoe.Cli
             => typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                 .InformationalVersion;
 
+        [Option("-C|--config-file", Description =
+            "Configure tooling using the specified file instead of .steeltoe.tooling.yml")]
+        public static string ConfigurationPath { get; set; } = Directory.GetCurrentDirectory();
+
         [Option("-D|--debug", Description = "Enable debug output")]
         public static bool DebugEnabled
         {
             get => Settings.DebugEnabled;
             set => Settings.DebugEnabled = value;
         }
+
+        private static ConfigurationFile _configurationFile;
+
+        public static ConfigurationFile Configuration =>
+            _configurationFile ?? (_configurationFile = new ConfigurationFile(ConfigurationPath));
 
         // ReSharper disable once UnusedMember.Local
         private int OnExecute(CommandLineApplication app)

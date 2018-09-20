@@ -45,7 +45,7 @@ namespace Steeltoe.Cli
                     }
                 }
                 var projectDirectory = Directory.GetCurrentDirectory();
-                var config = new ConfigurationFile(projectDirectory);
+                var config = Program.Configuration;
                 if (requiresInitializedProject && !config.Exists())
                 {
                     throw new ToolingException("Project has not been initialized for Steeltoe Developer Tools");

@@ -110,5 +110,11 @@ namespace Steeltoe.Cli.Test
             Logger.LogInformation($"checking the cli errored '{error}'");
             ShellError.ShouldContain(error);
         }
+
+        protected void the_file_should_exist(string path)
+        {
+            Logger.LogInformation($"checking the file {path} exists");
+            File.Exists(Path.Combine(ProjectDirectory, path)).ShouldBeTrue();
+        }
     }
 }
