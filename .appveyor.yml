@@ -9,7 +9,7 @@ branches:
     - springone-2018
 install:
   - ps: dotnet --info
-  - ps: git clone https://github.com/SteeltoeOSS/steeltoe-ci.git -v
+  - git clone https://github.com/SteeltoeOSS/steeltoe-ci.git -v
   - ps: steeltoe-ci\scripts\appveyor_install.ps1
 test_script:
   - ps: scripts\unit-test
