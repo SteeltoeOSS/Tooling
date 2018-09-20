@@ -12,23 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Start an enabled service in the targeted deployment environment.")]
+    [Command(Description = "Deploy enabled services to the targeted deployment environment.")]
     public class DeployCommand : Command
     {
-        [Required(ErrorMessage = "Service name not specified")]
-        [Argument(0, Name = "name", Description = "Service name")]
-        private string Name { get; } = null;
-
         protected override IExecutor
 GetExecutor()
         {
-            return new DeployServiceExecutor(Name);
+            return new DeployServicesExecutor();
         }
     }
 }

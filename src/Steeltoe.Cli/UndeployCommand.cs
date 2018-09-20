@@ -12,22 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Stop an enabled service in the targeted deployment environment.")]
+    [Command(Description = "Undeploy enabled services from the targeted deployment environment.")]
     public class UndeployCommand : Command
     {
-        [Required(ErrorMessage = "Service name not specified")]
-        [Argument(0, Name = "name", Description = "Service name")]
-        private string Name { get; } = null;
-
         protected override IExecutor GetExecutor()
         {
-            return new UndeployServiceExecutor(Name);
+            return new UndeployServicesExecutor();
         }
     }
 }

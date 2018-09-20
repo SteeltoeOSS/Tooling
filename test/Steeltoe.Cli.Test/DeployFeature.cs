@@ -28,18 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("deploy_help"),
                 when => the_developer_runs_cli_command("deploy --help"),
-                then => the_cli_should_output("Start an enabled service in the targeted deployment environment."),
-                and => the_cli_should_output("name Service name")
-            );
-        }
-
-        [Scenario]
-        public void DeployNotEnoughArgs()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("deploy_not_enough_args"),
-                when => the_developer_runs_cli_command("deploy"),
-                then => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
+                then => the_cli_should_output("Deploy enabled services to the targeted deployment environment.")
             );
         }
 
@@ -48,45 +37,37 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("deploy_too_many_args"),
-                when => the_developer_runs_cli_command("deploy arg1 arg2"),
-                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
+                when => the_developer_runs_cli_command("deploy arg1"),
+                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg1'")
             );
         }
 
         [Scenario]
-        public void DeployService()
+        public void DeployServices()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("deploy_service"),
-                when => the_developer_runs_cli_command("add my-service dummy-svc"),
-                and => the_developer_runs_cli_command("deploy my-service"),
-                then => the_cli_should_output("Deployed service 'my-service'"),
-                when => the_developer_runs_cli_command("status my-service"),
-                then => the_cli_should_output("starting"),
-                when => the_developer_runs_cli_command("status my-service"),
-                then => the_cli_should_output("online")
+                given => a_steeltoe_project("deploy_services"),
+                when => the_developer_runs_cli_command("add a-service dummy-svc"),
+                and => the_developer_runs_cli_command("add defunct-service dummy-svc"),
+                and => the_developer_runs_cli_command("disable defunct-service"),
+                and => the_developer_runs_cli_command("deploy"),
+                then => the_cli_should_output("Deploying service 'a-service'"),
+                and => the_cli_should_output("Ignoring disabled service 'defunct-service'"),
+                when => the_developer_runs_cli_command("status"),
+                then => the_cli_should_output("a-service starting"),
+                and => the_developer_runs_cli_command("deploy"),
+                then => the_cli_should_output("Deploying service 'a-service'"),
+                and => the_cli_should_output("Ignoring disabled service 'defunct-service'")
             );
         }
 
         [Scenario]
-        public void DeployNonExistingService()
+        public void DeployNoServices()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("deploy_non_existing_service"),
-                when => the_developer_runs_cli_command("deploy unknown-service"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Service 'unknown-service' not found")
-            );
-        }
-
-        [Scenario]
-        public void DeployDisabledService()
-        {
-            Runner.RunScenario(
-                given => a_steeltoe_project("deploy_disabled_service"),
-                when => the_developer_runs_cli_command("add my-service dummy-svc"),
-                and => the_developer_runs_cli_command("disable my-service"),
-                and => the_developer_runs_cli_command("deploy my-service"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Invalid service status 'disabled'")
+                given => a_steeltoe_project("deploy_no_services"),
+                when => the_developer_runs_cli_command("deploy"),
+                then => the_cli_should_output("No services have been added")
             );
         }
     }

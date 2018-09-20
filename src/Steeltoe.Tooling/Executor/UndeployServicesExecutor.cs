@@ -14,17 +14,23 @@
 
 namespace Steeltoe.Tooling.Executor
 {
-    public class DeployServiceExecutor : ServiceExecutor
+    public class UndeployServicesExecutor : ServicesExecutor
     {
-        public DeployServiceExecutor(string name) : base(name)
-        {
-        }
-
         public override void Execute(Context context)
         {
             base.Execute(context);
-            context.ServiceManager.DeployService(Name);
-            context.Shell.Console.WriteLine($"Deployed service '{Name}'");
+            foreach (var name in Names)
+            {
+                var state = context.ServiceManager.GetServiceState(name);
+                if (state == ServiceLifecycle.State.Disabled)
+                {
+                    context.Shell.Console.WriteLine($"Ignoring disabled service '{name}'");
+                    continue;
+                }
+
+                context.Shell.Console.WriteLine($"Undeploying service '{name}'");
+                context.ServiceManager.UndeployService(name);
+            }
         }
     }
 }

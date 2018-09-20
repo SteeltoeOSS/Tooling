@@ -28,9 +28,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("status_help"),
                 when => the_developer_runs_cli_command("status --help"),
-                then => the_cli_should_output(
-                    "Show the status of a service in the targeted deployment environment. If run with no args, show the status of all services."),
-                and => the_cli_should_output("name Service name")
+                then => the_cli_should_output("Show service statuses.")
             );
         }
 
@@ -39,32 +37,39 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_dotnet_project("status_too_many_args"),
-                when => the_developer_runs_cli_command("status arg1 arg2"),
-                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg2'")
+                when => the_developer_runs_cli_command("status arg1"),
+                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg1'")
             );
         }
 
         [Scenario]
-        public void StatusDisabled()
+        public void StatusServices()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("status_disabled"),
+                given => a_steeltoe_project("status_services"),
                 when => the_developer_runs_cli_command("add a-service dummy-svc"),
-                and => the_developer_runs_cli_command("disable a-service"),
-                and => the_developer_runs_cli_command("status a-service"),
-                then => the_cli_should_output("disabled")
+                and => the_developer_runs_cli_command("disable defunct-service"),
+                and => the_developer_runs_cli_command("status"),
+                then => the_cli_should_output("a-service offline"),
+                and => the_cli_should_output("defunct-service disabled"),
+                when => the_developer_runs_cli_command("deploy"),
+                and => the_developer_runs_cli_command("status"),
+                then => the_cli_should_output("a-service starting"),
+                and => the_cli_should_output("defunct-service disabled"),
+                when => the_developer_runs_cli_command("undeploy"),
+                and => the_developer_runs_cli_command("status"),
+                then => the_cli_should_output("a-service stopping"),
+                and => the_cli_should_output("defunct-service disabled")
             );
         }
 
         [Scenario]
-        public void StatusOffline()
+        public void StatusNoServices()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("status_offline"),
-                when => the_developer_runs_cli_command("add a-service dummy-svc"),
-                and => the_developer_runs_cli_command("enable a-service"),
-                and => the_developer_runs_cli_command("status a-service"),
-                then => the_cli_should_output("offline")
+                given => a_steeltoe_project("status_no_services"),
+                when => the_developer_runs_cli_command("status"),
+                then => the_cli_should_output("No services have been added")
             );
         }
     }

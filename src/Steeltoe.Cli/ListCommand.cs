@@ -35,22 +35,31 @@ namespace Steeltoe.Cli
 
         protected override IExecutor GetExecutor()
         {
-            if (ListServices && ListEnvironments && ListServiceTypes)
+            int optionCount = 0;
+            IExecutor executor = new ListServicesExecutor();
+            if (ListServices)
             {
-                throw new ArgumentException("Specify at most one of: -s|--services, -e|--environments, -t|--service-types");
-            }
-
-            if (ListEnvironments)
-            {
-                return new ListEnvironmentsExecutor();
+                ++optionCount;
             }
 
             if (ListServiceTypes)
             {
-                return new ListServiceTypesExecutor();
+                executor = new ListServiceTypesExecutor();
+                ++optionCount;
             }
 
-            return new ListServicesExecutor();
+            if (ListEnvironments)
+            {
+                executor = new ListEnvironmentsExecutor();
+                ++optionCount;
+            }
+
+            if (optionCount > 0)
+            {
+                throw new ArgumentException("Specify at most one of: -e|--environments, -t|--service-types");
+            }
+
+            return executor;
         }
     }
 }

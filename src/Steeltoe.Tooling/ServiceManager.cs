@@ -81,9 +81,14 @@ namespace Steeltoe.Tooling
             return Context.Configuration.Services.ContainsKey(name);
         }
 
-        public string GetServiceStatus(string name)
+        public ServiceLifecycle.State GetServiceState(string name)
         {
-            return new ServiceLifecycle(Context, name).GetState().ToString().ToLower();
+            if (!Context.Configuration.Services[name].Enabled)
+            {
+                return ServiceLifecycle.State.Disabled;
+            }
+
+            return GetServiceBackend().GetServiceLifecleState(name);
         }
 
         public void EnableService(string name)

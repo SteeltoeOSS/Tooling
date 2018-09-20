@@ -21,29 +21,45 @@ namespace Steeltoe.Tooling.Test.Executor
     public class StatusServiceExecutorTest : ToolingTest
     {
         [Fact]
-        public void TestStatusEnabledService()
+        public void TestStatusServices()
         {
             Context.ServiceManager.AddService("a-service", "dummy-svc");
             Context.ServiceManager.EnableService("a-service");
-            new StatusServiceExecutor("a-service").Execute(Context);
-            Console.ToString().Trim().ShouldBe("offline");
+            Context.ServiceManager.AddService("defunct-service", "dummy-svc");
+            Context.ServiceManager.DisableService("defunct-service");
+            ClearConsole();
+            new StatusServicesExecutor().Execute(Context);
+            Console.ToString().ShouldContain("a-service offline");
+            Console.ToString().ShouldContain("defunct-service disabled");
+
+            new DeployServicesExecutor().Execute(Context);
+            ClearConsole();
+            new StatusServicesExecutor().Execute(Context);
+            Console.ToString().ShouldContain("a-service starting");
+            Console.ToString().ShouldContain("defunct-service disabled");
+
+            ClearConsole();
+            new StatusServicesExecutor().Execute(Context);
+            Console.ToString().ShouldContain("a-service online");
+            Console.ToString().ShouldContain("defunct-service disabled");
+
+            new UndeployServicesExecutor().Execute(Context);
+            ClearConsole();
+            new StatusServicesExecutor().Execute(Context);
+            Console.ToString().ShouldContain("a-service stopping");
+            Console.ToString().ShouldContain("defunct-service disabled");
+
+            ClearConsole();
+            new StatusServicesExecutor().Execute(Context);
+            Console.ToString().ShouldContain("a-service offline");
+            Console.ToString().ShouldContain("defunct-service disabled");
         }
 
         [Fact]
-        public void TestStatusDisabledService()
+        public void TestStatusNoServices()
         {
-            Context.ServiceManager.AddService("a-service", "dummy-svc");
-            Context.ServiceManager.DisableService("a-service");
-            new StatusServiceExecutor("a-service").Execute(Context);
-            Console.ToString().Trim().ShouldBe("disabled");
-        }
-
-        [Fact]
-        public void TestStatusNonExistentService()
-        {
-            Assert.Throws<ServiceNotFoundException>(
-                () => new StatusServiceExecutor("non-existent-service").Execute(Context)
-            );
+            new StatusServicesExecutor().Execute(Context);
+            Console.ToString().ShouldContain("No services have been added");
         }
     }
 }

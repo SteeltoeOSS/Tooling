@@ -27,7 +27,7 @@ namespace Steeltoe.Tooling.Test.Executor
             Context.ServiceManager.EnableService("a-service");
             new EnableServiceExecutor("a-service").Execute(Context);
             Console.ToString().Trim().ShouldBe("Enabled service 'a-service'");
-            Context.ServiceManager.GetServiceStatus("a-service").ShouldBe("offline");
+            Context.ServiceManager.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Offline);
         }
 
         [Fact]

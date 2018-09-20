@@ -14,17 +14,16 @@
 
 namespace Steeltoe.Tooling.Executor
 {
-    public class UndeployServiceExecutor : ServiceExecutor
+    public class StatusServicesExecutor : ServicesExecutor
     {
-        public UndeployServiceExecutor(string name) : base(name)
-        {
-        }
-
         public override void Execute(Context context)
         {
             base.Execute(context);
-            context.ServiceManager.UndeployService(Name);
-            context.Shell.Console.WriteLine($"Undeployed service '{Name}'");
+            foreach (var name in Names)
+            {
+                var status = context.ServiceManager.GetServiceState(name).ToString().ToLower();
+                context.Shell.Console.WriteLine($"{name} {status}");
+            }
         }
     }
 }

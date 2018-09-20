@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Executor;
+using System.Collections.Generic;
 
-namespace Steeltoe.Cli
+namespace Steeltoe.Tooling.Executor
 {
-    [Command(Description = "Show service statuses.")]
-    public class StatusCommand : Command
+    public abstract class ServicesExecutor : IExecutor
     {
-        protected override IExecutor GetExecutor()
+        protected List<string> Names { get; private set; }
+        public virtual void Execute(Context context)
         {
-            return new StatusServicesExecutor();
+            Names = context.ServiceManager.GetServiceNames();
+            if (Names.Count == 0)
+            {
+                context.Shell.Console.WriteLine($"No services have been added");
+            }
         }
     }
 }

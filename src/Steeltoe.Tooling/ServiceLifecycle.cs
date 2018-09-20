@@ -35,16 +35,6 @@ namespace Steeltoe.Tooling
             Name = name;
         }
 
-        public State GetState()
-        {
-            if (!Context.Configuration.Services[Name].Enabled)
-            {
-                return State.Disabled;
-            }
-
-            return Context.ServiceManager.GetServiceBackend().GetServiceLifecleState(Name);
-        }
-
         public void Enable()
         {
             GetStateManager().Enable();
@@ -67,7 +57,7 @@ namespace Steeltoe.Tooling
 
         private StateManager GetStateManager()
         {
-            var state = GetState();
+            var state = Context.ServiceManager.GetServiceState(Name);
             switch (state)
             {
                 case State.Disabled:

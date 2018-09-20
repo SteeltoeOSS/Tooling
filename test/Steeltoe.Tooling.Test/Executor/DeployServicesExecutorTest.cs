@@ -18,36 +18,37 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test.Executor
 {
-    public class UndeployServiceExecutorTest : ToolingTest
+    public class DeployServicesExecutorTest : ToolingTest
     {
         [Fact]
-        public void TestUndeployService()
+        public void TestDeployServices()
         {
             Context.ServiceManager.AddService("a-service", "dummy-svc");
             Context.ServiceManager.EnableService("a-service");
             Context.ServiceManager.AddService("defunct-service", "dummy-svc");
             Context.ServiceManager.DisableService("defunct-service");
             ClearConsole();
-            new UndeployServicesExecutor().Execute(Context);
-            Console.ToString().ShouldContain("Undeploying service 'a-service'");
+            new DeployServicesExecutor().Execute(Context);
+            Console.ToString().ShouldContain("Deploying service 'a-service'");
             Console.ToString().ShouldContain("Ignoring disabled service 'defunct-service'");
-            Context.ServiceManager.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Offline);
+            Context.ServiceManager.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Starting);
             Context.ServiceManager.GetServiceState("defunct-service").ShouldBe(ServiceLifecycle.State.Disabled);
 
-            new DeployServicesExecutor().Execute(Context);
-            new StatusServicesExecutor().Execute(Context);
-            ClearConsole();
             new UndeployServicesExecutor().Execute(Context);
-            Console.ToString().ShouldContain("Undeploying service 'a-service");
-            Console.ToString().ShouldContain("Ignoring disabled service 'defunct-service'");
             Context.ServiceManager.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Stopping);
+            Context.ServiceManager.GetServiceState("defunct-service").ShouldBe(ServiceLifecycle.State.Disabled);
+            ClearConsole();
+            new DeployServicesExecutor().Execute(Context);
+            Console.ToString().ShouldContain("Deploying service 'a-service'");
+            Console.ToString().ShouldContain("Ignoring disabled service 'defunct-service'");
+            Context.ServiceManager.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Starting);
             Context.ServiceManager.GetServiceState("defunct-service").ShouldBe(ServiceLifecycle.State.Disabled);
         }
 
         [Fact]
-        public void TestUndeployNoServices()
+        public void TestDeployNoServices()
         {
-            new UndeployServicesExecutor().Execute(Context);
+            new DeployServicesExecutor().Execute(Context);
             Console.ToString().ShouldContain("No services have been added");
         }
     }

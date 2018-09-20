@@ -30,7 +30,7 @@ namespace Steeltoe.Tooling.Test.Executor
             svcName.ShouldBe("a-service");
             var svc = Context.ServiceManager.GetService(svcName);
             svc.Type.ShouldBe("dummy-svc");
-            Context.ServiceManager.GetServiceStatus("a-service").ShouldBe("offline");
+            Context.ServiceManager.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Offline);
         }
 
         [Fact]

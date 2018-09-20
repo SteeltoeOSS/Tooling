@@ -48,11 +48,11 @@ namespace Steeltoe.Cli.Test
                 and => the_cli_should_output("remove Remove a service."),
                 and => the_cli_should_output("enable Enable a service."),
                 and => the_cli_should_output("disable Disable a service."),
-                and => the_cli_should_output("deploy Start an enabled service in the targeted deployment environment."),
+                and => the_cli_should_output("deploy Deploy enabled services to the targeted deployment environment."),
                 and => the_cli_should_output(
-                    "undeploy Stop an enabled service in the targeted deployment environment."),
+                    "undeploy Undeploy enabled services from the targeted deployment environment."),
                 and => the_cli_should_output(
-                    "status Show the status of a service in the targeted deployment environment. If run with no args, show the status of all services"),
+                    "status Show service statuses."),
                 and => the_cli_should_output(
                     "list List services, service types, or deployment environments.")
             );

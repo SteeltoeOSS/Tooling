@@ -27,7 +27,7 @@ namespace Steeltoe.Tooling.Test.Executor
             Context.ServiceManager.DisableService("a-service");
             new DisableServiceExecutor("a-service").Execute(Context);
             Console.ToString().Trim().ShouldBe("Disabled service 'a-service'");
-            Context.ServiceManager.GetServiceStatus("a-service").ShouldBe("disabled");
+            Context.ServiceManager.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Disabled);
         }
 
         [Fact]

@@ -22,11 +22,12 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestStateMachine()
         {
-            Context.ServiceManager.AddService("a-service", "dummy-svc");
+            var svcMgr = Context.ServiceManager;
+            svcMgr.AddService("a-service", "dummy-svc");
             ServiceLifecycle lifecycle = new ServiceLifecycle(Context, "a-service");
 
             // start state -> disabled
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Disabled);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Disabled);
 
             // disabled -> deploy -> ERROR
             lifecycle.Disable();
@@ -39,25 +40,25 @@ namespace Steeltoe.Tooling.Test
             );
             // disabled -> disable -> disabled
             lifecycle.Disable();
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Disabled);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Disabled);
             // disabled -> enable -> enabled
             lifecycle.Enable();
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Offline);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Offline);
 
             // offline -> undeploy -> offline
             lifecycle.Undeploy();
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Offline);
+            Context.ServiceManager.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Offline);
             // offline -> enable -> offline
             lifecycle.Enable();
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Offline);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Offline);
             // offline -> disable -> disabled
             lifecycle.Disable();
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Disabled);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Disabled);
             // offline -> deploy -> starting -> online
             lifecycle.Enable();
             lifecycle.Deploy();
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Starting);
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Online);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Starting);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Online);
 
             // online -> enable -> ERROR
             Assert.Throws<ServiceLifecycleException>(
@@ -69,11 +70,11 @@ namespace Steeltoe.Tooling.Test
             );
             // online -> deploy -> online
             lifecycle.Deploy();
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Online);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Online);
             // online -> undeploy -> stopping -> offline
             lifecycle.Undeploy();
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Stopping);
-            lifecycle.GetState().ShouldBe(ServiceLifecycle.State.Offline);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Stopping);
+            svcMgr.GetServiceState("a-service").ShouldBe(ServiceLifecycle.State.Offline);
         }
     }
 }

@@ -47,5 +47,10 @@ namespace Steeltoe.Tooling.Test
         {
             Directory.Delete(Context.ProjectDirectory, true);
         }
+
+        protected void ClearConsole()
+        {
+            Console.GetStringBuilder().Clear();
+        }
     }
 }
