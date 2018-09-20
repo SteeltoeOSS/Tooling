@@ -116,5 +116,43 @@ namespace Steeltoe.Cli.Test
             Logger.LogInformation($"checking the file {path} exists");
             File.Exists(Path.Combine(ProjectDirectory, path)).ShouldBeTrue();
         }
+
+        protected void the_cli_should_list(string[] messages)
+        {
+            the_cli_command_should_succeed();
+            foreach (string message in messages)
+            {
+                ShellOut.ShouldContain(message);
+            }
+        }
+
+        protected void the_configuration_should_target(string env)
+        {
+            Logger.LogInformation($"checking the target config '{env}' exists");
+            new ConfigurationFile(ProjectDirectory).EnvironmentName.ShouldBe(env);
+        }
+        protected void the_configuration_should_contain_service(string service)
+        {
+            Logger.LogInformation($"checking the service '{service}' exists");
+            new ConfigurationFile(ProjectDirectory).Services.Keys.ShouldContain(service);
+        }
+
+        protected void the_configuration_should_not_contain_service(string service)
+        {
+            Logger.LogInformation($"checking the service '{service}' does not exist");
+            new ConfigurationFile(ProjectDirectory).Services.Keys.ShouldNotContain(service);
+        }
+
+        protected void the_configuration_service_should_be_enabled(string service)
+        {
+            Logger.LogInformation($"checking the service '{service}' is enabled");
+            new ConfigurationFile(ProjectDirectory).Services[service].Enabled.ShouldBeTrue();
+        }
+
+        protected void the_configuration_service_should_not_be_enabled(string service)
+        {
+            Logger.LogInformation($"checking the service '{service}' is not enabled");
+            new ConfigurationFile(ProjectDirectory).Services[service].Enabled.ShouldBeFalse();
+        }
     }
 }

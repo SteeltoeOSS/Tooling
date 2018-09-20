@@ -19,7 +19,7 @@ using LightBDD.XUnit2;
 namespace Steeltoe.Cli.Test
 {
     [Label("list")]
-    public class ListFeature : ListFeatureSpecs
+    public class ListFeature : FeatureSpecs
     {
         [Scenario]
         [Label("help")]
@@ -66,7 +66,7 @@ namespace Steeltoe.Cli.Test
                 and => the_developer_runs_cli_command("add a-service dummy-svc"),
                 and => the_developer_runs_cli_command("add 9-service dummy-svc"),
                 and => the_developer_runs_cli_command("list"),
-                then => the_cli_should_list_services(new[] {"a-service", "z-service", "9-service"})
+                then => the_cli_should_list(new[] {"a-service", "z-service", "9-service"})
             );
         }
 
@@ -76,7 +76,12 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("list_environments"),
                 when => the_developer_runs_cli_command("list -e"),
-                then => the_cli_should_list_available_environments()
+                then => the_cli_should_list(new[]
+                {
+                    "dummy-env (A dummy environment for testing Steeltoe Developer Tools)",
+                    "cloud-foundry (Cloud Foundry)",
+                    "docker (Docker)",
+                })
             );
         }
 
@@ -86,7 +91,12 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("list_service_types"),
                 when => the_developer_runs_cli_command("list -t"),
-                then => the_cli_should_list_available_service_types()
+                then => the_cli_should_list(new[]
+                {
+                    "dummy-svc (A dummy service for testing Steeltoe Developer Tools)",
+                    "config-server (Cloud Foundry Config Server)",
+                    "eureka (Netflix Eureka Server)"
+                })
             );
         }
     }

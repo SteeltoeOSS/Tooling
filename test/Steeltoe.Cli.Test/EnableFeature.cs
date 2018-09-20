@@ -19,7 +19,7 @@ using LightBDD.XUnit2;
 namespace Steeltoe.Cli.Test
 {
     [Label("enable")]
-    public class EnableFeature : ServiceFeatureSpecs
+    public class EnableFeature : FeatureSpecs
     {
         [Scenario]
         [Label("help")]
