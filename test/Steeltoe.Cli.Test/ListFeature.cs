@@ -53,7 +53,7 @@ namespace Steeltoe.Cli.Test
                 given => a_steeltoe_project("list_mutually_exclusive_options"),
                 when => the_developer_runs_cli_command("list -e -t"),
                 then => the_cli_should_error(ErrorCode.Argument,
-                    "Specify at most one of: -e|--environments, -t|--service-types")
+                    "Specify at most one of: -e|--environments, -s|--services, -t|--service-types")
             );
         }
 

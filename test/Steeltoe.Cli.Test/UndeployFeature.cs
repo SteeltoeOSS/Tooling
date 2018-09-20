@@ -66,7 +66,7 @@ namespace Steeltoe.Cli.Test
         public void DeployNoServices()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("deploy_no_services"),
+                given => a_steeltoe_project("undeploy_no_services"),
                 when => the_developer_runs_cli_command("deploy"),
                 then => the_cli_should_output("No services have been added")
             );
