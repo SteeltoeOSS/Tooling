@@ -9,11 +9,12 @@ branches:
     - springone-2018
 install:
   - ps: dotnet --info
+  - ps: git clone https://github.com/SteeltoeOSS/steeltoe-ci.git -v
+  - ps: steeltoe-ci\scripts\appveyor_install.ps1
 test_script:
   - ps: scripts\unit-test
 build_script:
-  - ps: $env:STEELTOE_VERSION = $env:APPVEYOR_BUILD_VERSION.Replace("-$env:APPVEYOR_REPO_BRANCH-$env:APPVEYOR_BUILD_NUMBER", "")
-  - ps: dotnet pack --configuration $env:BUILD_TYPE /p:Version=$env:STEELTOE_VERSION --include-symbols --include-source
+  - ps: steeltoe-ci\scripts\appveyor_build.ps1
 artifacts:
   - path: '**\*.nupkg'
 environment:
