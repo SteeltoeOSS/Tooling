@@ -35,7 +35,7 @@ namespace Steeltoe.Cli
 
         protected override IExecutor GetExecutor()
         {
-            int optionCount = 0;
+            var optionCount = 0;
             IExecutor executor = new ListServicesExecutor();
             if (ListServices)
             {
@@ -54,9 +54,10 @@ namespace Steeltoe.Cli
                 ++optionCount;
             }
 
-            if (optionCount > 0)
+            if (optionCount > 1)
             {
-                throw new ArgumentException("Specify at most one of: -e|--environments, -t|--service-types");
+                throw new ArgumentException(
+                    "Specify at most one of: -e|--environments, -s|--services, -t|--service-types");
             }
 
             return executor;

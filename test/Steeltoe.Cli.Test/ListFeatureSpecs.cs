@@ -40,7 +40,7 @@ namespace Steeltoe.Cli.Test
             {
                 "dummy-svc (A dummy service for testing Steeltoe Developer Tools)",
                 "config-server (Cloud Foundry Config Server)",
-                "registry (Netflix Eureka Server)"
+                "eureka (Netflix Eureka Server)"
             };
             foreach (string type in expected)
             {

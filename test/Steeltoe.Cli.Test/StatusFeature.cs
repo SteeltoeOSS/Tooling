@@ -48,6 +48,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("status_services"),
                 when => the_developer_runs_cli_command("add a-service dummy-svc"),
+                when => the_developer_runs_cli_command("add defunct-service dummy-svc"),
                 and => the_developer_runs_cli_command("disable defunct-service"),
                 and => the_developer_runs_cli_command("status"),
                 then => the_cli_should_output("a-service offline"),
