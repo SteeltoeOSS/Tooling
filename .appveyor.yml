@@ -12,7 +12,7 @@ install:
 test_script:
   - ps: scripts\unit-test
 build_script:
-    ps: $env:STEELTOE_VERSION = $env:APPVEYOR_BUILD_VERSION.Replace("-$env:APPVEYOR_REPO_BRANCH-$env:APPVEYOR_BUILD_NUMBER", "")
+  - ps: $env:STEELTOE_VERSION = $env:APPVEYOR_BUILD_VERSION.Replace("-$env:APPVEYOR_REPO_BRANCH-$env:APPVEYOR_BUILD_NUMBER", "")
   - ps: dotnet pack --configuration $env:BUILD_TYPE /p:Version=$env:STEELTOE_VERSION --include-symbols --include-source
 artifacts:
   - path: '**\*.nupkg'
