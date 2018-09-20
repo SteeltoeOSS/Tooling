@@ -12,7 +12,7 @@ install:
 test_script:
   - ps: scripts\unit-test
 build_script:
-  - ps: dotnet pack
+  - ps: dotnet pack --configuration $env:BUILD_TYPE /p:Version=$env:APPVEYOR_BUILD_VERSION --include-symbols --include-source
 artifacts:
   - path: '**\*.nupkg'
 environment:
