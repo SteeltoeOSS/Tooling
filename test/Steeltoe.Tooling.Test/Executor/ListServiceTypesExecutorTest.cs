@@ -29,6 +29,11 @@ namespace Steeltoe.Tooling.Test.Executor
             reader.ReadLine().ShouldBe("config-server");
             reader.ReadLine().ShouldBe("dummy-svc");
             reader.ReadLine().ShouldBe("eureka");
+            reader.ReadLine().ShouldBe("hystrix");
+            reader.ReadLine().ShouldBe("mssql");
+            reader.ReadLine().ShouldBe("redis");
+            reader.ReadLine().ShouldBe("uaa");
+            reader.ReadLine().ShouldBe("zipkin");
             reader.ReadLine().ShouldBeNull();
         }
 
@@ -40,6 +45,11 @@ namespace Steeltoe.Tooling.Test.Executor
             reader.ReadLine().ShouldBe("config-server   8888  Cloud Foundry Config Server");
             reader.ReadLine().ShouldBe("dummy-svc          0  A Dummy Service");
             reader.ReadLine().ShouldBe("eureka          8761  Netflix Eureka Server");
+            reader.ReadLine().ShouldBe("hystrix         7979  Netflix Hystrix Server");
+            reader.ReadLine().ShouldBe("mssql           1433  Microsoft SQL Server");
+            reader.ReadLine().ShouldBe("redis           6379  Redis Server");
+            reader.ReadLine().ShouldBe("uaa             8080  Workshop User Account and Authentication Server");
+            reader.ReadLine().ShouldBe("zipkin          9411  Zipkin Distributed Tracing System");
             reader.ReadLine().ShouldBeNull();
         }
     }

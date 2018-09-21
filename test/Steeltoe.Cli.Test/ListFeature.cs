@@ -99,6 +99,11 @@ namespace Steeltoe.Cli.Test
                     "config-server",
                     "dummy-svc",
                     "eureka",
+                    "hystrix",
+                    "mssql",
+                    "redis",
+                    "uaa",
+                    "zipkin",
                 })
             );
         }
@@ -114,6 +119,11 @@ namespace Steeltoe.Cli.Test
                     "config-server   8888  Cloud Foundry Config Server",
                     "dummy-svc          0  A Dummy Service",
                     "eureka          8761  Netflix Eureka Server",
+                    "hystrix         7979  Netflix Hystrix Server",
+                    "mssql           1433  Microsoft SQL Server",
+                    "redis           6379  Redis Server",
+                    "uaa             8080  Workshop User Account and Authentication Server",
+                    "zipkin          9411  Zipkin Distributed Tracing System",
                 })
             );
         }

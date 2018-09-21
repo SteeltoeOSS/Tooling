@@ -28,7 +28,7 @@ namespace Steeltoe.Tooling
             Register(new ServiceType("hystrix", 7979, "Netflix Hystrix Server"));
             Register(new ServiceType("mssql", 1433, "Microsoft SQL Server"));
             Register(new ServiceType("redis", 6379, "Redis Server"));
-            Register(new ServiceType("uaa", 8080, "Cloud Foundry User Account and Authentication Server"));
+            Register(new ServiceType("uaa", 8080, "Workshop User Account and Authentication Server"));
             Register(new ServiceType("zipkin", 9411, "Zipkin Distributed Tracing System"));
             if (Settings.DummiesEnabled)
             {
