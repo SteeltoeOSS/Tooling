@@ -1,5 +1,11 @@
 # SpringOne Steeltoe Class
 
+Install Steeltoe Tooling CLI.
+
+```
+$ dotnet tool install -g --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json steeltoe.cli --version 0.0.1-springone-2018-00092
+```
+
 Open a terminal in this directory.
 
 _Example:_
