@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
 using Shouldly;
 using Steeltoe.Tooling.Executor;
 using Xunit;
@@ -23,12 +24,23 @@ namespace Steeltoe.Tooling.Test.Executor
         [Fact]
         public void TestListEnvironments()
         {
-            var expected = new[] {"dummy-env", "cloud-foundry", "docker"};
             new ListEnvironmentsExecutor().Execute(Context);
-            foreach (var env in expected)
-            {
-                Console.ToString().ShouldContain(env);
-            }
+            var reader = new StringReader(Console.ToString());
+            reader.ReadLine().ShouldBe("cloud-foundry");
+            reader.ReadLine().ShouldBe("docker");
+            reader.ReadLine().ShouldBe("dummy-env");
+            reader.ReadLine().ShouldBeNull();
+        }
+
+        [Fact]
+        public void TestListEnvironmentsVerbose()
+        {
+            new ListEnvironmentsExecutor(true).Execute(Context);
+            var reader = new StringReader(Console.ToString());
+            reader.ReadLine().ShouldBe("cloud-foundry  Cloud Foundry");
+            reader.ReadLine().ShouldBe("docker         Docker");
+            reader.ReadLine().ShouldBe("dummy-env      A Dummy Environment");
+            reader.ReadLine().ShouldBeNull();
         }
     }
 }

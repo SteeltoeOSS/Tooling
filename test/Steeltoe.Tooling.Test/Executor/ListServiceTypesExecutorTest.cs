@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
 using Shouldly;
 using Steeltoe.Tooling.Executor;
 using Xunit;
@@ -23,12 +24,23 @@ namespace Steeltoe.Tooling.Test.Executor
         [Fact]
         public void TestListServiceTypes()
         {
-            var expected = new[] {"dummy-svc", "config-server", "eureka"};
             new ListServiceTypesExecutor().Execute(Context);
-            foreach (var env in expected)
-            {
-                Console.ToString().ShouldContain(env);
-            }
+            var reader = new StringReader(Console.ToString());
+            reader.ReadLine().ShouldBe("config-server");
+            reader.ReadLine().ShouldBe("dummy-svc");
+            reader.ReadLine().ShouldBe("eureka");
+            reader.ReadLine().ShouldBeNull();
+        }
+
+        [Fact]
+        public void TestListServiceTypesVerbose()
+        {
+            new ListServiceTypesExecutor(true).Execute(Context);
+            var reader = new StringReader(Console.ToString());
+            reader.ReadLine().ShouldBe("config-server   8888  Cloud Foundry Config Server");
+            reader.ReadLine().ShouldBe("dummy-svc          0  A Dummy Service");
+            reader.ReadLine().ShouldBe("eureka          8761  Netflix Eureka Server");
+            reader.ReadLine().ShouldBeNull();
         }
     }
 }

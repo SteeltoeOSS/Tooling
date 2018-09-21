@@ -27,11 +27,11 @@ namespace Steeltoe.Tooling
             Register(new ServiceType("eureka", 8761, "Netflix Eureka Server"));
             if (Settings.DummiesEnabled)
             {
-                Register(new ServiceType("dummy-svc", -1, "A dummy service for testing Steeltoe Developer Tools"));
+                Register(new ServiceType("dummy-svc", 0, "A Dummy Service"));
             }
         }
 
-        public static IEnumerable<string> Names => _types.Keys.ToList();
+        public static List<string> Names => _types.Keys.ToList();
 
         internal static ServiceType ForName(string name)
         {

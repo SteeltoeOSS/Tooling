@@ -22,7 +22,7 @@ namespace Steeltoe.Tooling
             Offline,
             Starting,
             Online,
-            Stopping
+            Stopping,
         }
 
         public Context Context { get; }

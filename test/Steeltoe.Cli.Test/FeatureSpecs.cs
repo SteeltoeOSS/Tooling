@@ -127,10 +127,13 @@ namespace Steeltoe.Cli.Test
         protected void the_cli_should_list(string[] messages)
         {
             the_cli_command_should_succeed();
+            var reader = new StringReader(ShellResult.Out);
             foreach (string message in messages)
             {
-                ShellOut.ShouldContain(message);
+                var line = reader.ReadLine();
+                line.ShouldBe(message);
             }
+            reader.ReadLine().ShouldBeNullOrEmpty();
         }
 
         protected void the_configuration_should_target(string env)

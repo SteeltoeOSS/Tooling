@@ -33,10 +33,13 @@ namespace Steeltoe.Cli
         [Option("-t|--service-types", Description = "List service types")]
         private bool ListServiceTypes { get; }
 
+        [Option("-v|--verbose", Description = "Verbose")]
+        private bool Verbose { get; }
+
         protected override IExecutor GetExecutor()
         {
             var optionCount = 0;
-            IExecutor executor = new ListServicesExecutor();
+            IExecutor executor = new ListServicesExecutor(Verbose);
             if (ListServices)
             {
                 ++optionCount;
@@ -44,13 +47,13 @@ namespace Steeltoe.Cli
 
             if (ListServiceTypes)
             {
-                executor = new ListServiceTypesExecutor();
+                executor = new ListServiceTypesExecutor(Verbose);
                 ++optionCount;
             }
 
             if (ListEnvironments)
             {
-                executor = new ListEnvironmentsExecutor();
+                executor = new ListEnvironmentsExecutor(Verbose);
                 ++optionCount;
             }
 

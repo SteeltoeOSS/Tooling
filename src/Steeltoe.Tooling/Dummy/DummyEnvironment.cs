@@ -18,7 +18,7 @@ namespace Steeltoe.Tooling.Dummy
 {
     public class DummyEnvironment : Environment
     {
-        public DummyEnvironment() : base("dummy-env", "A dummy environment for testing Steeltoe Developer Tools")
+        public DummyEnvironment() : base("dummy-env", "A Dummy Environment")
         {
         }
 

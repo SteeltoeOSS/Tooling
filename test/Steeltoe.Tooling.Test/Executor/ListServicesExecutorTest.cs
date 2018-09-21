@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
 using Shouldly;
 using Steeltoe.Tooling.Executor;
 using Xunit;
@@ -29,14 +30,30 @@ namespace Steeltoe.Tooling.Test.Executor
         }
 
         [Fact]
-        public void TestListSeveral()
+        public void TestListServices()
         {
-            Context.Configuration.Services.Add("a-service", new Configuration.Service {ServiceTypeName = "a-service-type"});
-            Context.Configuration.Services.Add("another-service",
-                new Configuration.Service {ServiceTypeName = "another-service-type"});
+            Context.ServiceManager.AddService("a-service", "dummy-svc");
+            Context.ServiceManager.AddService("another-service", "dummy-svc");
+            ClearConsole();
             new ListServicesExecutor().Execute(Context);
-            Console.ToString().ShouldContain("a-service (a-service-type)");
-            Console.ToString().ShouldContain("another-service (another-service-type)");
+            var reader = new StringReader(Console.ToString());
+            reader.ReadLine().ShouldBe("a-service");
+            reader.ReadLine().ShouldBe("another-service");
+            reader.ReadLine().ShouldBeNull();
+        }
+
+        [Fact]
+        public void TestListServicesVerbose()
+        {
+            Context.ServiceManager.AddService("a-service", "dummy-svc");
+            Context.ServiceManager.AddService("another-service", "dummy-svc");
+            Context.ServiceManager.EnableService("another-service");
+            ClearConsole();
+            new ListServicesExecutor(true).Execute(Context);
+            var reader = new StringReader(Console.ToString());
+            reader.ReadLine().ShouldBe("a-service            0  dummy-svc");
+            reader.ReadLine().ShouldBe("another-service      0  dummy-svc");
+            reader.ReadLine().ShouldBeNull();
         }
     }
 }

@@ -12,16 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Linq;
+
 namespace Steeltoe.Tooling.Executor
 {
     [RequiresInitialization(false)]
-    public class ListEnvironmentsExecutor : IExecutor
+    public class ListEnvironmentsExecutor : ListExecutor
     {
-        public void Execute(Context context)
+        public ListEnvironmentsExecutor(bool verbose = false) : base(verbose)
+        {
+        }
+
+        protected override void ExecuteList(Context context)
         {
             foreach (var envName in EnvironmentRegistry.Names)
             {
-                context.Shell.Console.WriteLine(EnvironmentRegistry.ForName(envName));
+                context.Shell.Console.WriteLine(envName);
+            }
+        }
+
+        protected override void ExecuteListVerbose(Context context)
+        {
+            var envNames = EnvironmentRegistry.Names;
+            var max = envNames.Max(n => n.Length);
+            var format = "{0,-" + max + "}  {1}";
+            foreach (var envName in EnvironmentRegistry.Names)
+            {
+                var env = EnvironmentRegistry.ForName(envName);
+                context.Shell.Console.WriteLine(format, env.Name, env.Description);
             }
         }
     }

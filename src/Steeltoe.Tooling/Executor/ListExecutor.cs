@@ -12,26 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Shouldly;
-using Steeltoe.Tooling.Dummy;
-using Xunit;
-
-namespace Steeltoe.Tooling.Test.Dummy
+namespace Steeltoe.Tooling.Executor
 {
-    public class DummyEnvironmentTest
+    public abstract class ListExecutor : IExecutor
     {
-        private readonly DummyEnvironment _env = new DummyEnvironment();
+        private bool _verbose;
 
-        [Fact]
-        public void TestGetName()
+        protected ListExecutor(bool verbose)
         {
-            _env.Name.ShouldBe("dummy-env");
+            _verbose = verbose;
         }
 
-        [Fact]
-        public void TestGetDescription()
+        public void Execute(Context context)
         {
-            _env.Description.ShouldBe("A Dummy Environment");
+            if (_verbose)
+            {
+                ExecuteListVerbose(context);
+            }
+            else
+            {
+                ExecuteList(context);
+            }
         }
+
+        protected abstract void ExecuteList(Context context);
+
+        protected abstract void ExecuteListVerbose(Context context);
     }
 }

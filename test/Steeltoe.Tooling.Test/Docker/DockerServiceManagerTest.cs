@@ -33,7 +33,7 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _backend.DeployService("a-service", "dummy-svc");
             Shell.LastCommand.ShouldBe(
-                "docker run --name a-service --publish -1:-1 --detach --rm steeltoeoss/dummyserver");
+                "docker run --name a-service --publish 0:0 --detach --rm steeltoeoss/dummyserver");
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace Steeltoe.Tooling.Test.Docker
             Context.ServiceManager.SetServiceDeploymentArgs("docker", "a-service", "arg1 arg2");
             _backend.DeployService("a-service", "dummy-svc");
             Shell.LastCommand.ShouldBe(
-                "docker run --name a-service --publish -1:-1 --detach --rm arg1 arg2 steeltoeoss/dummyserver");
+                "docker run --name a-service --publish 0:0 --detach --rm arg1 arg2 steeltoeoss/dummyserver");
         }
 
         [Fact]

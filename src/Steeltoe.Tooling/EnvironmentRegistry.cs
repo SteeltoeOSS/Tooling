@@ -35,7 +35,7 @@ namespace Steeltoe.Tooling
             }
         }
 
-        public static IEnumerable<string> Names => _environments.Keys.ToList();
+        public static List<string> Names => _environments.Keys.ToList();
 
         public static Environment ForName(string name)
         {

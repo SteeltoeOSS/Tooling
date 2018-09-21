@@ -32,7 +32,8 @@ namespace Steeltoe.Cli.Test
                 and => the_cli_should_output("If run with no options, list services."),
                 and => the_cli_should_output("-e|--environments List deployment environments"),
                 and => the_cli_should_output("-s|--services List services"),
-                and => the_cli_should_output("-t|--service-types List service types")
+                and => the_cli_should_output("-t|--service-types List service types"),
+                and => the_cli_should_output("-v|--verbose Verbose")
             );
         }
 
@@ -58,19 +59,6 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void ListServices()
-        {
-            Runner.RunScenario(
-                given => a_steeltoe_project("list_services"),
-                when => the_developer_runs_cli_command("add z-service dummy-svc"),
-                and => the_developer_runs_cli_command("add a-service dummy-svc"),
-                and => the_developer_runs_cli_command("add 9-service dummy-svc"),
-                and => the_developer_runs_cli_command("list"),
-                then => the_cli_should_list(new[] {"a-service", "z-service", "9-service"})
-            );
-        }
-
-        [Scenario]
         public void ListEnvironments()
         {
             Runner.RunScenario(
@@ -78,9 +66,24 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("list -e"),
                 then => the_cli_should_list(new[]
                 {
-                    "dummy-env (A dummy environment for testing Steeltoe Developer Tools)",
-                    "cloud-foundry (Cloud Foundry)",
-                    "docker (Docker)",
+                    "cloud-foundry",
+                    "docker",
+                    "dummy-env",
+                })
+            );
+        }
+
+        [Scenario]
+        public void ListEnvironmentsVerbose()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("list_environments_verbose"),
+                when => the_developer_runs_cli_command("list -e -v"),
+                then => the_cli_should_list(new[]
+                {
+                    "cloud-foundry  Cloud Foundry",
+                    "docker         Docker",
+                    "dummy-env      A Dummy Environment",
                 })
             );
         }
@@ -93,9 +96,60 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("list -t"),
                 then => the_cli_should_list(new[]
                 {
-                    "dummy-svc (A dummy service for testing Steeltoe Developer Tools)",
-                    "config-server (Cloud Foundry Config Server)",
-                    "eureka (Netflix Eureka Server)"
+                    "config-server",
+                    "dummy-svc",
+                    "eureka",
+                })
+            );
+        }
+
+        [Scenario]
+        public void ListServiceTypesVerbose()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("list_service_types_verbose"),
+                when => the_developer_runs_cli_command("list -t -v"),
+                then => the_cli_should_list(new[]
+                {
+                    "config-server   8888  Cloud Foundry Config Server",
+                    "dummy-svc          0  A Dummy Service",
+                    "eureka          8761  Netflix Eureka Server",
+                })
+            );
+        }
+
+        [Scenario]
+        public void ListServices()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("list_services"),
+                when => the_developer_runs_cli_command("add c-service dummy-svc"),
+                and => the_developer_runs_cli_command("add b-service dummy-svc"),
+                and => the_developer_runs_cli_command("add a-service dummy-svc"),
+                and => the_developer_runs_cli_command("list"),
+                then => the_cli_should_list(new[]
+                {
+                    "a-service",
+                    "b-service",
+                    "c-service",
+                })
+            );
+        }
+
+        [Scenario]
+        public void ListServicesVerbose()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("list_services_verbose"),
+                and => the_developer_runs_cli_command("add b-service dummy-svc"),
+                and => the_developer_runs_cli_command("add c-service dummy-svc"),
+                when => the_developer_runs_cli_command("add a-service dummy-svc"),
+                and => the_developer_runs_cli_command("list -s -v"),
+                then => the_cli_should_list(new[]
+                {
+                    "a-service      0  dummy-svc",
+                    "b-service      0  dummy-svc",
+                    "c-service      0  dummy-svc",
                 })
             );
         }
