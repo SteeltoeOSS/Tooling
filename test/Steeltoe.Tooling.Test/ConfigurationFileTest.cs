@@ -44,28 +44,28 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestStoreToFile()
         {
-            var cfg = new ConfigurationFile(_testConfigPath);
-            cfg.EnvironmentName = "myEnvironment";
-            cfg.Services.Add("myService", new Configuration.Service
+            var cfgFile = new ConfigurationFile(_testConfigPath);
+            cfgFile.Configuration.EnvironmentName = "myEnvironment";
+            cfgFile.Configuration.Services.Add("myService", new Configuration.Service
             {
                 ServiceTypeName = "myServiceType",
                 Enabled = true
             });
-            cfg.Store();
+            cfgFile.Store();
             File.ReadAllText(_testConfigPath).ShouldBe(SampleConfig);
         }
 
         [Fact]
         public void TestStoreToDirectory()
         {
-            var cfg = new ConfigurationFile(_testDir);
-            cfg.EnvironmentName = "myEnvironment";
-            cfg.Services.Add("myService", new Configuration.Service
+            var cfgFile = new ConfigurationFile(_testDir);
+            cfgFile.Configuration.EnvironmentName = "myEnvironment";
+            cfgFile.Configuration.Services.Add("myService", new Configuration.Service
             {
                 ServiceTypeName = "myServiceType",
                 Enabled = true
             });
-            cfg.Store();
+            cfgFile.Store();
             File.ReadAllText(_defaultConfigPath).ShouldBe(SampleConfig);
         }
 
@@ -73,22 +73,22 @@ namespace Steeltoe.Tooling.Test
         public void TestLoadFromFile()
         {
             File.WriteAllText(_testConfigPath, SampleConfig);
-            var cfg = new ConfigurationFile(_testConfigPath);
-            cfg.EnvironmentName.ShouldBe("myEnvironment");
-            cfg.Services.ShouldContainKey("myService");
-            cfg.Services["myService"].ServiceTypeName.ShouldBe("myServiceType");
-            cfg.Services["myService"].Enabled.ShouldBeTrue();
+            var cfgFile = new ConfigurationFile(_testConfigPath);
+            cfgFile.Configuration.EnvironmentName.ShouldBe("myEnvironment");
+            cfgFile.Configuration.Services.ShouldContainKey("myService");
+            cfgFile.Configuration.Services["myService"].ServiceTypeName.ShouldBe("myServiceType");
+            cfgFile.Configuration.Services["myService"].Enabled.ShouldBeTrue();
         }
 
         [Fact]
         public void TestLoadFromDirectory()
         {
             File.WriteAllText(_defaultConfigPath, SampleConfig);
-            var cfg = new ConfigurationFile(_testDir);
-            cfg.EnvironmentName.ShouldBe("myEnvironment");
-            cfg.Services.ShouldContainKey("myService");
-            cfg.Services["myService"].ServiceTypeName.ShouldBe("myServiceType");
-            cfg.Services["myService"].Enabled.ShouldBeTrue();
+            var cfgFile = new ConfigurationFile(_testDir);
+            cfgFile.Configuration.EnvironmentName.ShouldBe("myEnvironment");
+            cfgFile.Configuration.Services.ShouldContainKey("myService");
+            cfgFile.Configuration.Services["myService"].ServiceTypeName.ShouldBe("myServiceType");
+            cfgFile.Configuration.Services["myService"].Enabled.ShouldBeTrue();
         }
 
         private const string SampleConfig = @"environment: myEnvironment

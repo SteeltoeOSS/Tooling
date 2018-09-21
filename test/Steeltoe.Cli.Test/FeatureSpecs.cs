@@ -67,9 +67,9 @@ namespace Steeltoe.Cli.Test
         {
             a_dotnet_project(name);
             Logger.LogInformation($"enabling steeltoe developer tools");
-            var cfg = new ConfigurationFile(ProjectDirectory);
-            cfg.EnvironmentName = "dummy-env";
-            cfg.Store();
+            var cfgFile = new ConfigurationFile(ProjectDirectory);
+            cfgFile.Configuration.EnvironmentName = "dummy-env";
+            cfgFile.Store();
         }
 
         //
@@ -133,36 +133,38 @@ namespace Steeltoe.Cli.Test
                 var line = reader.ReadLine();
                 line.ShouldBe(message);
             }
+
             reader.ReadLine().ShouldBeNullOrEmpty();
         }
 
         protected void the_configuration_should_target(string env)
         {
             Logger.LogInformation($"checking the target config '{env}' exists");
-            new ConfigurationFile(ProjectDirectory).EnvironmentName.ShouldBe(env);
+            new ConfigurationFile(ProjectDirectory).Configuration.EnvironmentName.ShouldBe(env);
         }
+
         protected void the_configuration_should_contain_service(string service)
         {
             Logger.LogInformation($"checking the service '{service}' exists");
-            new ConfigurationFile(ProjectDirectory).Services.Keys.ShouldContain(service);
+            new ConfigurationFile(ProjectDirectory).Configuration.Services.Keys.ShouldContain(service);
         }
 
         protected void the_configuration_should_not_contain_service(string service)
         {
             Logger.LogInformation($"checking the service '{service}' does not exist");
-            new ConfigurationFile(ProjectDirectory).Services.Keys.ShouldNotContain(service);
+            new ConfigurationFile(ProjectDirectory).Configuration.Services.Keys.ShouldNotContain(service);
         }
 
         protected void the_configuration_service_should_be_enabled(string service)
         {
             Logger.LogInformation($"checking the service '{service}' is enabled");
-            new ConfigurationFile(ProjectDirectory).Services[service].Enabled.ShouldBeTrue();
+            new ConfigurationFile(ProjectDirectory).Configuration.Services[service].Enabled.ShouldBeTrue();
         }
 
         protected void the_configuration_service_should_not_be_enabled(string service)
         {
             Logger.LogInformation($"checking the service '{service}' is not enabled");
-            new ConfigurationFile(ProjectDirectory).Services[service].Enabled.ShouldBeFalse();
+            new ConfigurationFile(ProjectDirectory).Configuration.Services[service].Enabled.ShouldBeFalse();
         }
     }
 }

@@ -45,9 +45,18 @@ namespace Steeltoe.Cli
 
         public void Execute(Context context)
         {
-            var cfgFile = context.Configuration as ConfigurationFile;
-            if (cfgFile == null) throw new ArgumentNullException(nameof(cfgFile));
-            if (cfgFile.Exists() && !_force) throw new ToolingException("Project already initialized");
+            var cfgFile = Program.ConfigurationFile;
+            if (cfgFile == null)
+            {
+                throw new ArgumentNullException(nameof(cfgFile));
+            }
+
+
+            if (cfgFile.Exists() && !_force)
+            {
+                throw new ToolingException("Project already initialized");
+            }
+
             cfgFile.Store();
             context.Shell.Console.WriteLine("Project initialized for Steeltoe Developer Tools");
         }

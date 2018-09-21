@@ -53,7 +53,7 @@ namespace Steeltoe.Cli
 
         private static ConfigurationFile _configurationFile;
 
-        public static ConfigurationFile Configuration =>
+        public static ConfigurationFile ConfigurationFile =>
             _configurationFile ?? (_configurationFile = new ConfigurationFile(ConfigurationPath));
 
         // ReSharper disable once UnusedMember.Local

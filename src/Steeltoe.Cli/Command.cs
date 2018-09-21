@@ -21,11 +21,9 @@ using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    public abstract class Command : IConfigurationListener
+    public abstract class Command
     {
         public const string CliName = "steeltoe";
-
-        private bool _configDirty;
 
         protected int OnExecute(CommandLineApplication app)
         {
@@ -45,19 +43,14 @@ namespace Steeltoe.Cli
                     }
                 }
                 var projectDirectory = Directory.GetCurrentDirectory();
-                var config = Program.Configuration;
-                if (requiresInitializedProject && !config.Exists())
+                var cfgFile = Program.ConfigurationFile;
+                if (requiresInitializedProject && !cfgFile.Exists())
                 {
                     throw new ToolingException("Project has not been initialized for Steeltoe Developer Tools");
                 }
 
-                config.AddListener(this);
-                var context = new Context(projectDirectory, config, new CommandShell(app.Out));
+                var context = new Context(projectDirectory, cfgFile.Configuration, new CommandShell(app.Out));
                 GetExecutor().Execute(context);
-                if (_configDirty)
-                {
-                    config.Store();
-                }
                 return 0;
             }
             catch (ArgumentException e)
@@ -86,10 +79,5 @@ namespace Steeltoe.Cli
         }
 
         protected abstract IExecutor GetExecutor();
-
-        public void ConfigurationChangeEvent()
-        {
-            _configDirty = true;
-        }
     }
 }

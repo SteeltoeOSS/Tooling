@@ -18,13 +18,14 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
-    public class ConfigurationFile : Configuration
+    public class ConfigurationFile : IConfigurationListener
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ConfigurationFile>();
 
         public const string DefaultFileName = ".steeltoe.tooling.yml";
 
-        [YamlIgnore]
+        public Configuration Configuration { get; private set; } = new Configuration();
+
         public string File { get; }
 
         public ConfigurationFile(string path)
@@ -42,9 +43,8 @@ namespace Steeltoe.Tooling
             var deserializer = new DeserializerBuilder().Build();
             using (var reader = new StreamReader(File))
             {
-                var cfg = deserializer.Deserialize<Configuration>(reader);
-                EnvironmentName = cfg.EnvironmentName;
-                Services = cfg.Services;
+                Configuration = deserializer.Deserialize<Configuration>(reader);
+                Configuration.AddListener(this);
             }
         }
 
@@ -52,7 +52,7 @@ namespace Steeltoe.Tooling
         {
             Logger.LogDebug($"storing tooling configuration to {File}");
             var serializer = new SerializerBuilder().Build();
-            var yaml = serializer.Serialize(this);
+            var yaml = serializer.Serialize(Configuration);
             using (var writer = new StreamWriter(File))
             {
                 writer.Write(yaml);
@@ -64,9 +64,9 @@ namespace Steeltoe.Tooling
             return System.IO.File.Exists(File);
         }
 
-//        private static string ToConfigurationPath(string path)
-//        {
-//            return Directory.Exists(path) ? Path.Combine(path, DefaultFileName) : path;
-//        }
+        public void ConfigurationChangeEvent()
+        {
+            Store();
+        }
     }
 }
