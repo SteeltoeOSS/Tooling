@@ -16,21 +16,21 @@ namespace Steeltoe.Tooling.Executor
 {
     public class AddServiceExecutor : IExecutor
     {
-        private string Name { get; }
+        private string _name;
 
-        private string Type { get; }
+        private string _type;
 
-        public AddServiceExecutor(string name, string type)
+        public AddServiceExecutor(string serviceName, string serviceType)
         {
-            Name = name;
-            Type = type;
+            _name = serviceName;
+            _type = serviceType;
         }
 
         public void Execute(Context context)
         {
-            context.ServiceManager.AddService(Name, Type);
-            context.ServiceManager.EnableService(Name);
-            context.Shell.Console.WriteLine($"Added {Type} service '{Name}'");
+            context.ServiceManager.AddService(_name, _type);
+            context.ServiceManager.EnableService(_name);
+            context.Shell.Console.WriteLine($"Added {_type} service '{_name}'");
         }
     }
 }

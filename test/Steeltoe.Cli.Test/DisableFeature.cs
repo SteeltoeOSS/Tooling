@@ -29,7 +29,7 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("disable_help"),
                 when => the_developer_runs_cli_command("disable --help"),
                 then => the_cli_should_output("Disable a service."),
-                and => the_cli_should_output("name Service name")
+                and => the_cli_should_output("service Service name")
             );
         }
 

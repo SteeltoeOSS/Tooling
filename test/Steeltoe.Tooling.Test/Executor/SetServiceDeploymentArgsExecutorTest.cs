@@ -18,25 +18,23 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test.Executor
 {
-    public class ShowTargetExecutorTest : ToolingTest
+    public class SetServiceDeploymentArgsExecutorTest : ToolingTest
     {
         [Fact]
-        public void TestShowTarget()
+        public void TestSetServiceDeploymentArgs()
         {
-            Context.Configuration.EnvironmentName = "my-environment";
-            new ShowTargetExecutor().Execute(Context);
-            Console.ToString().Trim().ShouldBe("Target deployment environment set to 'my-environment'.");
+            Context.ServiceManager.AddService("a-service", "dummy-svc");
+            ClearConsole();
+            new SetServiceDeploymentArgsExecutor("dummy-env", "a-service", "arg1 arg2").Execute(Context);
+            Console.ToString().Trim().ShouldBe("Set the 'dummy-env' deployment environment argument(s) for service 'a-service' to 'arg1 arg2'");
         }
 
         [Fact]
-        public void TestShowNoTarget()
+        public void TestSetNonExistentServiceDeploymentArgs()
         {
-            Context.Configuration.EnvironmentName = null;
-            var svc = new ShowTargetExecutor();
-            var e = Assert.Throws<ToolingException>(
-                () => svc.Execute(Context)
+            Assert.Throws<ServiceNotFoundException>(
+                () => new SetServiceDeploymentArgsExecutor("dummy-env", "non-existent-service", null).Execute(Context)
             );
-            e.Message.ShouldBe("Target deployment environment not set");
         }
     }
 }

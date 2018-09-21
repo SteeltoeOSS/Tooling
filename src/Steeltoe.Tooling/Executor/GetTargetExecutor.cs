@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,17 @@
 
 namespace Steeltoe.Tooling.Executor
 {
-    public class RemoveServiceExecutor : ServiceExecutor
+    public class GetTargetExecutor : IExecutor
     {
-        public RemoveServiceExecutor(string serviceName) : base(serviceName)
+        public void Execute(Context context)
         {
-        }
+            if (context.Configuration.EnvironmentName == null)
+            {
+                throw new ToolingException("Target deployment environment not set");
+            }
 
-        public override void Execute(Context context)
-        {
-            base.Execute(context);
-            context.ServiceManager.RemoveService(ServiceName);
-            context.Shell.Console.WriteLine($"Removed service '{ServiceName}'");
+            context.Shell.Console.WriteLine(
+                $"Target deployment environment set to '{context.Configuration.EnvironmentName}'.");
         }
     }
 }

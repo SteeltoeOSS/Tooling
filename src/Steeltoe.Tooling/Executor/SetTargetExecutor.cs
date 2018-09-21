@@ -16,35 +16,34 @@ namespace Steeltoe.Tooling.Executor
 {
     public class SetTargetExecutor : IExecutor
     {
-        private readonly string _environment;
+        private readonly string _environmentName;
 
         private readonly bool _force;
 
-        public SetTargetExecutor(string environment, bool force = false)
+        public SetTargetExecutor(string environmentName, bool force = false)
         {
-            _environment = environment;
+            _environmentName = environmentName;
             _force = force;
         }
 
         public void Execute(Context context)
         {
-            var envName = _environment.ToLower();
-            Environment env = EnvironmentRegistry.ForName(envName);
+            Environment env = EnvironmentRegistry.ForName(_environmentName);
 
             if (!env.IsSane(context.Shell))
             {
                 if (!_force)
                 {
                     context.Shell.Console.WriteLine("Fix errors above or re-run with '-f|--force'");
-                    throw new ToolingException($"Environment '{envName}' not sane");
+                    throw new ToolingException($"Environment '{_environmentName	}' not sane");
                 }
 
                 context.Shell.Console.WriteLine("Ignoring errors above :-(");
             }
 
-            context.Configuration.EnvironmentName = envName;
+            context.Configuration.EnvironmentName = _environmentName;
             context.Configuration.NotifyListeners();
-            context.Shell.Console.WriteLine($"Target deployment environment set to '{envName}'.");
+            context.Shell.Console.WriteLine($"Target deployment environment set to '{_environmentName}'.");
         }
     }
 }

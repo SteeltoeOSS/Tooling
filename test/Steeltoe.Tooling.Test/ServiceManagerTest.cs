@@ -85,5 +85,14 @@ namespace Steeltoe.Tooling.Test
             _serviceMgr.AddService("a-service", "dummy-svc");
             _serviceMgr.HasService("a-service").ShouldBeTrue();
         }
+
+        [Fact]
+        public void TestServiceDeploymentArgs()
+        {
+            _serviceMgr.AddService("a-service", "dummy-svc");
+            _serviceMgr.SetServiceDeploymentArgs("dummy-env", "a-service", "arg1 arg2");
+            _serviceMgr.GetServiceDeploymentArgs("dummy-env", "a-service").ShouldBe("arg1 arg2");
+
+        }
     }
 }

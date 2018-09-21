@@ -96,6 +96,7 @@ services:
   myService:
     type: myServiceType
     enabled: true
+    args: {}
 ";
     }
 }

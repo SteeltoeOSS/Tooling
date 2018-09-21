@@ -19,7 +19,8 @@ namespace Steeltoe.Tooling
 {
     public class Configuration
     {
-        [YamlMember(Alias = "environment")] public string EnvironmentName { get; set; }
+        [YamlMember(Alias = "environment")]
+        public string EnvironmentName { get; set; }
 
         [YamlMember(Alias = "services")]
         public SortedDictionary<string, Service> Services { get; protected set; } =
@@ -27,9 +28,15 @@ namespace Steeltoe.Tooling
 
         public class Service
         {
-            [YamlMember(Alias = "type")] public string ServiceTypeName { get; set; }
+            [YamlMember(Alias = "type")]
+            public string ServiceTypeName { get; set; }
 
-            [YamlMember(Alias = "enabled")] public bool Enabled { get; set; }
+            [YamlMember(Alias = "enabled")]
+            public bool Enabled { get; set; }
+
+            [YamlMember(Alias = "args")]
+            public SortedDictionary<string, string> Args { get; protected set; } =
+                new SortedDictionary<string, string>();
         }
 
         private readonly List<IConfigurationListener> _listeners = new List<IConfigurationListener>();

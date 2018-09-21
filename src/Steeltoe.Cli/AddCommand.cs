@@ -22,17 +22,16 @@ namespace Steeltoe.Cli
     public class AddCommand : Command
     {
         [Required(ErrorMessage = "Service name not specified")]
-        [Argument(0, Name = "name", Description = "Service name")]
-        private string Name { get; } = null;
+        [Argument(0, Name = "service", Description = "Service name")]
+        private string ServiceName { get; } = null;
 
         [Required(ErrorMessage = "Service type not specified")]
-        [Argument(1, Name = "type",
-            Description = "Service type (run '" + CliName + " list types' for available service types)")]
-        private string Type { get; } = null;
+        [Argument(1, Name = "type", Description = "Service type")]
+        private string ServiceType { get; } = null;
 
         protected override IExecutor GetExecutor()
         {
-            return new AddServiceExecutor(Name, Type);
+            return new AddServiceExecutor(ServiceName, ServiceType);
         }
     }
 }

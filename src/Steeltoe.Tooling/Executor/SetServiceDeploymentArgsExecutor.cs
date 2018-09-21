@@ -14,17 +14,26 @@
 
 namespace Steeltoe.Tooling.Executor
 {
-    public class EnableServiceExecutor : ServiceExecutor
+    public class SetServiceDeploymentArgsExecutor : ServiceExecutor
     {
-        public EnableServiceExecutor(string serviceName) : base(serviceName)
+        private readonly string _environmentName;
+
+        private string _arguments;
+
+        public SetServiceDeploymentArgsExecutor(string environmentName, string serviceName, string arguments) :
+            base(serviceName)
         {
+            _environmentName = environmentName;
+            _arguments = arguments;
         }
 
         public override void Execute(Context context)
         {
+            var env = EnvironmentRegistry.ForName(_environmentName);
             base.Execute(context);
-            context.ServiceManager.EnableService(ServiceName);
-            context.Shell.Console.WriteLine($"Enabled service '{ServiceName}'");
+            context.ServiceManager.SetServiceDeploymentArgs(_environmentName, ServiceName, _arguments);
+            context.Shell.Console.WriteLine(
+                $"Set the '{env.Name}' deployment environment argument(s) for service '{ServiceName}' to '{_arguments}'");
         }
     }
 }

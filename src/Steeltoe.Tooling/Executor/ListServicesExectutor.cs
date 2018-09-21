@@ -18,9 +18,9 @@ namespace Steeltoe.Tooling.Executor
     {
         public void Execute(Context context)
         {
-            foreach (var entry in context.Configuration.Services)
+            foreach (var svcEntry in context.Configuration.Services)
             {
-                context.Shell.Console.WriteLine($"{entry.Key} ({entry.Value.ServiceTypeName})");
+                context.Shell.Console.WriteLine($"{svcEntry.Key} ({svcEntry.Value.ServiceTypeName})");
             }
         }
     }

@@ -16,18 +16,18 @@ namespace Steeltoe.Tooling.Executor
 {
     public abstract class ServiceExecutor : IExecutor
     {
-        protected string Name { get; }
+        protected string ServiceName { get; }
 
-        public ServiceExecutor(string name)
+        public ServiceExecutor(string serviceName)
         {
-            Name = name;
+            ServiceName = serviceName;
         }
 
         public virtual void Execute(Context context)
         {
-            if (!context.ServiceManager.HasService(Name))
+            if (!context.ServiceManager.HasService(ServiceName))
             {
-                throw new ServiceNotFoundException(Name);
+                throw new ServiceNotFoundException(ServiceName);
             }
         }
     }

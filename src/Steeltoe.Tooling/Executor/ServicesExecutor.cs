@@ -18,11 +18,12 @@ namespace Steeltoe.Tooling.Executor
 {
     public abstract class ServicesExecutor : IExecutor
     {
-        protected List<string> Names { get; private set; }
+        protected List<string> ServiceNames { get; private set; }
+
         public virtual void Execute(Context context)
         {
-            Names = context.ServiceManager.GetServiceNames();
-            if (Names.Count == 0)
+            ServiceNames = context.ServiceManager.GetServiceNames();
+            if (ServiceNames.Count == 0)
             {
                 context.Shell.Console.WriteLine($"No services have been added");
             }

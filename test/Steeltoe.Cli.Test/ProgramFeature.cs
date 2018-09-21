@@ -45,7 +45,7 @@ namespace Steeltoe.Cli.Test
                 and => the_cli_should_output("-V|--version Show version information"),
                 and => the_cli_should_output("-?|-h|--help Show help information"),
                 and => the_cli_should_output("init Initialize a project for Steeltoe Developer Tools."),
-                and => the_cli_should_output("target Target the deployment environment."),
+                and => the_cli_should_output("target Set or get the targeted deployment environment."),
                 and => the_cli_should_output("add Add a service."),
                 and => the_cli_should_output("remove Remove a service."),
                 and => the_cli_should_output("enable Enable a service."),
@@ -55,6 +55,7 @@ namespace Steeltoe.Cli.Test
                     "undeploy Undeploy enabled services from the targeted deployment environment."),
                 and => the_cli_should_output(
                     "status Show service statuses."),
+                and => the_cli_should_output("args Set or get the deployment environment arguments for a service."),
                 and => the_cli_should_output(
                     "list List services, service types, or deployment environments.")
             );

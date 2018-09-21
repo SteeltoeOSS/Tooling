@@ -18,47 +18,46 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test.Docker
 {
-    public class DockerServiceManagerTest
+    public class DockerServiceManagerTest : ToolingTest
     {
-        private readonly IServiceBackend _mgr;
-
-        private readonly MockShell _shell;
+        private readonly IServiceBackend _backend;
 
         public DockerServiceManagerTest()
         {
-            _shell = new MockShell(null);
-            _mgr = new DockerEnvironment().GetServiceBackend(new Context(null, null, _shell));
-            _mgr.ShouldBeOfType(typeof(DockerServiceBackend));
+            _backend = new DockerEnvironment().GetServiceBackend(Context);
+            _backend.ShouldBeOfType(typeof(DockerServiceBackend));
         }
 
         [Fact]
-        public void TestStartConfigServer()
+        public void TestDeployService()
         {
-            _mgr.DeployService("my-service", "config-server");
-            _shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/configserver");
+            _backend.DeployService("a-service", "dummy-svc");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name a-service --publish -1:-1 --detach --rm steeltoeoss/dummyserver");
         }
 
         [Fact]
-        public void TestStartRegistry()
+        public void TestDeployServiceWithArgs()
         {
-            _mgr.DeployService("my-service", "eureka");
-            _shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eurekaserver");
+            Context.ServiceManager.AddService("a-service", "dummy-svc");
+            Context.ServiceManager.SetServiceDeploymentArgs("docker", "a-service", "arg1 arg2");
+            _backend.DeployService("a-service", "dummy-svc");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name a-service --publish -1:-1 --detach --rm arg1 arg2 steeltoeoss/dummyserver");
         }
 
         [Fact]
-        public void TestStopService()
+        public void TestUndeployService()
         {
-            _mgr.UndeployService("my-service");
-            _shell.LastCommand.ShouldBe("docker stop my-service");
+            _backend.UndeployService("a-service");
+            Shell.LastCommand.ShouldBe("docker stop a-service");
         }
 
         [Fact]
-        public void TestCheckService()
+        public void TestGetServiceLifecycleState()
         {
-            _mgr.GetServiceLifecleState("my-service");
-            _shell.LastCommand.ShouldBe("docker ps --no-trunc --filter name=^/my-service$");
+            _backend.GetServiceLifecleState("a-service");
+            Shell.LastCommand.ShouldBe("docker ps --no-trunc --filter name=^/a-service$");
         }
     }
 }

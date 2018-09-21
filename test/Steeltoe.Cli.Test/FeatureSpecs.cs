@@ -103,6 +103,13 @@ namespace Steeltoe.Cli.Test
             ShellOut.ShouldContain(message);
         }
 
+        protected void the_cli_should_output_nothing()
+        {
+            the_cli_command_should_succeed();
+            Logger.LogInformation($"checking the cli output nothing");
+            ShellOut.ShouldBeEmpty();
+        }
+
         protected void the_cli_should_error(ErrorCode code, string error)
         {
             Logger.LogInformation($"checking the command failed with {(int) code}");

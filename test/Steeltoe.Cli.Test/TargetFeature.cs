@@ -28,10 +28,9 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("target_help"),
                 when => the_developer_runs_cli_command("target --help"),
-                then => the_cli_should_output(
-                    "Target the deployment environment. If run with no args, show the targeted deployment environment."),
-                and => the_cli_should_output(
-                    "environment Deployment environment (run 'steeltoe list targets' for available deployment environments)"),
+                then => the_cli_should_output("Set or get the targeted deployment environment."),
+                then => the_cli_should_output("If run with no args, show the currently targeted deployment environment."),
+                and => the_cli_should_output("environment Deployment environment"),
                 and => the_cli_should_output("-F|--force Target the deployment environment even if checks fail")
             );
         }

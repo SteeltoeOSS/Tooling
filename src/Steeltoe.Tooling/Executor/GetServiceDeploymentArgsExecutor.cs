@@ -14,17 +14,21 @@
 
 namespace Steeltoe.Tooling.Executor
 {
-    public class ShowTargetExecutor : IExecutor
+    public class GetServiceDeploymentArgsExecutor : ServiceExecutor
     {
-        public void Execute(Context context)
-        {
-            if (context.Configuration.EnvironmentName == null)
-            {
-                throw new ToolingException("Target deployment environment not set");
-            }
+        private string _environmentName;
 
-            context.Shell.Console.WriteLine(
-                $"Target deployment environment set to '{context.Configuration.EnvironmentName}'.");
+        public GetServiceDeploymentArgsExecutor(string environmentName, string serviceName) : base(serviceName)
+        {
+            _environmentName = environmentName;
+        }
+
+        public override void Execute(Context context)
+        {
+            var env = EnvironmentRegistry.ForName(_environmentName);
+            base.Execute(context);
+            var args = context.ServiceManager.GetServiceDeploymentArgs(env.Name, ServiceName);
+            context.Shell.Console.WriteLine(args);
         }
     }
 }

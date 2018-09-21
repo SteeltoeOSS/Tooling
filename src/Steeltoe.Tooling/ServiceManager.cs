@@ -81,6 +81,24 @@ namespace Steeltoe.Tooling
             return Context.Configuration.Services.ContainsKey(name);
         }
 
+        public void SetServiceDeploymentArgs(string environmentName, string serviceName, string arguments)
+        {
+            Context.Configuration.Services[serviceName].Args[environmentName] = arguments;
+            Context.Configuration.NotifyListeners();
+        }
+
+        public string GetServiceDeploymentArgs(string environmentName, string serviceName)
+        {
+            try
+            {
+                return Context.Configuration.Services[serviceName].Args[environmentName];
+            }
+            catch (KeyNotFoundException)
+            {
+                return "";
+            }
+        }
+
         public ServiceLifecycle.State GetServiceState(string name)
         {
             if (!Context.Configuration.Services[name].Enabled)

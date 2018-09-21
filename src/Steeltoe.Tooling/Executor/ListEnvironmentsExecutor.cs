@@ -19,9 +19,9 @@ namespace Steeltoe.Tooling.Executor
     {
         public void Execute(Context context)
         {
-            foreach (var name in EnvironmentRegistry.Names)
+            foreach (var envName in EnvironmentRegistry.Names)
             {
-                context.Shell.Console.WriteLine(EnvironmentRegistry.ForName(name));
+                context.Shell.Console.WriteLine(EnvironmentRegistry.ForName(envName));
             }
         }
     }

@@ -24,12 +24,12 @@ namespace Steeltoe.Cli
     public class EnableCommand : Command
     {
         [Required(ErrorMessage = "Service name not specified")]
-        [Argument(0, Name = "name", Description = "Service name")]
-        private string Name { get; }
+        [Argument(0, Name = "service", Description = "Service name")]
+        private string ServiceName { get; }
 
         protected override IExecutor GetExecutor()
         {
-            return new EnableServiceExecutor(Name);
+            return new EnableServiceExecutor(ServiceName);
         }
     }
 }

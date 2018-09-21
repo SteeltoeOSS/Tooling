@@ -16,15 +16,15 @@ namespace Steeltoe.Tooling.Executor
 {
     public class DisableServiceExecutor : ServiceExecutor
     {
-        public DisableServiceExecutor(string name) : base(name)
+        public DisableServiceExecutor(string serviceName) : base(serviceName)
         {
         }
 
         public override void Execute(Context context)
         {
             base.Execute(context);
-            context.ServiceManager.DisableService(Name);
-            context.Shell.Console.WriteLine($"Disabled service '{Name}'");
+            context.ServiceManager.DisableService(ServiceName);
+            context.Shell.Console.WriteLine($"Disabled service '{ServiceName}'");
         }
     }
 }

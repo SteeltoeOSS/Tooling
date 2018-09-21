@@ -19,7 +19,7 @@ namespace Steeltoe.Tooling.Executor
         public override void Execute(Context context)
         {
             base.Execute(context);
-            foreach (var name in Names)
+            foreach (var name in ServiceNames)
             {
                 var status = context.ServiceManager.GetServiceState(name).ToString().ToLower();
                 context.Shell.Console.WriteLine($"{name} {status}");

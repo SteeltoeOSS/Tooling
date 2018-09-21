@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Docker
 
         public override IServiceBackend GetServiceBackend(Context context)
         {
-            return new DockerServiceBackend(context.Shell);
+            return new DockerServiceBackend(context);
         }
 
         public override bool IsSane(Shell shell)

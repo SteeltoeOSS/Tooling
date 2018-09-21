@@ -19,17 +19,17 @@ namespace Steeltoe.Tooling.Executor
         public override void Execute(Context context)
         {
             base.Execute(context);
-            foreach (var name in Names)
+            foreach (var svcName in ServiceNames)
             {
-                var state = context.ServiceManager.GetServiceState(name);
+                var state = context.ServiceManager.GetServiceState(svcName);
                 if (state == ServiceLifecycle.State.Disabled)
                 {
-                    context.Shell.Console.WriteLine($"Ignoring disabled service '{name}'");
+                    context.Shell.Console.WriteLine($"Ignoring disabled service '{svcName}'");
                     continue;
                 }
 
-                context.Shell.Console.WriteLine($"Undeploying service '{name}'");
-                context.ServiceManager.UndeployService(name);
+                context.Shell.Console.WriteLine($"Undeploying service '{svcName}'");
+                context.ServiceManager.UndeployService(svcName);
             }
         }
     }

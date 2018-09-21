@@ -23,6 +23,7 @@ namespace Steeltoe.Tooling.Docker
     {
         private static Dictionary<string, string> _imageMap = new Dictionary<string, string>
         {
+            {"dummy-svc", "steeltoeoss/dummyserver"},
             {"config-server", "steeltoeoss/configserver"},
             {"eureka", "steeltoeoss/eurekaserver"}
         };
@@ -37,18 +38,27 @@ namespace Steeltoe.Tooling.Docker
             }
         }
 
+        private readonly Context _context;
+
         private readonly DockerCli _cli;
 
-        internal DockerServiceBackend(Shell shell)
+        internal DockerServiceBackend(Context context)
         {
-            _cli = new DockerCli(shell);
+            _context = context;
+            _cli = new DockerCli(_context.Shell);
         }
 
         public void DeployService(string name, string type)
         {
             var image = _imageMap[type];
             var port = GetServicePort(type);
-            _cli.Run($"run --name {name} --publish {port}:{port} --detach --rm {image}");
+            var args = _context.ServiceManager.GetServiceDeploymentArgs("docker", name);
+            if (args.Length > 1)
+            {
+                args += " ";
+            }
+
+            _cli.Run($"run --name {name} --publish {port}:{port} --detach --rm {args}{image}");
         }
 
         public void UndeployService(string name)

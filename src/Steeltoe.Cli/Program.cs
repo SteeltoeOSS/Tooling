@@ -30,6 +30,7 @@ namespace Steeltoe.Cli
     [Subcommand("deploy", typeof(DeployCommand))]
     [Subcommand("undeploy", typeof(UndeployCommand))]
     [Subcommand("status", typeof(StatusCommand))]
+    [Subcommand("args", typeof(ArgsCommand))]
     [Subcommand("list", typeof(ListCommand))]
     class Program
     {
