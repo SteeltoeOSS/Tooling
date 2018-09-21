@@ -21,7 +21,7 @@ services:
     type: mssql
     enabled: true
     args:
-      docker: -e ACCEPT_EULA=Y -e SA_PASSWORD=St33lt03R0cks
+      docker: --env ACCEPT_EULA=Y --env SA_PASSWORD=St33lt03R0cks
   steeltoe-uaa:
     type: uaa
     enabled: true
