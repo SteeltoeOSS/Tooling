@@ -3,7 +3,7 @@
 Install Steeltoe Tooling CLI.
 
 ```
-$ dotnet tool install -g --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json steeltoe.cli --version 0.0.1-springone-2018-00092
+$ dotnet tool install -g --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json steeltoe.cli --version 0.0.1-springone-2018-00098
 ```
 
 Open a terminal in this directory.
