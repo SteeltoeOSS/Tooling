@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Docker
         private static Dictionary<string, string> _imageMap = new Dictionary<string, string>
         {
             {"dummy-svc", "steeltoeoss/dummyserver"},
-            {"config-server", "steeltoeoss/configserver"},
+            {"config-server", "steeltoeoss/servers:configserver1.0-linux"},
             {"eureka", "steeltoeoss/eurekaserver"},
             {"hystrix", "kennedyoliveira/hystrix-dashboard"},
             {"mssql", "microsoft/mssql-server-linux:2017-latest"},
