@@ -22,8 +22,8 @@ namespace Steeltoe.Tooling.CloudFoundry
         private static Dictionary<string, string> serviceMap = new Dictionary<string, string>
         {
             {"config-server", "p-config-server"},
-            {"eureka-server", "p-service-registry"},
-            {"hystrix-dashboard", "p-circuit-breaker-dashboard"},
+            {"service-registry", "p-service-registry"},
+            {"circuit-breaker-dashboard", "p-circuit-breaker-dashboard"},
         };
 
         private readonly CloudFoundryCli _cli;

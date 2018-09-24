@@ -24,8 +24,8 @@ namespace Steeltoe.Tooling
         static ServiceTypeRegistry()
         {
             Register(new ServiceType("config-server", 8888, "Cloud Foundry Config Server"));
-            Register(new ServiceType("eureka-server", 8761, "Netflix Eureka Server"));
-            Register(new ServiceType("hystrix-dashboard", 7979, "Netflix Hystrix Dashboard"));
+            Register(new ServiceType("service-registry", 8761, "Netflix Eureka Server"));
+            Register(new ServiceType("circuit-breaker-dashboard", 7979, "Netflix Hystrix Dashboard"));
             if (Settings.DummiesEnabled)
             {
                 Register(new ServiceType("dummy-svc", 0, "A Dummy Service"));
