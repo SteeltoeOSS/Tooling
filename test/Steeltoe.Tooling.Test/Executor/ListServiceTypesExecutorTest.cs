@@ -26,9 +26,10 @@ namespace Steeltoe.Tooling.Test.Executor
         {
             new ListServiceTypesExecutor().Execute(Context);
             var reader = new StringReader(Console.ToString());
+            reader.ReadLine().ShouldBe("circuit-breaker-dashboard");
             reader.ReadLine().ShouldBe("config-server");
             reader.ReadLine().ShouldBe("dummy-svc");
-            reader.ReadLine().ShouldBe("eureka");
+            reader.ReadLine().ShouldBe("service-registry");
             reader.ReadLine().ShouldBeNull();
         }
 
@@ -37,9 +38,10 @@ namespace Steeltoe.Tooling.Test.Executor
         {
             new ListServiceTypesExecutor(true).Execute(Context);
             var reader = new StringReader(Console.ToString());
-            reader.ReadLine().ShouldBe("config-server   8888  Cloud Foundry Config Server");
-            reader.ReadLine().ShouldBe("dummy-svc          0  A Dummy Service");
-            reader.ReadLine().ShouldBe("eureka          8761  Netflix Eureka Server");
+            reader.ReadLine().ShouldBe("circuit-breaker-dashboard   7979  Netflix Hystrix Dashboard");
+            reader.ReadLine().ShouldBe("config-server               8888  Cloud Foundry Config Server");
+            reader.ReadLine().ShouldBe("dummy-svc                      0  A Dummy Service");
+            reader.ReadLine().ShouldBe("service-registry            8761  Netflix Eureka Server");
             reader.ReadLine().ShouldBeNull();
         }
     }

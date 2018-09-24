@@ -26,8 +26,9 @@ namespace Steeltoe.Tooling.Test
             var expected = new List<string>()
             {
                 "dummy-svc",
+                "circuit-breaker-dashboard",
                 "config-server",
-                "eureka"
+                "service-registry",
             };
             foreach (var name in ServiceTypeRegistry.Names)
             {

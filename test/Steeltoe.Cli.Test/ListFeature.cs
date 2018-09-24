@@ -96,9 +96,10 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("list -t"),
                 then => the_cli_should_list(new[]
                 {
+                    "circuit-breaker-dashboard",
                     "config-server",
                     "dummy-svc",
-                    "eureka",
+                    "service-registry",
                 })
             );
         }
@@ -111,9 +112,10 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("list -t -v"),
                 then => the_cli_should_list(new[]
                 {
-                    "config-server   8888  Cloud Foundry Config Server",
-                    "dummy-svc          0  A Dummy Service",
-                    "eureka          8761  Netflix Eureka Server",
+                    "circuit-breaker-dashboard   7979  Netflix Hystrix Dashboard",
+                    "config-server               8888  Cloud Foundry Config Server",
+                    "dummy-svc                      0  A Dummy Service",
+                    "service-registry            8761  Netflix Eureka Server",
                 })
             );
         }

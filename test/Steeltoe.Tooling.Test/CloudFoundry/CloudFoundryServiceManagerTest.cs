@@ -31,6 +31,13 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         }
 
         [Fact]
+        public void TestStartCircuitBreakerDashboard()
+        {
+            _mgr.DeployService("my-service", "circuit-breaker-dashboard");
+            _shell.LastCommand.ShouldBe("cf create-service p-circuit-breaker-dashboard standard my-service");
+        }
+
+        [Fact]
         public void TestStartConfigServer()
         {
             _mgr.DeployService("my-service", "config-server");
@@ -40,7 +47,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         [Fact]
         public void TestStartRegistry()
         {
-            _mgr.DeployService("my-service", "registry");
+            _mgr.DeployService("my-service", "service-registry");
             _shell.LastCommand.ShouldBe("cf create-service p-service-registry standard my-service");
         }
 
