@@ -25,7 +25,8 @@ namespace Steeltoe.Tooling.Docker
         {
             {"dummy-svc", "steeltoeoss/dummyserver"},
             {"config-server", "steeltoeoss/config-server:2.0"},
-            {"eureka-server", "steeltoeoss/eureka-server:2.0"}
+            {"eureka-server", "steeltoeoss/eureka-server:2.0"},
+            {"hystrix-dashboard", "steeltoeoss/hystrix-dashboard:1.4"},
         };
 
         private static Dictionary<string, string> _serviceMap = new Dictionary<string, string>();
