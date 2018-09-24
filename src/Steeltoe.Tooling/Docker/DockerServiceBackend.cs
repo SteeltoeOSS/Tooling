@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Docker
         private static Dictionary<string, string> _imageMap = new Dictionary<string, string>
         {
             {"dummy-svc", "steeltoeoss/dummyserver"},
-            {"config-server", "steeltoeoss/configserver"},
+            {"config-server", "steeltoeoss/config-server:2.0"},
             {"eureka", "steeltoeoss/eurekaserver"}
         };
 
