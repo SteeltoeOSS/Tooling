@@ -33,7 +33,6 @@ namespace Steeltoe.Cli
         }
     }
 
-    [RequiresInitialization(false)]
     internal class InitExecutor : IExecutor
     {
         private readonly bool _force;

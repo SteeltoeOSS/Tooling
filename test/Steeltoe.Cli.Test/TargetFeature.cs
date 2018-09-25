@@ -46,6 +46,20 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
+        public void TargetUninitializedProject()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("target_uninitialized_project"),
+                when => the_developer_runs_cli_command("target"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools"),
+                when => the_developer_runs_cli_command("target dummy-env"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools")
+            );
+        }
+
+        [Scenario]
         public void TargetEnvironment()
         {
             Runner.RunScenario(
@@ -64,17 +78,6 @@ namespace Steeltoe.Cli.Test
                 given => a_steeltoe_project("target_unknown_environment"),
                 when => the_developer_runs_cli_command("target no-such-environment"),
                 then => the_cli_should_error(ErrorCode.Tooling, "Unknown deployment environment 'no-such-environment'")
-            );
-        }
-
-        [Scenario]
-        public void TargetUninitializedProject()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("target_uninitialized_project"),
-                when => the_developer_runs_cli_command("target"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools")
             );
         }
 

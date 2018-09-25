@@ -14,6 +14,7 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    [RequiresInitialization]
     public class AddServiceExecutor : IExecutor
     {
         private string _name;

@@ -29,7 +29,7 @@ namespace Steeltoe.Cli
         {
             try
             {
-                var requiresInitializedProject = true;
+                var requiresInitializedProject = false;
                 {
                     var executor = GetExecutor();
                     MemberInfo minfo = executor.GetType();
@@ -38,7 +38,7 @@ namespace Steeltoe.Cli
                         var initAttr = attr as RequiresInitializationAttribute;
                         if (initAttr != null)
                         {
-                            requiresInitializedProject = initAttr.IsRequired;
+                            requiresInitializedProject = true;
                         }
                     }
                 }

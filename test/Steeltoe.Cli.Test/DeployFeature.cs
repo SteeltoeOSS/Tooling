@@ -43,6 +43,17 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
+        public void DeployUninitializedProject()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("deploy_uninitialized_project"),
+                when => the_developer_runs_cli_command("deploy"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools")
+            );
+        }
+
+        [Scenario]
         public void DeployServices()
         {
             Runner.RunScenario(

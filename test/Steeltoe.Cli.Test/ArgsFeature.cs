@@ -53,6 +53,20 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
+        public void ArgsUninitializedProject()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("args_uninitialized_project"),
+                when => the_developer_runs_cli_command("args dummy-env a-service"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools"),
+                when => the_developer_runs_cli_command("args dummy-env a-service arg1"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools")
+            );
+        }
+
+        [Scenario]
         public void ArgsUnknownEnvironment()
         {
             Runner.RunScenario(

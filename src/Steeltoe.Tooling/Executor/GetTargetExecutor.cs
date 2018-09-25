@@ -14,6 +14,7 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    [RequiresInitialization]
     public class GetTargetExecutor : IExecutor
     {
         public void Execute(Context context)

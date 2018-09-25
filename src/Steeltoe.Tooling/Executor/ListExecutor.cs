@@ -14,6 +14,7 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    [RequiresInitialization]
     public abstract class ListExecutor : IExecutor
     {
         private bool _verbose;

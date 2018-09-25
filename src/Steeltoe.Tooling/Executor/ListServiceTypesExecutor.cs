@@ -16,7 +16,6 @@ using System.Linq;
 
 namespace Steeltoe.Tooling.Executor
 {
-    [RequiresInitialization(false)]
     public class ListServiceTypesExecutor : ListExecutor
     {
         public ListServiceTypesExecutor(bool verbose = false) : base(verbose)

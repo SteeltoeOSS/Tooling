@@ -16,6 +16,7 @@ using System.Collections.Generic;
 
 namespace Steeltoe.Tooling.Executor
 {
+    [RequiresInitialization]
     public abstract class ServicesExecutor : IExecutor
     {
         protected List<string> ServiceNames { get; private set; }

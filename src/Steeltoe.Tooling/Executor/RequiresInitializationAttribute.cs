@@ -19,11 +19,5 @@ namespace Steeltoe.Tooling.Executor
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresInitializationAttribute : Attribute
     {
-        public bool IsRequired { get; private set; }
-
-        public RequiresInitializationAttribute(bool required = true)
-        {
-            IsRequired = required;
-        }
     }
 }

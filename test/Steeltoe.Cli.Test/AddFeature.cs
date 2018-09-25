@@ -70,6 +70,17 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
+        public void AddUninitializedProject()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("add_uninitialized_project"),
+                when => the_developer_runs_cli_command("add my-service dummy-svc"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools")
+            );
+        }
+
+        [Scenario]
         public void AddService()
         {
             Runner.RunScenario(

@@ -59,6 +59,23 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
+        public void ListUninitializedProject()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("list_uninitialized_project"),
+                when => the_developer_runs_cli_command("list -e"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools"),
+                when => the_developer_runs_cli_command("list -s"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools"),
+                when => the_developer_runs_cli_command("list -t"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools")
+            );
+        }
+
+        [Scenario]
         public void ListEnvironments()
         {
             Runner.RunScenario(

@@ -16,7 +16,6 @@ using System.Linq;
 
 namespace Steeltoe.Tooling.Executor
 {
-    [RequiresInitialization(false)]
     public class ListEnvironmentsExecutor : ListExecutor
     {
         public ListEnvironmentsExecutor(bool verbose = false) : base(verbose)

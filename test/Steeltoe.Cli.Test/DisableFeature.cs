@@ -54,6 +54,17 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
+        public void DisableUninitializedProject()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("disable_uninitialized_project"),
+                when => the_developer_runs_cli_command("disable my-service"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "Project has not been initialized for Steeltoe Developer Tools")
+            );
+        }
+
+        [Scenario]
         public void DisableService()
         {
             Runner.RunScenario(

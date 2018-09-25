@@ -57,7 +57,8 @@ namespace Steeltoe.Cli.Test
                     "status Show service statuses."),
                 and => the_cli_should_output("args Set or get the deployment environment arguments for a service."),
                 and => the_cli_should_output(
-                    "list List services, service types, or deployment environments.")
+                    "list List services, service types, or deployment environments."),
+                and => the_cli_should_output("doctor Check for potential problems.")
             );
         }
 

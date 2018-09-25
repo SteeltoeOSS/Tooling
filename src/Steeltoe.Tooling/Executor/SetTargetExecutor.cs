@@ -14,6 +14,7 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    [RequiresInitialization]
     public class SetTargetExecutor : IExecutor
     {
         private readonly string _environmentName;

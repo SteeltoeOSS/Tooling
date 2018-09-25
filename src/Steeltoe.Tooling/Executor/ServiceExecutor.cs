@@ -14,6 +14,7 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    [RequiresInitialization]
     public abstract class ServiceExecutor : IExecutor
     {
         protected string ServiceName { get; }
