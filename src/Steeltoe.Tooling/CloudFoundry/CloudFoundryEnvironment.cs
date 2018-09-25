@@ -45,7 +45,7 @@ namespace Steeltoe.Tooling.CloudFoundry
                 cli.Run("target");
                 shell.Console.WriteLine("yes");
             }
-            catch (ToolingException e)
+            catch (ToolingException)
             {
                 shell.Console.WriteLine("!!! no");
                 return false;
