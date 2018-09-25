@@ -48,7 +48,7 @@ namespace Steeltoe.Tooling.Test.Docker
         [Fact]
         public void TestIsSane()
         {
-            _env.IsSane(Context.Shell);
+            _env.IsHealthy(Context.Shell);
             Shell.LastCommand.ShouldBe("docker info");
         }
     }

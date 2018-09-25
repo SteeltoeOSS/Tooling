@@ -25,7 +25,7 @@ namespace Steeltoe.Tooling.Test.Executor
         {
             Context.Configuration.EnvironmentName = null;
             new SetTargetExecutor("dummy-env").Execute(Context);
-            Console.ToString().Trim().ShouldBe("Target deployment environment set to 'dummy-env'.");
+            Console.ToString().Trim().ShouldContain("Target deployment environment set to 'dummy-env'.");
             Context.Configuration.EnvironmentName.ShouldBe("dummy-env");
         }
 

@@ -27,6 +27,8 @@ namespace Steeltoe.Cli
             "If run with no deployment environment arguments, show the service's current deployment environment arguments.")]
     public class ArgsCommand : Command
     {
+        public const string Name = "args";
+
         [Required(ErrorMessage = "Deployment environment not specified")]
         [Argument(0, Name = "environment", Description = "Deployment environment")]
         private string EnvironmentName { get; }

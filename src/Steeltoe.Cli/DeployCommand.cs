@@ -20,6 +20,8 @@ namespace Steeltoe.Cli
     [Command(Description = "Deploy enabled services to the targeted deployment environment.")]
     public class DeployCommand : Command
     {
+        public const string Name = "deploy";
+
         protected override IExecutor
 GetExecutor()
         {

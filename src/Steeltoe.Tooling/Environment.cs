@@ -28,7 +28,7 @@ namespace Steeltoe.Tooling
 
         public abstract IServiceBackend GetServiceBackend(Context context);
 
-        public abstract bool IsSane(Shell shell);
+        public abstract bool IsHealthy(Shell shell);
 
         public override string ToString()
         {

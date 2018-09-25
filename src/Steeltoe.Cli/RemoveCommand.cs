@@ -23,6 +23,8 @@ namespace Steeltoe.Cli
     [Command(Description = "Remove a service.")]
     public class RemoveCommand : Command
     {
+        public const string Name = "remove";
+
         [Required(ErrorMessage = "Service name not specified")]
         [Argument(0, Name = "service", Description = "Service name")]
         private string ServiceName { get; }

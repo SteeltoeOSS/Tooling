@@ -19,21 +19,24 @@ using Steeltoe.Tooling;
 
 namespace Steeltoe.Cli
 {
-    [Command(Name = "steeltoe", Description = "Steeltoe Developer Tools")]
+    [Command(Name = Name, Description = "Steeltoe Developer Tools")]
     [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]
-    [Subcommand("init", typeof(InitCommand))]
-    [Subcommand("target", typeof(TargetCommand))]
-    [Subcommand("add", typeof(AddCommand))]
-    [Subcommand("remove", typeof(RemoveCommand))]
-    [Subcommand("disable", typeof(DisableCommand))]
-    [Subcommand("enable", typeof(EnableCommand))]
-    [Subcommand("deploy", typeof(DeployCommand))]
-    [Subcommand("undeploy", typeof(UndeployCommand))]
-    [Subcommand("status", typeof(StatusCommand))]
-    [Subcommand("args", typeof(ArgsCommand))]
-    [Subcommand("list", typeof(ListCommand))]
+    [Subcommand(InitCommand.Name, typeof(InitCommand))]
+    [Subcommand(TargetCommand.Name, typeof(TargetCommand))]
+    [Subcommand(AddCommand.Name, typeof(AddCommand))]
+    [Subcommand(RemoveCommand.Name, typeof(RemoveCommand))]
+    [Subcommand(DisableCommand.Name, typeof(DisableCommand))]
+    [Subcommand(EnableCommand.Name, typeof(EnableCommand))]
+    [Subcommand(DeployCommand.Name, typeof(DeployCommand))]
+    [Subcommand(UndeployCommand.Name, typeof(UndeployCommand))]
+    [Subcommand(StatusCommand.Name, typeof(StatusCommand))]
+    [Subcommand(ArgsCommand.Name, typeof(ArgsCommand))]
+    [Subcommand(ListCommand.Name, typeof(ListCommand))]
+    [Subcommand(DoctorCommand.Name, typeof(DoctorCommand))]
     class Program
     {
+        public const string Name = "steeltoe";
+
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
         public static string GetVersion()

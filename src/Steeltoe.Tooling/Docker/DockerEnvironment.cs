@@ -27,20 +27,36 @@ namespace Steeltoe.Tooling.Docker
             return new DockerServiceBackend(context);
         }
 
-        public override bool IsSane(Shell shell)
+        public override bool IsHealthy(Shell shell)
         {
+            var console = shell.Console;
+            console.Write("Docker CLI ... ");
+            var cli = new DockerCli(shell);
             try
             {
-                shell.Console.Write("checking Docker version ... ");
-                var dockerInfo = new DockerCli(shell).Run("info");
-                Regex exp = new Regex(@"Server Version:\s*(\S+)", RegexOptions.Multiline);
-                Match match = exp.Match(dockerInfo);
-                shell.Console.WriteLine(match.Groups[1].ToString());
+                var dockerVersion = cli.Run("--version").Trim();
+                console.WriteLine(dockerVersion);
+
+                var dockerInfo = cli.Run("info");
+
+                console.Write("Docker host OS ... ");
+                shell.Console.WriteLine(new Regex(@"Operating System:\s*(.+)", RegexOptions.Multiline)
+                    .Match(dockerInfo).Groups[1].ToString());
+
+                console.Write("Docker container OS ... ");
+                shell.Console.WriteLine(new Regex(@"OSType:\s*(.+)", RegexOptions.Multiline)
+                    .Match(dockerInfo).Groups[1].ToString());
+
                 return true;
             }
             catch (CliException e)
             {
-                shell.Console.WriteLine($"ERROR: {e.Message}");
+                shell.Console.WriteLine($"!!! {e.Message}");
+                return false;
+            }
+            catch (ShellException)
+            {
+                shell.Console.WriteLine($"!!! {cli.Command} command not found");
                 return false;
             }
         }

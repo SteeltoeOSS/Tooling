@@ -31,15 +31,15 @@ namespace Steeltoe.Tooling.Executor
         {
             Environment env = EnvironmentRegistry.ForName(_environmentName);
 
-            if (!env.IsSane(context.Shell))
+            if (!env.IsHealthy(context.Shell))
             {
                 if (!_force)
                 {
-                    context.Shell.Console.WriteLine("Fix errors above or re-run with '-f|--force'");
-                    throw new ToolingException($"Environment '{_environmentName	}' not sane");
+                    context.Shell.Console.WriteLine("Fix errors above or re-run with '-F|--force'");
+                    throw new ToolingException($"Environment '{_environmentName	}' does not appear healthy");
                 }
 
-                context.Shell.Console.WriteLine("Ignoring errors above :-(");
+                context.Shell.Console.WriteLine("Ignoring poor health report above :-(");
             }
 
             context.Configuration.EnvironmentName = _environmentName;

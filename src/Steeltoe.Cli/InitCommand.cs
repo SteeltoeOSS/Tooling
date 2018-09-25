@@ -24,6 +24,8 @@ namespace Steeltoe.Cli
     [Command(Description = "Initialize a project for Steeltoe Developer Tools.")]
     public class InitCommand : Command
     {
+        public const string Name = "init";
+
         [Option("-F|--force", Description = "Initialize the project even if already initialized")]
         private bool Force { get; }
 

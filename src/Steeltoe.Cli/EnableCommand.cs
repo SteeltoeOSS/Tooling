@@ -23,6 +23,8 @@ namespace Steeltoe.Cli
     [Command(Description = "Enable a service.")]
     public class EnableCommand : Command
     {
+        public const string Name = "enable";
+
         [Required(ErrorMessage = "Service name not specified")]
         [Argument(0, Name = "service", Description = "Service name")]
         private string ServiceName { get; }

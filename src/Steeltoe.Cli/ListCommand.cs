@@ -24,6 +24,8 @@ namespace Steeltoe.Cli
         ExtendedHelpText = "If run with no options, list services.")]
     public class ListCommand : Command
     {
+        public const string Name = "list";
+
         [Option("-e|--environments", Description = "List deployment environments")]
         private bool ListEnvironments { get; }
 

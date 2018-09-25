@@ -20,6 +20,8 @@ namespace Steeltoe.Cli
     [Command(Description = "Show service statuses.")]
     public class StatusCommand : Command
     {
+        public const string Name = "status";
+
         protected override IExecutor GetExecutor()
         {
             return new StatusServicesExecutor();

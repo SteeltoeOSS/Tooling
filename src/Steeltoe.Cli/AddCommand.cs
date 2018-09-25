@@ -21,6 +21,8 @@ namespace Steeltoe.Cli
     [Command(Description = "Add a service.")]
     public class AddCommand : Command
     {
+        public const string Name = "add";
+
         [Required(ErrorMessage = "Service name not specified")]
         [Argument(0, Name = "service", Description = "Service name")]
         private string ServiceName { get; } = null;

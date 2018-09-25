@@ -27,8 +27,9 @@ namespace Steeltoe.Tooling.Dummy
             return new DummyServiceBackend(Path.Combine(context.ProjectDirectory, "dummy-service-backend.db"));
         }
 
-        public override bool IsSane(Shell shell)
+        public override bool IsHealthy(Shell shell)
         {
+            shell.Console.WriteLine("dummy tool version ... 0.0.0");
             return true;
         }
     }

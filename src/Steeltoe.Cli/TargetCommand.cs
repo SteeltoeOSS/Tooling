@@ -24,6 +24,8 @@ namespace Steeltoe.Cli
         ExtendedHelpText = "If run with no args, show the currently targeted deployment environment.")]
     public class TargetCommand : Command
     {
+        public const string Name = "target";
+
         [Argument(0, Name = "environment", Description = "Deployment environment")]
         private string EnvironmentName { get; }
 

@@ -23,6 +23,8 @@ namespace Steeltoe.Cli
     [Command(Description = "Disable a service.")]
     public class DisableCommand : Command
     {
+        public const string Name = "disable";
+
         [Required(ErrorMessage = "Service name not specified")]
         [Argument(0, Name = "service", Description = "Service name")]
         private string ServiceName { get; }
