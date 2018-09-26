@@ -30,7 +30,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             var cli = new CloudFoundryCli(shell);
             try
             {
-                shell.Console.Write($"Cloud Foundry CLI  ... ");
+                shell.Console.Write($"Cloud Foundry ... ");
                 shell.Console.WriteLine(cli.Run("--version").Trim());
             }
             catch (ShellException)

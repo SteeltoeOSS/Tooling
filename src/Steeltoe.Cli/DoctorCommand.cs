@@ -36,6 +36,11 @@ namespace Steeltoe.Cli
             var console = context.Shell.Console;
             console.WriteLine($"Steeltoe Developer Tools version ... {Program.GetVersion()}");
 
+            // dotnet
+            console.Write("DotNet ... ");
+            var dotnetVersion = new Tooling.Cli("dotnet", context.Shell).Run("--version").Trim();
+            console.WriteLine($"dotnet version {dotnetVersion}");
+
             // is intialized?
             console.Write("initialized ... ");
             if (!Program.ProjectConfigurationFile.Exists())

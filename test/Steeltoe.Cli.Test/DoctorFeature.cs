@@ -53,6 +53,16 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
+        public void DoctorDotnetVersion()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("doctor_dotnet_version"),
+                when => the_developer_runs_cli_command("doctor"),
+                then => the_cli_should_output("DotNet ... dotnet version ")
+            );
+        }
+
+        [Scenario]
         public void DoctorUninitializedProject()
         {
             Runner.RunScenario(

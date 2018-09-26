@@ -30,7 +30,7 @@ namespace Steeltoe.Tooling.Docker
         public override bool IsHealthy(Shell shell)
         {
             var console = shell.Console;
-            console.Write("Docker CLI ... ");
+            console.Write("Docker ... ");
             var cli = new DockerCli(shell);
             try
             {
