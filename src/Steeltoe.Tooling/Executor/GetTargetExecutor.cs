@@ -19,13 +19,13 @@ namespace Steeltoe.Tooling.Executor
     {
         public void Execute(Context context)
         {
-            if (context.Configuration.EnvironmentName == null)
+            if (context.Environment == null)
             {
                 throw new ToolingException("Target deployment environment not set");
             }
 
             context.Shell.Console.WriteLine(
-                $"Target deployment environment set to '{context.Configuration.EnvironmentName}'.");
+                $"Target deployment environment set to '{context.Environment.Name}'.");
         }
     }
 }

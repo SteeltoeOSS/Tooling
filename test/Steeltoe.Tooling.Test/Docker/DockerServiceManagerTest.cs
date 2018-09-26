@@ -24,7 +24,8 @@ namespace Steeltoe.Tooling.Test.Docker
 
         public DockerServiceManagerTest()
         {
-            _backend = new DockerEnvironment().GetServiceBackend(Context);
+            Context.ProjectConfiguration.EnvironmentName = "docker";
+            _backend = Context.Environment.GetServiceBackend(Context);
             _backend.ShouldBeOfType(typeof(DockerServiceBackend));
         }
 
@@ -33,7 +34,28 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _backend.DeployService("a-service", "dummy-svc");
             Shell.LastCommand.ShouldBe(
-                "docker run --name a-service --publish 0:0 --detach --rm steeltoeoss/dummyserver");
+                "docker run --name a-service --publish 0:0 --detach --rm dummy-server:0.1");
+        }
+
+        [Fact]
+        public void TestDeployConfigServer()
+        {
+            _backend.DeployService("my-service", "config-server");
+            Shell.LastCommand.ShouldBe("docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/config-server:2.0");
+        }
+
+        [Fact]
+        public void TestDeployServiceRegistry()
+        {
+            _backend.DeployService("my-service", "service-registry");
+            Shell.LastCommand.ShouldBe("docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0");
+        }
+
+        [Fact]
+        public void TestDeployCircuitBreakerDashboard()
+        {
+            _backend.DeployService("my-service", "circuit-breaker-dashboard");
+            Shell.LastCommand.ShouldBe("docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4");
         }
 
         [Fact]
@@ -43,7 +65,7 @@ namespace Steeltoe.Tooling.Test.Docker
             Context.ServiceManager.SetServiceDeploymentArgs("docker", "a-service", "arg1 arg2");
             _backend.DeployService("a-service", "dummy-svc");
             Shell.LastCommand.ShouldBe(
-                "docker run --name a-service --publish 0:0 --detach --rm arg1 arg2 steeltoeoss/dummyserver");
+                "docker run --name a-service --publish 0:0 --detach --rm arg1 arg2 dummy-server:0.1");
         }
 
         [Fact]

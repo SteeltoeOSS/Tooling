@@ -29,7 +29,7 @@ namespace Steeltoe.Tooling.Executor
 
         public void Execute(Context context)
         {
-            Environment env = EnvironmentRegistry.ForName(_environmentName);
+            Environment env = Registry.GetEnvironment(_environmentName);
 
             if (!env.IsHealthy(context.Shell))
             {
@@ -42,8 +42,8 @@ namespace Steeltoe.Tooling.Executor
                 context.Shell.Console.WriteLine("Ignoring poor health report above :-(");
             }
 
-            context.Configuration.EnvironmentName = _environmentName;
-            context.Configuration.NotifyListeners();
+            context.ProjectConfiguration.EnvironmentName = _environmentName;
+            context.ProjectConfiguration.NotifyListeners();
             context.Shell.Console.WriteLine($"Target deployment environment set to '{_environmentName}'.");
         }
     }

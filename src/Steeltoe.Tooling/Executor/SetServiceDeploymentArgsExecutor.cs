@@ -29,11 +29,10 @@ namespace Steeltoe.Tooling.Executor
 
         public override void Execute(Context context)
         {
-            var env = EnvironmentRegistry.ForName(_environmentName);
             base.Execute(context);
             context.ServiceManager.SetServiceDeploymentArgs(_environmentName, ServiceName, _arguments);
             context.Shell.Console.WriteLine(
-                $"Set the '{env.Name}' deployment environment argument(s) for service '{ServiceName}' to '{_arguments}'");
+                $"Set the '{_environmentName}' deployment environment argument(s) for service '{ServiceName}' to '{_arguments}'");
         }
     }
 }

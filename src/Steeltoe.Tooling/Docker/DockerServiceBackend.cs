@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
@@ -21,24 +20,6 @@ namespace Steeltoe.Tooling.Docker
 {
     public class DockerServiceBackend : IServiceBackend
     {
-        private static Dictionary<string, string> _imageMap = new Dictionary<string, string>
-        {
-            {"dummy-svc", "steeltoeoss/dummyserver"},
-            {"config-server", "steeltoeoss/config-server:2.0"},
-            {"service-registry", "steeltoeoss/eureka-server:2.0"},
-            {"circuit-breaker-dashboard", "steeltoeoss/hystrix-dashboard:1.4"},
-        };
-
-        private static Dictionary<string, string> _serviceMap = new Dictionary<string, string>();
-
-        static DockerServiceBackend()
-        {
-            foreach (var entry in _imageMap)
-            {
-                _serviceMap[entry.Value] = entry.Key;
-            }
-        }
-
         private readonly Context _context;
 
         private readonly DockerCli _cli;
@@ -51,7 +32,7 @@ namespace Steeltoe.Tooling.Docker
 
         public void DeployService(string name, string type)
         {
-            var image = _imageMap[type];
+            var image = LookupImage(type);
             var port = GetServicePort(type);
             var args = _context.ServiceManager.GetServiceDeploymentArgs("docker", name);
             if (args.Length > 1)
@@ -77,7 +58,7 @@ namespace Steeltoe.Tooling.Docker
                 {
                     var imageStart = containerInfo[0].IndexOf("IMAGE", StringComparison.Ordinal);
                     var image = new Regex(@"\S+").Match(containerInfo[1].Substring(imageStart)).ToString();
-                    var svc = _serviceMap[image];
+                    var svc = LookupServiceType(image);
                     var port = GetServicePort(svc);
                     try
                     {
@@ -94,9 +75,27 @@ namespace Steeltoe.Tooling.Docker
             return ServiceLifecycle.State.Offline;
         }
 
+        private string LookupImage(string type)
+        {
+            return _context.Environment.Configuration.ServiceTypes[type]["image"];
+        }
+
+        private string LookupServiceType(string image)
+        {
+            foreach (var imageEntry in _context.Environment.Configuration.ServiceTypes)
+            {
+                if (imageEntry.Value["image"] == image)
+                {
+                    return imageEntry.Key;
+                }
+            }
+
+            throw new ToolingException($"Failed to lookup service type for image '{image}'");
+        }
+
         private int GetServicePort(string name)
         {
-            return ServiceTypeRegistry.ForName(name).Port;
+            return Registry.GetServiceType(name).Port;
         }
     }
 }

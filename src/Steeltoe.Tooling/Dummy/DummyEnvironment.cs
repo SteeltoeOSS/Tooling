@@ -18,13 +18,13 @@ namespace Steeltoe.Tooling.Dummy
 {
     public class DummyEnvironment : Environment
     {
-        public DummyEnvironment() : base("dummy-env", "A Dummy Environment")
+        public DummyEnvironment(EnvironmentConfiguration config) : base(config)
         {
         }
 
         public override IServiceBackend GetServiceBackend(Context context)
         {
-            return new DummyServiceBackend(Path.Combine(context.ProjectDirectory, "dummy-service-backend.db"));
+            return new DummyServiceBackend(Path.Combine(context.ProjectConfiguration.Path, "dummy-service-backend.db"));
         }
 
         public override bool IsHealthy(Shell shell)

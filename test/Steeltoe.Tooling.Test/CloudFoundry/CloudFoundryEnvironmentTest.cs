@@ -20,11 +20,12 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
 {
     public class CloudFoundryEnvironmentTest : ToolingTest
     {
-        private readonly CloudFoundryEnvironment _env;
+        private readonly Environment _env;
 
         public CloudFoundryEnvironmentTest()
         {
-            _env = new CloudFoundryEnvironment();
+            _env = Registry.GetEnvironment("cloud-foundry");
+            _env.ShouldBeOfType<CloudFoundryEnvironment>();
         }
 
         [Fact]

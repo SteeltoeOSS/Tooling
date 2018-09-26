@@ -18,75 +18,75 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test.CloudFoundry
 {
-    public class CloudFoundryServiceManagerTest
+    public class CloudFoundryServiceManagerTest : ToolingTest
     {
-        private readonly CloudFoundryServiceBackend _mgr;
-
-        private readonly MockShell _shell;
+        private readonly IServiceBackend _backend;
 
         public CloudFoundryServiceManagerTest()
         {
-            _shell = new MockShell(null);
-            _mgr = new CloudFoundryServiceBackend(_shell);
+            Context.ProjectConfiguration.EnvironmentName = "cloud-foundry";
+            _backend = Context.Environment.GetServiceBackend(Context);
+            _backend.ShouldBeOfType(typeof(CloudFoundryServiceBackend));
+
         }
 
         [Fact]
-        public void TestStartCircuitBreakerDashboard()
+        public void TestDeployConfigServer()
         {
-            _mgr.DeployService("my-service", "circuit-breaker-dashboard");
-            _shell.LastCommand.ShouldBe("cf create-service p-circuit-breaker-dashboard standard my-service");
+            _backend.DeployService("my-service", "config-server");
+            Shell.LastCommand.ShouldBe("cf create-service p-config-server standard my-service");
         }
 
         [Fact]
-        public void TestStartConfigServer()
+        public void TestDeployServiceRegistry()
         {
-            _mgr.DeployService("my-service", "config-server");
-            _shell.LastCommand.ShouldBe("cf create-service p-config-server standard my-service");
+            _backend.DeployService("my-service", "service-registry");
+            Shell.LastCommand.ShouldBe("cf create-service p-service-registry standard my-service");
         }
 
         [Fact]
-        public void TestStartRegistry()
+        public void TestDeployCircuitBreakerDashboard()
         {
-            _mgr.DeployService("my-service", "service-registry");
-            _shell.LastCommand.ShouldBe("cf create-service p-service-registry standard my-service");
+            _backend.DeployService("my-service", "circuit-breaker-dashboard");
+            Shell.LastCommand.ShouldBe("cf create-service p-circuit-breaker-dashboard standard my-service");
         }
 
         [Fact]
         public void TestStopService()
         {
-            _mgr.UndeployService("my-service");
-            _shell.LastCommand.ShouldBe("cf delete-service my-service -f");
+            _backend.UndeployService("my-service");
+            Shell.LastCommand.ShouldBe("cf delete-service my-service -f");
         }
 
         [Fact]
         public void TestCheckService()
         {
-            _mgr.GetServiceLifecleState("my-service");
-            _shell.LastCommand.ShouldBe("cf service my-service");
+            _backend.GetServiceLifecleState("my-service");
+            Shell.LastCommand.ShouldBe("cf service my-service");
         }
 
         [Fact]
         public void TestServiceStarting()
         {
-            _shell.NextResponse = "status:    create in progress";
-            var state = _mgr.GetServiceLifecleState("my-service");
+            Shell.NextResponse = "status:    create in progress";
+            var state = _backend.GetServiceLifecleState("my-service");
             state.ShouldBe(ServiceLifecycle.State.Starting);
         }
 
         [Fact]
         public void TestServiceOnline()
         {
-            _shell.NextResponse = "status:    create succeeded";
-            var state = _mgr.GetServiceLifecleState("my-service");
+            Shell.NextResponse = "status:    create succeeded";
+            var state = _backend.GetServiceLifecleState("my-service");
             state.ShouldBe(ServiceLifecycle.State.Online);
         }
 
         [Fact]
         public void TestServiceOffline()
         {
-            _shell.NextExitCode = 1;
-            _shell.NextResponse = "Service instance my-service not found";
-            var state = _mgr.GetServiceLifecleState("my-service");
+            Shell.NextExitCode = 1;
+            Shell.NextResponse = "Service instance my-service not found";
+            var state = _backend.GetServiceLifecleState("my-service");
             state.ShouldBe(ServiceLifecycle.State.Offline);
         }
     }

@@ -18,9 +18,15 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test.Dummy
 {
-    public class DummyEnvironmentTest
+    public class DummyEnvironmentTest : ToolingTest
     {
-        private readonly DummyEnvironment _env = new DummyEnvironment();
+        private readonly Environment _env;
+
+        public DummyEnvironmentTest()
+        {
+            _env = Registry.GetEnvironment("dummy-env");
+            _env.ShouldBeOfType<DummyEnvironment>();
+        }
 
         [Fact]
         public void TestGetName()

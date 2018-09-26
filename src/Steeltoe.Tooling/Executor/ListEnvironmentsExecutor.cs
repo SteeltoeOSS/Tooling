@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Executor
 
         protected override void ExecuteList(Context context)
         {
-            foreach (var envName in EnvironmentRegistry.Names)
+            foreach (var envName in Registry.EnvironmentNames)
             {
                 context.Shell.Console.WriteLine(envName);
             }
@@ -32,12 +32,12 @@ namespace Steeltoe.Tooling.Executor
 
         protected override void ExecuteListVerbose(Context context)
         {
-            var envNames = EnvironmentRegistry.Names;
+            var envNames = Registry.EnvironmentNames;
             var max = envNames.Max(n => n.Length);
             var format = "{0,-" + max + "}  {1}";
-            foreach (var envName in EnvironmentRegistry.Names)
+            foreach (var envName in Registry.EnvironmentNames)
             {
-                var env = EnvironmentRegistry.ForName(envName);
+                var env = Registry.GetEnvironment(envName);
                 context.Shell.Console.WriteLine(format, env.Name, env.Description);
             }
         }

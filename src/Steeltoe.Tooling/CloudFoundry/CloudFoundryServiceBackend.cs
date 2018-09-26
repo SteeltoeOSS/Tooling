@@ -12,30 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Steeltoe.Tooling.CloudFoundry
 {
     public class CloudFoundryServiceBackend : IServiceBackend
     {
-        private static Dictionary<string, string> serviceMap = new Dictionary<string, string>
-        {
-            {"config-server", "p-config-server"},
-            {"service-registry", "p-service-registry"},
-            {"circuit-breaker-dashboard", "p-circuit-breaker-dashboard"},
-        };
+        private readonly Context _context;
 
         private readonly CloudFoundryCli _cli;
 
-        public CloudFoundryServiceBackend(Shell shell)
+        public CloudFoundryServiceBackend(Context context)
         {
-            _cli = new CloudFoundryCli(shell);
+            _context = context;
+            _cli = new CloudFoundryCli(_context.Shell);
         }
 
         public void DeployService(string name, string type)
         {
-            _cli.Run($"create-service {serviceMap[type]} standard {name}");
+            var cfService = _context.Environment.Configuration.ServiceTypes[type]["service"];
+            _cli.Run($"create-service {cfService} standard {name}");
         }
 
         public void UndeployService(string name)

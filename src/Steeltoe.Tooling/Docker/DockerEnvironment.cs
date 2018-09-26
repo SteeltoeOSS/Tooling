@@ -18,7 +18,7 @@ namespace Steeltoe.Tooling.Docker
 {
     public class DockerEnvironment : Environment
     {
-        public DockerEnvironment() : base("docker", "Docker")
+        public DockerEnvironment(EnvironmentConfiguration config) : base(config)
         {
         }
 

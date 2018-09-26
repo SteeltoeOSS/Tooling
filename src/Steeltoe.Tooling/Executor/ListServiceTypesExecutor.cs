@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Executor
 
         protected override void ExecuteList(Context context)
         {
-            foreach (var svcTypeName in ServiceTypeRegistry.Names)
+            foreach (var svcTypeName in Registry.ServiceTypeNames)
             {
                 context.Shell.Console.WriteLine(svcTypeName);
 
@@ -33,12 +33,12 @@ namespace Steeltoe.Tooling.Executor
 
         protected override void ExecuteListVerbose(Context context)
         {
-            var svcTypeNames = ServiceTypeRegistry.Names;
+            var svcTypeNames = Registry.ServiceTypeNames;
             var max = svcTypeNames.Max(n => n.Length);
             var format = "{0,-" + max + "}  {1,5}  {2}";
             foreach (var svcTypeName in svcTypeNames)
             {
-                var svcType = ServiceTypeRegistry.ForName(svcTypeName);
+                var svcType = Registry.GetServiceType(svcTypeName);
                 context.Shell.Console.WriteLine(format, svcType.Name, svcType.Port, svcType.Description);
             }
         }

@@ -20,7 +20,7 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test
 {
-    public class ConfigurationFileTest : IDisposable
+    public class ProjectConfigurationFileTest : IDisposable
     {
         private readonly string _testDir;
 
@@ -28,12 +28,12 @@ namespace Steeltoe.Tooling.Test
 
         private readonly string _defaultConfigPath;
 
-        public ConfigurationFileTest()
+        public ProjectConfigurationFileTest()
         {
             _testDir = new[] {Path.GetTempPath(), "Steeltoe.Tooling.Test", Guid.NewGuid().ToString()}.Aggregate(Path.Combine);
             Directory.CreateDirectory(_testDir);
             _testConfigPath = Path.Combine(_testDir, "config-file");
-            _defaultConfigPath = Path.Combine(_testDir, ConfigurationFile.DefaultFileName);
+            _defaultConfigPath = Path.Combine(_testDir, ProjectConfigurationFile.DefaultFileName);
         }
 
         public void Dispose()
@@ -44,9 +44,9 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestStoreToFile()
         {
-            var cfgFile = new ConfigurationFile(_testConfigPath);
-            cfgFile.Configuration.EnvironmentName = "myEnvironment";
-            cfgFile.Configuration.Services.Add("myService", new Configuration.Service
+            var cfgFile = new ProjectConfigurationFile(_testConfigPath);
+            cfgFile.ProjectConfiguration.EnvironmentName = "myEnvironment";
+            cfgFile.ProjectConfiguration.Services.Add("myService", new ProjectConfiguration.Service
             {
                 ServiceTypeName = "myServiceType",
                 Enabled = true
@@ -58,9 +58,9 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestStoreToDirectory()
         {
-            var cfgFile = new ConfigurationFile(_testDir);
-            cfgFile.Configuration.EnvironmentName = "myEnvironment";
-            cfgFile.Configuration.Services.Add("myService", new Configuration.Service
+            var cfgFile = new ProjectConfigurationFile(_testDir);
+            cfgFile.ProjectConfiguration.EnvironmentName = "myEnvironment";
+            cfgFile.ProjectConfiguration.Services.Add("myService", new ProjectConfiguration.Service
             {
                 ServiceTypeName = "myServiceType",
                 Enabled = true
@@ -73,22 +73,22 @@ namespace Steeltoe.Tooling.Test
         public void TestLoadFromFile()
         {
             File.WriteAllText(_testConfigPath, SampleConfig);
-            var cfgFile = new ConfigurationFile(_testConfigPath);
-            cfgFile.Configuration.EnvironmentName.ShouldBe("myEnvironment");
-            cfgFile.Configuration.Services.ShouldContainKey("myService");
-            cfgFile.Configuration.Services["myService"].ServiceTypeName.ShouldBe("myServiceType");
-            cfgFile.Configuration.Services["myService"].Enabled.ShouldBeTrue();
+            var cfgFile = new ProjectConfigurationFile(_testConfigPath);
+            cfgFile.ProjectConfiguration.EnvironmentName.ShouldBe("myEnvironment");
+            cfgFile.ProjectConfiguration.Services.ShouldContainKey("myService");
+            cfgFile.ProjectConfiguration.Services["myService"].ServiceTypeName.ShouldBe("myServiceType");
+            cfgFile.ProjectConfiguration.Services["myService"].Enabled.ShouldBeTrue();
         }
 
         [Fact]
         public void TestLoadFromDirectory()
         {
             File.WriteAllText(_defaultConfigPath, SampleConfig);
-            var cfgFile = new ConfigurationFile(_testDir);
-            cfgFile.Configuration.EnvironmentName.ShouldBe("myEnvironment");
-            cfgFile.Configuration.Services.ShouldContainKey("myService");
-            cfgFile.Configuration.Services["myService"].ServiceTypeName.ShouldBe("myServiceType");
-            cfgFile.Configuration.Services["myService"].Enabled.ShouldBeTrue();
+            var cfgFile = new ProjectConfigurationFile(_testDir);
+            cfgFile.ProjectConfiguration.EnvironmentName.ShouldBe("myEnvironment");
+            cfgFile.ProjectConfiguration.Services.ShouldContainKey("myService");
+            cfgFile.ProjectConfiguration.Services["myService"].ServiceTypeName.ShouldBe("myServiceType");
+            cfgFile.ProjectConfiguration.Services["myService"].Enabled.ShouldBeTrue();
         }
 
         private const string SampleConfig = @"environment: myEnvironment

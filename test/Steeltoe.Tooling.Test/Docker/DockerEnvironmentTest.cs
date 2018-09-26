@@ -20,11 +20,12 @@ namespace Steeltoe.Tooling.Test.Docker
 {
     public class DockerEnvironmentTest : ToolingTest
     {
-        private readonly DockerEnvironment _env;
+        private readonly Environment _env;
 
         public DockerEnvironmentTest()
         {
-            _env = new DockerEnvironment();
+            _env = Registry.GetEnvironment("docker");
+            _env.ShouldBeOfType<DockerEnvironment>();
         }
 
         [Fact]

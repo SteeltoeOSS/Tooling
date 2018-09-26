@@ -12,24 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
-    public class ServiceType
+    public class EnvironmentConfiguration
     {
-        [YamlMember(Alias = "name")]
-        public string Name { get; set;  }
+        [YamlMember(Alias = "name")] public string Name { get; set; }
 
-        [YamlMember(Alias = "port")]
-        public int Port { get; set; }
+        [YamlMember(Alias = "description")] public string Description { get; set; }
 
-        [YamlMember(Alias = "description")]
-        public string Description { get; set;  }
-
-        public override string ToString()
-        {
-            return $"ServiceType[name={Name},port={Port},desc=\"{Description}\"]";
-        }
+        [YamlMember(Alias = "serviceTypes")]
+        public SortedDictionary<string, Dictionary<string, string>> ServiceTypes { get; set; } =
+            new SortedDictionary<string, Dictionary<string, string>>();
     }
 }

@@ -3,10 +3,19 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Steeltoe Developer Tooling Library</Title>
+    <TitleFoo>Steeltoe Developer Tooling Library</TitleFoo>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsLoggingVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsLoggingVersion)" />
     <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="steeltoe.rc/**/*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

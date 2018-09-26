@@ -25,9 +25,9 @@ namespace Steeltoe.Tooling.Executor
 
         public override void Execute(Context context)
         {
-            var env = EnvironmentRegistry.ForName(_environmentName);
+            Registry.GetEnvironment(_environmentName);
             base.Execute(context);
-            var args = context.ServiceManager.GetServiceDeploymentArgs(env.Name, ServiceName);
+            var args = context.ServiceManager.GetServiceDeploymentArgs(_environmentName, ServiceName);
             context.Shell.Console.WriteLine(args);
         }
     }

@@ -16,14 +16,15 @@ namespace Steeltoe.Tooling
 {
     public abstract class Environment
     {
-        public string Name { get; }
+        public EnvironmentConfiguration Configuration { get; }
 
-        public string Description { get; }
+        public string Name => Configuration.Name;
 
-        protected Environment(string name, string description)
+        public string Description => Configuration.Description;
+
+        protected Environment(EnvironmentConfiguration config)
         {
-            Name = name;
-            Description = description;
+            Configuration = config;
         }
 
         public abstract IServiceBackend GetServiceBackend(Context context);
@@ -32,7 +33,7 @@ namespace Steeltoe.Tooling
 
         public override string ToString()
         {
-            return $"{Name} ({Description})";
+            return $"Environment[name={Name},desc=\"{Description}\"]";
         }
     }
 }

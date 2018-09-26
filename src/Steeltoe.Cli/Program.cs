@@ -45,7 +45,7 @@ namespace Steeltoe.Cli
 
         [Option("-C|--config-file", Description =
             "Configure tooling using the specified file instead of .steeltoe.tooling.yml")]
-        public static string ConfigurationPath { get; set; } = Directory.GetCurrentDirectory();
+        public static string ProjectConfigurationPath { get; set; } = Directory.GetCurrentDirectory();
 
         [Option("-D|--debug", Description = "Enable debug output")]
         public static bool DebugEnabled
@@ -54,10 +54,11 @@ namespace Steeltoe.Cli
             set => Settings.DebugEnabled = value;
         }
 
-        private static ConfigurationFile _configurationFile;
+        private static ProjectConfigurationFile _projectConfigurationFile;
 
-        public static ConfigurationFile ConfigurationFile =>
-            _configurationFile ?? (_configurationFile = new ConfigurationFile(ConfigurationPath));
+        public static ProjectConfigurationFile ProjectConfigurationFile =>
+            _projectConfigurationFile ??
+            (_projectConfigurationFile = new ProjectConfigurationFile(ProjectConfigurationPath));
 
         // ReSharper disable once UnusedMember.Local
         private int OnExecute(CommandLineApplication app)

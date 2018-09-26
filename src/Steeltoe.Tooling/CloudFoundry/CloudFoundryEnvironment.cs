@@ -16,13 +16,13 @@ namespace Steeltoe.Tooling.CloudFoundry
 {
     public class CloudFoundryEnvironment : Environment
     {
-        public CloudFoundryEnvironment() : base("cloud-foundry", "Cloud Foundry")
+        public CloudFoundryEnvironment(EnvironmentConfiguration config) : base(config)
         {
         }
 
         public override IServiceBackend GetServiceBackend(Context context)
         {
-            return new CloudFoundryServiceBackend(context.Shell);
+            return new CloudFoundryServiceBackend(context);
         }
 
         public override bool IsHealthy(Shell shell)

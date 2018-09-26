@@ -17,8 +17,11 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
-    public class Configuration
+    public class ProjectConfiguration
     {
+        [YamlIgnore]
+        public string Path { get; set; }
+
         [YamlMember(Alias = "environment")]
         public string EnvironmentName { get; set; }
 
@@ -39,9 +42,9 @@ namespace Steeltoe.Tooling
                 new SortedDictionary<string, string>();
         }
 
-        private readonly List<IConfigurationListener> _listeners = new List<IConfigurationListener>();
+        private readonly List<IProjectConfigurationListener> _listeners = new List<IProjectConfigurationListener>();
 
-        public void AddListener(IConfigurationListener listener)
+        public void AddListener(IProjectConfigurationListener listener)
         {
             _listeners.Add(listener);
         }

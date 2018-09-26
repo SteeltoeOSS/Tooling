@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,31 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
 using Shouldly;
 using Xunit;
 
 namespace Steeltoe.Tooling.Test
 {
-    public class ServiceTypeRegistryTest : ToolingTest
+    public class ProjectConfigurationTest
     {
         [Fact]
-        public void TestNames()
+        public void TestChangeEvent()
         {
-            var expected = new List<string>()
-            {
-                "dummy-svc",
-                "circuit-breaker-dashboard",
-                "config-server",
-                "service-registry",
-            };
-            foreach (var name in ServiceTypeRegistry.Names)
-            {
-                expected.ShouldContain(name);
-                expected.Remove(name);
-            }
+            var cfg = new ProjectConfiguration();
+            var listener = new MyListener();
+            cfg.AddListener(listener);
+            cfg.NotifyListeners();
+            listener.ReceivedEvent.ShouldBeTrue();
+        }
 
-            expected.ShouldBeEmpty();
+        internal class MyListener : IProjectConfigurationListener
+        {
+            internal bool ReceivedEvent { get; set; }
+
+            public void ConfigurationChangeEvent()
+            {
+                ReceivedEvent = true;
+            }
         }
     }
 }

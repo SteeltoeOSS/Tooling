@@ -1,0 +1,49 @@
+# Copyright 2018 the original author or authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+serviceTypes:
+  circuit-breaker-dashboard:
+    description: Netflix Hystrix Dashboard
+    port: 7979
+  config-server:
+    description: Cloud Foundry Config Server
+    port: 8888
+  service-registry:
+    description: Netflix Eureka Server
+    port: 8761
+
+environments:
+  cloud-foundry:
+    description: Cloud Foundry
+    serviceTypes:
+      circuit-breaker-dashboard:
+        service: p-circuit-breaker-dashboard
+        plan: standard
+      config-server:
+        service: p-config-server
+        plan: standard
+      service-registry:
+        service: p-service-registry
+        plan: standard
+  docker:
+    description: Docker
+    serviceTypes:
+      circuit-breaker-dashboard:
+        image: steeltoeoss/hystrix-dashboard:1.4
+      config-server:
+        image: steeltoeoss/config-server:2.0
+      dummy-svc:
+        image: dummy-server:0.1
+      service-registry:
+        image: steeltoeoss/eureka-server:2.0

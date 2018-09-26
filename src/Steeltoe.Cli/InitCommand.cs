@@ -46,7 +46,7 @@ namespace Steeltoe.Cli
 
         public void Execute(Context context)
         {
-            var cfgFile = Program.ConfigurationFile;
+            var cfgFile = Program.ProjectConfigurationFile;
             if (cfgFile == null)
             {
                 throw new ArgumentNullException(nameof(cfgFile));

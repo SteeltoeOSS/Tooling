@@ -16,26 +16,31 @@ namespace Steeltoe.Tooling
 {
     public class Context
     {
-        public string ProjectDirectory { get;  }
-
-        public Configuration Configuration { get; }
+        public ProjectConfiguration ProjectConfiguration { get; }
 
         public Shell Shell { get; }
 
-        public Environment Environment { get; }
+        public Environment Environment
+        {
+            get
+            {
+                if (ProjectConfiguration?.EnvironmentName != null)
+                {
+                    return Registry.GetEnvironment(ProjectConfiguration.EnvironmentName);
+                }
+
+                return null;
+            }
+        }
 
         public ServiceManager ServiceManager { get; }
 
-        public Context(string projectDirectory, Configuration config, Shell shell)
+
+        public Context(ProjectConfiguration config, Shell shell)
         {
-            ProjectDirectory = projectDirectory;
-            Configuration = config;
+            ProjectConfiguration = config;
             Shell = shell;
             ServiceManager = new ServiceManager(this);
-            if (Configuration?.EnvironmentName != null)
-            {
-                Environment = EnvironmentRegistry.ForName(Configuration.EnvironmentName);
-            }
         }
     }
 }

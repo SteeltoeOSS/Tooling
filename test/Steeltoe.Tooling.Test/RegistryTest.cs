@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,22 +15,25 @@
 using System.Collections.Generic;
 using Shouldly;
 using Steeltoe.Tooling.CloudFoundry;
+using Steeltoe.Tooling.Docker;
+using Steeltoe.Tooling.Dummy;
 using Xunit;
 
 namespace Steeltoe.Tooling.Test
 {
-    public class EnvironmentRegistryTest : ToolingTest
+    public class RegistryTest : ToolingTest
     {
         [Fact]
-        public void TestEnvironmentNames()
+        public void TestServiceNames()
         {
             var expected = new List<string>()
             {
-                "dummy-env",
-                "cloud-foundry",
-                "docker"
+                "dummy-svc",
+                "circuit-breaker-dashboard",
+                "config-server",
+                "service-registry",
             };
-            foreach (var name in EnvironmentRegistry.Names)
+            foreach (var name in Registry.ServiceTypeNames)
             {
                 expected.ShouldContain(name);
                 expected.Remove(name);
@@ -40,18 +43,39 @@ namespace Steeltoe.Tooling.Test
         }
 
         [Fact]
-        public void TestUnknownEnvironment()
+        public void TestEnvironmentNames()
         {
-            var e = Assert.Throws<ToolingException>(
-                () => EnvironmentRegistry.ForName("unknown-env")
-            );
-            e.Message.ShouldBe("Unknown deployment environment 'unknown-env'");
+            var expected = new List<string>()
+            {
+                "dummy-env",
+                "cloud-foundry",
+                "docker"
+            };
+            foreach (var name in Registry.EnvironmentNames)
+            {
+                expected.ShouldContain(name);
+                expected.Remove(name);
+            }
+
+            expected.ShouldBeEmpty();
         }
 
         [Fact]
-        public void TestCloudFoundry()
+        public void TestDummyEnvironment()
         {
-            EnvironmentRegistry.ForName("cloud-foundry").ShouldBeOfType<CloudFoundryEnvironment>();
+            Registry.GetEnvironment("dummy-env").ShouldBeOfType<DummyEnvironment>();
+        }
+
+        [Fact]
+        public void TestDockerEnvironment()
+        {
+            Registry.GetEnvironment("docker").ShouldBeOfType<DockerEnvironment>();
+        }
+
+        [Fact]
+        public void TestCloudFoundryEnvironment()
+        {
+            Registry.GetEnvironment("cloud-foundry").ShouldBeOfType<CloudFoundryEnvironment>();
         }
     }
 }

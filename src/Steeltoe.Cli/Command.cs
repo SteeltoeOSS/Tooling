@@ -42,14 +42,14 @@ namespace Steeltoe.Cli
                         }
                     }
                 }
-                var projectDirectory = Directory.GetCurrentDirectory();
-                var cfgFile = Program.ConfigurationFile;
+                var cfgFile = Program.ProjectConfigurationFile;
                 if (requiresInitializedProject && !cfgFile.Exists())
                 {
                     throw new ToolingException("Project has not been initialized for Steeltoe Developer Tools");
                 }
 
-                var context = new Context(projectDirectory, cfgFile.Configuration, new CommandShell(app.Out));
+                cfgFile.ProjectConfiguration.Path = Directory.GetCurrentDirectory();
+                var context = new Context(cfgFile.ProjectConfiguration, new CommandShell(app.Out));
                 GetExecutor().Execute(context);
                 return 0;
             }

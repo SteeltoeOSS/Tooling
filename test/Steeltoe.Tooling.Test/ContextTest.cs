@@ -22,11 +22,10 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestContext()
         {
-            var cfg = new Configuration();
+            var cfg = new ProjectConfiguration();
             cfg.EnvironmentName = "dummy-env";
-            var ctx = new Context("a-dir", cfg, Shell);
-            ctx.ProjectDirectory.ShouldBe("a-dir");
-            ctx.Configuration.ShouldBe(cfg);
+            var ctx = new Context(cfg, Shell);
+            ctx.ProjectConfiguration.ShouldBe(cfg);
             ctx.Shell.ShouldBe(Shell);
             ctx.Environment.Name.ShouldBe("dummy-env");
             ctx.ServiceManager.ShouldNotBeNull();
@@ -35,10 +34,9 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestContextEnvironmentNotSet()
         {
-            var cfg = new Configuration();
-            var ctx = new Context("a-dir", cfg, Shell);
-            ctx.ProjectDirectory.ShouldBe("a-dir");
-            ctx.Configuration.ShouldBe(cfg);
+            var cfg = new ProjectConfiguration();
+            var ctx = new Context(cfg, Shell);
+            ctx.ProjectConfiguration.ShouldBe(cfg);
             ctx.Shell.ShouldBe(Shell);
             ctx.Environment.ShouldBeNull();
             ctx.ServiceManager.ShouldNotBeNull();
