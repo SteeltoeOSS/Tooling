@@ -48,19 +48,25 @@ namespace Steeltoe.Tooling.CloudFoundry
             try
             {
                 var serviceInfo = _cli.Run($"service {name}");
-                Regex exp = new Regex(@"^status:\s+(.*)$", RegexOptions.Multiline);
-                Match match = exp.Match(serviceInfo);
-                if (match.Groups[1].ToString().TrimEnd().Equals("create succeeded"))
+                var state = new Regex(@"^status:\s+(.*)$", RegexOptions.Multiline).Match(serviceInfo).Groups[1]
+                    .ToString().TrimEnd();
+                switch (state)
                 {
-                    return ServiceLifecycle.State.Online;
+                    case "create in progress":
+                        return ServiceLifecycle.State.Starting;
+                    case "create succeeded":
+                        return ServiceLifecycle.State.Online;
                 }
             }
-            catch (CliException)
+            catch (CliException e)
             {
-                // TODO: check to ensure error is due to missing service and not some other error
+                if (e.Error.Contains($"Service instance {name} not found"))
+                {
+                    return ServiceLifecycle.State.Offline;
+                }
             }
 
-            return ServiceLifecycle.State.Offline;
+            return ServiceLifecycle.State.Unknown;
         }
     }
 }

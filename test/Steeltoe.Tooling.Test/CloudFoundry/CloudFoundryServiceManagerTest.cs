@@ -64,5 +64,30 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
             _mgr.GetServiceLifecleState("my-service");
             _shell.LastCommand.ShouldBe("cf service my-service");
         }
+
+        [Fact]
+        public void TestServiceStarting()
+        {
+            _shell.NextResponse = "status:    create in progress";
+            var state = _mgr.GetServiceLifecleState("my-service");
+            state.ShouldBe(ServiceLifecycle.State.Starting);
+        }
+
+        [Fact]
+        public void TestServiceOnline()
+        {
+            _shell.NextResponse = "status:    create succeeded";
+            var state = _mgr.GetServiceLifecleState("my-service");
+            state.ShouldBe(ServiceLifecycle.State.Online);
+        }
+
+        [Fact]
+        public void TestServiceOffline()
+        {
+            _shell.NextExitCode = 1;
+            _shell.NextResponse = "Service instance my-service not found";
+            var state = _mgr.GetServiceLifecleState("my-service");
+            state.ShouldBe(ServiceLifecycle.State.Offline);
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace Steeltoe.Tooling
             Starting,
             Online,
             Stopping,
+            Unknown,
         }
 
         public Context Context { get; }
