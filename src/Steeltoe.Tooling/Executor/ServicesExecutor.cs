@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Steeltoe.Tooling.Executor
 {
@@ -26,8 +27,15 @@ namespace Steeltoe.Tooling.Executor
             ServiceNames = context.ServiceManager.GetServiceNames();
             if (ServiceNames.Count == 0)
             {
-                context.Shell.Console.WriteLine($"No services have been added");
+                return;
             }
+
+            Parallel.ForEach(ServiceNames, svcName =>
+            {
+                Execute(context, svcName);
+            });
         }
+
+        protected abstract void Execute(Context context, string serviceName);
     }
 }

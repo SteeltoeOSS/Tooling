@@ -12,20 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Threading.Tasks;
-
 namespace Steeltoe.Tooling.Executor
 {
     public class StatusServicesExecutor : ServicesExecutor
     {
-        public override void Execute(Context context)
+        protected override void Execute(Context context, string serviceName)
         {
-            base.Execute(context);
-            Parallel.ForEach(ServiceNames, svcName =>
-            {
-                var status = context.ServiceManager.GetServiceState(svcName).ToString().ToLower();
-                context.Shell.Console.WriteLine($"{svcName} {status}");
-            });
+            var status = context.ServiceManager.GetServiceState(serviceName).ToString().ToLower();
+            context.Shell.Console.WriteLine($"{serviceName} {status}");
         }
     }
 }

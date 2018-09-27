@@ -59,7 +59,7 @@ namespace Steeltoe.Tooling.Test.Executor
         public void TestStatusNoServices()
         {
             new StatusServicesExecutor().Execute(Context);
-            Console.ToString().ShouldContain("No services have been added");
+            Console.ToString().Trim().ShouldBeEmpty();
         }
     }
 }

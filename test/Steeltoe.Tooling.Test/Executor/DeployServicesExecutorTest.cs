@@ -49,7 +49,7 @@ namespace Steeltoe.Tooling.Test.Executor
         public void TestDeployNoServices()
         {
             new DeployServicesExecutor().Execute(Context);
-            Console.ToString().ShouldContain("No services have been added");
+            Console.ToString().Trim().ShouldBeEmpty();
         }
     }
 }
