@@ -19,6 +19,9 @@ serviceTypes:
   config-server:
     description: Cloud Foundry Config Server
     port: 8888
+  redis-server:
+    description: Redis In-Memory Datastore
+    port: 6379
   service-registry:
     description: Netflix Eureka Server
     port: 8761
@@ -46,5 +49,8 @@ environments:
       dummy-svc:
         image: dummy-server:0.1
         image-dummyos: dummy-server:for_dummyos
+      redis-server:
+        image-linux: steeltoeoss/redis-server:4.0-linux
+        image-windows: steeltoeoss/redis-server:3.0-windows
       service-registry:
         image: steeltoeoss/eureka-server:2.0
