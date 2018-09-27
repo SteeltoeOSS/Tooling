@@ -47,10 +47,38 @@ namespace Steeltoe.Tooling.Test.Docker
         }
 
         [Fact]
-        public void TestIsSane()
+        public void TestIsHealthy()
         {
-            _env.IsHealthy(Context.Shell);
-            Shell.LastCommand.ShouldBe("docker info");
+            Shell.AddResponse("Docker version SOME VERSION");
+            Shell.AddResponse(@"
+Operating System: SOME HOST OS
+OSType: SOME CONTAINER OS
+");
+            var healthy = _env.IsHealthy(Context.Shell);
+            healthy.ShouldBeTrue();
+            var expected = new[]
+            {
+                "docker --version",
+                "docker info",
+            };
+            Shell.Commands.Count.ShouldBe(expected.Length);
+            for (int i = 0; i < expected.Length; ++i)
+            {
+                Shell.Commands[i].ShouldBe(expected[i]);
+            }
+
+            Console.ToString().ShouldContain("Docker ... Docker version SOME VERSION");
+            Console.ToString().ShouldContain("Docker host OS ... SOME HOST OS");
+            Console.ToString().ShouldContain("Docker container OS ... SOME CONTAINER OS");
+        }
+
+        [Fact]
+        public void TestIsHealthyDockerNotRunning()
+        {
+            Shell.AddResponse("");
+            Shell.AddResponse("", 1);
+            var healthy = _env.IsHealthy(Context.Shell);
+            healthy.ShouldBeFalse();
         }
     }
 }

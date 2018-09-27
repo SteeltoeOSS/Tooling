@@ -68,7 +68,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         [Fact]
         public void TestServiceStarting()
         {
-            Shell.NextResponse = "status:    create in progress";
+            Shell.AddResponse("status:    create in progress");
             var state = _backend.GetServiceLifecleState("my-service");
             state.ShouldBe(ServiceLifecycle.State.Starting);
         }
@@ -76,7 +76,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         [Fact]
         public void TestServiceOnline()
         {
-            Shell.NextResponse = "status:    create succeeded";
+            Shell.AddResponse("status:    create succeeded");
             var state = _backend.GetServiceLifecleState("my-service");
             state.ShouldBe(ServiceLifecycle.State.Online);
         }
@@ -84,8 +84,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         [Fact]
         public void TestServiceOffline()
         {
-            Shell.NextExitCode = 1;
-            Shell.NextResponse = "Service instance my-service not found";
+            Shell.AddResponse("Service instance my-service not found", 1);
             var state = _backend.GetServiceLifecleState("my-service");
             state.ShouldBe(ServiceLifecycle.State.Offline);
         }

@@ -23,32 +23,39 @@ namespace Steeltoe.Tooling.Test
         {
         }
 
-        public string NextResponse { get; set; } = "";
-
-        public int NextExitCode;
-
-        public string LastCommand { get; private set; }
-
         public List<string> Commands { get; } = new List<string>();
+
+        public string LastCommand => Commands[Commands.Count - 1];
+
+        private Queue<Response> _responses = new Queue<Response>();
 
         public override Result Run(string command, string args = null, string workingDirectory = null)
         {
-            LastCommand = $"{command} {args}";
-            Commands.Add(LastCommand);
+            Commands.Add($"{command} {args}");
+            var response = _responses.Count > 0 ? _responses.Dequeue() : new Response();
             var result = new Result();
-            result.ExitCode = NextExitCode;
-            if (NextExitCode == 0)
+            result.ExitCode = response.ExitCode;
+            if (result.ExitCode == 0)
             {
-                result.Out = NextResponse;
+                result.Out = response.Message;
             }
             else
             {
-                result.Error = NextResponse;
+                result.Error = response.Message;
             }
 
-            NextResponse = "";
-            NextExitCode = 0;
             return result;
+        }
+
+        public void AddResponse(string message, int exitCode = 0)
+        {
+            _responses.Enqueue(new Response {Message = message, ExitCode = exitCode});
+        }
+
+        public class Response
+        {
+            public string Message { get; set; } = "";
+            public int ExitCode { get; set; }
         }
     }
 }

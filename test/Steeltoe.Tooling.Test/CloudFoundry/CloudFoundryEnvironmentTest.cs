@@ -45,5 +45,35 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         {
             _env.GetServiceBackend(Context).ShouldBeOfType<CloudFoundryServiceBackend>();
         }
+
+        [Fact]
+        public void TestIsHealthy()
+        {
+            Shell.AddResponse("cf version SOME VERSION");
+            var healthy = _env.IsHealthy(Context.Shell);
+            healthy.ShouldBeTrue();
+            var expected = new[]
+            {
+                "cf --version",
+                "cf target",
+            };
+            Shell.Commands.Count.ShouldBe(expected.Length);
+            for (int i = 0; i < expected.Length; ++i)
+            {
+                Shell.Commands[i].ShouldBe(expected[i]);
+            }
+            Console.ToString().ShouldContain("Cloud Foundry ... cf version SOME VERSION");
+            Console.ToString().ShouldContain("logged into Cloud Foundry ... yes");
+        }
+
+        [Fact]
+        public void TestIsHealthyNotLoggedIn()
+        {
+            Shell.AddResponse("");
+            Shell.AddResponse("", 1);
+            var healthy = _env.IsHealthy(Context.Shell);
+            healthy.ShouldBeFalse();
+            Console.ToString().ShouldContain("logged into Cloud Foundry ... !!! no");
+        }
     }
 }
