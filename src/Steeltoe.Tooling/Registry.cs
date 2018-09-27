@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling.CloudFoundry;
 using Steeltoe.Tooling.Docker;
 using Steeltoe.Tooling.Dummy;
@@ -23,8 +24,10 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
-    public static class Registry
+    public class Registry
     {
+        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Registry>();
+
         private static RegistryConfiguration _configuration = new RegistryConfiguration();
 
         static Registry()
@@ -32,6 +35,7 @@ namespace Steeltoe.Tooling
             // testing service type
             if (Settings.DummiesEnabled)
             {
+                Logger.LogDebug("loading dummy registry");
                 var dummyCfg = new RegistryConfiguration();
                 var dummySvcType = new ServiceType {Port = 0, Description = "A Dummy Service"};
                 dummyCfg.ServiceTypes.Add("dummy-svc", dummySvcType);
@@ -44,6 +48,7 @@ namespace Steeltoe.Tooling
             // default service types
             var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "steeltoe.rc",
                 "registry.yml");
+            Logger.LogDebug($"loading registry from {path}");
             var deserializer = new DeserializerBuilder().Build();
             using (var reader = new StreamReader(path))
             {

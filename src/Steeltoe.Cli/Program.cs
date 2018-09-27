@@ -54,11 +54,11 @@ namespace Steeltoe.Cli
             set => Settings.DebugEnabled = value;
         }
 
-        private static ProjectConfigurationFile _projectConfigurationFile;
+        private static ToolingConfigurationFile _toolingConfigurationFile;
 
-        public static ProjectConfigurationFile ProjectConfigurationFile =>
-            _projectConfigurationFile ??
-            (_projectConfigurationFile = new ProjectConfigurationFile(ProjectConfigurationPath));
+        public static ToolingConfigurationFile ToolingConfigurationFile =>
+            _toolingConfigurationFile ??
+            (_toolingConfigurationFile = new ToolingConfigurationFile(ProjectConfigurationPath));
 
         // ReSharper disable once UnusedMember.Local
         private int OnExecute(CommandLineApplication app)

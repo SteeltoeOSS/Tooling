@@ -18,6 +18,14 @@ namespace Steeltoe.Tooling
 {
     public static class Logging
     {
-        public static ILoggerFactory LoggerFactory { get; } = new LoggerFactory().AddConsole(LogLevel.Information);
+        public static ILoggerFactory LoggerFactory
+        {
+            get
+            {
+                var logFactory = new LoggerFactory();
+                logFactory.AddConsole(Settings.DebugEnabled ? LogLevel.Debug : LogLevel.Information);
+                return logFactory;
+            }
+        }
     }
 }

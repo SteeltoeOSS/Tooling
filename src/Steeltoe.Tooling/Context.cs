@@ -16,7 +16,7 @@ namespace Steeltoe.Tooling
 {
     public class Context
     {
-        public ProjectConfiguration ProjectConfiguration { get; }
+        public ToolingConfiguration ToolingConfiguration { get; }
 
         public Shell Shell { get; }
 
@@ -24,9 +24,9 @@ namespace Steeltoe.Tooling
         {
             get
             {
-                if (ProjectConfiguration?.EnvironmentName != null)
+                if (ToolingConfiguration?.EnvironmentName != null)
                 {
-                    return Registry.GetEnvironment(ProjectConfiguration.EnvironmentName);
+                    return Registry.GetEnvironment(ToolingConfiguration.EnvironmentName);
                 }
 
                 return null;
@@ -36,9 +36,9 @@ namespace Steeltoe.Tooling
         public ServiceManager ServiceManager { get; }
 
 
-        public Context(ProjectConfiguration config, Shell shell)
+        public Context(ToolingConfiguration config, Shell shell)
         {
-            ProjectConfiguration = config;
+            ToolingConfiguration = config;
             Shell = shell;
             ServiceManager = new ServiceManager(this);
         }

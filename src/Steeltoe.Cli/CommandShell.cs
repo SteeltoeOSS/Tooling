@@ -15,6 +15,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling;
 
@@ -69,14 +70,20 @@ namespace Steeltoe.Cli
                     result.Out = pout.ReadToEnd();
                 }
 
-                Logger.LogDebug($"[{result.Id}] stdout: {result.Out}");
+                if (!string.IsNullOrWhiteSpace(result.Out))
+                {
+                    Logger.LogDebug($"[{result.Id}] stdout:{FormatOutputForLogger(result.Out)}");
+                }
 
                 using (var perr = proc.StandardError)
                 {
                     result.Error = perr.ReadToEnd();
                 }
 
-                Logger.LogDebug($"[{result.Id}] stderr: {result.Error}");
+                if (!string.IsNullOrWhiteSpace(result.Error))
+                {
+                    Logger.LogDebug($"[{result.Id}] stderr:{FormatOutputForLogger(result.Error)}");
+                }
             }
             catch (Win32Exception e)
             {
@@ -84,6 +91,16 @@ namespace Steeltoe.Cli
             }
 
             return result;
+        }
+
+        private static string FormatOutputForLogger(string output)
+        {
+            var newLine = System.Environment.NewLine;
+            var buf = new StringBuilder();
+            buf.Append(newLine);
+            buf.Append("| ");
+            buf.Append(output.TrimEnd().Replace(newLine, $"{newLine}| "));
+            return buf.ToString();
         }
     }
 }

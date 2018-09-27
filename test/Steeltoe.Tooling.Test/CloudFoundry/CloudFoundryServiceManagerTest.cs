@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
 
         public CloudFoundryServiceManagerTest()
         {
-            Context.ProjectConfiguration.EnvironmentName = "cloud-foundry";
+            Context.ToolingConfiguration.EnvironmentName = "cloud-foundry";
             _backend = Context.Environment.GetServiceBackend(Context);
             _backend.ShouldBeOfType(typeof(CloudFoundryServiceBackend));
 

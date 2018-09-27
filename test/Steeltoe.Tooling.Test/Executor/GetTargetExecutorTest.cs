@@ -23,7 +23,7 @@ namespace Steeltoe.Tooling.Test.Executor
         [Fact]
         public void TestShowTarget()
         {
-            Context.ProjectConfiguration.EnvironmentName = "dummy-env";
+            Context.ToolingConfiguration.EnvironmentName = "dummy-env";
             new GetTargetExecutor().Execute(Context);
             Console.ToString().Trim().ShouldBe("Target deployment environment set to 'dummy-env'.");
         }
@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.Test.Executor
         [Fact]
         public void TestShowNoTarget()
         {
-            Context.ProjectConfiguration.EnvironmentName = null;
+            Context.ToolingConfiguration.EnvironmentName = null;
             var svc = new GetTargetExecutor();
             var e = Assert.Throws<ToolingException>(
                 () => svc.Execute(Context)

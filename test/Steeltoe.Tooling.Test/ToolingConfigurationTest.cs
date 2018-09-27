@@ -17,19 +17,19 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test
 {
-    public class ProjectConfigurationTest
+    public class ToolingConfigurationTest
     {
         [Fact]
         public void TestChangeEvent()
         {
-            var cfg = new ProjectConfiguration();
+            var cfg = new ToolingConfiguration();
             var listener = new MyListener();
             cfg.AddListener(listener);
-            cfg.NotifyListeners();
+            cfg.NotifyChanged();
             listener.ReceivedEvent.ShouldBeTrue();
         }
 
-        internal class MyListener : IProjectConfigurationListener
+        internal class MyListener : IToolingConfigurationListener
         {
             internal bool ReceivedEvent { get; set; }
 

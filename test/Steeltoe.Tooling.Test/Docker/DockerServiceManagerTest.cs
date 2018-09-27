@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Test.Docker
 
         public DockerServiceManagerTest()
         {
-            Context.ProjectConfiguration.EnvironmentName = "docker";
+            Context.ToolingConfiguration.EnvironmentName = "docker";
             _backend = Context.Environment.GetServiceBackend(Context);
             _backend.ShouldBeOfType(typeof(DockerServiceBackend));
         }

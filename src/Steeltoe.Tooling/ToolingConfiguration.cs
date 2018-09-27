@@ -13,12 +13,15 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
-    public class ProjectConfiguration
+    public class ToolingConfiguration
     {
+        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ToolingConfiguration>();
+
         [YamlIgnore]
         public string Path { get; set; }
 
@@ -42,15 +45,16 @@ namespace Steeltoe.Tooling
                 new SortedDictionary<string, string>();
         }
 
-        private readonly List<IProjectConfigurationListener> _listeners = new List<IProjectConfigurationListener>();
+        private readonly List<IToolingConfigurationListener> _listeners = new List<IToolingConfigurationListener>();
 
-        public void AddListener(IProjectConfigurationListener listener)
+        public void AddListener(IToolingConfigurationListener listener)
         {
             _listeners.Add(listener);
         }
 
-        public void NotifyListeners()
+        public void NotifyChanged()
         {
+            Logger.LogDebug("configuration changed");
             foreach (var listener in _listeners)
             {
                 listener.ConfigurationChangeEvent();

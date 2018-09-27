@@ -1,6 +1,6 @@
 namespace Steeltoe.Tooling
 {
-    public interface IProjectConfigurationListener
+    public interface IToolingConfigurationListener
     {
         void ConfigurationChangeEvent();
     }

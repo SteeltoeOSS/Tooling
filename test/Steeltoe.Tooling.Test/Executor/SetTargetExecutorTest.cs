@@ -23,10 +23,10 @@ namespace Steeltoe.Tooling.Test.Executor
         [Fact]
         public void TestSetTargetEnvironment()
         {
-            Context.ProjectConfiguration.EnvironmentName = null;
+            Context.ToolingConfiguration.EnvironmentName = null;
             new SetTargetExecutor("dummy-env").Execute(Context);
             Console.ToString().Trim().ShouldContain("Target deployment environment set to 'dummy-env'.");
-            Context.ProjectConfiguration.EnvironmentName.ShouldBe("dummy-env");
+            Context.ToolingConfiguration.EnvironmentName.ShouldBe("dummy-env");
         }
 
         [Fact]

@@ -25,13 +25,13 @@ namespace Steeltoe.Tooling.Test.Dummy
     {
         public DummyServiceBackendTest()
         {
-            Directory.CreateDirectory(Context.ProjectConfiguration.Path);
+            Directory.CreateDirectory(Context.ToolingConfiguration.Path);
         }
 
         [Fact]
         public void TestLifecyle()
         {
-            string dbFile = Path.Combine(Context.ProjectConfiguration.Path, "dummy.db");
+            string dbFile = Path.Combine(Context.ToolingConfiguration.Path, "dummy.db");
             new DummyServiceBackend(dbFile);
             File.Exists(dbFile).ShouldBeTrue("dummy.db");
 

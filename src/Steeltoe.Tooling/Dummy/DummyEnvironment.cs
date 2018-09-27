@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Dummy
 
         public override IServiceBackend GetServiceBackend(Context context)
         {
-            return new DummyServiceBackend(Path.Combine(context.ProjectConfiguration.Path, "dummy-service-backend.db"));
+            return new DummyServiceBackend(Path.Combine(context.ToolingConfiguration.Path, "dummy-service-backend.db"));
         }
 
         public override bool IsHealthy(Shell shell)

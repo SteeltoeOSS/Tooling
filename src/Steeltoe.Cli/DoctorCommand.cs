@@ -43,7 +43,7 @@ namespace Steeltoe.Cli
 
             // is intialized?
             console.Write("initialized ... ");
-            if (!Program.ProjectConfigurationFile.Exists())
+            if (!Program.ToolingConfigurationFile.Exists())
             {
                 console.WriteLine($"!!! no (run '{Program.Name} {InitCommand.Name}' to initialize)");
                 return;
@@ -53,7 +53,7 @@ namespace Steeltoe.Cli
 
             // target deployment environment
             console.Write("target deployment environment ... ");
-            var target = Program.ProjectConfigurationFile.ProjectConfiguration.EnvironmentName;
+            var target = Program.ToolingConfigurationFile.ToolingConfiguration.EnvironmentName;
             if (target == null)
             {
                 console.WriteLine($"!!! not set (run '{Program.Name} {TargetCommand.Name} <env>' to set)");

@@ -14,8 +14,8 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
+using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling;
 using Steeltoe.Tooling.Executor;
 
@@ -25,31 +25,36 @@ namespace Steeltoe.Cli
     {
         public const string CliName = "steeltoe";
 
+        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Command>();
+
         protected int OnExecute(CommandLineApplication app)
         {
             try
             {
+                var executor = GetExecutor();
+                var minfo = executor.GetType();
+                Logger.LogDebug($"executor is {minfo}");
                 var requiresInitializedProject = false;
+                foreach (var attr in minfo.GetCustomAttributes(true))
                 {
-                    var executor = GetExecutor();
-                    MemberInfo minfo = executor.GetType();
-                    foreach (var attr in minfo.GetCustomAttributes(true))
+                    var initAttr = attr as RequiresInitializationAttribute;
+                    if (initAttr != null)
                     {
-                        var initAttr = attr as RequiresInitializationAttribute;
-                        if (initAttr != null)
-                        {
-                            requiresInitializedProject = true;
-                        }
+                        Logger.LogDebug($"{minfo} requires initialized project");
+                        requiresInitializedProject = true;
                     }
                 }
-                var cfgFile = Program.ProjectConfigurationFile;
-                if (requiresInitializedProject && !cfgFile.Exists())
+
+                var toolingCfgFile = Program.ToolingConfigurationFile;
+                if (requiresInitializedProject && !toolingCfgFile.Exists())
                 {
                     throw new ToolingException("Project has not been initialized for Steeltoe Developer Tools");
                 }
 
-                cfgFile.ProjectConfiguration.Path = Directory.GetCurrentDirectory();
-                var context = new Context(cfgFile.ProjectConfiguration, new CommandShell(app.Out));
+                toolingCfgFile.ToolingConfiguration.Path = Directory.GetCurrentDirectory();
+                Logger.LogDebug($"tooling working directory is {toolingCfgFile.ToolingConfiguration.Path}");
+
+                var context = new Context(toolingCfgFile.ToolingConfiguration, new CommandShell(app.Out));
                 GetExecutor().Execute(context);
                 return 0;
             }
@@ -73,7 +78,8 @@ namespace Steeltoe.Cli
             }
             catch (Exception e)
             {
-                app.Error.WriteLine(e);
+                Logger.LogDebug($"unhandled exception: {e}{System.Environment.NewLine}{e.StackTrace}");
+                app.Error.WriteLine(e.Message);
                 return -1;
             }
         }

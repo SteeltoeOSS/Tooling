@@ -42,8 +42,8 @@ namespace Steeltoe.Tooling.Executor
                 context.Shell.Console.WriteLine("Ignoring poor health report above :-(");
             }
 
-            context.ProjectConfiguration.EnvironmentName = _environmentName;
-            context.ProjectConfiguration.NotifyListeners();
+            context.ToolingConfiguration.EnvironmentName = _environmentName;
+            context.ToolingConfiguration.NotifyChanged();
             context.Shell.Console.WriteLine($"Target deployment environment set to '{_environmentName}'.");
         }
     }

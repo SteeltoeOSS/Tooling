@@ -120,8 +120,8 @@ namespace Steeltoe.Tooling
 
             internal override void Enable()
             {
-                Context.ProjectConfiguration.Services[Name].Enabled = true;
-                Context.ProjectConfiguration.NotifyListeners();
+                Context.ToolingConfiguration.Services[Name].Enabled = true;
+                Context.ToolingConfiguration.NotifyChanged();
             }
 
             internal override void Disable()
@@ -141,14 +141,14 @@ namespace Steeltoe.Tooling
 
             internal override void Disable()
             {
-                Context.ProjectConfiguration.Services[Name].Enabled = false;
-                Context.ProjectConfiguration.NotifyListeners();
+                Context.ToolingConfiguration.Services[Name].Enabled = false;
+                Context.ToolingConfiguration.NotifyChanged();
             }
 
             internal override void Deploy()
             {
                 Context.ServiceManager.GetServiceBackend()
-                    .DeployService(Name, Context.ProjectConfiguration.Services[Name].ServiceTypeName);
+                    .DeployService(Name, Context.ToolingConfiguration.Services[Name].ServiceTypeName);
             }
 
             internal override void Undeploy()

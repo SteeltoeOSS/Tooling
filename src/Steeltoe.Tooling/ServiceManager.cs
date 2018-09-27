@@ -38,31 +38,31 @@ namespace Steeltoe.Tooling
                 throw new ToolingException($"Unknown service type '{type}'");
             }
 
-            if (Context.ProjectConfiguration.Services.ContainsKey(name))
+            if (Context.ToolingConfiguration.Services.ContainsKey(name))
             {
                 throw new ToolingException($"Service '{name}' already exists");
             }
 
-            Context.ProjectConfiguration.Services[name] = new ProjectConfiguration.Service {ServiceTypeName = type};
-            Context.ProjectConfiguration.NotifyListeners();
+            Context.ToolingConfiguration.Services[name] = new ToolingConfiguration.Service {ServiceTypeName = type};
+            Context.ToolingConfiguration.NotifyChanged();
             return GetService(name);
         }
 
         public void RemoveService(string name)
         {
-            if (!Context.ProjectConfiguration.Services.Remove(name))
+            if (!Context.ToolingConfiguration.Services.Remove(name))
             {
                 throw new ServiceNotFoundException(name);
             }
 
-            Context.ProjectConfiguration.NotifyListeners();
+            Context.ToolingConfiguration.NotifyChanged();
         }
 
         public Service GetService(string name)
         {
             try
             {
-                var svccfg = Context.ProjectConfiguration.Services[name];
+                var svccfg = Context.ToolingConfiguration.Services[name];
                 return new Service(name, svccfg.ServiceTypeName);
             }
             catch (KeyNotFoundException)
@@ -73,25 +73,25 @@ namespace Steeltoe.Tooling
 
         public List<string> GetServiceNames()
         {
-            return Context.ProjectConfiguration.Services.Keys.ToList();
+            return Context.ToolingConfiguration.Services.Keys.ToList();
         }
 
         public bool HasService(string name)
         {
-            return Context.ProjectConfiguration.Services.ContainsKey(name);
+            return Context.ToolingConfiguration.Services.ContainsKey(name);
         }
 
         public void SetServiceDeploymentArgs(string environmentName, string serviceName, string arguments)
         {
-            Context.ProjectConfiguration.Services[serviceName].Args[environmentName] = arguments;
-            Context.ProjectConfiguration.NotifyListeners();
+            Context.ToolingConfiguration.Services[serviceName].Args[environmentName] = arguments;
+            Context.ToolingConfiguration.NotifyChanged();
         }
 
         public string GetServiceDeploymentArgs(string environmentName, string serviceName)
         {
             try
             {
-                return Context.ProjectConfiguration.Services[serviceName].Args[environmentName];
+                return Context.ToolingConfiguration.Services[serviceName].Args[environmentName];
             }
             catch (KeyNotFoundException)
             {
@@ -101,7 +101,7 @@ namespace Steeltoe.Tooling
 
         public ServiceLifecycle.State GetServiceState(string name)
         {
-            if (!Context.ProjectConfiguration.Services[name].Enabled)
+            if (!Context.ToolingConfiguration.Services[name].Enabled)
             {
                 return ServiceLifecycle.State.Disabled;
             }

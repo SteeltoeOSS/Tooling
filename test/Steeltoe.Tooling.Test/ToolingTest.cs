@@ -33,7 +33,7 @@ namespace Steeltoe.Tooling.Test
 
         public ToolingTest()
         {
-            var cfg = new ProjectConfiguration();
+            var cfg = new ToolingConfiguration();
             cfg.Path = new[] {"sandboxes", Guid.NewGuid().ToString()}.Aggregate(Path.Combine);
             Directory.CreateDirectory(cfg.Path);
             cfg.EnvironmentName = "dummy-env";
@@ -44,7 +44,7 @@ namespace Steeltoe.Tooling.Test
 
         public void Dispose()
         {
-            Directory.Delete(Context.ProjectConfiguration.Path, true);
+            Directory.Delete(Context.ToolingConfiguration.Path, true);
         }
 
         protected void ClearConsole()
