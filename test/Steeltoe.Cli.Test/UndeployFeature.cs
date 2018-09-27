@@ -51,13 +51,13 @@ namespace Steeltoe.Cli.Test
                 and => the_developer_runs_cli_command("add defunct-service dummy-svc"),
                 and => the_developer_runs_cli_command("disable defunct-service"),
                 and => the_developer_runs_cli_command("undeploy"),
-                then => the_cli_should_output("Undeploying service 'a-service' "),
+                then => the_cli_should_output("Undeploying service 'a-service'"),
                 then => the_cli_should_output("Ignoring disabled service 'defunct-service'"),
                 when => the_developer_runs_cli_command("status"),
                 and => the_developer_runs_cli_command("deploy"),
                 when => the_developer_runs_cli_command("status"),
                 and => the_developer_runs_cli_command("undeploy"),
-                then => the_cli_should_output("Undeploying service 'a-service' "),
+                then => the_cli_should_output("Undeploying service 'a-service'"),
                 then => the_cli_should_output("Ignoring disabled service 'defunct-service'")
             );
         }

@@ -116,6 +116,7 @@ namespace Steeltoe.Cli.Test
                     "circuit-breaker-dashboard",
                     "config-server",
                     "dummy-svc",
+                    "redis-server",
                     "service-registry",
                 })
             );
@@ -132,6 +133,7 @@ namespace Steeltoe.Cli.Test
                     "circuit-breaker-dashboard   7979  Netflix Hystrix Dashboard",
                     "config-server               8888  Cloud Foundry Config Server",
                     "dummy-svc                      0  A Dummy Service",
+                    "redis-server                6379  Redis In-Memory Datastore",
                     "service-registry            8761  Netflix Eureka Server",
                 })
             );
