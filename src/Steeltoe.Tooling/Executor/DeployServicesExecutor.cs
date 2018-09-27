@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Threading.Tasks;
+
 namespace Steeltoe.Tooling.Executor
 {
     public class DeployServicesExecutor : ServicesExecutor
@@ -19,18 +21,19 @@ namespace Steeltoe.Tooling.Executor
         public override void Execute(Context context)
         {
             base.Execute(context);
-            foreach (var svcName in ServiceNames)
+            Parallel.ForEach(ServiceNames, svcName =>
             {
                 var state = context.ServiceManager.GetServiceState(svcName);
                 if (state == ServiceLifecycle.State.Disabled)
                 {
                     context.Shell.Console.WriteLine($"Ignoring disabled service '{svcName}'");
-                    continue;
                 }
-
-                context.Shell.Console.WriteLine($"Deploying service '{svcName}'");
-                context.ServiceManager.DeployService(svcName);
-            }
+                else
+                {
+                    context.Shell.Console.WriteLine($"Deploying service '{svcName}'");
+                    context.ServiceManager.DeployService(svcName);
+                }
+            });
         }
     }
 }
