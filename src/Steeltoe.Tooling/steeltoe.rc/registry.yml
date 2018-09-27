@@ -53,7 +53,8 @@ environments:
         image: dummy-server:0.1
         image-dummyos: dummy-server:for_dummyos
       mssql-server:
-        image: steeltoeoss/mssql-server:2017-CU11
+        image-linux: steeltoeoss/mssql-server:2017-CU11-linux
+        image-windows: steeltoeoss/mssql-server:2017-CU1-windows
       redis-server:
         image-linux: steeltoeoss/redis-server:4.0-linux
         image-windows: steeltoeoss/redis-server:3.0-windows
