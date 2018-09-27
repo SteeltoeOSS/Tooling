@@ -84,5 +84,17 @@ namespace Steeltoe.Cli.Test
                 then => the_cli_should_output_nothing()
             );
         }
+
+        [Scenario]
+        public void StatusNoTarget()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("status_no_target"),
+                when => the_developer_runs_cli_command("init"),
+                and => the_developer_runs_cli_command("add a-server dummy-svc"),
+                and => the_developer_runs_cli_command("status"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Target deployment environment not set")
+            );
+        }
     }
 }

@@ -36,10 +36,15 @@ namespace Steeltoe.Tooling.Test
         {
             var cfg = new ToolingConfiguration();
             var ctx = new Context(cfg, Shell);
-            ctx.ToolingConfiguration.ShouldBe(cfg);
-            ctx.Shell.ShouldBe(Shell);
-            ctx.Environment.ShouldBeNull();
-            ctx.ServiceManager.ShouldNotBeNull();
+            try
+            {
+                var env = ctx.Environment;
+                Assert.True(false, "expected ToolingException");
+            }
+            catch (ToolingException e)
+            {
+                e.Message.ShouldBe("Target deployment environment not set");
+            }
         }
     }
 }

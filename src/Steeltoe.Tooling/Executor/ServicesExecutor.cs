@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -30,10 +31,17 @@ namespace Steeltoe.Tooling.Executor
                 return;
             }
 
-            Parallel.ForEach(ServiceNames, svcName =>
+            try
             {
-                Execute(context, svcName);
-            });
+                Parallel.ForEach(ServiceNames, svcName =>
+                {
+                    Execute(context, svcName);
+                });
+            }
+            catch (AggregateException e)
+            {
+                throw e.InnerException;
+            }
         }
 
         protected abstract void Execute(Context context, string serviceName);

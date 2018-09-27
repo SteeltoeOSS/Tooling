@@ -51,5 +51,17 @@ namespace Steeltoe.Tooling.Test.Executor
             new DeployServicesExecutor().Execute(Context);
             Console.ToString().Trim().ShouldBeEmpty();
         }
+
+        [Fact]
+        public void TestDeployNoTarget()
+        {
+            Context.ToolingConfiguration.EnvironmentName = null;
+            Context.ServiceManager.AddService("a-existing-service", "dummy-svc");
+            Context.ServiceManager.EnableService("a-existing-service");
+            var e = Assert.Throws<ToolingException>(
+                () => new DeployServicesExecutor().Execute(Context)
+            );
+            e.Message.ShouldBe("Target deployment environment not set");
+        }
     }
 }

@@ -24,12 +24,12 @@ namespace Steeltoe.Tooling
         {
             get
             {
-                if (ToolingConfiguration?.EnvironmentName != null)
+                if (ToolingConfiguration?.EnvironmentName == null)
                 {
-                    return Registry.GetEnvironment(ToolingConfiguration.EnvironmentName);
+                    throw new ToolingException("Target deployment environment not set");
                 }
 
-                return null;
+                return Registry.GetEnvironment(ToolingConfiguration.EnvironmentName);
             }
         }
 
