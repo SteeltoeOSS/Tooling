@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
@@ -20,6 +21,8 @@ namespace Steeltoe.Tooling.Docker
 {
     public class DockerServiceBackend : IServiceBackend
     {
+        private const string Localhost = "127.0.0.1";
+
         private readonly Context _context;
 
         private readonly DockerCli _cli;
@@ -51,42 +54,54 @@ namespace Steeltoe.Tooling.Docker
         public ServiceLifecycle.State GetServiceLifecleState(string name)
         {
             var containerInfo = _cli.Run($"ps --no-trunc --filter name=^/{name}$").Split('\n');
-            if (containerInfo.Length > 2)
+            if (containerInfo.Length <= 2)
             {
-                var statusStart = containerInfo[0].IndexOf("STATUS", StringComparison.Ordinal);
-                if (containerInfo[1].Substring(statusStart).StartsWith("Up "))
-                {
-                    var imageStart = containerInfo[0].IndexOf("IMAGE", StringComparison.Ordinal);
-                    var image = new Regex(@"\S+").Match(containerInfo[1].Substring(imageStart)).ToString();
-                    var svc = LookupServiceType(image);
-                    var port = GetServicePort(svc);
-                    try
-                    {
-                        new TcpClient("localhost", port).Dispose();
-                        return ServiceLifecycle.State.Online;
-                    }
-                    catch (SocketException)
-                    {
-                        return ServiceLifecycle.State.Starting;
-                    }
-                }
+                return ServiceLifecycle.State.Offline;
             }
 
-            return ServiceLifecycle.State.Offline;
+            var statusStart = containerInfo[0].IndexOf("STATUS", StringComparison.Ordinal);
+            if (!containerInfo[1].Substring(statusStart).StartsWith("Up "))
+            {
+                return ServiceLifecycle.State.Unknown;
+            }
+
+            var imageStart = containerInfo[0].IndexOf("IMAGE", StringComparison.Ordinal);
+            var image = new Regex(@"\S+").Match(containerInfo[1].Substring(imageStart)).ToString();
+            var svc = LookupServiceType(image);
+            var port = GetServicePort(svc);
+            try
+            {
+                new TcpClient(Localhost, port).Dispose();
+                return ServiceLifecycle.State.Online;
+            }
+            catch (SocketException)
+            {
+                return ServiceLifecycle.State.Starting;
+            }
         }
 
         private string LookupImage(string type)
         {
-            return _context.Environment.Configuration.ServiceTypes[type]["image"];
+            var dockerInfo = new DockerCli(_context.Shell).Run("info");
+            var dockerOs = new Regex(@"OSType:\s*(.+)", RegexOptions.Multiline).Match(dockerInfo).Groups[1].ToString();
+            var images = _context.Environment.Configuration.ServiceTypes[type];
+            if (images.TryGetValue($"image-{dockerOs}", out var image))
+            {
+                return image;
+            }
+
+            return images["image"];
         }
 
         private string LookupServiceType(string image)
         {
-            foreach (var imageEntry in _context.Environment.Configuration.ServiceTypes)
+            var svcTypes = _context.Environment.Configuration.ServiceTypes;
+            foreach (var svcType in svcTypes.Keys)
             {
-                if (imageEntry.Value["image"] == image)
+                var images = svcTypes[svcType];
+                if (images.Values.Contains(image))
                 {
-                    return imageEntry.Key;
+                    return svcType;
                 }
             }
 

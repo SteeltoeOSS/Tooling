@@ -45,5 +45,6 @@ environments:
         image: steeltoeoss/config-server:2.0
       dummy-svc:
         image: dummy-server:0.1
+        image-dummyos: dummy-server:for_dummyos
       service-registry:
         image: steeltoeoss/eureka-server:2.0

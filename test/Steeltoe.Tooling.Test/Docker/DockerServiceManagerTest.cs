@@ -38,24 +38,36 @@ namespace Steeltoe.Tooling.Test.Docker
         }
 
         [Fact]
+        public void TestDeployServiceForOs()
+        {
+            Shell.AddResponse("OSType: dummyos");
+            _backend.DeployService("a-service", "dummy-svc");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name a-service --publish 0:0 --detach --rm dummy-server:for_dummyos");
+        }
+
+        [Fact]
         public void TestDeployConfigServer()
         {
             _backend.DeployService("my-service", "config-server");
-            Shell.LastCommand.ShouldBe("docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/config-server:2.0");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/config-server:2.0");
         }
 
         [Fact]
         public void TestDeployServiceRegistry()
         {
             _backend.DeployService("my-service", "service-registry");
-            Shell.LastCommand.ShouldBe("docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0");
         }
 
         [Fact]
         public void TestDeployCircuitBreakerDashboard()
         {
             _backend.DeployService("my-service", "circuit-breaker-dashboard");
-            Shell.LastCommand.ShouldBe("docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4");
         }
 
         [Fact]
@@ -76,10 +88,40 @@ namespace Steeltoe.Tooling.Test.Docker
         }
 
         [Fact]
-        public void TestGetServiceLifecycleState()
+        public void TestGetServiceLifecycleStateCommand()
         {
             _backend.GetServiceLifecleState("a-service");
             Shell.LastCommand.ShouldBe("docker ps --no-trunc --filter name=^/a-service$");
+        }
+
+        [Fact]
+        public void TestGetServiceLifecycleStateOffline()
+        {
+            var state = _backend.GetServiceLifecleState("a-service");
+            state.ShouldBe(ServiceLifecycle.State.Offline);
+        }
+
+        [Fact]
+        public void TestGetServiceLifecycleStateStarting()
+        {
+            Shell.AddResponse(
+                @"CONTAINER ID                                                       IMAGE                           COMMAND                                                                 CREATED             STATUS              PORTS                    NAMES
+0000000000000000000000000000000000000000000000000000000000000000   dummy-server:0.1                 java -Djava.security.egd=file:/dev/./urandom -jar config-server.jar    37 seconds ago      Up 36 seconds       0.0.0.0:0000->0000/tcp   a-service
+");
+            var state = _backend.GetServiceLifecleState("a-service");
+            state.ShouldBe(ServiceLifecycle.State.Starting);
+        }
+
+        [Fact]
+        public void TestGetServiceLifecycleStateStartingForOs()
+        {
+            Shell.AddResponse(
+                @"CONTAINER ID                                                       IMAGE                           COMMAND                                                                 CREATED             STATUS              PORTS                    NAMES
+0000000000000000000000000000000000000000000000000000000000000000   dummy-server:for_dummyos         java -Djava.security.egd=file:/dev/./urandom -jar config-server.jar    37 seconds ago      Up 36 seconds       0.0.0.0:0000->0000/tcp   a-service
+");
+            Shell.AddResponse("OSType: dummyos");
+            var state = _backend.GetServiceLifecleState("a-service");
+            state.ShouldBe(ServiceLifecycle.State.Starting);
         }
     }
 }
