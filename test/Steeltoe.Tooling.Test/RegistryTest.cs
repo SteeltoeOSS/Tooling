@@ -31,6 +31,7 @@ namespace Steeltoe.Tooling.Test
                 "dummy-svc",
                 "circuit-breaker-dashboard",
                 "config-server",
+                "redis-server",
                 "service-registry",
             };
             foreach (var name in Registry.ServiceTypeNames)
