@@ -62,8 +62,8 @@ namespace Steeltoe.Tooling
         {
             try
             {
-                var svccfg = Context.ToolingConfiguration.Services[name];
-                return new Service(name, svccfg.ServiceTypeName);
+                var svcCfg = Context.ToolingConfiguration.Services[name];
+                return new Service(name, svcCfg.ServiceTypeName);
             }
             catch (KeyNotFoundException)
             {

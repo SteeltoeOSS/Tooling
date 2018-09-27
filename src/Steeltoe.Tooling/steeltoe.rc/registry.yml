@@ -19,6 +19,9 @@ serviceTypes:
   config-server:
     description: Cloud Foundry Config Server
     port: 8888
+  mssql-server:
+    description: Microsoft SQL Server
+    port: 1433
   redis-server:
     description: Redis In-Memory Datastore
     port: 6379
@@ -49,6 +52,8 @@ environments:
       dummy-svc:
         image: dummy-server:0.1
         image-dummyos: dummy-server:for_dummyos
+      mssql-server:
+        image: mcr.microsoft.com/mssql/server:2017-CU11
       redis-server:
         image-linux: steeltoeoss/redis-server:4.0-linux
         image-windows: steeltoeoss/redis-server:3.0-windows

@@ -31,6 +31,7 @@ namespace Steeltoe.Tooling.Test
                 "dummy-svc",
                 "circuit-breaker-dashboard",
                 "config-server",
+                "mssql-server",
                 "redis-server",
                 "service-registry",
             };
