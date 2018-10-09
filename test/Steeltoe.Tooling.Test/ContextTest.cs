@@ -38,7 +38,7 @@ namespace Steeltoe.Tooling.Test
             var ctx = new Context(cfg, Shell);
             try
             {
-                var env = ctx.Environment;
+                var unused = ctx.Environment;
                 Assert.True(false, "expected ToolingException");
             }
             catch (ToolingException e)
