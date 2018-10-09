@@ -101,6 +101,13 @@ namespace Steeltoe.Cli.Test
                 then => the_cli_should_output(
                     "Set the 'dummy-env' deployment environment argument(s) for service 'a-service' to 'arg1 arg2'")
             );
+            Runner.RunScenario(
+                given => a_steeltoe_project("args_set_deployment_environment_args_with_opt"),
+                when => the_developer_runs_cli_command("add a-service dummy-svc"),
+                and => the_developer_runs_cli_command("args dummy-env a-service -- arg1 -opt2"),
+                then => the_cli_should_output(
+                    "Set the 'dummy-env' deployment environment argument(s) for service 'a-service' to 'arg1 -opt2'")
+            );
         }
 
         [Scenario]
