@@ -14,7 +14,6 @@
 
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling;
@@ -26,10 +25,6 @@ namespace Steeltoe.Cli
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<CommandShell>();
 
         private static int _count;
-
-        public CommandShell(TextWriter console = null) : base(console)
-        {
-        }
 
         public override Result Run(string command, string args = null, string workingDirectory = null)
         {

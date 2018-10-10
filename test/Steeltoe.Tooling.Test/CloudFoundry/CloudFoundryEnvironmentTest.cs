@@ -50,7 +50,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestIsHealthy()
         {
             Shell.AddResponse("cf version SOME VERSION");
-            var healthy = _env.IsHealthy(Context.Shell);
+            var healthy = _env.IsHealthy(Context);
             healthy.ShouldBeTrue();
             var expected = new[]
             {
@@ -71,7 +71,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         {
             Shell.AddResponse("");
             Shell.AddResponse("", 1);
-            var healthy = _env.IsHealthy(Context.Shell);
+            var healthy = _env.IsHealthy(Context);
             healthy.ShouldBeFalse();
             Console.ToString().ShouldContain("logged into Cloud Foundry ... !!! no");
         }

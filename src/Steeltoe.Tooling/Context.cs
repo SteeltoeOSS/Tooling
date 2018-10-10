@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
+
 namespace Steeltoe.Tooling
 {
     public class Context
     {
         public ToolingConfiguration ToolingConfiguration { get; }
+
+        public TextWriter Console { get; }
 
         public Shell Shell { get; }
 
@@ -36,9 +40,10 @@ namespace Steeltoe.Tooling
         public ServiceManager ServiceManager { get; }
 
 
-        public Context(ToolingConfiguration config, Shell shell)
+        public Context(ToolingConfiguration config, TextWriter console, Shell shell)
         {
             ToolingConfiguration = config;
+            Console = console;
             Shell = shell;
             ServiceManager = new ServiceManager(this);
         }

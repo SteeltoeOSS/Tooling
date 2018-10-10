@@ -54,7 +54,7 @@ namespace Steeltoe.Tooling.Test.Docker
 Operating System: SOME HOST OS
 OSType: SOME CONTAINER OS
 ");
-            var healthy = _env.IsHealthy(Context.Shell);
+            var healthy = _env.IsHealthy(Context);
             healthy.ShouldBeTrue();
             var expected = new[]
             {
@@ -77,7 +77,7 @@ OSType: SOME CONTAINER OS
         {
             Shell.AddResponse("");
             Shell.AddResponse("", 1);
-            var healthy = _env.IsHealthy(Context.Shell);
+            var healthy = _env.IsHealthy(Context);
             healthy.ShouldBeFalse();
         }
     }

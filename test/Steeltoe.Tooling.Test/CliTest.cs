@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using Shouldly;
 using Xunit;
 
@@ -23,8 +22,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestRun()
         {
-            var console = new StringWriter();
-            var shell = new MockShell(console);
+            var shell = new MockShell();
             shell.AddResponse("output of mycommand");
             var cli = new Cli("mycommand", shell);
             var output = cli.Run("arg1 arg2");

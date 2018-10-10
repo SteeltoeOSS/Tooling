@@ -19,7 +19,7 @@ namespace Steeltoe.Tooling.Executor
         protected override void Execute(Context context, string serviceName)
         {
             var status = context.ServiceManager.GetServiceState(serviceName).ToString().ToLower();
-            context.Shell.Console.WriteLine($"{serviceName} {status}");
+            context.Console.WriteLine($"{serviceName} {status}");
         }
     }
 }

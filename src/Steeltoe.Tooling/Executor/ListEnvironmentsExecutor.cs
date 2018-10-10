@@ -26,7 +26,7 @@ namespace Steeltoe.Tooling.Executor
         {
             foreach (var envName in Registry.EnvironmentNames)
             {
-                context.Shell.Console.WriteLine(envName);
+                context.Console.WriteLine(envName);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Steeltoe.Tooling.Executor
             foreach (var envName in Registry.EnvironmentNames)
             {
                 var env = Registry.GetEnvironment(envName);
-                context.Shell.Console.WriteLine(format, env.Name, env.Description);
+                context.Console.WriteLine(format, env.Name, env.Description);
             }
         }
     }

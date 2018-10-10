@@ -31,20 +31,20 @@ namespace Steeltoe.Tooling.Executor
         {
             Environment env = Registry.GetEnvironment(_environmentName);
 
-            if (!env.IsHealthy(context.Shell))
+            if (!env.IsHealthy(context))
             {
                 if (!_force)
                 {
-                    context.Shell.Console.WriteLine("Fix errors above or re-run with '-F|--force'");
+                    context.Console.WriteLine("Fix errors above or re-run with '-F|--force'");
                     throw new ToolingException($"Environment '{_environmentName	}' does not appear healthy");
                 }
 
-                context.Shell.Console.WriteLine("Ignoring poor health report above :-(");
+                context.Console.WriteLine("Ignoring poor health report above :-(");
             }
 
             context.ToolingConfiguration.EnvironmentName = _environmentName;
             context.ToolingConfiguration.NotifyChanged();
-            context.Shell.Console.WriteLine($"Target deployment environment set to '{_environmentName}'.");
+            context.Console.WriteLine($"Target deployment environment set to '{_environmentName}'.");
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Test
         {
             var cfg = new ToolingConfiguration();
             cfg.EnvironmentName = "dummy-env";
-            var ctx = new Context(cfg, Shell);
+            var ctx = new Context(cfg, Console, Shell);
             ctx.ToolingConfiguration.ShouldBe(cfg);
             ctx.Shell.ShouldBe(Shell);
             ctx.Environment.Name.ShouldBe("dummy-env");
@@ -35,7 +35,7 @@ namespace Steeltoe.Tooling.Test
         public void TestContextEnvironmentNotSet()
         {
             var cfg = new ToolingConfiguration();
-            var ctx = new Context(cfg, Shell);
+            var ctx = new Context(cfg, Console, Shell);
             try
             {
                 var unused = ctx.Environment;

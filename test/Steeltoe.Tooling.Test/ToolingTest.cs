@@ -38,8 +38,8 @@ namespace Steeltoe.Tooling.Test
             Directory.CreateDirectory(cfg.Path);
             cfg.EnvironmentName = "dummy-env";
             Console = new StringWriter();
-            Shell = new MockShell(Console);
-            Context = new Context(cfg, Shell);
+            Shell = new MockShell();
+            Context = new Context(cfg, Console, Shell);
         }
 
         public void Dispose()

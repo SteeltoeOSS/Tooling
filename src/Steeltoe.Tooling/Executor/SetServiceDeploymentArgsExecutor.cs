@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.Executor
         {
             base.Execute(context);
             context.ServiceManager.SetServiceDeploymentArgs(_environmentName, ServiceName, _arguments);
-            context.Shell.Console.WriteLine(
+            context.Console.WriteLine(
                 $"Set the '{_environmentName}' deployment environment argument(s) for service '{ServiceName}' to '{_arguments}'");
         }
     }

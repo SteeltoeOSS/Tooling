@@ -54,7 +54,7 @@ namespace Steeltoe.Cli
                 toolingCfgFile.ToolingConfiguration.Path = Directory.GetCurrentDirectory();
                 Logger.LogDebug($"tooling working directory is {toolingCfgFile.ToolingConfiguration.Path}");
 
-                var context = new Context(toolingCfgFile.ToolingConfiguration, new CommandShell(app.Out));
+                var context = new Context(toolingCfgFile.ToolingConfiguration, Console.Out, new CommandShell());
                 GetExecutor().Execute(context);
                 return 0;
             }

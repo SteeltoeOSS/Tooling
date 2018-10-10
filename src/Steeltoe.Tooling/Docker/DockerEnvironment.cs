@@ -27,11 +27,11 @@ namespace Steeltoe.Tooling.Docker
             return new DockerServiceBackend(context);
         }
 
-        public override bool IsHealthy(Shell shell)
+        public override bool IsHealthy(Context context)
         {
-            var console = shell.Console;
+            var console = context.Console;
             console.Write("Docker ... ");
-            var cli = new DockerCli(shell);
+            var cli = new DockerCli(context.Shell);
             try
             {
                 var dockerVersion = cli.Run("--version").Trim();
@@ -40,23 +40,23 @@ namespace Steeltoe.Tooling.Docker
                 var dockerInfo = cli.Run("info");
 
                 console.Write("Docker host OS ... ");
-                shell.Console.WriteLine(new Regex(@"Operating System:\s*(.+)", RegexOptions.Multiline)
+                context.Console.WriteLine(new Regex(@"Operating System:\s*(.+)", RegexOptions.Multiline)
                     .Match(dockerInfo).Groups[1].ToString());
 
                 console.Write("Docker container OS ... ");
-                shell.Console.WriteLine(new Regex(@"OSType:\s*(.+)", RegexOptions.Multiline)
+                context.Console.WriteLine(new Regex(@"OSType:\s*(.+)", RegexOptions.Multiline)
                     .Match(dockerInfo).Groups[1].ToString());
 
                 return true;
             }
             catch (CliException e)
             {
-                shell.Console.WriteLine($"!!! {e.Message}");
+                context.Console.WriteLine($"!!! {e.Message}");
                 return false;
             }
             catch (ShellException)
             {
-                shell.Console.WriteLine($"!!! {cli.Command} command not found");
+                context.Console.WriteLine($"!!! {cli.Command} command not found");
                 return false;
             }
         }

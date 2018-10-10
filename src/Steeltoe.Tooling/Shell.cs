@@ -12,19 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
-
 namespace Steeltoe.Tooling
 {
     public abstract class Shell
     {
-        public TextWriter Console { get; }
-
-        protected Shell(TextWriter console)
-        {
-            Console = console;
-        }
-
         public abstract Result Run(string command, string args = null, string workingDirectory = null);
 
         public struct Result

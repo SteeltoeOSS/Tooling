@@ -33,35 +33,34 @@ namespace Steeltoe.Cli
     {
         public void Execute(Context context)
         {
-            var console = context.Shell.Console;
-            console.WriteLine($"Steeltoe Developer Tools version ... {Program.GetVersion()}");
+            context.Console.WriteLine($"Steeltoe Developer Tools version ... {Program.GetVersion()}");
 
             // dotnet
-            console.Write("DotNet ... ");
+            context.Console.Write("DotNet ... ");
             var dotnetVersion = new Tooling.Cli("dotnet", context.Shell).Run("--version").Trim();
-            console.WriteLine($"dotnet version {dotnetVersion}");
+            context.Console.WriteLine($"dotnet version {dotnetVersion}");
 
             // is intialized?
-            console.Write("initialized ... ");
+            context.Console.Write("initialized ... ");
             if (!Program.ToolingConfigurationFile.Exists())
             {
-                console.WriteLine($"!!! no (run '{Program.Name} {InitCommand.Name}' to initialize)");
+                context.Console.WriteLine($"!!! no (run '{Program.Name} {InitCommand.Name}' to initialize)");
                 return;
             }
 
-            console.WriteLine("yes");
+            context.Console.WriteLine("yes");
 
             // target deployment environment
-            console.Write("target deployment environment ... ");
+            context.Console.Write("target deployment environment ... ");
             var target = Program.ToolingConfigurationFile.ToolingConfiguration.EnvironmentName;
             if (target == null)
             {
-                console.WriteLine($"!!! not set (run '{Program.Name} {TargetCommand.Name} <env>' to set)");
+                context.Console.WriteLine($"!!! not set (run '{Program.Name} {TargetCommand.Name} <env>' to set)");
                 return;
             }
 
-            console.WriteLine(target);
-            Registry.GetEnvironment(target).IsHealthy(context.Shell);
+            context.Console.WriteLine(target);
+            Registry.GetEnvironment(target).IsHealthy(context);
         }
     }
 }

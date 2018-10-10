@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Executor
         {
             base.Execute(context);
             context.ServiceManager.EnableService(ServiceName);
-            context.Shell.Console.WriteLine($"Enabled service '{ServiceName}'");
+            context.Console.WriteLine($"Enabled service '{ServiceName}'");
         }
     }
 }

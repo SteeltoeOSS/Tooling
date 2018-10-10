@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Executor
         {
             base.Execute(context);
             context.ServiceManager.RemoveService(ServiceName);
-            context.Shell.Console.WriteLine($"Removed service '{ServiceName}'");
+            context.Console.WriteLine($"Removed service '{ServiceName}'");
         }
     }
 }

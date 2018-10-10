@@ -26,7 +26,7 @@ namespace Steeltoe.Tooling.Executor
         {
             foreach (var svcTypeName in Registry.ServiceTypeNames)
             {
-                context.Shell.Console.WriteLine(svcTypeName);
+                context.Console.WriteLine(svcTypeName);
 
             }
         }
@@ -39,7 +39,7 @@ namespace Steeltoe.Tooling.Executor
             foreach (var svcTypeName in svcTypeNames)
             {
                 var svcType = Registry.GetServiceType(svcTypeName);
-                context.Shell.Console.WriteLine(format, svcType.Name, svcType.Port, svcType.Description);
+                context.Console.WriteLine(format, svcType.Name, svcType.Port, svcType.Description);
             }
         }
     }

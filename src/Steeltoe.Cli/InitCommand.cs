@@ -59,7 +59,7 @@ namespace Steeltoe.Cli
             }
 
             cfgFile.Store();
-            context.Shell.Console.WriteLine("Project initialized for Steeltoe Developer Tools");
+            context.Console.WriteLine("Project initialized for Steeltoe Developer Tools");
         }
     }
 }

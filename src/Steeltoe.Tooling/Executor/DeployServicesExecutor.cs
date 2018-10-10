@@ -21,11 +21,11 @@ namespace Steeltoe.Tooling.Executor
             var state = context.ServiceManager.GetServiceState(serviceName);
             if (state == ServiceLifecycle.State.Disabled)
             {
-                context.Shell.Console.WriteLine($"Ignoring disabled service '{serviceName}'");
+                context.Console.WriteLine($"Ignoring disabled service '{serviceName}'");
             }
             else
             {
-                context.Shell.Console.WriteLine($"Deploying service '{serviceName}'");
+                context.Console.WriteLine($"Deploying service '{serviceName}'");
                 context.ServiceManager.DeployService(serviceName);
             }
         }

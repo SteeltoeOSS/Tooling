@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Executor
                 throw new ToolingException("Target deployment environment not set");
             }
 
-            context.Shell.Console.WriteLine(
+            context.Console.WriteLine(
                 $"Target deployment environment set to '{context.Environment.Name}'.");
         }
     }

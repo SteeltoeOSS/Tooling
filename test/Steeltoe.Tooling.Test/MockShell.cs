@@ -13,16 +13,11 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-using System.IO;
 
 namespace Steeltoe.Tooling.Test
 {
     public class MockShell : Shell
     {
-        public MockShell(TextWriter console) : base(console)
-        {
-        }
-
         public List<string> Commands { get; } = new List<string>();
 
         public string LastCommand => Commands[Commands.Count - 1];

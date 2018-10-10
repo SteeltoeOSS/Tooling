@@ -28,7 +28,7 @@ namespace Steeltoe.Tooling.Executor
             Registry.GetEnvironment(_environmentName);
             base.Execute(context);
             var args = context.ServiceManager.GetServiceDeploymentArgs(_environmentName, ServiceName);
-            context.Shell.Console.WriteLine(args);
+            context.Console.WriteLine(args);
         }
     }
 }

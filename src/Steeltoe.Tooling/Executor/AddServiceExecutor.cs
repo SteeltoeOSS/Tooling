@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.Executor
         {
             context.ServiceManager.AddService(_name, _type);
             context.ServiceManager.EnableService(_name);
-            context.Shell.Console.WriteLine($"Added {_type} service '{_name}'");
+            context.Console.WriteLine($"Added {_type} service '{_name}'");
         }
     }
 }

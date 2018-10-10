@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Executor
         {
             base.Execute(context);
             context.ServiceManager.DisableService(ServiceName);
-            context.Shell.Console.WriteLine($"Disabled service '{ServiceName}'");
+            context.Console.WriteLine($"Disabled service '{ServiceName}'");
         }
     }
 }

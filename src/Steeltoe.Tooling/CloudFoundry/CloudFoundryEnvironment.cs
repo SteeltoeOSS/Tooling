@@ -25,29 +25,29 @@ namespace Steeltoe.Tooling.CloudFoundry
             return new CloudFoundryServiceBackend(context);
         }
 
-        public override bool IsHealthy(Shell shell)
+        public override bool IsHealthy(Context context)
         {
-            var cli = new CloudFoundryCli(shell);
+            var cli = new CloudFoundryCli(context.Shell);
             try
             {
-                shell.Console.Write($"Cloud Foundry ... ");
-                shell.Console.WriteLine(cli.Run("--version").Trim());
+                context.Console.Write($"Cloud Foundry ... ");
+                context.Console.WriteLine(cli.Run("--version").Trim());
             }
             catch (ShellException)
             {
-                shell.Console.WriteLine($"!!! {cli.Command} command not found");
+                context.Console.WriteLine($"!!! {cli.Command} command not found");
                 return false;
             }
 
             try
             {
-                shell.Console.Write("logged into Cloud Foundry ... ");
+                context.Console.Write("logged into Cloud Foundry ... ");
                 cli.Run("target");
-                shell.Console.WriteLine("yes");
+                context.Console.WriteLine("yes");
             }
             catch (ToolingException)
             {
-                shell.Console.WriteLine("!!! no");
+                context.Console.WriteLine("!!! no");
                 return false;
             }
 
