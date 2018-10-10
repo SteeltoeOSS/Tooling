@@ -68,7 +68,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("doctor_uninitialized_project"),
                 when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_should_output("initialized ... !!! no (run 'steeltoe init' to initialize)")
+                then => the_cli_should_output($"initialized ... !!! no (run '{Program.Name} init' to initialize)")
             );
         }
 
@@ -90,7 +90,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("init"),
                 and => the_developer_runs_cli_command("doctor"),
                 then => the_cli_should_output(
-                    "target deployment environment ... !!! not set (run 'steeltoe target <env>' to set)"),
+                    $"target deployment environment ... !!! not set (run '{Program.Name} target <env>' to set)"),
                 when => the_developer_runs_cli_command("target dummy-env"),
                 and => the_developer_runs_cli_command("doctor"),
                 then => the_cli_should_output("target deployment environment ... dummy-env"),

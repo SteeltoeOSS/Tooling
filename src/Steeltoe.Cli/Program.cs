@@ -33,9 +33,9 @@ namespace Steeltoe.Cli
     [Subcommand(ArgsCommand.Name, typeof(ArgsCommand))]
     [Subcommand(ListCommand.Name, typeof(ListCommand))]
     [Subcommand(DoctorCommand.Name, typeof(DoctorCommand))]
-    class Program
+    public class Program
     {
-        public const string Name = "steeltoe";
+        public const string Name = "st";
 
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 

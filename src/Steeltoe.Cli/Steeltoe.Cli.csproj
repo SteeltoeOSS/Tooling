@@ -2,7 +2,7 @@
   <Import Project="..\..\config\versions.props" />
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <ToolCommandName>steeltoe</ToolCommandName>
+    <ToolCommandName>st</ToolCommandName>
     <PackAsTool>true</PackAsTool>
     <OutputType>exe</OutputType>
   </PropertyGroup>

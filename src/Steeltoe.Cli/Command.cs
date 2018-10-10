@@ -23,8 +23,6 @@ namespace Steeltoe.Cli
 {
     public abstract class Command
     {
-        public const string CliName = "steeltoe";
-
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Command>();
 
         protected int OnExecute(CommandLineApplication app)
