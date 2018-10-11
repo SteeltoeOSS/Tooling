@@ -29,6 +29,10 @@ namespace Steeltoe.Cli
         [Argument(0, Name = "service", Description = "Service name")]
         private string ServiceName { get; }
 
+        public DisableCommand(IConsole console) : base(console)
+        {
+        }
+
         protected override IExecutor GetExecutor()
         {
             return new DisableServiceExecutor(ServiceName);

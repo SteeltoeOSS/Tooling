@@ -73,15 +73,15 @@ namespace Steeltoe.Cli.Test
             );
         }
 
-        [Scenario]
-        [Label("version")]
-        public void CustomConfigurationFile()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("program_config_file"),
-                when => the_developer_runs_cli_command("-C my-cfgfile init"),
-                then => the_file_should_exist("my-cfgfile")
-            );
-        }
+//        [Scenario]
+//        [Label("version")]
+//        public void CustomConfigurationFile()
+//        {
+//            Runner.RunScenario(
+//                given => a_dotnet_project("program_config_file"),
+//                when => the_developer_runs_cli_command("-C my-cfgfile init"),
+//                then => the_file_should_exist("my-cfgfile")
+//            );
+//        }
     }
 }

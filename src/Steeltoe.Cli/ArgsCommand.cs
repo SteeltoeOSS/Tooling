@@ -44,6 +44,10 @@ namespace Steeltoe.Cli
 
         private List<string> RemainingArguments { get; }
 
+        public ArgsCommand(IConsole console) : base(console)
+        {
+        }
+
         protected override IExecutor GetExecutor()
         {
             var args = new List<string>();

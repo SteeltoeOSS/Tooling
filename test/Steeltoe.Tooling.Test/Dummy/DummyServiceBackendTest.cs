@@ -23,34 +23,34 @@ namespace Steeltoe.Tooling.Test.Dummy
 {
     public class DummyServiceBackendTest : ToolingTest
     {
+        private readonly string _dbFile;
+
+        private readonly DummyServiceBackend _backend;
+
         public DummyServiceBackendTest()
         {
-            Directory.CreateDirectory(Context.ToolingConfiguration.Path);
+            Directory.CreateDirectory(Context.ProjectDirectory);
+            _dbFile = Path.Combine(Context.ProjectDirectory, "dummy.db");
+            _backend = new DummyServiceBackend(_dbFile);
         }
 
         [Fact]
         public void TestLifecyle()
         {
-            string dbFile = Path.Combine(Context.ToolingConfiguration.Path, "dummy.db");
-            new DummyServiceBackend(dbFile);
-            File.Exists(dbFile).ShouldBeTrue("dummy.db");
+            File.Exists(_dbFile).ShouldBeTrue();
 
             // start state -> offline
-            new DummyServiceBackend(dbFile).GetServiceLifecleState("a-service")
-                .ShouldBe(ServiceLifecycle.State.Offline);
+            _backend.GetServiceLifecleState("a-service").ShouldBe(ServiceLifecycle.State.Offline);
 
             // offline -> deploy -> starting -> online
-            new DummyServiceBackend(dbFile).DeployService("a-service", "dummy-svc");
-            new DummyServiceBackend(dbFile).GetServiceLifecleState("a-service")
-                .ShouldBe(ServiceLifecycle.State.Starting);
-            new DummyServiceBackend(dbFile).GetServiceLifecleState("a-service").ShouldBe(ServiceLifecycle.State.Online);
+            _backend.DeployService("a-service", "dummy-svc");
+            _backend.GetServiceLifecleState("a-service").ShouldBe(ServiceLifecycle.State.Starting);
+            _backend.GetServiceLifecleState("a-service").ShouldBe(ServiceLifecycle.State.Online);
 
             // online -> undeploy -> stopping -> offline
-            new DummyServiceBackend(dbFile).UndeployService("a-service");
-            new DummyServiceBackend(dbFile).GetServiceLifecleState("a-service")
-                .ShouldBe(ServiceLifecycle.State.Stopping);
-            new DummyServiceBackend(dbFile).GetServiceLifecleState("a-service")
-                .ShouldBe(ServiceLifecycle.State.Offline);
+            _backend.UndeployService("a-service");
+            _backend.GetServiceLifecleState("a-service").ShouldBe(ServiceLifecycle.State.Stopping);
+            _backend.GetServiceLifecleState("a-service").ShouldBe(ServiceLifecycle.State.Offline);
         }
     }
 }

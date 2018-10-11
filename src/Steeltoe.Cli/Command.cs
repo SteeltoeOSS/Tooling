@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling;
@@ -24,6 +23,13 @@ namespace Steeltoe.Cli
     public abstract class Command
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Command>();
+
+        private readonly IConsole _console;
+
+        protected Command(IConsole console)
+        {
+            _console = console;
+        }
 
         protected int OnExecute(CommandLineApplication app)
         {
@@ -43,16 +49,27 @@ namespace Steeltoe.Cli
                     }
                 }
 
-                var toolingCfgFile = Program.ToolingConfigurationFile;
-                if (requiresInitializedProject && !toolingCfgFile.Exists())
+                Logger.LogDebug($"tooling working directory is {app.WorkingDirectory}");
+                var cfgFilePath = Program.ProjectConfigurationPath;
+                if (cfgFilePath == null)
+                {
+                    cfgFilePath = app.WorkingDirectory;
+                }
+
+                var cfgFile = new ToolingConfigurationFile(cfgFilePath);
+                Logger.LogDebug($"tooling configuration file is {cfgFile.File}");
+                if (requiresInitializedProject && !cfgFile.Exists())
                 {
                     throw new ToolingException("Project has not been initialized for Steeltoe Developer Tools");
                 }
 
-                toolingCfgFile.ToolingConfiguration.Path = Directory.GetCurrentDirectory();
-                Logger.LogDebug($"tooling working directory is {toolingCfgFile.ToolingConfiguration.Path}");
 
-                var context = new Context(toolingCfgFile.ToolingConfiguration, Console.Out, new CommandShell());
+                var context = new Context(
+                    app.WorkingDirectory,
+                    cfgFile.ToolingConfiguration,
+                    _console.Out,
+                    new CommandShell()
+                );
                 GetExecutor().Execute(context);
                 return 0;
             }

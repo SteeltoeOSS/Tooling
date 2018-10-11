@@ -38,7 +38,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("status_too_many_args"),
                 when => the_developer_runs_cli_command("status arg1"),
-                then => the_cli_should_error(ErrorCode.Argument, "Unrecognized command or argument 'arg1'")
+                then => the_cli_should_fail_parse("Unrecognized command or argument 'arg1'")
             );
         }
 

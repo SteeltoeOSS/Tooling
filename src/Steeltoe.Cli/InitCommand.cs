@@ -29,6 +29,10 @@ namespace Steeltoe.Cli
         [Option("-F|--force", Description = "Initialize the project even if already initialized")]
         private bool Force { get; }
 
+        public InitCommand(IConsole console) : base(console)
+        {
+        }
+
         protected override IExecutor GetExecutor()
         {
             return new InitExecutor(Force);
@@ -46,13 +50,13 @@ namespace Steeltoe.Cli
 
         public void Execute(Context context)
         {
-            var cfgFile = Program.ToolingConfigurationFile;
-            if (cfgFile == null)
+            var cfgFilePath = Program.ProjectConfigurationPath;
+            if (cfgFilePath == null)
             {
-                throw new ArgumentNullException(nameof(cfgFile));
+                cfgFilePath = context.ProjectDirectory;
             }
 
-
+            var cfgFile = new ToolingConfigurationFile(cfgFilePath);
             if (cfgFile.Exists() && !_force)
             {
                 throw new ToolingException("Project already initialized");

@@ -44,8 +44,9 @@ namespace Steeltoe.Tooling
             using (var reader = new StreamReader(File))
             {
                 ToolingConfiguration = deserializer.Deserialize<ToolingConfiguration>(reader);
-                ToolingConfiguration.AddListener(this);
             }
+
+            ToolingConfiguration.AddListener(this);
         }
 
         public void Store()

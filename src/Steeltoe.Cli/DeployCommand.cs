@@ -22,6 +22,10 @@ namespace Steeltoe.Cli
     {
         public const string Name = "deploy";
 
+        public DeployCommand(IConsole console) : base(console)
+        {
+        }
+
         protected override IExecutor
 GetExecutor()
         {

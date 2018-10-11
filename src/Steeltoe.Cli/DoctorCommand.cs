@@ -23,6 +23,10 @@ namespace Steeltoe.Cli
     {
         public const string Name = "doctor";
 
+        public DoctorCommand(IConsole console) : base(console)
+        {
+        }
+
         protected override IExecutor GetExecutor()
         {
             return new DoctorExecutor();
@@ -42,7 +46,8 @@ namespace Steeltoe.Cli
 
             // is intialized?
             context.Console.Write("initialized ... ");
-            if (!Program.ToolingConfigurationFile.Exists())
+            var cfgFile = new ToolingConfigurationFile(context.ProjectDirectory);
+            if (!cfgFile.Exists())
             {
                 context.Console.WriteLine($"!!! no (run '{Program.Name} {InitCommand.Name}' to initialize)");
                 return;
@@ -52,7 +57,7 @@ namespace Steeltoe.Cli
 
             // target deployment environment
             context.Console.Write("target deployment environment ... ");
-            var target = Program.ToolingConfigurationFile.ToolingConfiguration.EnvironmentName;
+            var target = cfgFile.ToolingConfiguration.EnvironmentName;
             if (target == null)
             {
                 context.Console.WriteLine($"!!! not set (run '{Program.Name} {TargetCommand.Name} <env>' to set)");

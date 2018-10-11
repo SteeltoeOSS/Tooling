@@ -22,9 +22,6 @@ namespace Steeltoe.Tooling
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ToolingConfiguration>();
 
-        [YamlIgnore]
-        public string Path { get; set; }
-
         [YamlMember(Alias = "environment")]
         public string EnvironmentName { get; set; }
 

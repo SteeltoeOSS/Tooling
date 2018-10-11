@@ -22,6 +22,10 @@ namespace Steeltoe.Cli
     {
         public const string Name = "status";
 
+        public StatusCommand(IConsole console) : base(console)
+        {
+        }
+
         protected override IExecutor GetExecutor()
         {
             return new StatusServicesExecutor();

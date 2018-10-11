@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling;
@@ -45,7 +44,7 @@ namespace Steeltoe.Cli
 
         [Option("-C|--config-file", Description =
             "Configure tooling using the specified file instead of .steeltoe.tooling.yml")]
-        public static string ProjectConfigurationPath { get; set; } = Directory.GetCurrentDirectory();
+        public static string ProjectConfigurationPath { get; }
 
         [Option("-D|--debug", Description = "Enable debug output")]
         public static bool DebugEnabled
@@ -53,12 +52,6 @@ namespace Steeltoe.Cli
             get => Settings.DebugEnabled;
             set => Settings.DebugEnabled = value;
         }
-
-        private static ToolingConfigurationFile _toolingConfigurationFile;
-
-        public static ToolingConfigurationFile ToolingConfigurationFile =>
-            _toolingConfigurationFile ??
-            (_toolingConfigurationFile = new ToolingConfigurationFile(ProjectConfigurationPath));
 
         // ReSharper disable once UnusedMember.Local
         private int OnExecute(CommandLineApplication app)

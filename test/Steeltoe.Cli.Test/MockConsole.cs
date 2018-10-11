@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,30 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.IO;
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Executor;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
-namespace Steeltoe.Cli
+namespace Steeltoe.Cli.Test
 {
-    [Command(Description = "Remove a service.")]
-    public class RemoveCommand : Command
+    public class MockConsole : IConsole
     {
-        public const string Name = "remove";
-
-        [Required(ErrorMessage = "Service name not specified")]
-        [Argument(0, Name = "service", Description = "Service name")]
-        private string ServiceName { get; }
-
-        public RemoveCommand(IConsole console) : base(console)
+        public void ResetColor()
         {
         }
 
-        protected override IExecutor GetExecutor()
+        public TextWriter Out { get; } = new StringWriter();
+        public TextWriter Error { get; } = new StringWriter();
+        public TextReader In { get; }
+        public bool IsInputRedirected { get; }
+        public bool IsOutputRedirected { get; }
+        public bool IsErrorRedirected { get; }
+        public ConsoleColor ForegroundColor { get; set; }
+        public ConsoleColor BackgroundColor { get; set; }
+
+        public event ConsoleCancelEventHandler CancelKeyPress
         {
-            return new RemoveServiceExecutor(ServiceName);
+            add { }
+            remove { }
         }
     }
 }

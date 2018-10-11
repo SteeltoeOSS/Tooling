@@ -32,6 +32,10 @@ namespace Steeltoe.Cli
         [Option("-F|--force", Description = "Target the deployment environment even if checks fail")]
         private bool Force { get; }
 
+        public TargetCommand(IConsole console) : base(console)
+        {
+        }
+
         protected override IExecutor GetExecutor()
         {
             if (EnvironmentName == null)

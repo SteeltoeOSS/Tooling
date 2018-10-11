@@ -31,6 +31,10 @@ namespace Steeltoe.Cli
         [Argument(1, Name = "type", Description = "Service type")]
         private string ServiceType { get; } = null;
 
+        public AddCommand(IConsole console) : base(console)
+        {
+        }
+
         protected override IExecutor GetExecutor()
         {
             return new AddServiceExecutor(ServiceName, ServiceType);

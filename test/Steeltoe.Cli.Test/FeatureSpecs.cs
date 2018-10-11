@@ -15,6 +15,8 @@
 using System;
 using System.IO;
 using LightBDD.XUnit2;
+using McMaster.Extensions.CommandLineUtils;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shouldly;
 using Steeltoe.Tooling;
@@ -23,10 +25,6 @@ namespace Steeltoe.Cli.Test
 {
     public class FeatureSpecs : FeatureFixture
     {
-        private string CliProjectDirectory { get; } = Path.GetFullPath(Path.Combine(
-            Directory.GetCurrentDirectory(),
-            "../../../../../src/Steeltoe.Cli"));
-
         protected enum ErrorCode
         {
             Argument = 1,
@@ -35,15 +33,20 @@ namespace Steeltoe.Cli.Test
 
         protected static ILogger Logger { get; } = Logging.LoggerFactory.CreateLogger<FeatureSpecs>();
 
+        protected string ProjectDirectory;
+
+        protected readonly MockConsole Console = new MockConsole();
+
         protected readonly Shell Shell = new CommandShell();
 
-        protected Shell.Result ShellResult;
+        protected int CommandExitCode;
 
-        protected string ShellOut;
+        protected Exception CommandException;
 
-        protected string ShellError;
-
-        protected string ProjectDirectory;
+        static FeatureSpecs()
+        {
+            Settings.DummiesEnabled = true;
+        }
 
         //
         // Givens
@@ -58,8 +61,27 @@ namespace Steeltoe.Cli.Test
                 Directory.Delete(ProjectDirectory, true);
             }
 
+            Logger.LogInformation($"creating project directory '${ProjectDirectory}'");
             Directory.CreateDirectory(ProjectDirectory);
-            Shell.Run("dotnet", "new classlib", ProjectDirectory).ExitCode.ShouldBe(0);
+            var csprojFile = Path.Combine(ProjectDirectory, $"{name}.csproj");
+            File.WriteAllText(csprojFile, @"<Project Sdk=""Microsoft.NET.Sdk"">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+</Project>
+");
+            var sourceCodeFile = Path.Combine(ProjectDirectory, "Class1.cs");
+            File.WriteAllText(sourceCodeFile, @"using System;
+
+namespace scratch
+{
+    public class Class1
+    {
+    }
+}
+");
             File.Create(Path.Combine(ProjectDirectory, ".steeltoe.dummies")).Dispose();
         }
 
@@ -79,11 +101,32 @@ namespace Steeltoe.Cli.Test
         protected void the_developer_runs_cli_command(string command)
         {
             Logger.LogInformation($"checking the developer runs cli command '{command}'");
-            ShellResult = Shell.Run("dotnet", $"run --project {CliProjectDirectory} -- {command}",
-                ProjectDirectory);
-            ShellOut = string.Join(" ", ShellResult.Out.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
-            ShellError = string.Join(" ",
-                ShellResult.Error.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
+            var svcs = new ServiceCollection()
+                .AddSingleton<IConsole>(Console)
+                .BuildServiceProvider();
+            var buf = Console.Out as StringWriter;
+            buf?.GetStringBuilder().Clear();
+            var app = new CommandLineApplication<Program>(Console, ProjectDirectory, true);
+            app.Conventions
+                .UseDefaultConventions()
+                .UseConstructorInjection(svcs);
+
+            CommandException = null;
+            var args = command.Split(null);
+            try
+            {
+                CommandExitCode = app.Execute(args);
+                Logger.LogInformation($"command exited with '{CommandExitCode}'");
+                if (CommandExitCode != 0)
+                {
+                    Logger.LogInformation($"command error message was '{Console.Error}'");
+                }
+            }
+            catch (Exception e)
+            {
+                CommandException = e;
+                Logger.LogInformation($"command errored with '{CommandException}'");
+            }
         }
 
         //
@@ -93,29 +136,40 @@ namespace Steeltoe.Cli.Test
         protected void the_cli_command_should_succeed()
         {
             Logger.LogInformation($"checking the command succeeded");
-            ShellResult.ExitCode.ShouldBe(0);
+            CommandException.ShouldBeNull();
+            CommandExitCode.ShouldBe(0);
         }
 
         protected void the_cli_should_output(string message)
         {
             the_cli_command_should_succeed();
             Logger.LogInformation($"checking the cli output '{message}'");
-            ShellOut.ShouldContain(message);
+            NormalizeString(Console.Out.ToString()).ShouldContain(message);
+        }
+
+        private static string NormalizeString(string s)
+        {
+            return string.Join(" ", s.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
         }
 
         protected void the_cli_should_output_nothing()
         {
             the_cli_command_should_succeed();
             Logger.LogInformation($"checking the cli output nothing");
-            ShellOut.ShouldBeEmpty();
+            Console.Out.ToString().Trim().ShouldBeEmpty();
         }
 
         protected void the_cli_should_error(ErrorCode code, string error)
         {
             Logger.LogInformation($"checking the command failed with {(int) code}");
-            ShellResult.ExitCode.ShouldBe((int) code);
+            CommandExitCode.ShouldBe((int) code);
             Logger.LogInformation($"checking the cli errored '{error}'");
-            ShellError.ShouldContain(error);
+            NormalizeString(Console.Error.ToString()).ShouldContain(error);
+        }
+
+        protected void the_cli_should_fail_parse(string error)
+        {
+            CommandException.ShouldBeOfType<CommandParsingException>();
         }
 
         protected void the_file_should_exist(string path)
@@ -127,7 +181,7 @@ namespace Steeltoe.Cli.Test
         protected void the_cli_should_list(string[] messages)
         {
             the_cli_command_should_succeed();
-            var reader = new StringReader(ShellResult.Out);
+            var reader = new StringReader(Console.Out.ToString());
             foreach (string message in messages)
             {
                 var line = reader.ReadLine();
@@ -158,13 +212,15 @@ namespace Steeltoe.Cli.Test
         protected void the_configuration_service_should_be_enabled(string service)
         {
             Logger.LogInformation($"checking the service '{service}' is enabled");
-            new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.Services[service].Enabled.ShouldBeTrue();
+            new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.Services[service].Enabled
+                .ShouldBeTrue();
         }
 
         protected void the_configuration_service_should_not_be_enabled(string service)
         {
             Logger.LogInformation($"checking the service '{service}' is not enabled");
-            new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.Services[service].Enabled.ShouldBeFalse();
+            new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.Services[service].Enabled
+                .ShouldBeFalse();
         }
     }
 }

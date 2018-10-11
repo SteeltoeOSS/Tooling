@@ -34,17 +34,17 @@ namespace Steeltoe.Tooling.Test
         public ToolingTest()
         {
             var cfg = new ToolingConfiguration();
-            cfg.Path = new[] {"sandboxes", Guid.NewGuid().ToString()}.Aggregate(Path.Combine);
-            Directory.CreateDirectory(cfg.Path);
+            var path = new[] {"sandboxes", Guid.NewGuid().ToString()}.Aggregate(Path.Combine);
+            Directory.CreateDirectory(path);
             cfg.EnvironmentName = "dummy-env";
             Console = new StringWriter();
             Shell = new MockShell();
-            Context = new Context(cfg, Console, Shell);
+            Context = new Context(path, cfg, Console, Shell);
         }
 
         public void Dispose()
         {
-            Directory.Delete(Context.ToolingConfiguration.Path, true);
+            Directory.Delete(Context.ProjectDirectory, true);
         }
 
         protected void ClearConsole()

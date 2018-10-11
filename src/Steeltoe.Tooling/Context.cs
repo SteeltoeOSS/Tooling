@@ -18,6 +18,8 @@ namespace Steeltoe.Tooling
 {
     public class Context
     {
+        public string ProjectDirectory { get; }
+
         public ToolingConfiguration ToolingConfiguration { get; }
 
         public TextWriter Console { get; }
@@ -40,8 +42,9 @@ namespace Steeltoe.Tooling
         public ServiceManager ServiceManager { get; }
 
 
-        public Context(ToolingConfiguration config, TextWriter console, Shell shell)
+        public Context(string dir, ToolingConfiguration config, TextWriter console, Shell shell)
         {
+            ProjectDirectory = dir;
             ToolingConfiguration = config;
             Console = console;
             Shell = shell;

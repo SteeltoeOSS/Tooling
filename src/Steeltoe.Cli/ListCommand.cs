@@ -38,6 +38,10 @@ namespace Steeltoe.Cli
         [Option("-v|--verbose", Description = "Verbose")]
         private bool Verbose { get; }
 
+        public ListCommand(IConsole console) : base(console)
+        {
+        }
+
         protected override IExecutor GetExecutor()
         {
             var optionCount = 0;
