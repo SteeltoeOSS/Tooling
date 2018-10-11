@@ -13,6 +13,7 @@ install:
   - ps: steeltoe-ci\scripts\appveyor_install.ps1
 test_script:
   - ps: scripts\unit-test
+  - ps: scripts\cli-test
 build_script:
   - ps: steeltoe-ci\scripts\appveyor_build.ps1
 artifacts:

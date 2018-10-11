@@ -16,4 +16,5 @@ script:
   - dotnet --info
   - dotnet build
   - scripts/unit-test
+  - scripts/cli-test
   - dotnet pack
