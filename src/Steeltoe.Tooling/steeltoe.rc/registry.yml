@@ -42,6 +42,9 @@ environments:
       config-server:
         service: p-config-server
         plan: standard
+      redis-server:
+        service: p-redis
+        plan: shared-vm
       service-registry:
         service: p-service-registry
         plan: standard
