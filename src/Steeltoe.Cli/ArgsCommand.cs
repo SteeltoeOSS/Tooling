@@ -42,6 +42,9 @@ namespace Steeltoe.Cli
         [Argument(2, Name = "args", Description = "Deployment environment arguments")]
         private List<string> Arguments { get; }
 
+        [Option("-F|--force", Description = "Overwrite existing deployment environment arguments")]
+        private bool Force { get; }
+
         private List<string> RemainingArguments { get; }
 
         public ArgsCommand(IConsole console) : base(console)
@@ -66,7 +69,7 @@ namespace Steeltoe.Cli
                 return new GetServiceDeploymentArgsExecutor(EnvironmentName, ServiceName);
             }
 
-            return new SetServiceDeploymentArgsExecutor(EnvironmentName, ServiceName, string.Join(" ", args));
+            return new SetServiceDeploymentArgsExecutor(EnvironmentName, ServiceName, string.Join(" ", args), Force);
         }
     }
 }

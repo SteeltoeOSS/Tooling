@@ -45,7 +45,11 @@ namespace Steeltoe.Tooling.Docker
             var image = LookupImage(type, os);
             var port = GetServicePort(type);
             var args = _context.ServiceManager.GetServiceDeploymentArgs("docker", name);
-            if (args.Length > 1)
+            if (args == null)
+            {
+                args = "";
+            }
+            if (args.Length > 0)
             {
                 args += " ";
             }

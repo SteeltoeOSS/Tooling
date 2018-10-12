@@ -54,7 +54,7 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void InitProjectAlreadyInitialized()
+        public void InitProjectForce()
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("init_project_already_initialized"),
