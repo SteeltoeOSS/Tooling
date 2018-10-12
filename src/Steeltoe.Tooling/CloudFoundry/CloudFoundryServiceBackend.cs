@@ -30,8 +30,8 @@ namespace Steeltoe.Tooling.CloudFoundry
 
         public void DeployService(string name, string type)
         {
-            var cfService = _context.Environment.Configuration.ServiceTypes[type]["service"];
-            _cli.Run($"create-service {cfService} standard {name}");
+            var cfServiceDef = _context.Environment.Configuration.ServiceTypes[type];
+            _cli.Run($"create-service {cfServiceDef["service"]} {cfServiceDef["plan"]} {name}");
         }
 
         public void UndeployService(string name)

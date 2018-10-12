@@ -31,6 +31,13 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         }
 
         [Fact]
+        public void TestDeployCircuitBreakerDashboard()
+        {
+            _backend.DeployService("my-service", "circuit-breaker-dashboard");
+            Shell.LastCommand.ShouldBe("cf create-service p-circuit-breaker-dashboard standard my-service");
+        }
+
+        [Fact]
         public void TestDeployConfigServer()
         {
             _backend.DeployService("my-service", "config-server");
@@ -38,17 +45,17 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         }
 
         [Fact]
+        public void TestDeployRedisServer()
+        {
+            _backend.DeployService("my-service", "redis-server");
+            Shell.LastCommand.ShouldBe("cf create-service p-redis shared-vm my-service");
+        }
+
+        [Fact]
         public void TestDeployServiceRegistry()
         {
             _backend.DeployService("my-service", "service-registry");
             Shell.LastCommand.ShouldBe("cf create-service p-service-registry standard my-service");
-        }
-
-        [Fact]
-        public void TestDeployCircuitBreakerDashboard()
-        {
-            _backend.DeployService("my-service", "circuit-breaker-dashboard");
-            Shell.LastCommand.ShouldBe("cf create-service p-circuit-breaker-dashboard standard my-service");
         }
 
         [Fact]
