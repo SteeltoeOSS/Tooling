@@ -26,8 +26,24 @@ namespace Steeltoe.Tooling.Test.Executor
             Context.ServiceManager.AddService("a-service", "dummy-svc");
             ClearConsole();
             new SetServiceDeploymentArgsExecutor("dummy-env", "a-service", "arg1 arg2").Execute(Context);
-            Console.ToString().Trim().ShouldBe("Set the 'dummy-env' deployment environment argument(s) for service 'a-service' to 'arg1 arg2'");
+            Console.ToString().Trim().ShouldBe("Set the 'dummy-env' deployment environment arguments for service 'a-service' to 'arg1 arg2'");
         }
+        [Fact]
+
+        public void TestSetServiceDeploymentArgsForce()
+        {
+            Context.ServiceManager.AddService("a-service", "dummy-svc");
+            ClearConsole();
+            new SetServiceDeploymentArgsExecutor("dummy-env", "a-service", "arg1 arg2").Execute(Context);
+            var e = Assert.Throws<ToolingException>(
+                () => new SetServiceDeploymentArgsExecutor("dummy-env", "a-service", "arg1 arg2").Execute(Context)
+            );
+            e.Message.ShouldBe("'dummy-env' deployment environment arguments for service 'a-service' already set.");
+            ClearConsole();
+            new SetServiceDeploymentArgsExecutor("dummy-env", "a-service", "arg1 arg2", true).Execute(Context);
+            Console.ToString().Trim().ShouldBe("Set the 'dummy-env' deployment environment arguments for service 'a-service' to 'arg1 arg2'");
+        }
+
 
         [Fact]
         public void TestSetNonExistentServiceDeploymentArgs()

@@ -95,7 +95,7 @@ namespace Steeltoe.Tooling
             }
             catch (KeyNotFoundException)
             {
-                return "";
+                return null;
             }
         }
 

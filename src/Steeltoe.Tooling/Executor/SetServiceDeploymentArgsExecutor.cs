@@ -18,21 +18,32 @@ namespace Steeltoe.Tooling.Executor
     {
         private readonly string _environmentName;
 
-        private string _arguments;
+        private readonly string _arguments;
 
-        public SetServiceDeploymentArgsExecutor(string environmentName, string serviceName, string arguments) :
+        private readonly bool _force;
+
+        public SetServiceDeploymentArgsExecutor(string environmentName, string serviceName, string arguments,
+            bool force = false) :
             base(serviceName)
         {
             _environmentName = environmentName;
             _arguments = arguments;
+            _force = force;
         }
 
         public override void Execute(Context context)
         {
             base.Execute(context);
+            var args = context.ServiceManager.GetServiceDeploymentArgs(_environmentName, ServiceName);
+            if (args != null && !_force)
+            {
+                throw new ToolingException(
+                    $"'{_environmentName}' deployment environment arguments for service '{ServiceName}' already set.");
+            }
+
             context.ServiceManager.SetServiceDeploymentArgs(_environmentName, ServiceName, _arguments);
             context.Console.WriteLine(
-                $"Set the '{_environmentName}' deployment environment argument(s) for service '{ServiceName}' to '{_arguments}'");
+                $"Set the '{_environmentName}' deployment environment arguments for service '{ServiceName}' to '{_arguments}'");
         }
     }
 }

@@ -33,7 +33,8 @@ namespace Steeltoe.Cli.Test
                     "If run with no deployment environment arguments, show the service's current deployment environment arguments."),
                 and => the_cli_should_output("environment Deployment environment"),
                 and => the_cli_should_output("service Service name"),
-                and => the_cli_should_output("args Deployment environment arguments")
+                and => the_cli_should_output("args Deployment environment arguments"),
+                and => the_cli_should_output("-F|--force Overwrite existing deployment environment arguments")
             );
         }
 
@@ -99,14 +100,30 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add a-service dummy-svc"),
                 and => the_developer_runs_cli_command("args dummy-env a-service arg1 arg2"),
                 then => the_cli_should_output(
-                    "Set the 'dummy-env' deployment environment argument(s) for service 'a-service' to 'arg1 arg2'")
+                    "Set the 'dummy-env' deployment environment arguments for service 'a-service' to 'arg1 arg2'")
             );
             Runner.RunScenario(
                 given => a_steeltoe_project("args_set_deployment_environment_args_with_opt"),
                 when => the_developer_runs_cli_command("add a-service dummy-svc"),
                 and => the_developer_runs_cli_command("args dummy-env a-service -- arg1 -opt2"),
                 then => the_cli_should_output(
-                    "Set the 'dummy-env' deployment environment argument(s) for service 'a-service' to 'arg1 -opt2'")
+                    "Set the 'dummy-env' deployment environment arguments for service 'a-service' to 'arg1 -opt2'")
+            );
+        }
+
+        [Scenario]
+        public void ArgsSetDeploymentEnvironmentArgsForce()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("args_set_deployment_environment_args_force"),
+                when => the_developer_runs_cli_command("add a-service dummy-svc"),
+                and => the_developer_runs_cli_command("args dummy-env a-service arg1 arg2"),
+                and => the_developer_runs_cli_command("args dummy-env a-service arg1 arg2"),
+                then => the_cli_should_error(ErrorCode.Tooling,
+                    "'dummy-env' deployment environment arguments for service 'a-service' already set."),
+                when => the_developer_runs_cli_command("args dummy-env a-service arg1 arg2 --force"),
+                then => the_cli_should_output(
+                    "Set the 'dummy-env' deployment environment arguments for service 'a-service' to 'arg1 arg2'")
             );
         }
 
