@@ -147,11 +147,6 @@ namespace scratch
             NormalizeString(Console.Out.ToString()).ShouldContain(message);
         }
 
-        private static string NormalizeString(string s)
-        {
-            return string.Join(" ", s.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
-        }
-
         protected void the_cli_should_output_nothing()
         {
             the_cli_command_should_succeed();
@@ -221,6 +216,11 @@ namespace scratch
             Logger.LogInformation($"checking the service '{service}' is not enabled");
             new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.Services[service].Enabled
                 .ShouldBeFalse();
+        }
+
+        private static string NormalizeString(string s)
+        {
+            return string.Join(" ", s.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }
