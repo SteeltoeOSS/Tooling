@@ -29,11 +29,11 @@ namespace Steeltoe.Tooling.Test
             var expected = new List<string>()
             {
                 "dummy-svc",
-                "circuit-breaker-dashboard",
                 "config-server",
-                "mssql-server",
-                "redis-server",
-                "service-registry",
+                "eureka-server",
+                "hystrix-dashboard",
+                "mssql",
+                "redis",
                 "zipkin",
             };
             foreach (var name in Registry.ServiceTypeNames)

@@ -113,12 +113,12 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("list -t"),
                 then => the_cli_should_list(new[]
                 {
-                    "circuit-breaker-dashboard",
                     "config-server",
                     "dummy-svc",
-                    "mssql-server",
-                    "redis-server",
-                    "service-registry",
+                    "eureka-server",
+                    "hystrix-dashboard",
+                    "mssql",
+                    "redis",
                     "zipkin",
                 })
             );
@@ -132,13 +132,13 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("list -t -v"),
                 then => the_cli_should_list(new[]
                 {
-                    "circuit-breaker-dashboard   7979  Netflix Hystrix Dashboard",
-                    "config-server               8888  Cloud Foundry Config Server",
-                    "dummy-svc                      0  A Dummy Service",
-                    "mssql-server                1433  Microsoft SQL Server",
-                    "redis-server                6379  Redis In-Memory Datastore",
-                    "service-registry            8761  Netflix Eureka Server",
-                    "zipkin                      9411  Zipkin Tracing Collector and UI",
+                    "config-server       8888  Cloud Foundry Config Server",
+                    "dummy-svc              0  A Dummy Service",
+                    "eureka-server       8761  Netflix Eureka Server",
+                    "hystrix-dashboard   7979  Netflix Hystrix Dashboard",
+                    "mssql               1433  Microsoft SQL Server",
+                    "redis               6379  Redis In-Memory Datastore",
+                    "zipkin              9411  Zipkin Tracing Collector and UI",
                 })
             );
         }

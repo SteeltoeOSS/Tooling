@@ -26,12 +26,12 @@ namespace Steeltoe.Tooling.Test.Executor
         {
             new ListServiceTypesExecutor().Execute(Context);
             var reader = new StringReader(Console.ToString());
-            reader.ReadLine().ShouldBe("circuit-breaker-dashboard");
             reader.ReadLine().ShouldBe("config-server");
             reader.ReadLine().ShouldBe("dummy-svc");
-            reader.ReadLine().ShouldBe("mssql-server");
-            reader.ReadLine().ShouldBe("redis-server");
-            reader.ReadLine().ShouldBe("service-registry");
+            reader.ReadLine().ShouldBe("eureka-server");
+            reader.ReadLine().ShouldBe("hystrix-dashboard");
+            reader.ReadLine().ShouldBe("mssql");
+            reader.ReadLine().ShouldBe("redis");
             reader.ReadLine().ShouldBe("zipkin");
             reader.ReadLine().ShouldBeNull();
         }
@@ -41,13 +41,13 @@ namespace Steeltoe.Tooling.Test.Executor
         {
             new ListServiceTypesExecutor(true).Execute(Context);
             var reader = new StringReader(Console.ToString());
-            reader.ReadLine().ShouldBe("circuit-breaker-dashboard   7979  Netflix Hystrix Dashboard");
-            reader.ReadLine().ShouldBe("config-server               8888  Cloud Foundry Config Server");
-            reader.ReadLine().ShouldBe("dummy-svc                      0  A Dummy Service");
-            reader.ReadLine().ShouldBe("mssql-server                1433  Microsoft SQL Server");
-            reader.ReadLine().ShouldBe("redis-server                6379  Redis In-Memory Datastore");
-            reader.ReadLine().ShouldBe("service-registry            8761  Netflix Eureka Server");
-            reader.ReadLine().ShouldBe("zipkin                      9411  Zipkin Tracing Collector and UI");
+            reader.ReadLine().ShouldBe("config-server       8888  Cloud Foundry Config Server");
+            reader.ReadLine().ShouldBe("dummy-svc              0  A Dummy Service");
+            reader.ReadLine().ShouldBe("eureka-server       8761  Netflix Eureka Server");
+            reader.ReadLine().ShouldBe("hystrix-dashboard   7979  Netflix Hystrix Dashboard");
+            reader.ReadLine().ShouldBe("mssql               1433  Microsoft SQL Server");
+            reader.ReadLine().ShouldBe("redis               6379  Redis In-Memory Datastore");
+            reader.ReadLine().ShouldBe("zipkin              9411  Zipkin Tracing Collector and UI");
             reader.ReadLine().ShouldBeNull();
         }
     }

@@ -13,21 +13,21 @@
 # limitations under the License.
 
 serviceTypes:
-  circuit-breaker-dashboard:
-    description: Netflix Hystrix Dashboard
-    port: 7979
   config-server:
     description: Cloud Foundry Config Server
     port: 8888
-  mssql-server:
-    description: Microsoft SQL Server
-    port: 1433
-  redis-server:
-    description: Redis In-Memory Datastore
-    port: 6379
-  service-registry:
+  eureka-server:
     description: Netflix Eureka Server
     port: 8761
+  hystrix-dashboard:
+    description: Netflix Hystrix Dashboard
+    port: 7979
+  mssql:
+    description: Microsoft SQL Server
+    port: 1433
+  redis:
+    description: Redis In-Memory Datastore
+    port: 6379
   zipkin:
     description: Zipkin Tracing Collector and UI
     port: 9411
@@ -51,20 +51,20 @@ environments:
   docker:
     description: Docker
     serviceTypes:
-      circuit-breaker-dashboard:
-        image: steeltoeoss/hystrix-dashboard:1.4
-      config-server:
-        image: steeltoeoss/config-server:2.0
       dummy-svc:
         image: dummy-server:0.1
         image-dummyos: dummy-server:for_dummyos
-      mssql-server:
+      config-server:
+        image: steeltoeoss/config-server:2.0
+      eureka-server:
+        image: steeltoeoss/eureka-server:2.0
+      hystrix-dashboard:
+        image: steeltoeoss/hystrix-dashboard:1.4
+      mssql:
         image-linux: steeltoeoss/mssql-server:2017-CU11-linux
         image-windows: steeltoeoss/mssql-server:2017-CU1-windows
-      redis-server:
+      redis:
         image-linux: steeltoeoss/redis-server:4.0-linux
         image-windows: steeltoeoss/redis-server:3.0-windows
-      service-registry:
-        image: steeltoeoss/eureka-server:2.0
       zipkin:
         image: steeltoeoss/zipkin-server:2.11.6
