@@ -61,10 +61,10 @@ environments:
       hystrix-dashboard:
         image: steeltoeoss/hystrix-dashboard:1.4
       mssql:
-        image-linux: steeltoeoss/mssql-server:2017-CU11-linux
-        image-windows: steeltoeoss/mssql-server:2017-CU1-windows
+        image-linux: steeltoeoss/mssql:2017-CU11-linux
+        image-windows: steeltoeoss/mssql:2017-CU1-windows
       redis:
-        image-linux: steeltoeoss/redis-server:4.0-linux
-        image-windows: steeltoeoss/redis-server:3.0-windows
+        image-linux: steeltoeoss/redis:4.0-linux
+        image-windows: steeltoeoss/redis:3.0-windows
       zipkin:
-        image: steeltoeoss/zipkin-server:2.11.6
+        image: steeltoeoss/zipkin:2.11.6

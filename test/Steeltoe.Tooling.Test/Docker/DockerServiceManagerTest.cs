@@ -75,10 +75,10 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _backend.DeployService("my-service", "mssql", "linux");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql-server:2017-CU11-linux");
+                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql:2017-CU11-linux");
             _backend.DeployService("my-service", "mssql", "windows");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql-server:2017-CU1-windows");
+                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql:2017-CU1-windows");
         }
 
         [Fact]
@@ -86,10 +86,10 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _backend.DeployService("my-service", "redis", "linux");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis-server:4.0-linux");
+                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis:4.0-linux");
             _backend.DeployService("my-service", "redis", "windows");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis-server:3.0-windows");
+                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis:3.0-windows");
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _backend.DeployService("my-service", "zipkin");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 9411:9411 --detach --rm steeltoeoss/zipkin-server:2.11.6");
+                "docker run --name my-service --publish 9411:9411 --detach --rm steeltoeoss/zipkin:2.11.6");
         }
 
         [Fact]
