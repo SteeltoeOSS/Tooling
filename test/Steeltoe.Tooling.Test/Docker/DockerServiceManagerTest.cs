@@ -51,7 +51,7 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _backend.DeployService("my-service", "config-server");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/config-server:2.0");
+                "docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/config-server:2.0.1");
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _backend.DeployService("my-service", "eureka-server");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0");
+                "docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0.1");
         }
 
         [Fact]
@@ -67,7 +67,7 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _backend.DeployService("my-service", "hystrix-dashboard");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4");
+                "docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4.5");
         }
 
         [Fact]
@@ -86,10 +86,10 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             _backend.DeployService("my-service", "redis", "linux");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis:4.0-linux");
+                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis:4.0.11-linux");
             _backend.DeployService("my-service", "redis", "windows");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis:3.0-windows");
+                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis:3.0.504-windows");
         }
 
         [Fact]

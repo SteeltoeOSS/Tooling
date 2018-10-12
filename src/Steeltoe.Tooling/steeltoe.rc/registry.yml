@@ -55,16 +55,16 @@ environments:
         image: dummy-server:0.1
         image-dummyos: dummy-server:for_dummyos
       config-server:
-        image: steeltoeoss/config-server:2.0
+        image: steeltoeoss/config-server:2.0.1
       eureka-server:
-        image: steeltoeoss/eureka-server:2.0
+        image: steeltoeoss/eureka-server:2.0.1
       hystrix-dashboard:
-        image: steeltoeoss/hystrix-dashboard:1.4
+        image: steeltoeoss/hystrix-dashboard:1.4.5
       mssql:
         image-linux: steeltoeoss/mssql:2017-CU11-linux
         image-windows: steeltoeoss/mssql:2017-CU1-windows
       redis:
-        image-linux: steeltoeoss/redis:4.0-linux
-        image-windows: steeltoeoss/redis:3.0-windows
+        image-linux: steeltoeoss/redis:4.0.11-linux
+        image-windows: steeltoeoss/redis:3.0.504-windows
       zipkin:
         image: steeltoeoss/zipkin:2.11.6
