@@ -71,6 +71,14 @@ namespace Steeltoe.Tooling.Test.Docker
         }
 
         [Fact]
+        public void TestDeployZipkin()
+        {
+            _backend.DeployService("my-service", "zipkin");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 9411:9411 --detach --rm steeltoeoss/zipkin-server:2.11.6");
+        }
+
+        [Fact]
         public void TestDeployServiceWithArgs()
         {
             Context.ServiceManager.AddService("a-service", "dummy-svc");

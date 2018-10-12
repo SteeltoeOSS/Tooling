@@ -34,6 +34,7 @@ namespace Steeltoe.Tooling.Test
                 "mssql-server",
                 "redis-server",
                 "service-registry",
+                "zipkin",
             };
             foreach (var name in Registry.ServiceTypeNames)
             {

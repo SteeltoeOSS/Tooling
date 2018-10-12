@@ -32,6 +32,7 @@ namespace Steeltoe.Tooling.Test.Executor
             reader.ReadLine().ShouldBe("mssql-server");
             reader.ReadLine().ShouldBe("redis-server");
             reader.ReadLine().ShouldBe("service-registry");
+            reader.ReadLine().ShouldBe("zipkin");
             reader.ReadLine().ShouldBeNull();
         }
 
@@ -46,6 +47,7 @@ namespace Steeltoe.Tooling.Test.Executor
             reader.ReadLine().ShouldBe("mssql-server                1433  Microsoft SQL Server");
             reader.ReadLine().ShouldBe("redis-server                6379  Redis In-Memory Datastore");
             reader.ReadLine().ShouldBe("service-registry            8761  Netflix Eureka Server");
+            reader.ReadLine().ShouldBe("zipkin                      9411  Zipkin Tracing Collector and UI");
             reader.ReadLine().ShouldBeNull();
         }
     }

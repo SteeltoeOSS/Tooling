@@ -119,6 +119,7 @@ namespace Steeltoe.Cli.Test
                     "mssql-server",
                     "redis-server",
                     "service-registry",
+                    "zipkin",
                 })
             );
         }
@@ -137,6 +138,7 @@ namespace Steeltoe.Cli.Test
                     "mssql-server                1433  Microsoft SQL Server",
                     "redis-server                6379  Redis In-Memory Datastore",
                     "service-registry            8761  Netflix Eureka Server",
+                    "zipkin                      9411  Zipkin Tracing Collector and UI",
                 })
             );
         }

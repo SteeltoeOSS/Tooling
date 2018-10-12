@@ -28,6 +28,9 @@ serviceTypes:
   service-registry:
     description: Netflix Eureka Server
     port: 8761
+  zipkin:
+    description: Zipkin Tracing Collector and UI
+    port: 9411
 
 environments:
   cloud-foundry:
@@ -60,3 +63,5 @@ environments:
         image-windows: steeltoeoss/redis-server:3.0-windows
       service-registry:
         image: steeltoeoss/eureka-server:2.0
+      zipkin:
+        image: steeltoeoss/zipkin-server:2.11.6
