@@ -44,6 +44,7 @@ namespace Steeltoe.Cli
 
         [Option("-C|--config-file", Description =
             "Configure tooling using the specified file instead of .steeltoe.tooling.yml")]
+        // ReSharper disable once UnassignedGetOnlyAutoProperty
         public static string ProjectConfigurationPath { get; }
 
         [Option("-D|--debug", Description = "Enable debug output")]
