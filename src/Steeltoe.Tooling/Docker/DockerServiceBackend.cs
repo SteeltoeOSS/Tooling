@@ -35,7 +35,14 @@ namespace Steeltoe.Tooling.Docker
 
         public void DeployService(string name, string type)
         {
-            var image = LookupImage(type);
+            var dockerInfo = new DockerCli(_context.Shell).Run("info");
+            var dockerOs = new Regex(@"OSType:\s*(.+)", RegexOptions.Multiline).Match(dockerInfo).Groups[1].ToString();
+            DeployService(name, type, dockerOs);
+        }
+
+        public void DeployService(string name, string type, string os)
+        {
+            var image = LookupImage(type, os);
             var port = GetServicePort(type);
             var args = _context.ServiceManager.GetServiceDeploymentArgs("docker", name);
             if (args.Length > 1)
@@ -80,17 +87,10 @@ namespace Steeltoe.Tooling.Docker
             }
         }
 
-        private string LookupImage(string type)
+        private string LookupImage(string type, string os)
         {
-            var dockerInfo = new DockerCli(_context.Shell).Run("info");
-            var dockerOs = new Regex(@"OSType:\s*(.+)", RegexOptions.Multiline).Match(dockerInfo).Groups[1].ToString();
             var images = _context.Environment.Configuration.ServiceTypes[type];
-            if (images.TryGetValue($"image-{dockerOs}", out var image))
-            {
-                return image;
-            }
-
-            return images["image"];
+            return images.TryGetValue($"image-{os}", out var image) ? image : images["image"];
         }
 
         private string LookupServiceType(string image)

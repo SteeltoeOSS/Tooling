@@ -20,12 +20,12 @@ namespace Steeltoe.Tooling.Test.Docker
 {
     public class DockerServiceManagerTest : ToolingTest
     {
-        private readonly IServiceBackend _backend;
+        private readonly DockerServiceBackend _backend;
 
         public DockerServiceManagerTest()
         {
             Context.ToolingConfiguration.EnvironmentName = "docker";
-            _backend = Context.Environment.GetServiceBackend(Context);
+            _backend = Context.Environment.GetServiceBackend(Context) as DockerServiceBackend;
             _backend.ShouldBeOfType(typeof(DockerServiceBackend));
         }
 
@@ -47,6 +47,14 @@ namespace Steeltoe.Tooling.Test.Docker
         }
 
         [Fact]
+        public void TestDeployCircuitBreakerDashboard()
+        {
+            _backend.DeployService("my-service", "circuit-breaker-dashboard");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4");
+        }
+
+        [Fact]
         public void TestDeployConfigServer()
         {
             _backend.DeployService("my-service", "config-server");
@@ -55,19 +63,33 @@ namespace Steeltoe.Tooling.Test.Docker
         }
 
         [Fact]
+        public void TestDeployMssqlServer()
+        {
+            _backend.DeployService("my-service", "mssql-server", "linux");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql-server:2017-CU11-linux");
+            _backend.DeployService("my-service", "mssql-server", "windows");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql-server:2017-CU1-windows");
+        }
+
+        [Fact]
+        public void TestDeployRedisServer()
+        {
+            _backend.DeployService("my-service", "redis-server", "linux");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis-server:4.0-linux");
+            _backend.DeployService("my-service", "redis-server", "windows");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis-server:3.0-windows");
+        }
+
+        [Fact]
         public void TestDeployServiceRegistry()
         {
             _backend.DeployService("my-service", "service-registry");
             Shell.LastCommand.ShouldBe(
                 "docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0");
-        }
-
-        [Fact]
-        public void TestDeployCircuitBreakerDashboard()
-        {
-            _backend.DeployService("my-service", "circuit-breaker-dashboard");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4");
         }
 
         [Fact]
