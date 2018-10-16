@@ -12,34 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
-using YamlDotNet.Serialization;
-
 namespace Steeltoe.Tooling.Dummy
 {
     public class DummyServiceBackend : IServiceBackend
     {
-        public string Path { get; }
+        private readonly string _path;
 
         private DummyServiceDatabase _database;
 
         public DummyServiceBackend(string path)
         {
-            Path = path;
-            if (File.Exists(Path))
-            {
-                Load();
-            }
-            else
-            {
-                _database = new DummyServiceDatabase();
-                Store();
-            }
+            _path = path;
+            _database = DummyServiceDatabase.Load(_path);
         }
 
-        public void DeployService(string name, string type)
+        public void DeployService(string serviceName, string serviceTypeName)
         {
-            _database.Services[name] = ServiceLifecycle.State.Starting;
+            _database.Services[serviceName] = ServiceLifecycle.State.Starting;
             Store();
         }
 
@@ -74,21 +63,7 @@ namespace Steeltoe.Tooling.Dummy
 
         private void Store()
         {
-            var serializer = new SerializerBuilder().Build();
-            var yaml = serializer.Serialize(_database);
-            using (var writer = new StreamWriter(Path))
-            {
-                writer.Write(yaml);
-            }
-        }
-
-        private void Load()
-        {
-            var deserializer = new DeserializerBuilder().Build();
-            using (var reader = new StreamReader(Path))
-            {
-                _database = deserializer.Deserialize<DummyServiceDatabase>(reader);
-            }
+            DummyServiceDatabase.Store(_path, _database);
         }
     }
 }

@@ -13,11 +13,56 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.Dummy
 {
     public class DummyServiceDatabase
     {
-            public SortedDictionary<string, ServiceLifecycle.State> Services { get; set; } = new SortedDictionary<string, ServiceLifecycle.State>();
+        public SortedDictionary<string, ServiceLifecycle.State> Services { get; set; } =
+            new SortedDictionary<string, ServiceLifecycle.State>();
+
+        internal static void Store(string path, DummyServiceDatabase database)
+        {
+            var serializer = new SerializerBuilder().Build();
+            var yaml = serializer.Serialize(database);
+            using (var fOut = GetFileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                using (var writer = new StreamWriter(fOut))
+                {
+                    writer.Write(yaml);
+                }
+            }
+        }
+
+        internal static DummyServiceDatabase Load(string path)
+        {
+            var deserializer = new DeserializerBuilder().Build();
+            using (var fIn = GetFileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                using (var reader = new StreamReader(fIn))
+                {
+                    return deserializer.Deserialize<DummyServiceDatabase>(reader) ??
+                           new DummyServiceDatabase();
+                }
+            }
+        }
+
+        private static FileStream GetFileStream(string path, FileMode mode, FileAccess access)
+        {
+            while (true)
+            {
+                try
+                {
+                    return new FileStream(path, mode, access, FileShare.None);
+                }
+                catch (IOException)
+                {
+                    Thread.Sleep(100);
+                }
+            }
+        }
     }
 }
