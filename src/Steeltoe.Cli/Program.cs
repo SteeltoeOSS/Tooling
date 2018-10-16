@@ -54,6 +54,13 @@ namespace Steeltoe.Cli
             set => Settings.DebugEnabled = value;
         }
 
+        [Option("-S|--no-parallel", Description = "Disable parallel execution")]
+        public static bool ParallelExecutionEnabled
+        {
+            get => Settings.ParallelExecutionEnabled;
+            set => Settings.ParallelExecutionEnabled = !value;
+        }
+
         // ReSharper disable once UnusedMember.Local
         private int OnExecute(CommandLineApplication app)
         {

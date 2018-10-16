@@ -31,16 +31,23 @@ namespace Steeltoe.Tooling.Executor
                 return;
             }
 
-            try
+            if (Settings.ParallelExecutionEnabled)
             {
-                Parallel.ForEach(ServiceNames, svcName =>
+                try
                 {
-                    Execute(context, svcName);
-                });
+                    Parallel.ForEach(ServiceNames, svcName => { Execute(context, svcName); });
+                }
+                catch (AggregateException e)
+                {
+                    throw e.InnerException;
+                }
             }
-            catch (AggregateException e)
+            else
             {
-                throw e.InnerException;
+                foreach (var serviceName in ServiceNames)
+                {
+                    Execute(context, serviceName);
+                }
             }
         }
 

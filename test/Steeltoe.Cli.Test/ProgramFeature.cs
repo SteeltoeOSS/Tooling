@@ -15,6 +15,7 @@
 using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
+using Steeltoe.Tooling;
 
 namespace Steeltoe.Cli.Test
 {
@@ -42,6 +43,7 @@ namespace Steeltoe.Cli.Test
                 and => the_cli_should_output(
                     "-C|--config-file Configure tooling using the specified file instead of .steeltoe.tooling.yml"),
                 and => the_cli_should_output("-D|--debug Enable debug output"),
+                and => the_cli_should_output("-S|--no-parallel Disable parallel execution"),
                 and => the_cli_should_output("-V|--version Show version information"),
                 and => the_cli_should_output("-?|-h|--help Show help information"),
                 and => the_cli_should_output("init Initialize a project for Steeltoe Developer Tools."),
@@ -70,6 +72,28 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("program_version"),
                 when => the_developer_runs_cli_command("--version"),
                 then => the_cli_should_output("1.0.0")
+            );
+        }
+
+        [Scenario]
+        [Label("version")]
+        public void ProgramDebug()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("program_debug"),
+                when => the_developer_runs_cli_command("--debug --version"),
+                then => setting_should_be(Settings.DebugEnabled, true)
+            );
+        }
+
+        [Scenario]
+        [Label("version")]
+        public void ProgramNoParallel()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("program_parallel"),
+                when => the_developer_runs_cli_command("--no-parallel --version"),
+                then => setting_should_be(Settings.ParallelExecutionEnabled, false)
             );
         }
 

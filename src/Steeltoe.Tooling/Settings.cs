@@ -22,6 +22,8 @@ namespace Steeltoe.Tooling
 
         public static bool DummiesEnabled { get; set; }
 
+        public static bool ParallelExecutionEnabled { get; set; } = true;
+
         static Settings()
         {
             DummiesEnabled = File.Exists(".steeltoe.dummies");

@@ -186,6 +186,11 @@ namespace scratch
             reader.ReadLine().ShouldBeNullOrEmpty();
         }
 
+        protected void setting_should_be(bool setting, bool expected)
+        {
+            setting.ShouldBe(expected);
+        }
+
         protected void the_configuration_should_target(string env)
         {
             Logger.LogInformation($"checking the target config '{env}' exists");
