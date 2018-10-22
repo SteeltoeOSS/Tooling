@@ -41,7 +41,7 @@ namespace Steeltoe.Tooling
                 dummyCfg.ServiceTypes.Add("dummy-svc", dummySvcType);
                 var dummyEnvCfg = new EnvironmentConfiguration();
                 dummyEnvCfg.Description = "A Dummy Environment";
-                dummyCfg.EnvironmentConfiguraitions.Add("dummy-env", dummyEnvCfg);
+                dummyCfg.EnvironmentConfigurations.Add("dummy-env", dummyEnvCfg);
                 AddRegistryConfiguration(dummyCfg);
             }
 
@@ -71,12 +71,12 @@ namespace Steeltoe.Tooling
             return null;
         }
 
-        public static List<string> EnvironmentNames => _configuration.EnvironmentConfiguraitions.Keys.ToList();
+        public static List<string> EnvironmentNames => _configuration.EnvironmentConfigurations.Keys.ToList();
 
         public static Environment GetEnvironment(string environmentName)
         {
             EnvironmentConfiguration envCfg;
-            if (_configuration.EnvironmentConfiguraitions.TryGetValue(environmentName, out envCfg))
+            if (_configuration.EnvironmentConfigurations.TryGetValue(environmentName, out envCfg))
             {
                 envCfg.Name = environmentName;
                 switch (envCfg.Name)
@@ -101,10 +101,10 @@ namespace Steeltoe.Tooling
                 _configuration.ServiceTypes[svcTypeEntry.Key] = svcTypeEntry.Value;
             }
 
-            foreach (var envCfgEntry in configuration.EnvironmentConfiguraitions)
+            foreach (var envCfgEntry in configuration.EnvironmentConfigurations)
             {
                 envCfgEntry.Value.Name = null;
-                _configuration.EnvironmentConfiguraitions[envCfgEntry.Key] = envCfgEntry.Value;
+                _configuration.EnvironmentConfigurations[envCfgEntry.Key] = envCfgEntry.Value;
             }
         }
     }

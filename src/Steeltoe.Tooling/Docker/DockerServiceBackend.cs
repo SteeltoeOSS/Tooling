@@ -93,13 +93,13 @@ namespace Steeltoe.Tooling.Docker
 
         private string LookupImage(string type, string os)
         {
-            var images = _context.Environment.Configuration.ServiceTypes[type];
+            var images = _context.Environment.Configuration.ServiceTypeProperties[type];
             return images.TryGetValue($"image-{os}", out var image) ? image : images["image"];
         }
 
         private string LookupServiceType(string image)
         {
-            var svcTypes = _context.Environment.Configuration.ServiceTypes;
+            var svcTypes = _context.Environment.Configuration.ServiceTypeProperties;
             foreach (var svcType in svcTypes.Keys)
             {
                 var images = svcTypes[svcType];

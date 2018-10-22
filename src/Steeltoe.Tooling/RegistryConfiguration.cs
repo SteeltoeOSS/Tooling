@@ -24,7 +24,39 @@ namespace Steeltoe.Tooling
             new SortedDictionary<string, ServiceType>();
 
         [YamlMember(Alias = "environments")]
-        public SortedDictionary<string, EnvironmentConfiguration> EnvironmentConfiguraitions { get; set; } =
+        public SortedDictionary<string, EnvironmentConfiguration> EnvironmentConfigurations { get; set; } =
             new SortedDictionary<string, EnvironmentConfiguration>();
+
+        public void DefineServiceType(string name, int port, string description)
+        {
+            ServiceTypes[name] = new ServiceType {Port = port, Description = description};
+        }
+
+        public void DefineEnvironment(string environmentName, string description)
+        {
+            var envCfg = new EnvironmentConfiguration {Description = description};
+            EnvironmentConfigurations[environmentName] = envCfg;
+        }
+
+        public void DefineEnvironmentServiceTypeProperty(
+            string environmentName,
+            string serviceTypeName,
+            string propertyName,
+            string propertyValue)
+        {
+            if (!EnvironmentConfigurations.ContainsKey(environmentName))
+            {
+                EnvironmentConfigurations[environmentName] = new EnvironmentConfiguration();
+            }
+
+            var envCfg = EnvironmentConfigurations[environmentName];
+            if (!envCfg.ServiceTypeProperties.ContainsKey(serviceTypeName))
+            {
+                envCfg.ServiceTypeProperties[serviceTypeName] = new Dictionary<string, string>();
+            }
+
+            envCfg.ServiceTypeProperties[serviceTypeName][propertyName] = propertyValue;
+            EnvironmentConfigurations[environmentName] = envCfg;
+        }
     }
 }

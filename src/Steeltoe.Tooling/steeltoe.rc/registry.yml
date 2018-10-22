@@ -35,7 +35,7 @@ serviceTypes:
 environments:
   cloud-foundry:
     description: Cloud Foundry
-    serviceTypes:
+    serviceTypeProperties:
       circuit-breaker-dashboard:
         service: p-circuit-breaker-dashboard
         plan: standard
@@ -50,7 +50,7 @@ environments:
         plan: standard
   docker:
     description: Docker
-    serviceTypes:
+    serviceTypeProperties:
       dummy-svc:
         image: dummy-server:0.1
         image-dummyos: dummy-server:for_dummyos
