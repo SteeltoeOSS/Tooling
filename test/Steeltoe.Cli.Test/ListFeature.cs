@@ -148,9 +148,9 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("list_services"),
-                when => the_developer_runs_cli_command("add c-service dummy-svc"),
-                and => the_developer_runs_cli_command("add b-service dummy-svc"),
-                and => the_developer_runs_cli_command("add a-service dummy-svc"),
+                when => the_developer_runs_cli_command("add dummy-svc c-service"),
+                and => the_developer_runs_cli_command("add dummy-svc b-service"),
+                and => the_developer_runs_cli_command("add dummy-svc a-service"),
                 and => the_developer_runs_cli_command("list"),
                 then => the_cli_should_list(new[]
                 {
@@ -166,9 +166,9 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("list_services_verbose"),
-                and => the_developer_runs_cli_command("add b-service dummy-svc"),
-                and => the_developer_runs_cli_command("add c-service dummy-svc"),
-                when => the_developer_runs_cli_command("add a-service dummy-svc"),
+                and => the_developer_runs_cli_command("add dummy-svc b-service"),
+                and => the_developer_runs_cli_command("add dummy-svc c-service"),
+                when => the_developer_runs_cli_command("add dummy-svc a-service"),
                 and => the_developer_runs_cli_command("list -s -v"),
                 then => the_cli_should_list(new[]
                 {

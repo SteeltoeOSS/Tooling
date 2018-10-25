@@ -69,7 +69,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("remove_service"),
-                when => the_developer_runs_cli_command("add my-service dummy-svc"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
                 and => the_developer_runs_cli_command("remove my-service"),
                 then => the_cli_should_output("Removed service 'my-service'"),
                 and => the_configuration_should_not_contain_service("my-service")

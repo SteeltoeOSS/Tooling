@@ -23,13 +23,13 @@ namespace Steeltoe.Cli
     {
         public const string Name = "add";
 
-        [Required(ErrorMessage = "Service name not specified")]
-        [Argument(0, Name = "service", Description = "Service name")]
-        private string ServiceName { get; } = null;
-
         [Required(ErrorMessage = "Service type not specified")]
-        [Argument(1, Name = "type", Description = "Service type")]
+        [Argument(0, Name = "type", Description = "Service type")]
         private string ServiceType { get; } = null;
+
+        [Required(ErrorMessage = "Service name not specified")]
+        [Argument(1, Name = "service", Description = "Service name")]
+        private string ServiceName { get; } = null;
 
         public AddCommand(IConsole console) : base(console)
         {

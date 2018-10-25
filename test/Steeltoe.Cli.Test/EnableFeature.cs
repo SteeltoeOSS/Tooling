@@ -69,7 +69,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("enable_service"),
-                when => the_developer_runs_cli_command("add my-service dummy-svc"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
                 and => the_developer_runs_cli_command("disable my-service"),
                 and => the_developer_runs_cli_command("enable my-service"),
                 then => the_cli_should_output("Enabled service 'my-service'"),

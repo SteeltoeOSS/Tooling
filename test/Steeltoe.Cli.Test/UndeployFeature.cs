@@ -47,8 +47,8 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("undeploy_services"),
-                when => the_developer_runs_cli_command("add a-service dummy-svc"),
-                and => the_developer_runs_cli_command("add defunct-service dummy-svc"),
+                when => the_developer_runs_cli_command("add dummy-svc a-service"),
+                and => the_developer_runs_cli_command("add dummy-svc defunct-service"),
                 and => the_developer_runs_cli_command("disable defunct-service"),
                 and => the_developer_runs_cli_command("undeploy"),
                 then => the_cli_should_output("Undeploying service 'a-service'"),
@@ -78,7 +78,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("undeploy_no_target"),
                 when => the_developer_runs_cli_command("init"),
-                and => the_developer_runs_cli_command("add a-server dummy-svc"),
+                and => the_developer_runs_cli_command("add dummy-svc a-server"),
                 and => the_developer_runs_cli_command("undeploy"),
                 then => the_cli_should_error(ErrorCode.Tooling, "Target deployment environment not set")
             );
