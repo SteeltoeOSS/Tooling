@@ -46,7 +46,7 @@ namespace Steeltoe.Cli.Test
                     $"Usage: {Program.Name} [options] [command]",
                     "Options:",
                     "-V|--version Show version information",
-                    "-C|--config-file Configure tooling using the specified file instead of .steeltoe.tooling.yml",
+                    $"-C|--config-file Configure tooling using the specified file instead of {ToolingConfigurationFile.DefaultFileName}",
                     "-D|--debug Enable debug output",
                     "-S|--no-parallel Disable parallel execution",
                     "-?|-h|--help Show help information",
