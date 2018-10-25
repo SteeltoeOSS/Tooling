@@ -22,12 +22,17 @@ namespace Steeltoe.Cli.Test
 {
     public class MockConsole : IConsole
     {
+        public MockConsole()
+        {
+            Clear();
+        }
+
         public void ResetColor()
         {
         }
 
-        public TextWriter Out { get; } = new StringWriter();
-        public TextWriter Error { get; } = new StringWriter();
+        public TextWriter Out { get; private set; }
+        public TextWriter Error { get; private set; }
         public TextReader In { get; }
         public bool IsInputRedirected { get; }
         public bool IsOutputRedirected { get; }
@@ -39,6 +44,12 @@ namespace Steeltoe.Cli.Test
         {
             add { }
             remove { }
+        }
+
+        public void Clear()
+        {
+            Out = new StringWriter();
+            Error = new StringWriter();
         }
     }
 }

@@ -28,7 +28,13 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("status_help"),
                 when => the_developer_runs_cli_command("status --help"),
-                then => the_cli_should_output("Show service statuses.")
+                then => the_cli_should_output(new[]
+                {
+                    "Show service statuses.",
+                    $"Usage: {Program.Name} status [options]",
+                    "Options:",
+                    "-?|-h|--help Show help information",
+                })
             );
         }
 
@@ -61,17 +67,26 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add dummy-svc a-service"),
                 when => the_developer_runs_cli_command("add dummy-svc defunct-service"),
                 and => the_developer_runs_cli_command("disable defunct-service"),
-                and => the_developer_runs_cli_command("status"),
-                then => the_cli_should_output("a-service offline"),
-                and => the_cli_should_output("defunct-service disabled"),
+                and => the_developer_runs_cli_command("-S status"),
+                then => the_cli_should_output(new[]
+                {
+                    "a-service offline",
+                    "defunct-service disabled",
+                }),
                 when => the_developer_runs_cli_command("deploy"),
-                and => the_developer_runs_cli_command("status"),
-                then => the_cli_should_output("a-service starting"),
-                and => the_cli_should_output("defunct-service disabled"),
+                and => the_developer_runs_cli_command("-S status"),
+                then => the_cli_should_output(new[]
+                {
+                    "a-service starting",
+                    "defunct-service disabled",
+                }),
                 when => the_developer_runs_cli_command("undeploy"),
-                and => the_developer_runs_cli_command("status"),
-                then => the_cli_should_output("a-service stopping"),
-                and => the_cli_should_output("defunct-service disabled")
+                and => the_developer_runs_cli_command("-S status"),
+                then => the_cli_should_output(new[]
+                {
+                    "a-service stopping",
+                    "defunct-service disabled",
+                })
             );
         }
 

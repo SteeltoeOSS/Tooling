@@ -28,8 +28,15 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("disable_help"),
                 when => the_developer_runs_cli_command("disable --help"),
-                then => the_cli_should_output("Disable a service."),
-                and => the_cli_should_output("service Service name")
+                then => the_cli_should_output(new[]
+                {
+                    "Disable a service.",
+                    $"Usage: {Program.Name} disable [arguments] [options]",
+                    "Arguments:",
+                    "service Service name",
+                    "Options:",
+                    "-?|-h|--help Show help information",
+                })
             );
         }
 
@@ -71,7 +78,7 @@ namespace Steeltoe.Cli.Test
                 given => a_steeltoe_project("disable_service"),
                 when => the_developer_runs_cli_command("add dummy-svc my-service"),
                 and => the_developer_runs_cli_command("disable my-service"),
-                then => the_cli_should_output("disabled service 'my-service'"),
+                then => the_cli_should_output("Disabled service 'my-service'"),
                 and => the_configuration_service_should_not_be_enabled("my-service")
             );
         }

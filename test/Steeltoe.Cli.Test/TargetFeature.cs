@@ -28,10 +28,17 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("target_help"),
                 when => the_developer_runs_cli_command("target --help"),
-                then => the_cli_should_output("Set or get the targeted deployment environment."),
-                then => the_cli_should_output("If run with no args, show the currently targeted deployment environment."),
-                and => the_cli_should_output("environment Deployment environment"),
-                and => the_cli_should_output("-F|--force Target the deployment environment even if checks fail")
+                then => the_cli_should_output(new[]
+                {
+                    "Set or get the targeted deployment environment.",
+                    $"Usage: {Program.Name} target [arguments] [options]",
+                    "Arguments:",
+                    "environment Deployment environment",
+                    "Options:",
+                    "-F|--force Target the deployment environment even if checks fail",
+                    "-?|-h|--help Show help information",
+                    "If run with no args, show the currently targeted deployment environment.",
+                })
             );
         }
 
@@ -52,9 +59,6 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("target_uninitialized_project"),
                 when => the_developer_runs_cli_command("target"),
                 then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools"),
-                when => the_developer_runs_cli_command("target dummy-env"),
-                then => the_cli_should_error(ErrorCode.Tooling,
                     "Project has not been initialized for Steeltoe Developer Tools")
             );
         }
@@ -66,7 +70,11 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("target_environment"),
                 when => the_developer_runs_cli_command("init"),
                 and => the_developer_runs_cli_command("target dummy-env"),
-                then => the_cli_should_output("Target deployment environment set to 'dummy-env'."),
+                then => the_cli_should_output(new[]
+                {
+                    "dummy tool version ... 0.0.0",
+                    "Target deployment environment set to 'dummy-env'.",
+                }),
                 and => the_configuration_should_target("dummy-env")
             );
         }

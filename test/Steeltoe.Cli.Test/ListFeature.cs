@@ -28,12 +28,18 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("list_help"),
                 when => the_developer_runs_cli_command("list --help"),
-                then => the_cli_should_output("List services, service types, or deployment environments."),
-                and => the_cli_should_output("If run with no options, list services."),
-                and => the_cli_should_output("-e|--environments List deployment environments"),
-                and => the_cli_should_output("-s|--services List services"),
-                and => the_cli_should_output("-t|--service-types List service types"),
-                and => the_cli_should_output("-v|--verbose Verbose")
+                then => the_cli_should_output(new[]
+                {
+                    "List services, service types, or deployment environments.",
+                    $"Usage: {Program.Name} list [options]",
+                    "Options:",
+                    "-e|--environments List deployment environments",
+                    "-s|--services List services",
+                    "-t|--service-types List service types",
+                    "-v|--verbose Verbose",
+                    "-?|-h|--help Show help information",
+                    "If run with no options, list services.",
+                })
             );
         }
 
@@ -63,13 +69,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_dotnet_project("list_uninitialized_project"),
-                when => the_developer_runs_cli_command("list -e"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools"),
-                when => the_developer_runs_cli_command("list -s"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools"),
-                when => the_developer_runs_cli_command("list -t"),
+                when => the_developer_runs_cli_command("list"),
                 then => the_cli_should_error(ErrorCode.Tooling,
                     "Project has not been initialized for Steeltoe Developer Tools")
             );
@@ -81,7 +81,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("list_environments"),
                 when => the_developer_runs_cli_command("list -e"),
-                then => the_cli_should_list(new[]
+                then => the_cli_should_output(new[]
                 {
                     "cloud-foundry",
                     "docker",
@@ -96,11 +96,11 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("list_environments_verbose"),
                 when => the_developer_runs_cli_command("list -e -v"),
-                then => the_cli_should_list(new[]
+                then => the_cli_should_output(new[]
                 {
-                    "cloud-foundry  Cloud Foundry",
-                    "docker         Docker",
-                    "dummy-env      A Dummy Environment",
+                    "cloud-foundry Cloud Foundry",
+                    "docker Docker",
+                    "dummy-env A Dummy Environment",
                 })
             );
         }
@@ -111,7 +111,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("list_service_types"),
                 when => the_developer_runs_cli_command("list -t"),
-                then => the_cli_should_list(new[]
+                then => the_cli_should_output(new[]
                 {
                     "config-server",
                     "dummy-svc",
@@ -130,15 +130,15 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("list_service_types_verbose"),
                 when => the_developer_runs_cli_command("list -t -v"),
-                then => the_cli_should_list(new[]
+                then => the_cli_should_output(new[]
                 {
-                    "config-server       8888  Cloud Foundry Config Server",
-                    "dummy-svc              0  A Dummy Service",
-                    "eureka-server       8761  Netflix Eureka Server",
-                    "hystrix-dashboard   7979  Netflix Hystrix Dashboard",
-                    "mssql               1433  Microsoft SQL Server",
-                    "redis               6379  Redis In-Memory Datastore",
-                    "zipkin              9411  Zipkin Tracing Collector and UI",
+                    "config-server 8888 Cloud Foundry Config Server",
+                    "dummy-svc 0 A Dummy Service",
+                    "eureka-server 8761 Netflix Eureka Server",
+                    "hystrix-dashboard 7979 Netflix Hystrix Dashboard",
+                    "mssql 1433 Microsoft SQL Server",
+                    "redis 6379 Redis In-Memory Datastore",
+                    "zipkin 9411 Zipkin Tracing Collector and UI",
                 })
             );
         }
@@ -152,7 +152,7 @@ namespace Steeltoe.Cli.Test
                 and => the_developer_runs_cli_command("add dummy-svc b-service"),
                 and => the_developer_runs_cli_command("add dummy-svc a-service"),
                 and => the_developer_runs_cli_command("list"),
-                then => the_cli_should_list(new[]
+                then => the_cli_should_output(new[]
                 {
                     "a-service",
                     "b-service",
@@ -170,11 +170,11 @@ namespace Steeltoe.Cli.Test
                 and => the_developer_runs_cli_command("add dummy-svc c-service"),
                 when => the_developer_runs_cli_command("add dummy-svc a-service"),
                 and => the_developer_runs_cli_command("list -s -v"),
-                then => the_cli_should_list(new[]
+                then => the_cli_should_output(new[]
                 {
-                    "a-service      0  dummy-svc",
-                    "b-service      0  dummy-svc",
-                    "c-service      0  dummy-svc",
+                    "a-service 0 dummy-svc",
+                    "b-service 0 dummy-svc",
+                    "c-service 0 dummy-svc",
                 })
             );
         }

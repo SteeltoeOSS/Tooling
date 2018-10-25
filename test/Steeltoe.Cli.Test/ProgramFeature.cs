@@ -39,28 +39,32 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("program_help"),
                 when => the_developer_runs_cli_command("--help"),
-                then => the_cli_should_output("Steeltoe Developer Tools"),
-                and => the_cli_should_output(
-                    "-C|--config-file Configure tooling using the specified file instead of .steeltoe.tooling.yml"),
-                and => the_cli_should_output("-D|--debug Enable debug output"),
-                and => the_cli_should_output("-S|--no-parallel Disable parallel execution"),
-                and => the_cli_should_output("-V|--version Show version information"),
-                and => the_cli_should_output("-?|-h|--help Show help information"),
-                and => the_cli_should_output("init Initialize a project for Steeltoe Developer Tools."),
-                and => the_cli_should_output("target Set or get the targeted deployment environment."),
-                and => the_cli_should_output("add Add a service."),
-                and => the_cli_should_output("remove Remove a service."),
-                and => the_cli_should_output("enable Enable a service."),
-                and => the_cli_should_output("disable Disable a service."),
-                and => the_cli_should_output("deploy Deploy enabled services to the targeted deployment environment."),
-                and => the_cli_should_output(
-                    "undeploy Undeploy enabled services from the targeted deployment environment."),
-                and => the_cli_should_output(
-                    "status Show service statuses."),
-                and => the_cli_should_output("args Set or get the deployment environment arguments for a service."),
-                and => the_cli_should_output(
-                    "list List services, service types, or deployment environments."),
-                and => the_cli_should_output("doctor Check for potential problems.")
+                then => the_cli_should_output(new[]
+                {
+                    "1.0.0",
+                    "Steeltoe Developer Tools",
+                    $"Usage: {Program.Name} [options] [command]",
+                    "Options:",
+                    "-V|--version Show version information",
+                    "-C|--config-file Configure tooling using the specified file instead of .steeltoe.tooling.yml",
+                    "-D|--debug Enable debug output",
+                    "-S|--no-parallel Disable parallel execution",
+                    "-?|-h|--help Show help information",
+                    "Commands:",
+                    "add Add a service.",
+                    "args Set or get the deployment environment arguments for a service.",
+                    "deploy Deploy enabled services to the targeted deployment environment.",
+                    "disable Disable a service.",
+                    "doctor Check for potential problems.",
+                    "enable Enable a service.",
+                    "init Initialize a project for Steeltoe Developer Tools.",
+                    "list List services, service types, or deployment environments.",
+                    "remove Remove a service.",
+                    "status Show service statuses.",
+                    "target Set or get the targeted deployment environment.",
+                    "undeploy Undeploy enabled services from the targeted deployment environment.",
+                    $"Run '{Program.Name} [command] --help' for more information about a command.",
+                })
             );
         }
 

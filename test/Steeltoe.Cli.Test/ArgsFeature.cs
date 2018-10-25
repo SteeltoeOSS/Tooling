@@ -28,13 +28,19 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("args_help"),
                 when => the_developer_runs_cli_command("args --help"),
-                then => the_cli_should_output("Set or get the deployment environment arguments for a service."),
-                then => the_cli_should_output(
-                    "If run with no deployment environment arguments, show the service's current deployment environment arguments."),
-                and => the_cli_should_output("environment Deployment environment"),
-                and => the_cli_should_output("service Service name"),
-                and => the_cli_should_output("args Deployment environment arguments"),
-                and => the_cli_should_output("-F|--force Overwrite existing deployment environment arguments")
+                then => the_cli_should_output(new[]
+                {
+                    "Set or get the deployment environment arguments for a service.",
+                    $"Usage: {Program.Name} args [arguments] [options] [[--] <arg>...]",
+                    "Arguments:",
+                    "environment Deployment environment",
+                    "service Service name",
+                    "args Deployment environment arguments",
+                    "Options:",
+                    "-F|--force Overwrite existing deployment environment arguments",
+                    "-?|-h|--help Show help information",
+                    "If run with no deployment environment arguments, show the service's current deployment environment arguments.",
+                })
             );
         }
 
@@ -46,6 +52,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("args"),
                 then => the_cli_should_error(ErrorCode.Argument, "Deployment environment not specified")
             );
+            Console.Clear();
             Runner.RunScenario(
                 given => a_dotnet_project("args_not_enough_args1"),
                 when => the_developer_runs_cli_command("args arg1"),
@@ -59,9 +66,6 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("args_uninitialized_project"),
                 when => the_developer_runs_cli_command("args dummy-env a-service"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools"),
-                when => the_developer_runs_cli_command("args dummy-env a-service arg1"),
                 then => the_cli_should_error(ErrorCode.Tooling,
                     "Project has not been initialized for Steeltoe Developer Tools")
             );
@@ -85,6 +89,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("args dummy-env no-such-svc"),
                 then => the_cli_should_error(ErrorCode.Tooling, "Service 'no-such-svc' not found")
             );
+            Console.Clear();
             Runner.RunScenario(
                 given => a_steeltoe_project("args_nonexistent_service"),
                 when => the_developer_runs_cli_command("args dummy-env no-such-svc arg1"),

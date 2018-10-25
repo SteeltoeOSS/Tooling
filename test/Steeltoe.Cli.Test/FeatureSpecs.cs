@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using LightBDD.XUnit2;
 using McMaster.Extensions.CommandLineUtils;
@@ -135,15 +136,45 @@ namespace scratch
 
         protected void the_cli_command_should_succeed()
         {
-            Logger.LogInformation($"checking the command succeeded");
+            Logger.LogInformation($"checking the CLI command succeeded");
             CommandException.ShouldBeNull();
             CommandExitCode.ShouldBe(0);
         }
 
+        protected void the_cli_should_output(string[] messages)
+        {
+            Logger.LogInformation($"checking the CLI output");
+            the_cli_command_should_succeed();
+            var actual = new List<string>();
+            using (var reader = new StringReader(Console.Out.ToString()))
+            {
+                while (true)
+                {
+                    var line = NormalizeString(reader.ReadLine());
+                    if (line == null)
+                    {
+                        break;
+                    }
+
+                    if (line != string.Empty)
+                    {
+                        actual.Add(line);
+                    }
+                }
+            }
+
+            messages.ShouldBe(actual.ToArray());
+        }
+
         protected void the_cli_should_output(string message)
         {
+            the_cli_should_output(new[] {message});
+        }
+
+        protected void the_cli_output_should_include(string message)
+        {
             the_cli_command_should_succeed();
-            Logger.LogInformation($"checking the cli output '{message}'");
+            Logger.LogInformation($"checking the cli output includes '{message}'");
             NormalizeString(Console.Out.ToString()).ShouldContain(message);
         }
 
@@ -159,7 +190,7 @@ namespace scratch
             Logger.LogInformation($"checking the command failed with {(int) code}");
             CommandExitCode.ShouldBe((int) code);
             Logger.LogInformation($"checking the cli errored '{error}'");
-            NormalizeString(Console.Error.ToString()).ShouldContain(error);
+            NormalizeString(Console.Error.ToString()).ShouldBe(error);
         }
 
         protected void the_cli_should_fail_parse(string error)
@@ -171,19 +202,6 @@ namespace scratch
         {
             Logger.LogInformation($"checking the file {path} exists");
             File.Exists(Path.Combine(ProjectDirectory, path)).ShouldBeTrue();
-        }
-
-        protected void the_cli_should_list(string[] messages)
-        {
-            the_cli_command_should_succeed();
-            var reader = new StringReader(Console.Out.ToString());
-            foreach (string message in messages)
-            {
-                var line = reader.ReadLine();
-                line.ShouldBe(message);
-            }
-
-            reader.ReadLine().ShouldBeNullOrEmpty();
         }
 
         protected void setting_should_be(bool setting, bool expected)
@@ -225,6 +243,11 @@ namespace scratch
 
         private static string NormalizeString(string s)
         {
+            if (s == null)
+            {
+                return null;
+            }
+
             return string.Join(" ", s.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
         }
     }

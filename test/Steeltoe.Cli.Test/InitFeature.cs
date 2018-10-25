@@ -28,8 +28,14 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("init_help"),
                 when => the_developer_runs_cli_command("init --help"),
-                then => the_cli_should_output("Initialize a project for Steeltoe Developer Tools."),
-                and => the_cli_should_output("-F|--force Initialize the project even if already initialized")
+                then => the_cli_should_output(new[]
+                {
+                    "Initialize a project for Steeltoe Developer Tools.",
+                    $"Usage: {Program.Name} init [options]",
+                    "Options:",
+                    "-F|--force Initialize the project even if already initialized",
+                    "-?|-h|--help Show help information",
+                })
             );
         }
 

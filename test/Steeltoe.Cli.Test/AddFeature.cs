@@ -28,9 +28,16 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("add_help"),
                 when => the_developer_runs_cli_command("add --help"),
-                then => the_cli_should_output("Add a service."),
-                and => the_cli_should_output("type Service type"),
-                and => the_cli_should_output("service Service name")
+                then => the_cli_should_output(new[]
+                {
+                    "Add a service.",
+                    $"Usage: {Program.Name} add [arguments] [options]",
+                    "Arguments:",
+                    "type Service type",
+                    "service Service name",
+                    "Options:",
+                    "-?|-h|--help Show help information",
+                })
             );
         }
 
@@ -42,6 +49,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add"),
                 then => the_cli_should_error(ErrorCode.Argument, "Service type not specified")
             );
+            Console.Clear();
             Runner.RunScenario(
                 given => a_dotnet_project("add_not_enough_args1"),
                 when => the_developer_runs_cli_command("add arg1"),

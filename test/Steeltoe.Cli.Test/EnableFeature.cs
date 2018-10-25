@@ -28,8 +28,15 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("enable_help"),
                 when => the_developer_runs_cli_command("enable --help"),
-                then => the_cli_should_output("Enable a service."),
-                and => the_cli_should_output("service Service name")
+                then => the_cli_should_output(new[]
+                {
+                    "Enable a service.",
+                    $"Usage: {Program.Name} enable [arguments] [options]",
+                    "Arguments:",
+                    "service Service name",
+                    "Options:",
+                    "-?|-h|--help Show help information",
+                })
             );
         }
 

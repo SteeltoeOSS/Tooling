@@ -28,8 +28,15 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("remove_help"),
                 when => the_developer_runs_cli_command("remove --help"),
-                then => the_cli_should_output("Remove a service."),
-                and => the_cli_should_output("service Service name")
+                then => the_cli_should_output(new[]
+                {
+                    "Remove a service.",
+                    $"Usage: {Program.Name} remove [arguments] [options]",
+                    "Arguments:",
+                    "service Service name",
+                    "Options:",
+                    "-?|-h|--help Show help information",
+                })
             );
         }
 

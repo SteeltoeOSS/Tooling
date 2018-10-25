@@ -28,7 +28,13 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("deploy_help"),
                 when => the_developer_runs_cli_command("deploy --help"),
-                then => the_cli_should_output("Deploy enabled services to the targeted deployment environment.")
+                then => the_cli_should_output(new[]
+                {
+                    "Deploy enabled services to the targeted deployment environment.",
+                    $"Usage: {Program.Name} deploy [options]",
+                    "Options:",
+                    "-?|-h|--help Show help information",
+                })
             );
         }
 
@@ -61,14 +67,18 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add dummy-svc a-service"),
                 and => the_developer_runs_cli_command("add dummy-svc defunct-service"),
                 and => the_developer_runs_cli_command("disable defunct-service"),
-                and => the_developer_runs_cli_command("deploy"),
-                then => the_cli_should_output("Deploying service 'a-service'"),
-                and => the_cli_should_output("Ignoring disabled service 'defunct-service'"),
-                when => the_developer_runs_cli_command("status"),
-                then => the_cli_should_output("a-service starting"),
-                and => the_developer_runs_cli_command("deploy"),
-                then => the_cli_should_output("Deploying service 'a-service'"),
-                and => the_cli_should_output("Ignoring disabled service 'defunct-service'")
+                and => the_developer_runs_cli_command("-S deploy"),
+                then => the_cli_should_output(new[]
+                {
+                    "Deploying service 'a-service'",
+                    "Ignoring disabled service 'defunct-service'",
+                }),
+                when => the_developer_runs_cli_command("-S status"),
+                then => the_cli_should_output(new[]
+                {
+                    "a-service starting",
+                    "defunct-service disabled",
+                })
             );
         }
 

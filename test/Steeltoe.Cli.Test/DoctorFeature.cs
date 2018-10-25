@@ -28,7 +28,13 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("dotnet_help"),
                 when => the_developer_runs_cli_command("doctor --help"),
-                then => the_cli_should_output("Check for potential problems.")
+                then => the_cli_should_output(new[]
+                {
+                    "Check for potential problems.",
+                    $"Usage: {Program.Name} doctor [options]",
+                    "Options:",
+                    "-?|-h|--help Show help information",
+                })
             );
         }
 
@@ -48,7 +54,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("doctor_version"),
                 when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_should_output("Steeltoe Developer Tools version ... 1.0.0")
+                then => the_cli_output_should_include("Steeltoe Developer Tools version ... 1.0.0")
             );
         }
 
@@ -58,7 +64,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("doctor_dotnet_version"),
                 when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_should_output("DotNet ... dotnet version ")
+                then => the_cli_output_should_include("DotNet ... dotnet version ")
             );
         }
 
@@ -68,7 +74,8 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("doctor_uninitialized_project"),
                 when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_should_output($"initialized ... !!! no (run '{Program.Name} init' to initialize)")
+                then => the_cli_output_should_include(
+                    $"initialized ... !!! no (run '{Program.Name} init' to initialize)")
             );
         }
 
@@ -78,7 +85,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("doctor_initialized_project"),
                 when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_should_output("initialized ... yes")
+                then => the_cli_output_should_include("initialized ... yes")
             );
         }
 
@@ -89,12 +96,12 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("doctor_target"),
                 when => the_developer_runs_cli_command("init"),
                 and => the_developer_runs_cli_command("doctor"),
-                then => the_cli_should_output(
+                then => the_cli_output_should_include(
                     $"target deployment environment ... !!! not set (run '{Program.Name} target <env>' to set)"),
                 when => the_developer_runs_cli_command("target dummy-env"),
                 and => the_developer_runs_cli_command("doctor"),
-                then => the_cli_should_output("target deployment environment ... dummy-env"),
-                and => the_cli_should_output("dummy tool version ... 0.0.0")
+                then => the_cli_output_should_include("target deployment environment ... dummy-env"),
+                and => the_cli_output_should_include("dummy tool version ... 0.0.0")
             );
         }
     }
