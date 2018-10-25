@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.IO;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling;
 using Steeltoe.Tooling.Executor;
@@ -50,11 +51,9 @@ namespace Steeltoe.Cli
 
         public void Execute(Context context)
         {
-            var cfgFilePath = Program.ProjectConfigurationPath;
-            if (cfgFilePath == null)
-            {
-                cfgFilePath = context.ProjectDirectory;
-            }
+            var cfgFilePath = Program.ProjectConfigurationPath == null
+                ? context.ProjectDirectory
+                : Path.Combine(context.ProjectDirectory, Program.ProjectConfigurationPath);
 
             var cfgFile = new ToolingConfigurationFile(cfgFilePath);
             if (cfgFile.Exists() && !_force)

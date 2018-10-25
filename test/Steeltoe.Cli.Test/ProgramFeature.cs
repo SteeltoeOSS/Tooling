@@ -101,6 +101,10 @@ namespace Steeltoe.Cli.Test
             );
         }
 
+        // ========================================================================== //
+        // following can not be run in suite since the config file property is static //
+        // ========================================================================== //
+
 //        [Scenario]
 //        [Label("version")]
 //        public void CustomConfigurationFile()

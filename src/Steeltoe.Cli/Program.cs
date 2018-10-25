@@ -43,7 +43,7 @@ namespace Steeltoe.Cli
                 .InformationalVersion;
 
         [Option("-C|--config-file", Description =
-            "Configure tooling using the specified file instead of .steeltoe.tooling.yml")]
+            "Configure tooling using the specified file instead of the default")]
         // ReSharper disable once UnassignedGetOnlyAutoProperty
         public static string ProjectConfigurationPath { get; }
 
