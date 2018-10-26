@@ -1,0 +1,42 @@
+:toc: preamble
+:toclevels: 2
+:!toc-title:
+:linkattrs:
+
+= Steeltoe Tooling
+
+Steeltoe developer tool collection
+
+== Testing
+
+.Run unit test suite
+----
+> scripts/unit-test
+
+# Alternatively
+> dotnet test test/Steeltoe.Tooling.Test
+----
+
+.Run CLI test suite
+----
+> scripts/cli-test
+
+# Alternatively
+> dotnet test test/Steeltoe.Cli.Test
+----
+
+== Install/Uninstall
+
+.Install
+----
+> scripts/install
+
+# Alternatively
+> dotnet pack
+> dotnet tool install -g --add-source src/Steeltoe.Cli/bin/Debug Steeltoe.Cli
+----
+
+.Uninstall
+----
+> dotnet tool uninstall -g Steeltoe.Cli
+----
