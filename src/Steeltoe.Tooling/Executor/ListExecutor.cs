@@ -12,32 +12,47 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Linq;
+
 namespace Steeltoe.Tooling.Executor
 {
     [RequiresInitialization]
-    public abstract class ListExecutor : IExecutor
+    public class ListExecutor : GroupExecutor
     {
-        private bool _verbose;
+        private readonly bool _verbose;
 
-        protected ListExecutor(bool verbose)
+        private string _format;
+
+        public ListExecutor(bool verbose = false) : base(false)
         {
             _verbose = verbose;
         }
 
-        public void Execute(Context context)
+        protected override void Execute()
         {
+            var services = Context.Configuration.GetServices();
             if (_verbose)
             {
-                ExecuteListVerbose(context);
+                var max = services.Max(n => n.Length);
+                _format = "{0,-" + max + "}  {1,5}  {2}";
             }
             else
             {
-                ExecuteList(context);
+                _format = "{0}";
             }
+            base.Execute();
         }
 
-        protected abstract void ExecuteList(Context context);
+        protected override void ExecuteForApp(string app)
+        {
+            Context.Console.WriteLine(_format, app, "", "app");
+        }
 
-        protected abstract void ExecuteListVerbose(Context context);
+        protected override void ExecuteForService(string service)
+        {
+            var svcInfo = Context.Configuration.GetServiceInfo(service);
+            var svcTypeInfo = Registry.GetServiceTypeInfo(svcInfo.ServiceType);
+            Context.Console.WriteLine(_format, service, svcTypeInfo.Port, svcTypeInfo.Name);
+        }
     }
 }

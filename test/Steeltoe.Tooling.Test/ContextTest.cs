@@ -22,29 +22,12 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestContext()
         {
-            var cfg = new ToolingConfiguration();
-            cfg.EnvironmentName = "dummy-env";
+            var cfg = new Configuration();
+            cfg.Target = "dummy-target";
             var ctx = new Context(null, cfg, Console, Shell);
-            ctx.ToolingConfiguration.ShouldBe(cfg);
+            ctx.Configuration.ShouldBe(cfg);
             ctx.Shell.ShouldBe(Shell);
-            ctx.Environment.Name.ShouldBe("dummy-env");
-            ctx.ServiceManager.ShouldNotBeNull();
-        }
-
-        [Fact]
-        public void TestContextEnvironmentNotSet()
-        {
-            var cfg = new ToolingConfiguration();
-            var ctx = new Context(null, cfg, Console, Shell);
-            try
-            {
-                var unused = ctx.Environment;
-                Assert.True(false, "expected ToolingException");
-            }
-            catch (ToolingException e)
-            {
-                e.Message.ShouldBe("Target deployment environment not set");
-            }
+            ctx.Target.Name.ShouldBe("dummy-target");
         }
     }
 }

@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("args")]
     public class ArgsFeature : FeatureSpecs
     {
         [Scenario]
-        [Label("help")]
         public void ArgsHelp()
         {
             Runner.RunScenario(
@@ -30,16 +27,16 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("args --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Set or get the deployment environment arguments for a service.",
+                    "Set or get the deployment arguments for an app or service",
                     $"Usage: {Program.Name} args [arguments] [options] [[--] <arg>...]",
                     "Arguments:",
-                    "environment Deployment environment",
-                    "service Service name",
-                    "args Deployment environment arguments",
+                    "name App or service name",
+                    "target Deployment target name",
+                    "args Deployment arguments",
                     "Options:",
                     "-F|--force Overwrite existing deployment environment arguments",
                     "-?|-h|--help Show help information",
-                    "If run with no deployment environment arguments, show the service's current deployment environment arguments.",
+                    "If run with no arguments, show the current deployment arguments for the app or service.",
                 })
             );
         }
@@ -48,109 +45,136 @@ namespace Steeltoe.Cli.Test
         public void ArgsNotEnoughArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("args_not_enough_args0"),
+                given => a_dotnet_project("args_not_enough"),
                 when => the_developer_runs_cli_command("args"),
-                then => the_cli_should_error(ErrorCode.Argument, "Deployment environment not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "App or service name not specified")
             );
             Console.Clear();
             Runner.RunScenario(
                 given => a_dotnet_project("args_not_enough_args1"),
                 when => the_developer_runs_cli_command("args arg1"),
-                then => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "Deployment target name not specified")
             );
         }
 
         [Scenario]
-        public void ArgsUninitializedProject()
+        public void ArgsGetUninitialized()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("args_uninitialized_project"),
-                when => the_developer_runs_cli_command("args dummy-env a-service"),
+                given => a_dotnet_project("args_get_uninitialized"),
+                when => the_developer_runs_cli_command("args dummy-env my-service"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools has not been initialized")
+            );
+        }
+
+        [Scenario]
+        public void ArgsSetUninitialized()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("args_set_uninitialized"),
+                when => the_developer_runs_cli_command("args dummy-env my-service arg1"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools has not been initialized")
+            );
+        }
+
+        [Scenario]
+        public void ArgsGetUnknownTarget()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("args_get_unknown_target"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                and => the_developer_runs_cli_command("args my-service no-such-target"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Unknown target 'no-such-target'")
+            );
+        }
+
+        [Scenario]
+        public void ArgsSetUnknownTarget()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("args_set_unknown_target"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                and => the_developer_runs_cli_command("args my-service no-such-target arg1"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Unknown target 'no-such-target'")
+            );
+        }
+
+        [Scenario]
+        public void ArgsGetUnknownService()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("args_get_unknown_service"),
+                when => the_developer_runs_cli_command("args no-such-svc dummy-target"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Unknown service 'no-such-svc'")
+            );
+        }
+
+        [Scenario]
+        public void ArgsSetUnknownService()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("args_set_unknown_service"),
+                when => the_developer_runs_cli_command("args no-such-svc dummy-target arg1"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Unknown service 'no-such-svc'")
+            );
+        }
+
+        [Scenario]
+        public void ArgsSet()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("args_set"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                and => the_developer_runs_cli_command("args my-service dummy-target arg1 arg2"),
+                then => the_cli_should_output("Service 'my-service' args for target 'dummy-target' set to 'arg1 arg2'")
+            );
+        }
+
+        [Scenario]
+        public void ArgsSetWithOpt()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("args_set_with_opt"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                and => the_developer_runs_cli_command("args my-service dummy-target -- arg1 -opt2"),
+                then => the_cli_should_output("Service 'my-service' args for target 'dummy-target' set to 'arg1 -opt2'")
+            );
+        }
+
+        [Scenario]
+        public void ArgsSetForce()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("args_set_force"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                and => the_developer_runs_cli_command("args my-service dummy-target arg1 arg2"),
+                and => the_developer_runs_cli_command("args my-service dummy-target arg1 arg2"),
                 then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools")
+                    "Service 'my-service' args for target 'dummy-target' already set to 'arg1 arg2'"),
+                when => the_developer_runs_cli_command("args my-service dummy-target arg3 --force"),
+                then => the_cli_should_output("Service 'my-service' args for target 'dummy-target' set to 'arg3'")
             );
         }
 
         [Scenario]
-        public void ArgsUnknownEnvironment()
+        public void ArgsGet()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("args_unknown_environment"),
-                when => the_developer_runs_cli_command("args no-such-env a-service"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Unknown deployment environment 'no-such-env'")
-            );
-        }
-
-        [Scenario]
-        public void ArgsNoSuchService()
-        {
-            Runner.RunScenario(
-                given => a_steeltoe_project("args_nonexistent_service"),
-                when => the_developer_runs_cli_command("args dummy-env no-such-svc"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Service 'no-such-svc' not found")
-            );
-            Console.Clear();
-            Runner.RunScenario(
-                given => a_steeltoe_project("args_nonexistent_service"),
-                when => the_developer_runs_cli_command("args dummy-env no-such-svc arg1"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Service 'no-such-svc' not found")
-            );
-        }
-
-        [Scenario]
-        public void ArgsSetDeploymentEnvironmentArgs()
-        {
-            Runner.RunScenario(
-                given => a_steeltoe_project("args_set_deployment_environment_args"),
-                when => the_developer_runs_cli_command("add dummy-svc a-service"),
-                and => the_developer_runs_cli_command("args dummy-env a-service arg1 arg2"),
-                then => the_cli_should_output(
-                    "Set the 'dummy-env' deployment environment arguments for service 'a-service' to 'arg1 arg2'")
-            );
-            Runner.RunScenario(
-                given => a_steeltoe_project("args_set_deployment_environment_args_with_opt"),
-                when => the_developer_runs_cli_command("add dummy-svc a-service"),
-                and => the_developer_runs_cli_command("args dummy-env a-service -- arg1 -opt2"),
-                then => the_cli_should_output(
-                    "Set the 'dummy-env' deployment environment arguments for service 'a-service' to 'arg1 -opt2'")
-            );
-        }
-
-        [Scenario]
-        public void ArgsSetDeploymentEnvironmentArgsForce()
-        {
-            Runner.RunScenario(
-                given => a_steeltoe_project("args_set_deployment_environment_args_force"),
-                when => the_developer_runs_cli_command("add dummy-svc a-service"),
-                and => the_developer_runs_cli_command("args dummy-env a-service arg1 arg2"),
-                and => the_developer_runs_cli_command("args dummy-env a-service arg1 arg2"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "'dummy-env' deployment environment arguments for service 'a-service' already set."),
-                when => the_developer_runs_cli_command("args dummy-env a-service arg1 arg2 --force"),
-                then => the_cli_should_output(
-                    "Set the 'dummy-env' deployment environment arguments for service 'a-service' to 'arg1 arg2'")
-            );
-        }
-
-        [Scenario]
-        public void ArgsGetDeploymentEnvironmentArgs()
-        {
-            Runner.RunScenario(
-                given => a_steeltoe_project("args_get_deployment_environment_args"),
-                when => the_developer_runs_cli_command("add dummy-svc a-service"),
-                and => the_developer_runs_cli_command("args dummy-env a-service arg1 arg2"),
-                and => the_developer_runs_cli_command("args dummy-env a-service"),
+                given => a_steeltoe_project("args_get"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                and => the_developer_runs_cli_command("args my-service dummy-target arg1 arg2"),
+                and => the_developer_runs_cli_command("args my-service dummy-target"),
                 then => the_cli_should_output("arg1 arg2")
             );
         }
 
         [Scenario]
-        public void ArgsGetDeploymentEnvironmentNoArgs()
+        public void ArgsGetNoArgs()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("args_get_deployment_environment_no_args"),
-                when => the_developer_runs_cli_command("add dummy-svc a-service"),
-                when => the_developer_runs_cli_command("args dummy-env a-service"),
+                given => a_steeltoe_project("args_get_no_args"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                when => the_developer_runs_cli_command("args my-service dummy-target"),
                 then => the_cli_should_output_nothing()
             );
         }

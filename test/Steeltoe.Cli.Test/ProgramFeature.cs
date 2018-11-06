@@ -12,14 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 using Steeltoe.Tooling;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("program")]
     public class ProgramFeature : FeatureSpecs
     {
 //        [Scenario]
@@ -33,7 +31,6 @@ namespace Steeltoe.Cli.Test
 //        }
 
         [Scenario]
-        [Label("help")]
         public void ProgramHelp()
         {
             Runner.RunScenario(
@@ -43,33 +40,30 @@ namespace Steeltoe.Cli.Test
                 {
                     "1.0.0",
                     "Steeltoe Developer Tools",
-                    $"Usage: {Program.Name} [options] [command]",
+                    $"Usage: st [options] [command]",
                     "Options:",
                     "-V|--version Show version information",
-                    $"-C|--config-file Configure tooling using the specified file instead of {ToolingConfigurationFile.DefaultFileName}",
+                    $"-C|--config-file Configure tooling using the specified file instead of steeltoe.yml",
                     "-D|--debug Enable debug output",
                     "-S|--no-parallel Disable parallel execution",
                     "-?|-h|--help Show help information",
                     "Commands:",
-                    "add Add a service.",
-                    "args Set or get the deployment environment arguments for a service.",
-                    "deploy Deploy enabled services to the targeted deployment environment.",
-                    "disable Disable a service.",
-                    "doctor Check for potential problems.",
-                    "enable Enable a service.",
-                    "init Initialize a project for Steeltoe Developer Tools.",
-                    "list List services, service types, or deployment environments.",
-                    "remove Remove a service.",
-                    "status Show service statuses.",
-                    "target Set or get the targeted deployment environment.",
-                    "undeploy Undeploy enabled services from the targeted deployment environment.",
-                    $"Run '{Program.Name} [command] --help' for more information about a command.",
+                    "add Add an app or service",
+                    "args Set or get the deployment arguments for an app or service",
+                    "deploy Deploy apps and services to the target",
+                    "doctor Check for potential problems",
+                    "init Initialize Steeltoe Developer Tools",
+                    "list List apps and services",
+                    "remove Remove an app or service",
+                    "status Show app and service statuses",
+                    "target Set or get the deployment target",
+                    "undeploy Undeploy apps and services from the target",
+                    $"Run 'st [command] --help' for more information about a command.",
                 })
             );
         }
 
         [Scenario]
-        [Label("version")]
         public void ProgramVersion()
         {
             Runner.RunScenario(
@@ -80,7 +74,6 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        [Label("version")]
         public void ProgramDebug()
         {
             Runner.RunScenario(
@@ -91,11 +84,10 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        [Label("version")]
         public void ProgramNoParallel()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("program_parallel"),
+                given => a_dotnet_project("program_noparallel"),
                 when => the_developer_runs_cli_command("--no-parallel --version"),
                 then => setting_should_be(Settings.ParallelExecutionEnabled, false)
             );

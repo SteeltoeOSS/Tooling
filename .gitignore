@@ -267,7 +267,7 @@ __pycache__/
 \.*\.sw[A-z]
 
 # test files
-\.steeltoe.tooling.yml
+steeltoe.yml
 \.steeltoe.dummies
 dummy-service-backend.db
 

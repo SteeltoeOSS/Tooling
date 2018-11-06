@@ -24,8 +24,6 @@ namespace Steeltoe.Cli
     [Subcommand(TargetCommand.Name, typeof(TargetCommand))]
     [Subcommand(AddCommand.Name, typeof(AddCommand))]
     [Subcommand(RemoveCommand.Name, typeof(RemoveCommand))]
-    [Subcommand(DisableCommand.Name, typeof(DisableCommand))]
-    [Subcommand(EnableCommand.Name, typeof(EnableCommand))]
     [Subcommand(DeployCommand.Name, typeof(DeployCommand))]
     [Subcommand(UndeployCommand.Name, typeof(UndeployCommand))]
     [Subcommand(StatusCommand.Name, typeof(StatusCommand))]
@@ -43,7 +41,7 @@ namespace Steeltoe.Cli
                 .InformationalVersion;
 
         [Option("-C|--config-file", Description =
-            "Configure tooling using the specified file instead of .steeltoe.tooling.yml")]
+            "Configure tooling using the specified file instead of steeltoe.yml")]
         // ReSharper disable once UnassignedGetOnlyAutoProperty
         public static string ProjectConfigurationPath { get; }
 

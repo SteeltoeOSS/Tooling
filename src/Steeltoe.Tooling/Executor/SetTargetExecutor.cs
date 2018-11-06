@@ -15,36 +15,36 @@
 namespace Steeltoe.Tooling.Executor
 {
     [RequiresInitialization]
-    public class SetTargetExecutor : IExecutor
+    public class SetTargetExecutor : Executor
     {
-        private readonly string _environmentName;
+        private readonly string _target;
 
         private readonly bool _force;
 
-        public SetTargetExecutor(string environmentName, bool force = false)
+        public SetTargetExecutor(string target, bool force = false)
         {
-            _environmentName = environmentName;
+            _target = target;
             _force = force;
         }
 
-        public void Execute(Context context)
+        protected override void Execute()
         {
-            Environment env = Registry.GetEnvironment(_environmentName);
+            Target tgt = Registry.GetTarget(_target);
 
-            if (!env.IsHealthy(context))
+            if (!tgt.IsHealthy(Context))
             {
                 if (!_force)
                 {
-                    context.Console.WriteLine("Fix errors above or re-run with '-F|--force'");
-                    throw new ToolingException($"Environment '{_environmentName	}' does not appear healthy");
+                    Context.Console.WriteLine("Fix errors above or re-run with '-F|--force'");
+                    throw new ToolingException($"Target '{_target}' does not appear healthy");
                 }
 
-                context.Console.WriteLine("Ignoring poor health report above :-(");
+                Context.Console.WriteLine("Ignoring poor health report above :-(");
             }
 
-            context.ToolingConfiguration.EnvironmentName = _environmentName;
-            context.ToolingConfiguration.NotifyChanged();
-            context.Console.WriteLine($"Target deployment environment set to '{_environmentName}'.");
+            Context.Configuration.Target = _target;
+            Context.Configuration.NotifyChanged();
+            Context.Console.WriteLine($"Target set to '{_target}'");
         }
     }
 }

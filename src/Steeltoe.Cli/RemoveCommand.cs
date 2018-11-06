@@ -20,22 +20,22 @@ using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Remove a service.")]
+    [Command(Description = "Remove an app or service")]
     public class RemoveCommand : Command
     {
         public const string Name = "remove";
 
-        [Required(ErrorMessage = "Service name not specified")]
-        [Argument(0, Name = "service", Description = "Service name")]
-        private string ServiceName { get; }
+        [Required(ErrorMessage = "App or service name not specified")]
+        [Argument(0, Name = "name", Description = "App or service name")]
+        private string AppOrServiceName { get; }
 
         public RemoveCommand(IConsole console) : base(console)
         {
         }
 
-        protected override IExecutor GetExecutor()
+        protected override Executor GetExecutor()
         {
-            return new RemoveServiceExecutor(ServiceName);
+            return new RemoveExecutor(AppOrServiceName);
         }
     }
 }

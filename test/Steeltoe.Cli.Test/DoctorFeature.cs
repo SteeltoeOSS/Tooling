@@ -12,25 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("doctor")]
     public class DoctorFeature : FeatureSpecs
     {
         [Scenario]
-        [Label("help")]
         public void DoctorHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("dotnet_help"),
+                given => a_dotnet_project("doctor_help"),
                 when => the_developer_runs_cli_command("doctor --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Check for potential problems.",
+                    "Check for potential problems",
                     $"Usage: {Program.Name} doctor [options]",
                     "Options:",
                     "-?|-h|--help Show help information",
@@ -45,6 +42,27 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("doctor_too_many_args"),
                 when => the_developer_runs_cli_command("doctor arg1"),
                 then => the_cli_should_fail_parse("Unrecognized command or argument 'arg1'")
+            );
+        }
+
+        [Scenario]
+        public void DoctorUninitialized()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("doctor_uninitialized"),
+                when => the_developer_runs_cli_command("doctor"),
+                then => the_cli_output_should_include(
+                    $"initialized ... !!! no (run '{Program.Name} init' to initialize)")
+            );
+        }
+
+        [Scenario]
+        public void DoctorInitialized()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("doctor_initialized"),
+                when => the_developer_runs_cli_command("doctor"),
+                then => the_cli_output_should_include("initialized ... yes")
             );
         }
 
@@ -69,39 +87,24 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void DoctorUninitializedProject()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("doctor_uninitialized_project"),
-                when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_output_should_include(
-                    $"initialized ... !!! no (run '{Program.Name} init' to initialize)")
-            );
-        }
-
-        [Scenario]
-        public void DoctorInitializedProject()
-        {
-            Runner.RunScenario(
-                given => a_steeltoe_project("doctor_initialized_project"),
-                when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_output_should_include("initialized ... yes")
-            );
-        }
-
-        [Scenario]
         public void DoctorTarget()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("doctor_target"),
+                given => a_steeltoe_project("doctor_target"),
+                when => the_developer_runs_cli_command("doctor"),
+                then => the_cli_output_should_include("target ... dummy-target")
+            );
+        }
+
+        [Scenario]
+        public void DoctorNoTarget()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("doctor_no_target"),
                 when => the_developer_runs_cli_command("init"),
                 and => the_developer_runs_cli_command("doctor"),
                 then => the_cli_output_should_include(
-                    $"target deployment environment ... !!! not set (run '{Program.Name} target <env>' to set)"),
-                when => the_developer_runs_cli_command("target dummy-env"),
-                and => the_developer_runs_cli_command("doctor"),
-                then => the_cli_output_should_include("target deployment environment ... dummy-env"),
-                and => the_cli_output_should_include("dummy tool version ... 0.0.0")
+                    $"target ... !!! not set (run '{Program.Name} target <env>' to set)")
             );
         }
     }

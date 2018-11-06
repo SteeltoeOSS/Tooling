@@ -17,7 +17,7 @@ using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Show service statuses.")]
+    [Command(Description = "Show app and service statuses")]
     public class StatusCommand : Command
     {
         public const string Name = "status";
@@ -26,9 +26,9 @@ namespace Steeltoe.Cli
         {
         }
 
-        protected override IExecutor GetExecutor()
+        protected override Executor GetExecutor()
         {
-            return new StatusServicesExecutor();
+            return new StatusExecutor();
         }
     }
 }

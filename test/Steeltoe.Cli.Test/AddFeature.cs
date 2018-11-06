@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("add")]
     public class AddFeature : FeatureSpecs
     {
         [Scenario]
-        [Label("help")]
         public void AddHelp()
         {
             Runner.RunScenario(
@@ -30,11 +27,11 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Add a service.",
+                    "Add an app or service",
                     $"Usage: {Program.Name} add [arguments] [options]",
                     "Arguments:",
-                    "type Service type",
-                    "service Service name",
+                    "type 'app' or service type",
+                    "name App or service name",
                     "Options:",
                     "-?|-h|--help Show help information",
                 })
@@ -45,15 +42,15 @@ namespace Steeltoe.Cli.Test
         public void AddNotEnoughArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("add_not_enough_args0"),
+                given => a_dotnet_project("add_not_enough"),
                 when => the_developer_runs_cli_command("add"),
-                then => the_cli_should_error(ErrorCode.Argument, "Service type not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "'app' or service type not specified")
             );
             Console.Clear();
             Runner.RunScenario(
                 given => a_dotnet_project("add_not_enough_args1"),
                 when => the_developer_runs_cli_command("add arg1"),
-                then => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "App or service name not specified")
             );
         }
 
@@ -68,23 +65,44 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void AddUnknownServiceType()
+        public void AddUninitialized()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("add_unknown_service_type"),
-                when => the_developer_runs_cli_command("add no-such-type foo"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Unknown service type 'no-such-type'")
+                given => a_dotnet_project("add_uninitialized"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools has not been initialized")
             );
         }
 
         [Scenario]
-        public void AddUninitializedProject()
+        public void AddUnknownServiceType()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("add_uninitialized_project"),
-                when => the_developer_runs_cli_command("add dummy-svc my-service"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools")
+                given => a_steeltoe_project("add_unknown_type"),
+                when => the_developer_runs_cli_command("add no-such-service-type foo"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Unknown type 'no-such-service-type'")
+            );
+        }
+
+        [Scenario]
+        public void AddApp()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("add_app"),
+                when => the_developer_runs_cli_command("add app my-app"),
+                then => the_cli_should_output("Added app 'my-app'"),
+                and => the_configuration_should_contain_app("my-app")
+            );
+        }
+
+        [Scenario]
+        public void AddExistingApp()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("add_existing_app"),
+                when => the_developer_runs_cli_command("add app existing-app"),
+                and => the_developer_runs_cli_command("add app existing-app"),
+                then => the_cli_should_error(ErrorCode.Tooling, "App 'existing-app' already exists")
             );
         }
 
@@ -95,16 +113,15 @@ namespace Steeltoe.Cli.Test
                 given => a_steeltoe_project("add_service"),
                 when => the_developer_runs_cli_command("add dummy-svc my-service"),
                 then => the_cli_should_output("Added dummy-svc service 'my-service'"),
-                and => the_configuration_should_contain_service("my-service"),
-                and => the_configuration_service_should_be_enabled("my-service")
+                and => the_configuration_should_contain_service("my-service", "dummy-svc")
             );
         }
 
         [Scenario]
-        public void AddPreExistingService()
+        public void AddExistingService()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("add_pre_existing_service"),
+                given => a_steeltoe_project("add_existing_service"),
                 when => the_developer_runs_cli_command("add dummy-svc existing-service"),
                 and => the_developer_runs_cli_command("add dummy-svc existing-service"),
                 then => the_cli_should_error(ErrorCode.Tooling, "Service 'existing-service' already exists")

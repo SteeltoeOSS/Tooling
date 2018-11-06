@@ -17,7 +17,7 @@ using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Undeploy enabled services from the targeted deployment environment.")]
+    [Command(Description = "Undeploy apps and services from the target")]
     public class UndeployCommand : Command
     {
         public const string Name = "undeploy";
@@ -26,9 +26,9 @@ namespace Steeltoe.Cli
         {
         }
 
-        protected override IExecutor GetExecutor()
+        protected override Executor GetExecutor()
         {
-            return new UndeployServicesExecutor();
+            return new UndeployExecutor();
         }
     }
 }

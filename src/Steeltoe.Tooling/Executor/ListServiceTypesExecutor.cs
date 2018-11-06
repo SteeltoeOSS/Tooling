@@ -22,24 +22,23 @@ namespace Steeltoe.Tooling.Executor
         {
         }
 
-        protected override void ExecuteList(Context context)
+        protected void ExecuteList(Context context)
         {
-            foreach (var svcTypeName in Registry.ServiceTypeNames)
+            foreach (var svcType in Registry.GetServiceTypes())
             {
-                context.Console.WriteLine(svcTypeName);
-
+                context.Console.WriteLine(svcType);
             }
         }
 
-        protected override void ExecuteListVerbose(Context context)
+        protected void ExecuteListVerbose(Context context)
         {
-            var svcTypeNames = Registry.ServiceTypeNames;
+            var svcTypeNames = Registry.GetServiceTypes();
             var max = svcTypeNames.Max(n => n.Length);
             var format = "{0,-" + max + "}  {1,5}  {2}";
             foreach (var svcTypeName in svcTypeNames)
             {
-                var svcType = Registry.GetServiceType(svcTypeName);
-                context.Console.WriteLine(format, svcType.Name, svcType.Port, svcType.Description);
+                var svcTypeInfo = Registry.GetServiceTypeInfo(svcTypeName);
+                context.Console.WriteLine(format, svcTypeInfo.Name, svcTypeInfo.Port, svcTypeInfo.Description);
             }
         }
     }

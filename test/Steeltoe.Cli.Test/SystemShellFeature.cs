@@ -70,7 +70,7 @@ namespace Steeltoe.Cli.Test
         public void RunNoSuchCommand()
         {
             Runner.RunScenario(
-                when => the_command_is_run("NoSuchCommand"),
+                when => the_command_is_run("no-such-command"),
                 then => the_command_should_raise_exception<ShellException>()
             );
         }

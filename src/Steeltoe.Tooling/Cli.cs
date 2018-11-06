@@ -18,7 +18,7 @@ namespace Steeltoe.Tooling
     {
         public string Command { get; }
 
-        public Shell Shell { get; }
+        private Shell Shell { get; }
 
         public Cli(string command, Shell shell)
         {

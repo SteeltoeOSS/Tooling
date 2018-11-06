@@ -17,7 +17,7 @@ using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Deploy enabled services to the targeted deployment environment.")]
+    [Command(Description = "Deploy apps and services to the target")]
     public class DeployCommand : Command
     {
         public const string Name = "deploy";
@@ -26,10 +26,9 @@ namespace Steeltoe.Cli
         {
         }
 
-        protected override IExecutor
-GetExecutor()
+        protected override Executor GetExecutor()
         {
-            return new DeployServicesExecutor();
+            return new DeployExecutor();
         }
     }
 }

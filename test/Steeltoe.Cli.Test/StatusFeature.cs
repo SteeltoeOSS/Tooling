@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("status")]
     public class StatusFeature : FeatureSpecs
     {
         [Scenario]
-        [Label("help")]
         public void StatusHelp()
         {
             Runner.RunScenario(
@@ -30,7 +27,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("status --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Show service statuses.",
+                    "Show app and service statuses",
                     $"Usage: {Program.Name} status [options]",
                     "Options:",
                     "-?|-h|--help Show help information",
@@ -49,13 +46,12 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void StatusUninitializedProject()
+        public void StatusUninitialized()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("status_uninitialized_project"),
+                given => a_dotnet_project("status_uninitialized"),
                 when => the_developer_runs_cli_command("status"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools")
+                then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools has not been initialized")
             );
         }
 
@@ -64,28 +60,13 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("status_services"),
-                when => the_developer_runs_cli_command("add dummy-svc a-service"),
-                when => the_developer_runs_cli_command("add dummy-svc defunct-service"),
-                and => the_developer_runs_cli_command("disable defunct-service"),
-                and => the_developer_runs_cli_command("-S status"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service-a"),
+                and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
+                and => the_developer_runs_cli_command("status"),
                 then => the_cli_should_output(new[]
                 {
-                    "a-service offline",
-                    "defunct-service disabled",
-                }),
-                when => the_developer_runs_cli_command("deploy"),
-                and => the_developer_runs_cli_command("-S status"),
-                then => the_cli_should_output(new[]
-                {
-                    "a-service starting",
-                    "defunct-service disabled",
-                }),
-                when => the_developer_runs_cli_command("undeploy"),
-                and => the_developer_runs_cli_command("-S status"),
-                then => the_cli_should_output(new[]
-                {
-                    "a-service stopping",
-                    "defunct-service disabled",
+                    "my-service-a offline",
+                    "my-service-b offline",
                 })
             );
         }
@@ -108,7 +89,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("init"),
                 and => the_developer_runs_cli_command("add dummy-svc a-server"),
                 and => the_developer_runs_cli_command("status"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Target deployment environment not set")
+                then => the_cli_should_error(ErrorCode.Tooling, "Target not set")
             );
         }
     }

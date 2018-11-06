@@ -32,22 +32,25 @@ serviceTypes:
     description: Zipkin Tracing Collector and UI
     port: 9411
 
-environments:
+targets:
   cloud-foundry:
     description: Cloud Foundry
     serviceTypeProperties:
-      circuit-breaker-dashboard:
-        service: p-circuit-breaker-dashboard
-        plan: standard
+      dummy-svc:
+        service: dummy-server
+        plan: dummy-plan
       config-server:
         service: p-config-server
         plan: standard
-      redis-server:
-        service: p-redis
-        plan: shared-vm
-      service-registry:
+      eureka-server:
         service: p-service-registry
         plan: standard
+      hystrix-dashboard:
+        service: p-circuit-breaker-dashboard
+        plan: standard
+      redis:
+        service: p-redis
+        plan: shared-vm
   docker:
     description: Docker
     serviceTypeProperties:

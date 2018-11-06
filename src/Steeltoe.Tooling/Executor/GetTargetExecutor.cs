@@ -14,18 +14,12 @@
 
 namespace Steeltoe.Tooling.Executor
 {
-    [RequiresInitialization]
-    public class GetTargetExecutor : IExecutor
+    [RequiresTarget]
+    public class GetTargetExecutor : Executor
     {
-        public void Execute(Context context)
+        protected override void Execute()
         {
-            if (context.Environment == null)
-            {
-                throw new ToolingException("Target deployment environment not set");
-            }
-
-            context.Console.WriteLine(
-                $"Target deployment environment set to '{context.Environment.Name}'.");
+            Context.Console.WriteLine(Context.Configuration.Target);
         }
     }
 }

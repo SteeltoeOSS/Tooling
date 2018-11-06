@@ -36,7 +36,7 @@ namespace Steeltoe.Tooling.Test
                 "redis",
                 "zipkin",
             };
-            foreach (var name in Registry.ServiceTypeNames)
+            foreach (var name in Registry.GetServiceTypes())
             {
                 expected.ShouldContain(name);
                 expected.Remove(name);
@@ -46,15 +46,15 @@ namespace Steeltoe.Tooling.Test
         }
 
         [Fact]
-        public void TestEnvironmentNames()
+        public void TestTargetNames()
         {
             var expected = new List<string>()
             {
-                "dummy-env",
+                "dummy-target",
                 "cloud-foundry",
                 "docker"
             };
-            foreach (var name in Registry.EnvironmentNames)
+            foreach (var name in Registry.Targets)
             {
                 expected.ShouldContain(name);
                 expected.Remove(name);
@@ -64,21 +64,21 @@ namespace Steeltoe.Tooling.Test
         }
 
         [Fact]
-        public void TestDummyEnvironment()
+        public void TestDummyTarget()
         {
-            Registry.GetEnvironment("dummy-env").ShouldBeOfType<DummyEnvironment>();
+            Registry.GetTarget("dummy-target").ShouldBeOfType<DummyTarget>();
         }
 
         [Fact]
-        public void TestDockerEnvironment()
+        public void TestDockerTarget()
         {
-            Registry.GetEnvironment("docker").ShouldBeOfType<DockerEnvironment>();
+            Registry.GetTarget("docker").ShouldBeOfType<DockerTarget>();
         }
 
         [Fact]
-        public void TestCloudFoundryEnvironment()
+        public void TestCloudFoundryTarget()
         {
-            Registry.GetEnvironment("cloud-foundry").ShouldBeOfType<CloudFoundryEnvironment>();
+            Registry.GetTarget("cloud-foundry").ShouldBeOfType<CloudFoundryTarget>();
         }
     }
 }

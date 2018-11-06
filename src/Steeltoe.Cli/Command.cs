@@ -35,38 +35,29 @@ namespace Steeltoe.Cli
         {
             try
             {
-                var executor = GetExecutor();
-                var minfo = executor.GetType();
-                Logger.LogDebug($"executor is {minfo}");
-                var requiresInitializedProject = false;
-                foreach (var attr in minfo.GetCustomAttributes(true))
-                {
-                    var initAttr = attr as RequiresInitializationAttribute;
-                    if (initAttr != null)
-                    {
-                        Logger.LogDebug($"{minfo} requires initialized project");
-                        requiresInitializedProject = true;
-                    }
-                }
-
-                Logger.LogDebug($"tooling working directory is {app.WorkingDirectory}");
+                Logger.LogDebug($"tooling working directory: {app.WorkingDirectory}");
                 var cfgFilePath = Program.ProjectConfigurationPath;
                 if (cfgFilePath == null)
                 {
                     cfgFilePath = app.WorkingDirectory;
                 }
 
-                var cfgFile = new ToolingConfigurationFile(cfgFilePath);
-                Logger.LogDebug($"tooling configuration file is {cfgFile.File}");
-                if (requiresInitializedProject && !cfgFile.Exists())
+                Configuration cfg;
+                var cfgFile = new ConfigurationFile(cfgFilePath);
+                if (cfgFile.Exists())
                 {
-                    throw new ToolingException("Project has not been initialized for Steeltoe Developer Tools");
+                    cfg = cfgFile.Configuration;
+                    Logger.LogDebug($"tooling configuration file: {cfgFile.File}");
                 }
-
+                else
+                {
+                    cfg = null;
+                    Logger.LogDebug($"tooling configuration file not found: {cfgFile.File}");
+                }
 
                 var context = new Context(
                     app.WorkingDirectory,
-                    cfgFile.ToolingConfiguration,
+                    cfg,
                     _console.Out,
                     new CommandShell()
                 );
@@ -93,12 +84,12 @@ namespace Steeltoe.Cli
             }
             catch (Exception e)
             {
-                Logger.LogDebug($"unhandled exception: {e}{System.Environment.NewLine}{e.StackTrace}");
+                Logger.LogDebug($"unhandled exception: {e}{Environment.NewLine}{e.StackTrace}");
                 app.Error.WriteLine(e.Message);
                 return -1;
             }
         }
 
-        protected abstract IExecutor GetExecutor();
+        protected abstract Executor GetExecutor();
     }
 }

@@ -20,35 +20,33 @@ namespace Steeltoe.Tooling
     {
         public string ProjectDirectory { get; }
 
-        public ToolingConfiguration ToolingConfiguration { get; }
+        public Configuration Configuration { get; }
 
         public TextWriter Console { get; }
 
         public Shell Shell { get; }
 
-        public Environment Environment
+        public Target Target
         {
             get
             {
-                if (ToolingConfiguration?.EnvironmentName == null)
+                if (Configuration?.Target == null)
                 {
-                    throw new ToolingException("Target deployment environment not set");
+                    throw new ToolingException("Target not set");
                 }
 
-                return Registry.GetEnvironment(ToolingConfiguration.EnvironmentName);
+                return Registry.GetTarget(Configuration.Target);
             }
         }
 
-        public ServiceManager ServiceManager { get; }
+        public IBackend Backend => Target.GetBackend(this);
 
-
-        public Context(string dir, ToolingConfiguration config, TextWriter console, Shell shell)
+        public Context(string dir, Configuration config, TextWriter console, Shell shell)
         {
             ProjectDirectory = dir;
-            ToolingConfiguration = config;
+            Configuration = config;
             Console = console;
             Shell = shell;
-            ServiceManager = new ServiceManager(this);
         }
     }
 }

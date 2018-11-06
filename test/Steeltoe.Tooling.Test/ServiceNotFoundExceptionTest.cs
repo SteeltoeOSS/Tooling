@@ -19,18 +19,24 @@ namespace Steeltoe.Tooling.Test
 {
     public class ServiceNotFoundExceptionTest
     {
+        private readonly NotFoundException _exception = new NotFoundException("no-such-thing", "thing");
+
         [Fact]
         public void TestMessage()
         {
-            var e = new ServiceNotFoundException("non-existent-service");
-            e.Message.ShouldBe("Service 'non-existent-service' not found");
+            _exception.Message.ShouldBe("Unknown thing 'no-such-thing'");
         }
 
         [Fact]
         public void TestName()
         {
-            var e = new ServiceNotFoundException("non-existent-service");
-            e.Name.ShouldBe("non-existent-service");
+            _exception.Name.ShouldBe("no-such-thing");
+        }
+
+        [Fact]
+        public void TestDescription()
+        {
+            _exception.Description.ShouldBe("thing");
         }
     }
 }

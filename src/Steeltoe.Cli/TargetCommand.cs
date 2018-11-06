@@ -20,30 +20,30 @@ using Steeltoe.Tooling.Executor;
 namespace Steeltoe.Cli
 {
     [Command(Description =
-            "Set or get the targeted deployment environment.",
-        ExtendedHelpText = "If run with no args, show the currently targeted deployment environment.")]
+            "Set or get the deployment target",
+        ExtendedHelpText = "If run with no args, show the current deployment target.")]
     public class TargetCommand : Command
     {
         public const string Name = "target";
 
-        [Argument(0, Name = "environment", Description = "Deployment environment")]
-        private string EnvironmentName { get; }
+        [Argument(0, Name = "target", Description = "Deployment target name")]
+        private string Target { get; }
 
-        [Option("-F|--force", Description = "Target the deployment environment even if checks fail")]
+        [Option("-F|--force", Description = "Set the deployment target even if checks fail")]
         private bool Force { get; }
 
         public TargetCommand(IConsole console) : base(console)
         {
         }
 
-        protected override IExecutor GetExecutor()
+        protected override Executor GetExecutor()
         {
-            if (EnvironmentName == null)
+            if (Target == null)
             {
                 return new GetTargetExecutor();
             }
 
-            return new SetTargetExecutor(EnvironmentName, Force);
+            return new SetTargetExecutor(Target, Force);
         }
     }
 }

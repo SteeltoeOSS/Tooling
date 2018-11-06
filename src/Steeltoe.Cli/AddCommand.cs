@@ -18,26 +18,26 @@ using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Add a service.")]
+    [Command(Description = "Add an app or service")]
     public class AddCommand : Command
     {
         public const string Name = "add";
 
-        [Required(ErrorMessage = "Service type not specified")]
-        [Argument(0, Name = "type", Description = "Service type")]
-        private string ServiceType { get; } = null;
+        [Required(ErrorMessage = "'app' or service type not specified")]
+        [Argument(0, Name = "type", Description = "'app' or service type")]
+        private string ProjectOrServiceType { get; } = null;
 
-        [Required(ErrorMessage = "Service name not specified")]
-        [Argument(1, Name = "service", Description = "Service name")]
-        private string ServiceName { get; } = null;
+        [Required(ErrorMessage = "App or service name not specified")]
+        [Argument(1, Name = "name", Description = "App or service name")]
+        private string ProjectOrServiceName { get; } = null;
 
         public AddCommand(IConsole console) : base(console)
         {
         }
 
-        protected override IExecutor GetExecutor()
+        protected override Executor GetExecutor()
         {
-            return new AddServiceExecutor(ServiceName, ServiceType);
+            return new AddExecutor(ProjectOrServiceName, ProjectOrServiceType);
         }
     }
 }

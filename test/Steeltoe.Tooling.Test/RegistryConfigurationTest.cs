@@ -19,54 +19,53 @@ namespace Steeltoe.Tooling.Test
 {
     public class RegistryConfigurationTest
     {
+        private Registry.Configuration _registryCfg = new Registry.Configuration();
+
         [Fact]
         public void TestDefineServiceType()
         {
-            var cfg = new RegistryConfiguration();
-            cfg.DefineServiceType("my-service", 1234, "my service description");
-            cfg.DefineServiceType("my-other-service", 4321, "my other service description");
-            cfg.ServiceTypes.Count.ShouldBe(2);
-            cfg.ServiceTypes["my-service"].ShouldNotBeNull();
-            cfg.ServiceTypes["my-service"].Port.ShouldBe(1234);
-            cfg.ServiceTypes["my-service"].Description.ShouldBe("my service description");
-            cfg.ServiceTypes["my-other-service"].ShouldNotBeNull();
-            cfg.ServiceTypes["my-other-service"].Port.ShouldBe(4321);
-            cfg.ServiceTypes["my-other-service"].Description.ShouldBe("my other service description");
+            _registryCfg.DefineServiceType("my-service", 1234, "my service description");
+            _registryCfg.DefineServiceType("my-other-service", 4321, "my other service description");
+            _registryCfg.ServiceTypes.Count.ShouldBe(2);
+            _registryCfg.ServiceTypes["my-service"].ShouldNotBeNull();
+            _registryCfg.ServiceTypes["my-service"].Port.ShouldBe(1234);
+            _registryCfg.ServiceTypes["my-service"].Description.ShouldBe("my service description");
+            _registryCfg.ServiceTypes["my-other-service"].ShouldNotBeNull();
+            _registryCfg.ServiceTypes["my-other-service"].Port.ShouldBe(4321);
+            _registryCfg.ServiceTypes["my-other-service"].Description.ShouldBe("my other service description");
         }
 
         [Fact]
         public void TestDefineEnvironment()
         {
-            var cfg = new RegistryConfiguration();
-            cfg.DefineEnvironment("my-env", "my environment");
-            cfg.DefineEnvironment("my-other-env", "my other environment");
-            cfg.EnvironmentConfigurations.Count.ShouldBe(2);
-            cfg.EnvironmentConfigurations["my-env"].ShouldNotBeNull();
-            cfg.EnvironmentConfigurations["my-env"].Description.ShouldBe("my environment");
-            cfg.EnvironmentConfigurations["my-other-env"].ShouldNotBeNull();
-            cfg.EnvironmentConfigurations["my-other-env"].Description.ShouldBe("my other environment");
+            _registryCfg.DefineTarget("my-env", "my environment");
+            _registryCfg.DefineTarget("my-other-env", "my other environment");
+            _registryCfg.TargetConfigurations.Count.ShouldBe(2);
+            _registryCfg.TargetConfigurations["my-env"].ShouldNotBeNull();
+            _registryCfg.TargetConfigurations["my-env"].Description.ShouldBe("my environment");
+            _registryCfg.TargetConfigurations["my-other-env"].ShouldNotBeNull();
+            _registryCfg.TargetConfigurations["my-other-env"].Description.ShouldBe("my other environment");
         }
 
         [Fact]
         public void TestDefineEnvironmentServiceTypeProperty()
         {
-            var cfg = new RegistryConfiguration();
-            cfg.DefineEnvironment("my-env", "my environment");
-            cfg.DefineEnvironmentServiceTypeProperty("my-env", "my-service", "my-prop-a", "my value a");
-            cfg.DefineEnvironmentServiceTypeProperty("my-env", "my-service", "my-prop-b", "my value b");
-            cfg.DefineEnvironmentServiceTypeProperty("my-env", "my-other-service", "my-other-prop", "my other value");
-            cfg.DefineEnvironmentServiceTypeProperty("my-other-env", "my-other-env-service", "my-other-env-prop",
+            _registryCfg.DefineTarget("my-env", "my environment");
+            _registryCfg.DefineTargetServiceTypeProperty("my-env", "my-service", "my-prop-a", "my value a");
+            _registryCfg.DefineTargetServiceTypeProperty("my-env", "my-service", "my-prop-b", "my value b");
+            _registryCfg.DefineTargetServiceTypeProperty("my-env", "my-other-service", "my-other-prop", "my other value");
+            _registryCfg.DefineTargetServiceTypeProperty("my-other-env", "my-other-env-service", "my-other-env-prop",
                 "my other env value");
-            cfg.EnvironmentConfigurations.Count.ShouldBe(2);
-            cfg.EnvironmentConfigurations["my-env"].ShouldNotBeNull();
-            cfg.EnvironmentConfigurations["my-env"].ServiceTypeProperties["my-service"].ShouldNotBeNull();
-            cfg.EnvironmentConfigurations["my-env"].ServiceTypeProperties["my-service"]["my-prop-a"].ShouldBe("my value a");
-            cfg.EnvironmentConfigurations["my-env"].ServiceTypeProperties["my-service"]["my-prop-b"].ShouldBe("my value b");
-            cfg.EnvironmentConfigurations["my-env"].ServiceTypeProperties["my-other-service"]["my-other-prop"]
+            _registryCfg.TargetConfigurations.Count.ShouldBe(2);
+            _registryCfg.TargetConfigurations["my-env"].ShouldNotBeNull();
+            _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-service"].ShouldNotBeNull();
+            _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-service"]["my-prop-a"].ShouldBe("my value a");
+            _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-service"]["my-prop-b"].ShouldBe("my value b");
+            _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-other-service"]["my-other-prop"]
                 .ShouldBe("my other value");
-            cfg.EnvironmentConfigurations["my-other-env"].ShouldNotBeNull();
-            cfg.EnvironmentConfigurations["my-other-env"].Description.ShouldBeNull();
-            cfg.EnvironmentConfigurations["my-other-env"].ServiceTypeProperties["my-other-env-service"]["my-other-env-prop"]
+            _registryCfg.TargetConfigurations["my-other-env"].ShouldNotBeNull();
+            _registryCfg.TargetConfigurations["my-other-env"].Description.ShouldBeNull();
+            _registryCfg.TargetConfigurations["my-other-env"].ServiceTypeProperties["my-other-env-service"]["my-other-env-prop"]
                 .ShouldBe("my other env value");
         }
     }

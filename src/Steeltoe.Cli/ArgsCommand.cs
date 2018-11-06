@@ -22,24 +22,24 @@ using Steeltoe.Tooling.Executor;
 namespace Steeltoe.Cli
 {
     [Command(
-        Description = "Set or get the deployment environment arguments for a service.",
+        Description = "Set or get the deployment arguments for an app or service",
         ExtendedHelpText =
-            "If run with no deployment environment arguments, show the service's current deployment environment arguments.",
+            "If run with no arguments, show the current deployment arguments for the app or service.",
         AllowArgumentSeparator = true
     )]
     public class ArgsCommand : Command
     {
         public const string Name = "args";
 
-        [Required(ErrorMessage = "Deployment environment not specified")]
-        [Argument(0, Name = "environment", Description = "Deployment environment")]
-        private string EnvironmentName { get; }
+        [Required(ErrorMessage = "App or service name not specified")]
+        [Argument(0, Name = "name", Description = "App or service name")]
+        private string ApplicationOrService { get; }
 
-        [Required(ErrorMessage = "Service name not specified")]
-        [Argument(1, Name = "service", Description = "Service name")]
-        private string ServiceName { get; }
+        [Required(ErrorMessage = "Deployment target name not specified")]
+        [Argument(1, Name = "target", Description = "Deployment target name")]
+        private string Target { get; }
 
-        [Argument(2, Name = "args", Description = "Deployment environment arguments")]
+        [Argument(2, Name = "args", Description = "Deployment arguments")]
         private List<string> Arguments { get; }
 
         [Option("-F|--force", Description = "Overwrite existing deployment environment arguments")]
@@ -51,7 +51,7 @@ namespace Steeltoe.Cli
         {
         }
 
-        protected override IExecutor GetExecutor()
+        protected override Executor GetExecutor()
         {
             var args = new List<string>();
             if (Arguments != null)
@@ -66,10 +66,10 @@ namespace Steeltoe.Cli
 
             if (args.Count == 0)
             {
-                return new GetServiceDeploymentArgsExecutor(EnvironmentName, ServiceName);
+                return new GetArgsExecutor(ApplicationOrService, Target);
             }
 
-            return new SetServiceDeploymentArgsExecutor(EnvironmentName, ServiceName, string.Join(" ", args), Force);
+            return new SetArgsExecutor(ApplicationOrService, Target, string.Join(" ", args), Force);
         }
     }
 }

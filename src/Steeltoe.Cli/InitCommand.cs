@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.IO;
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling;
 using Steeltoe.Tooling.Executor;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Initialize a project for Steeltoe Developer Tools.")]
+    [Command(Description = "Initialize Steeltoe Developer Tools")]
     public class InitCommand : Command
     {
         public const string Name = "init";
@@ -34,35 +31,9 @@ namespace Steeltoe.Cli
         {
         }
 
-        protected override IExecutor GetExecutor()
+        protected override Executor GetExecutor()
         {
-            return new InitExecutor(Force);
-        }
-    }
-
-    internal class InitExecutor : IExecutor
-    {
-        private readonly bool _force;
-
-        internal InitExecutor(Boolean force = false)
-        {
-            _force = force;
-        }
-
-        public void Execute(Context context)
-        {
-            var cfgFilePath = Program.ProjectConfigurationPath == null
-                ? context.ProjectDirectory
-                : Path.Combine(context.ProjectDirectory, Program.ProjectConfigurationPath);
-
-            var cfgFile = new ToolingConfigurationFile(cfgFilePath);
-            if (cfgFile.Exists() && !_force)
-            {
-                throw new ToolingException("Project already initialized");
-            }
-
-            cfgFile.Store();
-            context.Console.WriteLine("Project initialized for Steeltoe Developer Tools");
+            return new InitializationExecutor(Program.ProjectConfigurationPath, Force);
         }
     }
 }

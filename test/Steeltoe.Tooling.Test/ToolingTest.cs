@@ -29,14 +29,16 @@ namespace Steeltoe.Tooling.Test
         static ToolingTest()
         {
             Settings.DummiesEnabled = true;
+            Settings.ParallelExecutionEnabled = false;
+            Settings.WaitDuration = 1;
         }
 
         public ToolingTest()
         {
-            var cfg = new ToolingConfiguration();
+            var cfg = new Configuration();
             var path = new[] {"sandboxes", Guid.NewGuid().ToString()}.Aggregate(Path.Combine);
             Directory.CreateDirectory(path);
-            cfg.EnvironmentName = "dummy-env";
+            cfg.Target = "dummy-target";
             Console = new StringWriter();
             Shell = new MockShell();
             Context = new Context(path, cfg, Console, Shell);

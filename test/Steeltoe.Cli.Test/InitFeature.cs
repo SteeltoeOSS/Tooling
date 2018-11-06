@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("init")]
     public class InitFeature : FeatureSpecs
     {
         [Scenario]
-        [Label("help")]
         public void InitHelp()
         {
             Runner.RunScenario(
@@ -30,7 +27,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("init --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Initialize a project for Steeltoe Developer Tools.",
+                    "Initialize Steeltoe Developer Tools",
                     $"Usage: {Program.Name} init [options]",
                     "Options:",
                     "-F|--force Initialize the project even if already initialized",
@@ -50,24 +47,24 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void InitProject()
+        public void Init()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("init_project"),
+                given => a_dotnet_project("init"),
                 when => the_developer_runs_cli_command("init"),
-                then => the_cli_should_output("Project initialized for Steeltoe Developer Tools")
+                then => the_cli_should_output("Initialized Steeltoe Developer Tools")
             );
         }
 
         [Scenario]
-        public void InitProjectForce()
+        public void InitForce()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("init_project_already_initialized"),
+                given => a_steeltoe_project("init_force"),
                 when => the_developer_runs_cli_command("init"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Project already initialized"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools already initialized"),
                 when => the_developer_runs_cli_command("init --force"),
-                then => the_cli_should_output("Project initialized for Steeltoe Developer Tools")
+                then => the_cli_should_output("Initialized Steeltoe Developer Tools")
             );
         }
     }

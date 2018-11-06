@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("deploy")]
     public class DeployFeature : FeatureSpecs
     {
         [Scenario]
-        [Label("help")]
         public void DeployHelp()
         {
             Runner.RunScenario(
@@ -30,7 +27,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("deploy --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Deploy enabled services to the targeted deployment environment.",
+                    "Deploy apps and services to the target",
                     $"Usage: {Program.Name} deploy [options]",
                     "Options:",
                     "-?|-h|--help Show help information",
@@ -49,44 +46,40 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void DeployUninitializedProject()
+        public void DeployUninitialized()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("deploy_uninitialized_project"),
+                given => a_dotnet_project("deploy_uninitialized"),
                 when => the_developer_runs_cli_command("deploy"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools")
+                then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools has not been initialized")
             );
         }
 
         [Scenario]
-        public void DeployServices()
+        public void Deploy()
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("deploy_services"),
-                when => the_developer_runs_cli_command("add dummy-svc a-service"),
-                and => the_developer_runs_cli_command("add dummy-svc defunct-service"),
-                and => the_developer_runs_cli_command("disable defunct-service"),
+                when => the_developer_runs_cli_command("add app my-app"),
+                and => the_developer_runs_cli_command("add dummy-svc my-service-a"),
+                and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
                 and => the_developer_runs_cli_command("-S deploy"),
                 then => the_cli_should_output(new[]
                 {
-                    "Deploying service 'a-service'",
-                    "Ignoring disabled service 'defunct-service'",
-                }),
-                when => the_developer_runs_cli_command("-S status"),
-                then => the_cli_should_output(new[]
-                {
-                    "a-service starting",
-                    "defunct-service disabled",
+                    "Deploying service 'my-service-a'",
+                    "Deploying service 'my-service-b'",
+                    "Waiting for service 'my-service-a' to come online",
+                    "Waiting for service 'my-service-b' to come online",
+                    "Deploying app 'my-app'",
                 })
             );
         }
 
         [Scenario]
-        public void DeployNoServices()
+        public void DeployNothing()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("deploy_no_services"),
+                given => a_steeltoe_project("deploy_nothing"),
                 when => the_developer_runs_cli_command("deploy"),
                 then => the_cli_should_output_nothing()
             );
@@ -100,7 +93,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("init"),
                 and => the_developer_runs_cli_command("add dummy-svc a-server"),
                 and => the_developer_runs_cli_command("deploy"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Target deployment environment not set")
+                then => the_cli_should_error(ErrorCode.Tooling, "Target not set")
             );
         }
     }

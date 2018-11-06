@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Executor;
 
@@ -20,20 +19,10 @@ using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "List services, service types, or deployment environments.",
-        ExtendedHelpText = "If run with no options, list services.")]
+    [Command(Description = "List apps and services")]
     public class ListCommand : Command
     {
         public const string Name = "list";
-
-        [Option("-e|--environments", Description = "List deployment environments")]
-        private bool ListEnvironments { get; }
-
-        [Option("-s|--services", Description = "List services")]
-        private bool ListServices { get; }
-
-        [Option("-t|--service-types", Description = "List service types")]
-        private bool ListServiceTypes { get; }
 
         [Option("-v|--verbose", Description = "Verbose")]
         private bool Verbose { get; }
@@ -42,34 +31,9 @@ namespace Steeltoe.Cli
         {
         }
 
-        protected override IExecutor GetExecutor()
+        protected override Executor GetExecutor()
         {
-            var optionCount = 0;
-            IExecutor executor = new ListServicesExecutor(Verbose);
-            if (ListServices)
-            {
-                ++optionCount;
-            }
-
-            if (ListServiceTypes)
-            {
-                executor = new ListServiceTypesExecutor(Verbose);
-                ++optionCount;
-            }
-
-            if (ListEnvironments)
-            {
-                executor = new ListEnvironmentsExecutor(Verbose);
-                ++optionCount;
-            }
-
-            if (optionCount > 1)
-            {
-                throw new ArgumentException(
-                    "Specify at most one of: -e|--environments, -s|--services, -t|--service-types");
-            }
-
-            return executor;
+            return new ListExecutor(Verbose);
         }
     }
 }

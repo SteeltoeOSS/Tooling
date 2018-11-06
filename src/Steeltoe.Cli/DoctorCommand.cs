@@ -18,7 +18,7 @@ using Steeltoe.Tooling.Executor;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Check for potential problems.")]
+    [Command(Description = "Check for potential problems")]
     public class DoctorCommand : Command
     {
         public const string Name = "doctor";
@@ -27,45 +27,45 @@ namespace Steeltoe.Cli
         {
         }
 
-        protected override IExecutor GetExecutor()
+        protected override Executor GetExecutor()
         {
             return new DoctorExecutor();
         }
     }
 
-    internal class DoctorExecutor : IExecutor
+    internal class DoctorExecutor : Executor
     {
-        public void Execute(Context context)
+        protected override void Execute()
         {
-            context.Console.WriteLine($"Steeltoe Developer Tools version ... {Program.GetVersion()}");
+            Context.Console.WriteLine($"Steeltoe Developer Tools version ... {Program.GetVersion()}");
 
             // dotnet
-            context.Console.Write("DotNet ... ");
-            var dotnetVersion = new Tooling.Cli("dotnet", context.Shell).Run("--version").Trim();
-            context.Console.WriteLine($"dotnet version {dotnetVersion}");
+            Context.Console.Write("DotNet ... ");
+            var dotnetVersion = new Tooling.Cli("dotnet", Context.Shell).Run("--version").Trim();
+            Context.Console.WriteLine($"dotnet version {dotnetVersion}");
 
             // is intialized?
-            context.Console.Write("initialized ... ");
-            var cfgFile = new ToolingConfigurationFile(context.ProjectDirectory);
+            Context.Console.Write("initialized ... ");
+            var cfgFile = new ConfigurationFile(Context.ProjectDirectory);
             if (!cfgFile.Exists())
             {
-                context.Console.WriteLine($"!!! no (run '{Program.Name} {InitCommand.Name}' to initialize)");
+                Context.Console.WriteLine($"!!! no (run '{Program.Name} {InitCommand.Name}' to initialize)");
                 return;
             }
 
-            context.Console.WriteLine("yes");
+            Context.Console.WriteLine("yes");
 
             // target deployment environment
-            context.Console.Write("target deployment environment ... ");
-            var target = cfgFile.ToolingConfiguration.EnvironmentName;
+            Context.Console.Write("target ... ");
+            string target = cfgFile.Configuration.Target;
             if (target == null)
             {
-                context.Console.WriteLine($"!!! not set (run '{Program.Name} {TargetCommand.Name} <env>' to set)");
+                Context.Console.WriteLine($"!!! not set (run '{Program.Name} {TargetCommand.Name} <env>' to set)");
                 return;
             }
 
-            context.Console.WriteLine(target);
-            Registry.GetEnvironment(target).IsHealthy(context);
+            Context.Console.WriteLine(target);
+            Registry.GetTarget(target).IsHealthy(Context);
         }
     }
 }

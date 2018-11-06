@@ -21,22 +21,21 @@ namespace Steeltoe.Tooling.Test.Executor
     public class SetTargetExecutorTest : ToolingTest
     {
         [Fact]
-        public void TestSetTargetEnvironment()
+        public void TestSetTarget()
         {
-            Context.ToolingConfiguration.EnvironmentName = null;
-            new SetTargetExecutor("dummy-env").Execute(Context);
-            Console.ToString().Trim().ShouldContain("Target deployment environment set to 'dummy-env'.");
-            Context.ToolingConfiguration.EnvironmentName.ShouldBe("dummy-env");
+            Context.Configuration.Target = null;
+            new SetTargetExecutor("dummy-target").Execute(Context);
+            Console.ToString().Trim().ShouldContain("Target set to 'dummy-target'");
+            Context.Configuration.Target.ShouldBe("dummy-target");
         }
 
         [Fact]
-        public void TestSetTargetUnknownEnvironment()
+        public void TestSetUnknownTarget()
         {
-            var svc = new SetTargetExecutor("unknown-environment");
             var e = Assert.Throws<ToolingException>(
-                () => svc.Execute(Context)
+                () => new SetTargetExecutor("no-such-target").Execute(Context)
             );
-            e.Message.ShouldBe("Unknown deployment environment 'unknown-environment'");
+            e.Message.ShouldBe("Unknown target 'no-such-target'");
         }
     }
 }

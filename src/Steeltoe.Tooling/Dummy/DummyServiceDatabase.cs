@@ -21,8 +21,8 @@ namespace Steeltoe.Tooling.Dummy
 {
     public class DummyServiceDatabase
     {
-        public SortedDictionary<string, ServiceLifecycle.State> Services { get; set; } =
-            new SortedDictionary<string, ServiceLifecycle.State>();
+        public SortedDictionary<string, Lifecycle.Status> Services { get; set; } =
+            new SortedDictionary<string, Lifecycle.Status>();
 
         internal static void Store(string path, DummyServiceDatabase database)
         {

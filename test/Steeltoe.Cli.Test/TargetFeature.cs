@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("target")]
     public class TargetFeature : FeatureSpecs
     {
         [Scenario]
-        [Label("help")]
         public void TargetHelp()
         {
             Runner.RunScenario(
@@ -30,14 +27,14 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("target --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Set or get the targeted deployment environment.",
+                    "Set or get the deployment target",
                     $"Usage: {Program.Name} target [arguments] [options]",
                     "Arguments:",
-                    "environment Deployment environment",
+                    "target Deployment target name",
                     "Options:",
-                    "-F|--force Target the deployment environment even if checks fail",
+                    "-F|--force Set the deployment target even if checks fail",
                     "-?|-h|--help Show help information",
-                    "If run with no args, show the currently targeted deployment environment.",
+                    "If run with no args, show the current deployment target.",
                 })
             );
         }
@@ -53,39 +50,38 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void TargetUninitializedProject()
+        public void TargetUninitialized()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("target_uninitialized_project"),
+                given => a_dotnet_project("target_uninitialized"),
                 when => the_developer_runs_cli_command("target"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools")
+                then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools has not been initialized")
             );
         }
 
         [Scenario]
-        public void TargetEnvironment()
+        public void TargetSet()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("target_environment"),
+                given => a_dotnet_project("target_set"),
                 when => the_developer_runs_cli_command("init"),
-                and => the_developer_runs_cli_command("target dummy-env"),
+                and => the_developer_runs_cli_command("target dummy-target"),
                 then => the_cli_should_output(new[]
                 {
                     "dummy tool version ... 0.0.0",
-                    "Target deployment environment set to 'dummy-env'.",
+                    "Target set to 'dummy-target'",
                 }),
-                and => the_configuration_should_target("dummy-env")
+                and => the_configuration_should_target("dummy-target")
             );
         }
 
         [Scenario]
-        public void TargetUnknownEnvironment()
+        public void TargetSetUnknown()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("target_unknown_environment"),
-                when => the_developer_runs_cli_command("target no-such-environment"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Unknown deployment environment 'no-such-environment'")
+                given => a_steeltoe_project("target_set_unknown"),
+                when => the_developer_runs_cli_command("target no-such-target"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Unknown target 'no-such-target'")
             );
         }
 
@@ -95,7 +91,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("show_target_environment"),
                 when => the_developer_runs_cli_command("target"),
-                then => the_cli_should_output("Target deployment environment set to 'dummy-env'.")
+                then => the_cli_should_output("dummy-target")
             );
         }
     }

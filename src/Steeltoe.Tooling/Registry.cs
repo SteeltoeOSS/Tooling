@@ -21,6 +21,7 @@ using Steeltoe.Tooling.CloudFoundry;
 using Steeltoe.Tooling.Docker;
 using Steeltoe.Tooling.Dummy;
 using YamlDotNet.Serialization;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace Steeltoe.Tooling
 {
@@ -28,7 +29,51 @@ namespace Steeltoe.Tooling
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Registry>();
 
-        private static RegistryConfiguration _configuration = new RegistryConfiguration();
+        public class Configuration
+        {
+            [YamlMember(Alias = "serviceTypes")]
+            public SortedDictionary<string, ServiceTypeInfo> ServiceTypes { get; set; } =
+                new SortedDictionary<string, ServiceTypeInfo>();
+
+            [YamlMember(Alias = "targets")]
+            public SortedDictionary<string, TargetConfiguration> TargetConfigurations { get; set; } =
+                new SortedDictionary<string, TargetConfiguration>();
+
+            public void DefineServiceType(string name, int port, string description)
+            {
+                ServiceTypes[name] = new ServiceTypeInfo {Port = port, Description = description};
+            }
+
+            public void DefineTarget(string target, string description)
+            {
+                TargetConfigurations[target] = new TargetConfiguration {Description = description};
+            }
+
+            public void DefineTargetServiceTypeProperty(
+                string target,
+                string serviceType,
+                string propertyName,
+                string propertyValue)
+            {
+                if (!TargetConfigurations.ContainsKey(target))
+                {
+                    TargetConfigurations[target] = new TargetConfiguration();
+                }
+
+                var targetCfg = TargetConfigurations[target];
+                if (!targetCfg.ServiceTypeProperties.ContainsKey(serviceType))
+                {
+                    targetCfg.ServiceTypeProperties[serviceType] = new Dictionary<string, string>();
+                }
+
+                targetCfg.ServiceTypeProperties[serviceType][propertyName] = propertyValue;
+                TargetConfigurations[target] = targetCfg;
+            }
+        }
+
+        private static Configuration _configuration = new Configuration();
+
+        public static List<string> Targets => _configuration.TargetConfigurations.Keys.ToList();
 
         static Registry()
         {
@@ -36,12 +81,12 @@ namespace Steeltoe.Tooling
             if (Settings.DummiesEnabled)
             {
                 Logger.LogDebug("loading dummy registry");
-                var dummyCfg = new RegistryConfiguration();
-                var dummySvcType = new ServiceType {Port = 0, Description = "A Dummy Service"};
+                var dummyCfg = new Configuration();
+                var dummySvcType = new ServiceTypeInfo {Port = 0, Description = "A Dummy Service"};
                 dummyCfg.ServiceTypes.Add("dummy-svc", dummySvcType);
-                var dummyEnvCfg = new EnvironmentConfiguration();
-                dummyEnvCfg.Description = "A Dummy Environment";
-                dummyCfg.EnvironmentConfigurations.Add("dummy-env", dummyEnvCfg);
+                var dummyTarget = new TargetConfiguration();
+                dummyTarget.Description = "A Dummy Target";
+                dummyCfg.TargetConfigurations.Add("dummy-target", dummyTarget);
                 AddRegistryConfiguration(dummyCfg);
             }
 
@@ -52,48 +97,49 @@ namespace Steeltoe.Tooling
             var deserializer = new DeserializerBuilder().Build();
             using (var reader = new StreamReader(path))
             {
-                var defaultCfg = deserializer.Deserialize<RegistryConfiguration>(reader);
+                var defaultCfg = deserializer.Deserialize<Configuration>(reader);
                 AddRegistryConfiguration(defaultCfg);
             }
         }
 
-        public static List<string> ServiceTypeNames => _configuration.ServiceTypes.Keys.ToList();
-
-        public static ServiceType GetServiceType(string serviceTypeName)
+        public static List<string> GetServiceTypes()
         {
-            ServiceType svcType;
-            if (_configuration.ServiceTypes.TryGetValue(serviceTypeName, out svcType))
+            return _configuration.ServiceTypes.Keys.ToList();
+        }
+
+        public static ServiceTypeInfo GetServiceTypeInfo(string serviceType)
+        {
+            ServiceTypeInfo svcTypeInfo;
+            if (_configuration.ServiceTypes.TryGetValue(serviceType, out svcTypeInfo))
             {
-                svcType.Name = serviceTypeName;
-                return svcType;
+                svcTypeInfo.Name = serviceType;
+                return svcTypeInfo;
             }
 
             return null;
         }
 
-        public static List<string> EnvironmentNames => _configuration.EnvironmentConfigurations.Keys.ToList();
-
-        public static Environment GetEnvironment(string environmentName)
+        public static Target GetTarget(string target)
         {
-            EnvironmentConfiguration envCfg;
-            if (_configuration.EnvironmentConfigurations.TryGetValue(environmentName, out envCfg))
+            TargetConfiguration targetCfg;
+            if (_configuration.TargetConfigurations.TryGetValue(target, out targetCfg))
             {
-                envCfg.Name = environmentName;
-                switch (envCfg.Name)
+                targetCfg.Name = target;
+                switch (targetCfg.Name)
                 {
                     case "cloud-foundry":
-                        return new CloudFoundryEnvironment(envCfg);
+                        return new CloudFoundryTarget(targetCfg);
                     case "docker":
-                        return new DockerEnvironment(envCfg);
-                    case "dummy-env":
-                        return new DummyEnvironment(envCfg);
+                        return new DockerTarget(targetCfg);
+                    case "dummy-target":
+                        return new DummyTarget(targetCfg);
                 }
             }
 
-            throw new ToolingException($"Unknown deployment environment '{environmentName}'");
+            throw new ToolingException($"Unknown target '{target}'");
         }
 
-        private static void AddRegistryConfiguration(RegistryConfiguration configuration)
+        private static void AddRegistryConfiguration(Configuration configuration)
         {
             foreach (var svcTypeEntry in configuration.ServiceTypes)
             {
@@ -101,10 +147,10 @@ namespace Steeltoe.Tooling
                 _configuration.ServiceTypes[svcTypeEntry.Key] = svcTypeEntry.Value;
             }
 
-            foreach (var envCfgEntry in configuration.EnvironmentConfigurations)
+            foreach (var targetCfgEntry in configuration.TargetConfigurations)
             {
-                envCfgEntry.Value.Name = null;
-                _configuration.EnvironmentConfigurations[envCfgEntry.Key] = envCfgEntry.Value;
+                targetCfgEntry.Value.Name = null;
+                _configuration.TargetConfigurations[targetCfgEntry.Key] = targetCfgEntry.Value;
             }
         }
     }

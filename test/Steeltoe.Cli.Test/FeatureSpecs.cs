@@ -90,8 +90,8 @@ namespace scratch
         {
             a_dotnet_project(name);
             Logger.LogInformation($"enabling steeltoe developer tools");
-            var cfgFile = new ToolingConfigurationFile(ProjectDirectory);
-            cfgFile.ToolingConfiguration.EnvironmentName = "dummy-env";
+            var cfgFile = new ConfigurationFile(ProjectDirectory);
+            cfgFile.Configuration.Target = "dummy-target";
             cfgFile.Store();
         }
 
@@ -212,33 +212,34 @@ namespace scratch
         protected void the_configuration_should_target(string env)
         {
             Logger.LogInformation($"checking the target config '{env}' exists");
-            new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.EnvironmentName.ShouldBe(env);
+            new ConfigurationFile(ProjectDirectory).Configuration.Target.ShouldBe(env);
         }
 
-        protected void the_configuration_should_contain_service(string service)
+        protected void the_configuration_should_contain_app(string app)
         {
-            Logger.LogInformation($"checking the service '{service}' exists");
-            new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.Services.Keys.ShouldContain(service);
+            Logger.LogInformation($"checking the app '{app}' exists");
+            var cfg = new ConfigurationFile(ProjectDirectory);
+            cfg.Configuration.Apps.Keys.ShouldContain(app);
+        }
+
+        protected void the_configuration_should_not_contain_app(string app)
+        {
+            Logger.LogInformation($"checking the app '{app}' does not exist");
+            new ConfigurationFile(ProjectDirectory).Configuration.Apps.Keys.ShouldNotContain(app);
+        }
+
+        protected void the_configuration_should_contain_service(string service, string serviceType)
+        {
+            Logger.LogInformation($"checking the service {serviceType} '{service}' exists");
+            var cfg = new ConfigurationFile(ProjectDirectory);
+            cfg.Configuration.Services.Keys.ShouldContain(service);
+            cfg.Configuration.Services[service].ServiceTypeName.ShouldBe(serviceType);
         }
 
         protected void the_configuration_should_not_contain_service(string service)
         {
             Logger.LogInformation($"checking the service '{service}' does not exist");
-            new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.Services.Keys.ShouldNotContain(service);
-        }
-
-        protected void the_configuration_service_should_be_enabled(string service)
-        {
-            Logger.LogInformation($"checking the service '{service}' is enabled");
-            new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.Services[service].Enabled
-                .ShouldBeTrue();
-        }
-
-        protected void the_configuration_service_should_not_be_enabled(string service)
-        {
-            Logger.LogInformation($"checking the service '{service}' is not enabled");
-            new ToolingConfigurationFile(ProjectDirectory).ToolingConfiguration.Services[service].Enabled
-                .ShouldBeFalse();
+            new ConfigurationFile(ProjectDirectory).Configuration.Services.Keys.ShouldNotContain(service);
         }
 
         private static string NormalizeString(string s)

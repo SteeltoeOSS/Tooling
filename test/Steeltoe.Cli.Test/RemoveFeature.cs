@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("remove")]
     public class RemoveFeature : FeatureSpecs
     {
         [Scenario]
-        [Label("help")]
         public void RemoveHelp()
         {
             Runner.RunScenario(
@@ -30,10 +27,10 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("remove --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Remove a service.",
+                    "Remove an app or service",
                     $"Usage: {Program.Name} remove [arguments] [options]",
                     "Arguments:",
-                    "service Service name",
+                    "name App or service name",
                     "Options:",
                     "-?|-h|--help Show help information",
                 })
@@ -46,7 +43,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("remove_not_enough_args"),
                 when => the_developer_runs_cli_command("remove"),
-                then => the_cli_should_error(ErrorCode.Argument, "Service name not specified")
+                then => the_cli_should_error(ErrorCode.Argument, "App or service name not specified")
             );
         }
 
@@ -61,13 +58,24 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void RemoveUninitializedProject()
+        public void RemoveUninitialized()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("remove_uninitialized_project"),
+                given => a_dotnet_project("remove_uninitialized"),
                 when => the_developer_runs_cli_command("remove my-service"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools")
+                then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools has not been initialized")
+            );
+        }
+
+        [Scenario]
+        public void RemoveApp()
+        {
+            Runner.RunScenario(
+                given => a_steeltoe_project("remove_app"),
+                when => the_developer_runs_cli_command("add app my-app"),
+                and => the_developer_runs_cli_command("remove my-app"),
+                then => the_cli_should_output("Removed app 'my-app'"),
+                and => the_configuration_should_not_contain_app("my-app")
             );
         }
 
@@ -78,18 +86,18 @@ namespace Steeltoe.Cli.Test
                 given => a_steeltoe_project("remove_service"),
                 when => the_developer_runs_cli_command("add dummy-svc my-service"),
                 and => the_developer_runs_cli_command("remove my-service"),
-                then => the_cli_should_output("Removed service 'my-service'"),
+                then => the_cli_should_output("Removed dummy-svc service 'my-service'"),
                 and => the_configuration_should_not_contain_service("my-service")
             );
         }
 
         [Scenario]
-        public void RemoveNonExistingService()
+        public void RemoveUnknownItem()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("remove_non_existing_service"),
-                when => the_developer_runs_cli_command("remove unknown-service"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Service 'unknown-service' not found")
+                given => a_steeltoe_project("remove_unknown_item"),
+                when => the_developer_runs_cli_command("remove no-such-item"),
+                then => the_cli_should_error(ErrorCode.Tooling, "Unknown app or service 'no-such-item'")
             );
         }
     }

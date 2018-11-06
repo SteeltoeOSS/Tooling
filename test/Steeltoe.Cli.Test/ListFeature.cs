@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using LightBDD.Framework;
 using LightBDD.Framework.Scenarios.Extended;
 using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    [Label("list")]
     public class ListFeature : FeatureSpecs
     {
         [Scenario]
-        [Label("help")]
         public void ListHelp()
         {
             Runner.RunScenario(
@@ -30,15 +27,11 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("list --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "List services, service types, or deployment environments.",
+                    "List apps and services",
                     $"Usage: {Program.Name} list [options]",
                     "Options:",
-                    "-e|--environments List deployment environments",
-                    "-s|--services List services",
-                    "-t|--service-types List service types",
                     "-v|--verbose Verbose",
                     "-?|-h|--help Show help information",
-                    "If run with no options, list services.",
                 })
             );
         }
@@ -54,27 +47,16 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void ListMutallyExclusiveOptions()
+        public void ListUninitialized()
         {
             Runner.RunScenario(
-                given => a_steeltoe_project("list_mutually_exclusive_options"),
-                when => the_developer_runs_cli_command("list -e -t"),
-                then => the_cli_should_error(ErrorCode.Argument,
-                    "Specify at most one of: -e|--environments, -s|--services, -t|--service-types")
-            );
-        }
-
-        [Scenario]
-        public void ListUninitializedProject()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("list_uninitialized_project"),
+                given => a_dotnet_project("list_uninitialized"),
                 when => the_developer_runs_cli_command("list"),
-                then => the_cli_should_error(ErrorCode.Tooling,
-                    "Project has not been initialized for Steeltoe Developer Tools")
+                then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools has not been initialized")
             );
         }
 
+        /*
         [Scenario]
         public void ListEnvironments()
         {
@@ -85,11 +67,13 @@ namespace Steeltoe.Cli.Test
                 {
                     "cloud-foundry",
                     "docker",
-                    "dummy-env",
+                    "dummy-target",
                 })
             );
         }
+        */
 
+        /*
         [Scenario]
         public void ListEnvironmentsVerbose()
         {
@@ -100,11 +84,13 @@ namespace Steeltoe.Cli.Test
                 {
                     "cloud-foundry Cloud Foundry",
                     "docker Docker",
-                    "dummy-env A Dummy Environment",
+                    "dummy-target A Dummy Target",
                 })
             );
         }
+        */
 
+        /*
         [Scenario]
         public void ListServiceTypes()
         {
@@ -123,7 +109,9 @@ namespace Steeltoe.Cli.Test
                 })
             );
         }
+        */
 
+        /*
         [Scenario]
         public void ListServiceTypesVerbose()
         {
@@ -142,21 +130,22 @@ namespace Steeltoe.Cli.Test
                 })
             );
         }
+        */
 
         [Scenario]
         public void ListServices()
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("list_services"),
-                when => the_developer_runs_cli_command("add dummy-svc c-service"),
-                and => the_developer_runs_cli_command("add dummy-svc b-service"),
-                and => the_developer_runs_cli_command("add dummy-svc a-service"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service-c"),
+                and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
+                and => the_developer_runs_cli_command("add dummy-svc my-service-a"),
                 and => the_developer_runs_cli_command("list"),
                 then => the_cli_should_output(new[]
                 {
-                    "a-service",
-                    "b-service",
-                    "c-service",
+                    "my-service-a",
+                    "my-service-b",
+                    "my-service-c",
                 })
             );
         }
@@ -166,15 +155,15 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("list_services_verbose"),
-                and => the_developer_runs_cli_command("add dummy-svc b-service"),
-                and => the_developer_runs_cli_command("add dummy-svc c-service"),
-                when => the_developer_runs_cli_command("add dummy-svc a-service"),
-                and => the_developer_runs_cli_command("list -s -v"),
+                when => the_developer_runs_cli_command("add dummy-svc my-service-c"),
+                and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
+                and => the_developer_runs_cli_command("add dummy-svc my-service-a"),
+                and => the_developer_runs_cli_command("-S list -v"),
                 then => the_cli_should_output(new[]
                 {
-                    "a-service 0 dummy-svc",
-                    "b-service 0 dummy-svc",
-                    "c-service 0 dummy-svc",
+                    "my-service-a 0 dummy-svc",
+                    "my-service-b 0 dummy-svc",
+                    "my-service-c 0 dummy-svc",
                 })
             );
         }
