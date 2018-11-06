@@ -28,17 +28,19 @@ namespace Steeltoe.Tooling.Dummy
 
         public void DeployApp(string app)
         {
-            throw new System.NotImplementedException();
+            _database.Apps.Add(app);
+            Store();
         }
 
         public void UndeployApp(string app)
         {
-            throw new System.NotImplementedException();
+            _database.Apps.Remove(app);
+            Store();
         }
 
         public Lifecycle.Status GetAppStatus(string app)
         {
-            return GetStatus(app);
+            return _database.Apps.Contains(app) ? Lifecycle.Status.Online : Lifecycle.Status.Offline;
         }
 
         public void DeployService(string service)
@@ -55,25 +57,20 @@ namespace Steeltoe.Tooling.Dummy
 
         public Lifecycle.Status GetServiceStatus(string service)
         {
-            return GetStatus(service);
-        }
-
-        private Lifecycle.Status GetStatus(string name)
-        {
-            if (!_database.Services.ContainsKey(name))
+            if (!_database.Services.ContainsKey(service))
             {
                 return Lifecycle.Status.Offline;
             }
 
-            var state = _database.Services[name];
+            var state = _database.Services[service];
             switch (state)
             {
                 case Lifecycle.Status.Starting:
-                    _database.Services[name] = Lifecycle.Status.Online;
+                    _database.Services[service] = Lifecycle.Status.Online;
                     Store();
                     break;
                 case Lifecycle.Status.Stopping:
-                    _database.Services.Remove(name);
+                    _database.Services.Remove(service);
                     Store();
                     break;
             }

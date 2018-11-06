@@ -68,8 +68,8 @@ namespace Steeltoe.Cli.Test
                 {
                     "Deploying service 'my-service-a'",
                     "Deploying service 'my-service-b'",
-                    "Waiting for service 'my-service-a' to come online",
-                    "Waiting for service 'my-service-b' to come online",
+                    "Waiting for service 'my-service-a' to come online (1)",
+                    "Waiting for service 'my-service-b' to come online (1)",
                     "Deploying app 'my-app'",
                 })
             );

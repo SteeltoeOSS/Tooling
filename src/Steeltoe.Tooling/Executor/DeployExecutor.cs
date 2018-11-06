@@ -29,11 +29,12 @@ namespace Steeltoe.Tooling.Executor
                 int count = 0;
                 while (Context.Backend.GetServiceStatus(service) != Lifecycle.Status.Online)
                 {
-                    if (++count == 10)
+                    ++count;
+                    if (Settings.MaxChecks >= 0 && ++count > Settings.MaxChecks)
                     {
-                        throw new ToolingException("max check exceeded");
+                        throw new ToolingException($"max check exceeded ({Settings.MaxChecks})");
                     }
-                    Context.Console.WriteLine($"Waiting for service '{service}' to come online");
+                    Context.Console.WriteLine($"Waiting for service '{service}' to come online ({count})");
                     Thread.Sleep(Settings.WaitDuration);
                 }
             }

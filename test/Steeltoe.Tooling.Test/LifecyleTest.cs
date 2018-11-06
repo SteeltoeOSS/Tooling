@@ -20,15 +20,37 @@ namespace Steeltoe.Tooling.Test
     public class LifecyleTest : ToolingTest
     {
         [Fact]
+        public void TestAppStateMachine()
+        {
+            Context.Configuration.AddApp("my-app");
+            var lifecycle = new Lifecycle(Context, "my-app");
+
+            // start state -> offline
+            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
+
+            // offline -> undeploy -> offline
+            lifecycle.Undeploy();
+            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
+
+            // offline -> deploy -> online
+            lifecycle.Deploy();
+            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Online);
+
+            // online -> deploy -> online
+            lifecycle.Deploy();
+            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Online);
+
+            // online -> undeploy -> offline
+            lifecycle.Undeploy();
+            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
+        }
+
+        [Fact]
         public void TestServiceStateMachine()
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
             var lifecycle = new Lifecycle(Context, "my-service");
-            TestLifecycle(lifecycle);
-        }
 
-        private void TestLifecycle(Lifecycle lifecycle)
-        {
             // start state -> offline
             lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
 
@@ -50,5 +72,6 @@ namespace Steeltoe.Tooling.Test
             lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Stopping);
             lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
         }
+
     }
 }

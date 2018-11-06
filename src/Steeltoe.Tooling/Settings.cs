@@ -24,6 +24,8 @@ namespace Steeltoe.Tooling
 
         public static bool ParallelExecutionEnabled { get; set; } = true;
 
+        public static int MaxChecks { get; set; } = -1;
+
         public static int WaitDuration = 1000;
 
         static Settings()

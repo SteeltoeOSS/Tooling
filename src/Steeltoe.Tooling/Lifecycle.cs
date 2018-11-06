@@ -25,32 +25,38 @@ namespace Steeltoe.Tooling
             Unknown,
         }
 
-        private readonly IBackend _backend;
-
         private readonly string _name;
 
         private readonly BackendBridge _bridge;
 
         public Lifecycle(Context context, string name)
         {
-            _backend = context.Backend;
+            var backend = context.Backend;
             _name = name;
-            _bridge = new ServiceBackendBridge();
+            if (context.Configuration.GetApps().Contains(name))
+            {
+                _bridge = new AppBackendBridge(backend);
+            }
+            else
+            {
+                _bridge = new ServiceBackendBridge(backend);
+            }
+
         }
 
         public Status GetStatus()
         {
-            return _bridge.GetStatus(_name, _backend);
+            return _bridge.GetStatus(_name);
         }
 
         public void Undeploy()
         {
-            GetState().Undeploy(_name, _backend);
+            GetState().Undeploy(_name, _bridge);
         }
 
         public void Deploy()
         {
-            GetState().Deploy(_name, _backend);
+            GetState().Deploy(_name, _bridge);
         }
 
         private State GetState()
@@ -73,20 +79,20 @@ namespace Steeltoe.Tooling
 
         abstract class State
         {
-            internal virtual void Deploy(string name, IBackend backend)
+            internal virtual void Deploy(string name, BackendBridge bridge)
             {
             }
 
-            internal virtual void Undeploy(string name, IBackend backend)
+            internal virtual void Undeploy(string name, BackendBridge bridge)
             {
             }
         }
 
         class OfflineState : State
         {
-            internal override void Deploy(string name, IBackend backend)
+            internal override void Deploy(string name, BackendBridge bridge)
             {
-                backend.DeployService(name);
+                bridge.Deploy(name);
             }
         }
 
@@ -96,9 +102,9 @@ namespace Steeltoe.Tooling
 
         class OnlineState : State
         {
-            internal override void Undeploy(string name, IBackend backend)
+            internal override void Undeploy(string name, BackendBridge bridge)
             {
-                backend.UndeployService(name);
+                bridge.Undeploy(name);
             }
         }
 
@@ -108,14 +114,62 @@ namespace Steeltoe.Tooling
 
         abstract class BackendBridge
         {
-            internal abstract Status GetStatus(string name, IBackend backend);
+            protected readonly IBackend Backend;
+
+            internal BackendBridge(IBackend backend)
+            {
+                Backend = backend;
+            }
+
+            internal abstract Status GetStatus(string name);
+
+            internal abstract void Deploy(string name);
+
+            internal abstract void Undeploy(string name);
+        }
+
+        class AppBackendBridge : BackendBridge
+        {
+            internal AppBackendBridge(IBackend backend) : base(backend)
+            {
+            }
+
+            internal override Status GetStatus(string name)
+            {
+                return Backend.GetAppStatus(name);
+            }
+
+            internal override void Deploy(string name)
+            {
+                Backend.DeployApp(name);
+            }
+
+            internal override void Undeploy(string name)
+            {
+                Backend.UndeployApp(name);
+            }
+
         }
 
         class ServiceBackendBridge : BackendBridge
         {
-            internal override Status GetStatus(string name, IBackend backend)
+            internal ServiceBackendBridge(IBackend backend) : base(backend)
             {
-                return backend.GetServiceStatus(name);
+            }
+
+            internal override Status GetStatus(string name)
+            {
+                return Backend.GetServiceStatus(name);
+            }
+
+            internal override void Deploy(string name)
+            {
+                Backend.DeployService(name);
+            }
+
+            internal override void Undeploy(string name)
+            {
+                Backend.UndeployService(name);
             }
         }
     }
