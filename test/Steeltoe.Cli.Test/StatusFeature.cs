@@ -62,7 +62,7 @@ namespace Steeltoe.Cli.Test
                 given => a_steeltoe_project("status_services"),
                 when => the_developer_runs_cli_command("add dummy-svc my-service-a"),
                 and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
-                and => the_developer_runs_cli_command("status"),
+                and => the_developer_runs_cli_command("-S status"),
                 then => the_cli_should_output(new[]
                 {
                     "my-service-a offline",
