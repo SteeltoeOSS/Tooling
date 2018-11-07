@@ -14,6 +14,7 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    [RequiresTarget]
     public class StatusExecutor : GroupExecutor
     {
         public StatusExecutor() : base(false)

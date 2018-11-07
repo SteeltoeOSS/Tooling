@@ -16,6 +16,7 @@ using System.Threading;
 
 namespace Steeltoe.Tooling.Executor
 {
+    [RequiresTarget]
     public class DeployExecutor : GroupExecutor
     {
         public DeployExecutor() : base(false)

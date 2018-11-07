@@ -14,6 +14,7 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    [RequiresTarget]
     public class UndeployExecutor : GroupExecutor
     {
         public UndeployExecutor() : base(true)

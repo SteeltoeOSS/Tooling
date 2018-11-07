@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 
 namespace Steeltoe.Tooling.Executor
 {
-    [RequiresTarget]
     public abstract class GroupExecutor : Executor
     {
         private readonly bool _appsFirst;
@@ -38,13 +37,13 @@ namespace Steeltoe.Tooling.Executor
                 {
                     if (_appsFirst)
                     {
-                        Parallel.ForEach(apps, app => { ExecuteForApp(app); });
-                        Parallel.ForEach(services, service => { ExecuteForService(service); });
+                        Parallel.ForEach(apps, ExecuteForApp);
+                        Parallel.ForEach(services, ExecuteForService);
                     }
                     else
                     {
-                        Parallel.ForEach(services, service => { ExecuteForService(service); });
-                        Parallel.ForEach(apps, app => { ExecuteForApp(app); });
+                        Parallel.ForEach(services, ExecuteForService);
+                        Parallel.ForEach(apps, ExecuteForApp);
                     }
                 }
                 catch (AggregateException e)
