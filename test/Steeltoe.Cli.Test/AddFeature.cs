@@ -80,7 +80,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("add_unknown_type"),
                 when => the_developer_runs_cli_command("add no-such-service-type foo"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Unknown type 'no-such-service-type'")
+                then => the_cli_should_error(ErrorCode.Tooling, "Service type 'no-such-service-type' does not exist")
             );
         }
 

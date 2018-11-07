@@ -12,19 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Steeltoe.Tooling
+using Shouldly;
+using Xunit;
+
+namespace Steeltoe.Tooling.Test
 {
-    public class NotFoundException : ToolingException
+    public class ItemExistExceptionTest
     {
-        public string Name { get; }
+        private readonly ItemExistsException _exception = new ItemExistsException("my-thing", "thing");
 
-        public string Description { get; }
-
-
-        public NotFoundException(string itemName, string description) : base($"Unknown {description} '{itemName}'")
+        [Fact]
+        public void TestMessage()
         {
-            Name = itemName;
-            Description = description;
+            _exception.Message.ShouldBe("Thing 'my-thing' already exists");
+        }
+
+        [Fact]
+        public void TestName()
+        {
+            _exception.Name.ShouldBe("my-thing");
+        }
+
+        [Fact]
+        public void TestType()
+        {
+            _exception.Description.ShouldBe("thing");
         }
     }
 }

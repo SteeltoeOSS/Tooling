@@ -38,7 +38,7 @@ namespace Steeltoe.Tooling
             Logger.LogDebug($"adding app {app}");
             if (Apps.ContainsKey(app))
             {
-                throw new ToolingException($"App '{app}' already exists");
+                throw new ItemExistsException(app, "app");
             }
 
             Apps[app] = new App();
@@ -50,7 +50,7 @@ namespace Steeltoe.Tooling
             Logger.LogDebug($"removing app {app}");
             if (!Apps.Remove(app))
             {
-                throw new NotFoundException(app, "app");
+                throw new ItemDoesNotExistException(app, "app");
             }
 
             NotifyChanged();
@@ -69,7 +69,7 @@ namespace Steeltoe.Tooling
             }
             catch (KeyNotFoundException)
             {
-                throw new NotFoundException(app, "app");
+                throw new ItemExistsException(app, "app");
             }
         }
 
@@ -78,12 +78,12 @@ namespace Steeltoe.Tooling
             Logger.LogDebug($"adding service {serviceType} '{service}'");
             if (!Registry.GetServiceTypes().Contains(serviceType))
             {
-                throw new NotFoundException(serviceType, "type");
+                throw new ItemDoesNotExistException(serviceType, "service type");
             }
 
             if (Services.ContainsKey(service))
             {
-                throw new ToolingException($"Service '{service}' already exists");
+                throw new ItemExistsException(service, "service");
             }
 
             Services[service] = new Service {ServiceTypeName = serviceType};
@@ -95,7 +95,7 @@ namespace Steeltoe.Tooling
             Logger.LogDebug($"removing service {service}");
             if (!Services.Remove(service))
             {
-                throw new NotFoundException(service, "service");
+                throw new ItemDoesNotExistException(service, "service");
             }
 
             NotifyChanged();
@@ -114,7 +114,7 @@ namespace Steeltoe.Tooling
             }
             catch (KeyNotFoundException)
             {
-                throw new NotFoundException(service, "service");
+                throw new ItemDoesNotExistException(service, "service");
             }
         }
 
@@ -123,12 +123,12 @@ namespace Steeltoe.Tooling
             Logger.LogDebug($"setting service '{service}' args for target '{target} to '{args}'");
             if (!Registry.Targets.Contains(target))
             {
-                throw new NotFoundException(target, "target");
+                throw new ItemDoesNotExistException(target, "target");
             }
 
             if (!Services.ContainsKey(service))
             {
-                throw new NotFoundException(service, "service");
+                throw new ItemDoesNotExistException(service, "service");
             }
 
             Services[service].Args[target] = args;
@@ -139,7 +139,7 @@ namespace Steeltoe.Tooling
         {
             if (!Registry.Targets.Contains(target))
             {
-                throw new NotFoundException(target, "target");
+                throw new ItemDoesNotExistException(target, "target");
             }
 
             try
@@ -151,7 +151,7 @@ namespace Steeltoe.Tooling
             }
             catch (KeyNotFoundException)
             {
-                throw new NotFoundException(service, "service");
+                throw new ItemDoesNotExistException(service, "service");
             }
         }
 

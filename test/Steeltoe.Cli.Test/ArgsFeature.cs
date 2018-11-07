@@ -84,7 +84,7 @@ namespace Steeltoe.Cli.Test
                 given => a_steeltoe_project("args_get_unknown_target"),
                 when => the_developer_runs_cli_command("add dummy-svc my-service"),
                 and => the_developer_runs_cli_command("args my-service no-such-target"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Unknown target 'no-such-target'")
+                then => the_cli_should_error(ErrorCode.Tooling, "Target 'no-such-target' does not exist")
             );
         }
 
@@ -95,7 +95,7 @@ namespace Steeltoe.Cli.Test
                 given => a_steeltoe_project("args_set_unknown_target"),
                 when => the_developer_runs_cli_command("add dummy-svc my-service"),
                 and => the_developer_runs_cli_command("args my-service no-such-target arg1"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Unknown target 'no-such-target'")
+                then => the_cli_should_error(ErrorCode.Tooling, "Target 'no-such-target' does not exist")
             );
         }
 
@@ -105,7 +105,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("args_get_unknown_service"),
                 when => the_developer_runs_cli_command("args no-such-svc dummy-target"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Unknown service 'no-such-svc'")
+                then => the_cli_should_error(ErrorCode.Tooling, "Service 'no-such-svc' does not exist")
             );
         }
 
@@ -115,7 +115,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("args_set_unknown_service"),
                 when => the_developer_runs_cli_command("args no-such-svc dummy-target arg1"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Unknown service 'no-such-svc'")
+                then => the_cli_should_error(ErrorCode.Tooling, "Service 'no-such-svc' does not exist")
             );
         }
 

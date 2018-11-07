@@ -34,7 +34,7 @@ namespace Steeltoe.Tooling.Test.Executor
         [Fact]
         public void TestRemoveUnknownItem()
         {
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => new RemoveExecutor("no-such-item").Execute(Context)
             );
             e.Name.ShouldBe("no-such-item");

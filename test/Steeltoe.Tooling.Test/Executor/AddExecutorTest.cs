@@ -35,10 +35,11 @@ namespace Steeltoe.Tooling.Test.Executor
         public void TestAddExistingApplication()
         {
             Context.Configuration.AddApp("existing-app");
-            var e = Assert.Throws<ToolingException>(
+            var e = Assert.Throws<ItemExistsException>(
                 () => new AddExecutor("existing-app", "app").Execute(Context)
             );
-            e.Message.ShouldBe("App 'existing-app' already exists");
+            e.Name.ShouldBe("existing-app");
+            e.Description.ShouldBe("app");
         }
 
         [Fact]
@@ -58,20 +59,21 @@ namespace Steeltoe.Tooling.Test.Executor
         public void TestAddExistingService()
         {
             Context.Configuration.AddService("existing-service", "dummy-svc");
-            var e = Assert.Throws<ToolingException>(
+            var e = Assert.Throws<ItemExistsException>(
                 () => new AddExecutor("existing-service", "dummy-svc").Execute(Context)
             );
-            e.Message.ShouldBe("Service 'existing-service' already exists");
+            e.Name.ShouldBe("existing-service");
+            e.Description.ShouldBe("service");
         }
 
         [Fact]
         public void TestAddUnknownServiceType()
         {
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => new AddExecutor("unknown-service", "unknown-service-type").Execute(Context)
             );
             e.Name.ShouldBe("unknown-service-type");
-            e.Description.ShouldBe("type");
+            e.Description.ShouldBe("service type");
         }
     }
 }

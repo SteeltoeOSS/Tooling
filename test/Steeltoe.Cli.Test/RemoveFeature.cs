@@ -97,7 +97,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_steeltoe_project("remove_unknown_item"),
                 when => the_developer_runs_cli_command("remove no-such-item"),
-                then => the_cli_should_error(ErrorCode.Tooling, "Unknown app or service 'no-such-item'")
+                then => the_cli_should_error(ErrorCode.Tooling, "App or service 'no-such-item' does not exist")
             );
         }
     }

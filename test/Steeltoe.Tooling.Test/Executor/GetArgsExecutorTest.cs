@@ -42,7 +42,7 @@ namespace Steeltoe.Tooling.Test.Executor
         [Fact]
         public void TestGetServiceArgsUnknownService()
         {
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => new GetArgsExecutor("no-such-service", "dummy-target").Execute(Context)
             );
             e.Name.ShouldBe("no-such-service");
@@ -53,7 +53,7 @@ namespace Steeltoe.Tooling.Test.Executor
         public void TestGetServiceArgsUnknownTarget()
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => new GetArgsExecutor("my-service", "no-such-target").Execute(Context)
             );
             e.Name.ShouldBe("no-such-target");

@@ -12,31 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Shouldly;
-using Xunit;
-
-namespace Steeltoe.Tooling.Test
+namespace Steeltoe.Tooling
 {
-    public class ServiceNotFoundExceptionTest
+    public class ItemDoesNotExistException : ToolingException
     {
-        private readonly NotFoundException _exception = new NotFoundException("no-such-thing", "thing");
+        public string Name { get; }
 
-        [Fact]
-        public void TestMessage()
-        {
-            _exception.Message.ShouldBe("Unknown thing 'no-such-thing'");
-        }
+        public string Description { get; }
 
-        [Fact]
-        public void TestName()
+        public ItemDoesNotExistException(string name, string description) : base(
+            $"{char.ToUpper(description[0]) + description.Substring(1)} '{name}' does not exist")
         {
-            _exception.Name.ShouldBe("no-such-thing");
-        }
-
-        [Fact]
-        public void TestDescription()
-        {
-            _exception.Description.ShouldBe("thing");
+            Name = name;
+            Description = description;
         }
     }
 }

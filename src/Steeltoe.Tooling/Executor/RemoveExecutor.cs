@@ -42,7 +42,7 @@ namespace Steeltoe.Tooling.Executor
             }
             else
             {
-                throw new NotFoundException(_name, "app or service");
+                throw new ItemDoesNotExistException(_name, "app or service");
             }
         }
     }

@@ -50,20 +50,21 @@ namespace Steeltoe.Tooling.Test
         public void TestAddAlreadyExistingService()
         {
             _cfg.AddService("preexisting-service", "dummy-svc");
-            var e = Assert.Throws<ToolingException>(
+            var e = Assert.Throws<ItemExistsException>(
                 () => _cfg.AddService("preexisting-service", "dummy-svc")
             );
-            e.Message.ShouldBe("Service 'preexisting-service' already exists");
+            e.Name.ShouldBe("preexisting-service");
+            e.Description.ShouldBe("service");
         }
 
         [Fact]
         public void TestAddServiceUnknownServiceType()
         {
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => _cfg.AddService("my-service", "no-such-service-type")
             );
             e.Name.ShouldBe("no-such-service-type");
-            e.Description.ShouldBe("type");
+            e.Description.ShouldBe("service type");
         }
 
         [Fact]
@@ -86,7 +87,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestRemoveUnknownService()
         {
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => _cfg.RemoveService("no-such-service")
             );
             e.Name.ShouldBe("no-such-service");
@@ -104,7 +105,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestGetServiceInfoUnknownService()
         {
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => _cfg.GetServiceInfo("no-such-service")
             );
             e.Name.ShouldBe("no-such-service");
@@ -142,7 +143,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestSetServiceDeploymentArgsUnknownService()
         {
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => _cfg.SetServiceDeploymentArgs("no-such-service", "dummy-target", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-service");
@@ -152,7 +153,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestSetServiceDeploymentArgsUnknownEnvironment()
         {
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => _cfg.SetServiceDeploymentArgs("my-service", "no-such-target", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-target");
@@ -177,7 +178,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestGetServiceDeploymentArgsUnknownService()
         {
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => _cfg.GetServiceDeploymentArgs("no-such-service", "dummy-target")
             );
             e.Name.ShouldBe("no-such-service");
@@ -188,7 +189,7 @@ namespace Steeltoe.Tooling.Test
         public void TestGetServiceDeploymentArgsUnknownTarget()
         {
             _cfg.AddService("my-service", "dummy-svc");
-            var e = Assert.Throws<NotFoundException>(
+            var e = Assert.Throws<ItemDoesNotExistException>(
                 () => _cfg.GetServiceDeploymentArgs("my-service", "no-such-target")
             );
             e.Name.ShouldBe("no-such-target");
