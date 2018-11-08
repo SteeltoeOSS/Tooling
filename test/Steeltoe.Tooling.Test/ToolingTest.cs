@@ -30,7 +30,6 @@ namespace Steeltoe.Tooling.Test
         {
             Settings.DummiesEnabled = true;
             Settings.ParallelExecutionEnabled = false;
-            Settings.WaitDuration = 1;
             Settings.MaxChecks = 10;
         }
 

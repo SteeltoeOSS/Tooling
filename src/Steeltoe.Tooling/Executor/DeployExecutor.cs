@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Threading;
-
 namespace Steeltoe.Tooling.Executor
 {
     [RequiresTarget]
@@ -36,7 +34,6 @@ namespace Steeltoe.Tooling.Executor
                         throw new ToolingException($"max check exceeded ({Settings.MaxChecks})");
                     }
                     Context.Console.WriteLine($"Waiting for service '{service}' to come online ({count})");
-                    Thread.Sleep(Settings.WaitDuration);
                 }
             }
             Context.Console.WriteLine($"Deploying app '{app}'");

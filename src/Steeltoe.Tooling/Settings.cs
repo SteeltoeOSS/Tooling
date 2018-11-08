@@ -26,8 +26,6 @@ namespace Steeltoe.Tooling
 
         public static int MaxChecks { get; set; } = -1;
 
-        public static int WaitDuration = 1000;
-
         static Settings()
         {
             DummiesEnabled = File.Exists(".steeltoe.dummies");
