@@ -53,6 +53,12 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
             File.ReadAllText(_configFile).ShouldBe(SampleConfig);
         }
 
+        [Fact]
+        public void TestDefaultFileName()
+        {
+            CloudFoundryManifestFile.DefaultFileName.ShouldBe("manifest-steeltoe.yml");
+        }
+
         private const string SampleConfig = @"applications:
 - name: myapp
   command: my command

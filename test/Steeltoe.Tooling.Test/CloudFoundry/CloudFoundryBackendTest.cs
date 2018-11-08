@@ -54,6 +54,14 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         }
 
         [Fact]
+        public void TestUndeployApp()
+        {
+            Context.Configuration.AddApp("my-app");
+            _backend.UndeployApp("my-app");
+            Shell.LastCommand.ShouldBe("cf delete my-app -f");
+        }
+
+        [Fact]
         public void TestDeployService()
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
@@ -91,14 +99,6 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
             Context.Configuration.AddService("my-service", "redis");
             _backend.DeployService("my-service");
             Shell.LastCommand.ShouldBe("cf create-service p-redis shared-vm my-service");
-        }
-
-        [Fact]
-        public void TestUndeployApp()
-        {
-            Context.Configuration.AddApp("my-app");
-            _backend.UndeployApp("my-app");
-            Shell.LastCommand.ShouldBe("cf delete my-app -f");
         }
 
         [Fact]

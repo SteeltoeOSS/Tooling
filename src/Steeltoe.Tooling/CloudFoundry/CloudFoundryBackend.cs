@@ -35,7 +35,7 @@ namespace Steeltoe.Tooling.CloudFoundry
 
         public void DeployApp(string application)
         {
-            var manifestPath = Path.Combine(_context.ProjectDirectory, "manifest-steeltoe.yml");
+            var manifestPath = Path.Combine(_context.ProjectDirectory, CloudFoundryManifestFile.DefaultFileName);
             if (File.Exists(manifestPath))
             {
                 File.Delete(manifestPath);
@@ -55,7 +55,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             );
             manifestFile.Store();
             _dotnetCli.Run("publish -f netcoreapp2.1 -r win10-x64");
-            _cfCli.Run("push -f manifest-steeltoe.yml -p bin/Debug/netcoreapp2.1/win10-x64/publish");
+            _cfCli.Run($"push -f {CloudFoundryManifestFile.DefaultFileName} -p bin/Debug/netcoreapp2.1/win10-x64/publish");
         }
 
         public void UndeployApp(string application)
