@@ -30,6 +30,7 @@ namespace Steeltoe.Tooling.Test.Executor
             reader.ReadLine().ShouldBe("eureka-server");
             reader.ReadLine().ShouldBe("hystrix-dashboard");
             reader.ReadLine().ShouldBe("mssql");
+            reader.ReadLine().ShouldBe("mysql");
             reader.ReadLine().ShouldBe("redis");
             reader.ReadLine().ShouldBe("zipkin");
             reader.ReadLine().ShouldBeNull();
@@ -45,6 +46,7 @@ namespace Steeltoe.Tooling.Test.Executor
             reader.ReadLine().ShouldBe("eureka-server       8761  Netflix Eureka Server");
             reader.ReadLine().ShouldBe("hystrix-dashboard   7979  Netflix Hystrix Dashboard");
             reader.ReadLine().ShouldBe("mssql               1433  Microsoft SQL Server");
+            reader.ReadLine().ShouldBe("mysql               3306  MySQL Server");
             reader.ReadLine().ShouldBe("redis               6379  Redis In-Memory Datastore");
             reader.ReadLine().ShouldBe("zipkin              9411  Zipkin Tracing Collector and UI");
             reader.ReadLine().ShouldBeNull();

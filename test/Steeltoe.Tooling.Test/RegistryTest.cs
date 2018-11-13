@@ -33,6 +33,7 @@ namespace Steeltoe.Tooling.Test
                 "eureka-server",
                 "hystrix-dashboard",
                 "mssql",
+                "mysql",
                 "redis",
                 "zipkin",
             };

@@ -94,6 +94,14 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         }
 
         [Fact]
+        public void TestDeployMySql()
+        {
+            Context.Configuration.AddService("my-service", "mysql");
+            _backend.DeployService("my-service");
+            Shell.LastCommand.ShouldBe("cf create-service p-mysql 100mb my-service");
+        }
+
+        [Fact]
         public void TestDeployRedis()
         {
             Context.Configuration.AddService("my-service", "redis");

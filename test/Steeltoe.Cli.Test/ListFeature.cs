@@ -104,6 +104,7 @@ namespace Steeltoe.Cli.Test
                     "eureka-server",
                     "hystrix-dashboard",
                     "mssql",
+                    "mysql",
                     "redis",
                     "zipkin",
                 })
@@ -125,6 +126,7 @@ namespace Steeltoe.Cli.Test
                     "eureka-server 8761 Netflix Eureka Server",
                     "hystrix-dashboard 7979 Netflix Hystrix Dashboard",
                     "mssql 1433 Microsoft SQL Server",
+                    "mysql 3306 Microsoft SQL Server",
                     "redis 6379 Redis In-Memory Datastore",
                     "zipkin 9411 Zipkin Tracing Collector and UI",
                 })

@@ -97,6 +97,15 @@ namespace Steeltoe.Tooling.Test.Docker
         }
 
         [Fact]
+        public void TestDeployMySql()
+        {
+            Context.Configuration.AddService("my-service", "mysql");
+            _backend.DeployService("my-service");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 3306:3306 --detach --rm steeltoeoss/mysql:5.7.24");
+        }
+
+        [Fact]
         public void TestDeployRedis()
         {
             Context.Configuration.AddService("my-service", "redis");
