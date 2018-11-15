@@ -43,7 +43,6 @@ namespace Steeltoe.Tooling.Executor
             }
 
             Context.Configuration.Target = _target;
-            Context.Configuration.NotifyChanged();
             Context.Console.WriteLine($"Target set to '{_target}'");
         }
     }

@@ -23,7 +23,18 @@ namespace Steeltoe.Tooling
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Configuration>();
 
-        [YamlMember(Alias = "target")] public string Target { get; set; }
+        private string _target;
+
+        [YamlMember(Alias = "target")]
+        public string Target
+        {
+            get => _target;
+            set
+            {
+                _target = value;
+                NotifyChanged();
+            }
+        }
 
         [YamlMember(Alias = "apps")]
         public SortedDictionary<string, App> Apps { get; set; } = new SortedDictionary<string, App>();
@@ -63,13 +74,72 @@ namespace Steeltoe.Tooling
 
         public AppInfo GetAppInfo(string app)
         {
-            try
+            if (Apps.ContainsKey(app))
             {
                 return new AppInfo(app);
             }
+            else
+            {
+                throw new ItemDoesNotExistException(app, "app");
+            }
+        }
+
+        public void SetAppArgs(string app, string args)
+        {
+            Logger.LogDebug($"setting app '{app}' args to '{args}'");
+            if (!Apps.ContainsKey(app))
+            {
+                throw new ItemDoesNotExistException(app, "app");
+            }
+
+            Apps[app].Args = args;
+            NotifyChanged();
+        }
+
+        public void SetAppArgs(string app, string target, string args)
+        {
+            Logger.LogDebug($"setting app '{app}' args for target '{target}' to '{args}'");
+            if (!Registry.Targets.Contains(target))
+            {
+                throw new ItemDoesNotExistException(target, "target");
+            }
+
+            if (!Apps.ContainsKey(app))
+            {
+                throw new ItemDoesNotExistException(app, "app");
+            }
+
+            Apps[app].DeployArgs[target] = args;
+            NotifyChanged();
+        }
+
+        public string GetAppArgs(string app)
+        {
+            try
+            {
+                return Apps[app].Args;
+            }
             catch (KeyNotFoundException)
             {
-                throw new ItemExistsException(app, "app");
+                throw new ItemDoesNotExistException(app, "app");
+            }
+        }
+
+        public string GetAppArgs(string app, string target)
+        {
+            if (!Registry.Targets.Contains(target))
+            {
+                throw new ItemDoesNotExistException(target, "target");
+            }
+
+            try
+            {
+                Apps[app].DeployArgs.TryGetValue(target, out var args);
+                return args;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ItemDoesNotExistException(app, "app");
             }
         }
 
@@ -118,7 +188,19 @@ namespace Steeltoe.Tooling
             }
         }
 
-        public void SetServiceDeploymentArgs(string service, string target, string args)
+        public void SetServiceArgs(string service, string args)
+        {
+            Logger.LogDebug($"setting service '{service}' args to '{args}'");
+            if (!Services.ContainsKey(service))
+            {
+                throw new ItemDoesNotExistException(service, "service");
+            }
+
+            Services[service].Args = args;
+            NotifyChanged();
+        }
+
+        public void SetServiceArgs(string service, string target, string args)
         {
             Logger.LogDebug($"setting service '{service}' args for target '{target} to '{args}'");
             if (!Registry.Targets.Contains(target))
@@ -131,11 +213,23 @@ namespace Steeltoe.Tooling
                 throw new ItemDoesNotExistException(service, "service");
             }
 
-            Services[service].Args[target] = args;
+            Services[service].DeployArgs[target] = args;
             NotifyChanged();
         }
 
-        public string GetServiceDeploymentArgs(string service, string target)
+        public string GetServiceArgs(string service)
+        {
+            try
+            {
+                return Services[service].Args;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ItemDoesNotExistException(service, "service");
+            }
+        }
+
+        public string GetServiceArgs(string service, string target)
         {
             if (!Registry.Targets.Contains(target))
             {
@@ -144,9 +238,7 @@ namespace Steeltoe.Tooling
 
             try
             {
-                var svc = Services[service];
-                string args;
-                svc.Args.TryGetValue(target, out args);
+                Services[service].DeployArgs.TryGetValue(target, out var args);
                 return args;
             }
             catch (KeyNotFoundException)
@@ -171,14 +263,16 @@ namespace Steeltoe.Tooling
 
         public class App
         {
+            [YamlMember(Alias = "args")]
+            public string Args { get; set; }
+
+            [YamlMember(Alias = "deployArgs")]
+            public SortedDictionary<string, string> DeployArgs { get; set; } = new SortedDictionary<string, string>();
         }
 
-        public class Service
+        public class Service : App
         {
             [YamlMember(Alias = "type")] public string ServiceTypeName { get; set; }
-
-            [YamlMember(Alias = "args")]
-            public SortedDictionary<string, string> Args { get; set; } = new SortedDictionary<string, string>();
         }
     }
 }

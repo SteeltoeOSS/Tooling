@@ -21,9 +21,88 @@ namespace Steeltoe.Tooling.Test.Executor
     public class GetArgsExecutorTest : ToolingTest
     {
         [Fact]
+        public void TestGetArgsUnknownAppOrService()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => new GetArgsExecutor("no-such-app-or-svc").Execute(Context)
+            );
+            e.Name.ShouldBe("no-such-app-or-svc");
+            e.Description.ShouldBe("app or service");
+        }
+
+        [Fact]
+        public void TestGetTargetArgsUnknownAppOrService()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => new GetArgsExecutor("no-such-app-or-svc", "dummy-target").Execute(Context)
+            );
+            e.Name.ShouldBe("no-such-app-or-svc");
+            e.Description.ShouldBe("app or service");
+        }
+
+        [Fact]
+        public void TestGetAppArgs()
+        {
+            new AddExecutor("my-app").Execute(Context);
+            new SetArgsExecutor("my-app", "arg1 arg2").Execute(Context);
+            ClearConsole();
+            new GetArgsExecutor("my-app").Execute(Context);
+            Console.ToString().Trim().ShouldBe("arg1 arg2");
+        }
+
+        [Fact]
+        public void TestGetAppTargetArgs()
+        {
+            new AddExecutor("my-app").Execute(Context);
+            new SetArgsExecutor("my-app", "dummy-target", "arg1 arg2").Execute(Context);
+            ClearConsole();
+            new GetArgsExecutor("my-app", "dummy-target").Execute(Context);
+            Console.ToString().Trim().ShouldBe("arg1 arg2");
+        }
+
+        [Fact]
+        public void TestGetAppNoArgs()
+        {
+            new AddExecutor("my-app").Execute(Context);
+            ClearConsole();
+            new GetArgsExecutor("my-app").Execute(Context);
+            Console.ToString().Trim().ShouldBeEmpty();
+        }
+
+        [Fact]
+        public void TestGetAppTargetNoArgs()
+        {
+            new AddExecutor("my-app").Execute(Context);
+            ClearConsole();
+            new GetArgsExecutor("my-app", "dummy-target").Execute(Context);
+            Console.ToString().Trim().ShouldBeEmpty();
+        }
+
+        [Fact]
+        public void TestGetAppArgsUnknownTarget()
+        {
+            new AddExecutor("my-app").Execute(Context);
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => new GetArgsExecutor("my-app", "no-such-target").Execute(Context)
+            );
+            e.Name.ShouldBe("no-such-target");
+            e.Description.ShouldBe("target");
+        }
+
+        [Fact]
         public void TestGetServiceArgs()
         {
-            Context.Configuration.AddService("my-service", "dummy-svc");
+            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new SetArgsExecutor("my-service", "arg1 arg2").Execute(Context);
+            ClearConsole();
+            new GetArgsExecutor("my-service").Execute(Context);
+            Console.ToString().Trim().ShouldBe("arg1 arg2");
+        }
+
+        [Fact]
+        public void TestGetServiceTargetArgs()
+        {
+            new AddExecutor("my-service", "dummy-svc").Execute(Context);
             new SetArgsExecutor("my-service", "dummy-target", "arg1 arg2").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-service", "dummy-target").Execute(Context);
@@ -33,26 +112,25 @@ namespace Steeltoe.Tooling.Test.Executor
         [Fact]
         public void TestGetServiceNoArgs()
         {
-            Context.Configuration.AddService("my-service", "dummy-svc");
+            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            ClearConsole();
+            new GetArgsExecutor("my-service").Execute(Context);
+            Console.ToString().Trim().ShouldBeEmpty();
+        }
+
+        [Fact]
+        public void TestGetServiceTargetNoArgs()
+        {
+            new AddExecutor("my-service", "dummy-svc").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-service", "dummy-target").Execute(Context);
             Console.ToString().Trim().ShouldBeEmpty();
         }
 
         [Fact]
-        public void TestGetServiceArgsUnknownService()
-        {
-            var e = Assert.Throws<ItemDoesNotExistException>(
-                () => new GetArgsExecutor("no-such-service", "dummy-target").Execute(Context)
-            );
-            e.Name.ShouldBe("no-such-service");
-            e.Description.ShouldBe("service");
-        }
-
-        [Fact]
         public void TestGetServiceArgsUnknownTarget()
         {
-            Context.Configuration.AddService("my-service", "dummy-svc");
+            new AddExecutor("my-service", "dummy-svc").Execute(Context);
             var e = Assert.Throws<ItemDoesNotExistException>(
                 () => new GetArgsExecutor("my-service", "no-such-target").Execute(Context)
             );

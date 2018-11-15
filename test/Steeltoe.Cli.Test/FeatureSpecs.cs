@@ -105,8 +105,10 @@ namespace scratch
             var svcs = new ServiceCollection()
                 .AddSingleton<IConsole>(Console)
                 .BuildServiceProvider();
-            var buf = Console.Out as StringWriter;
-            buf?.GetStringBuilder().Clear();
+            var stdout = Console.Out as StringWriter;
+            stdout?.GetStringBuilder().Clear();
+            var stderr = Console.Error as StringWriter;
+            stderr?.GetStringBuilder().Clear();
             var app = new CommandLineApplication<Program>(Console, ProjectDirectory, true);
             app.Conventions
                 .UseDefaultConventions()
@@ -228,6 +230,20 @@ namespace scratch
             new ConfigurationFile(ProjectDirectory).Configuration.Apps.Keys.ShouldNotContain(app);
         }
 
+        protected void the_configuration_should_contain_app_args(string app, string args)
+        {
+            Logger.LogInformation($"checking the app '{app}' contains args '{args}'");
+            var cfg = new ConfigurationFile(ProjectDirectory);
+            cfg.Configuration.Apps[app].Args.ShouldBe(args);
+        }
+
+        protected void the_configuration_should_contain_app_args(string app, string target, string args)
+        {
+            Logger.LogInformation($"checking the app '{app}' contains args '{args}' for target '{target}");
+            var cfg = new ConfigurationFile(ProjectDirectory);
+            cfg.Configuration.Apps[app].DeployArgs[target].ShouldBe(args);
+        }
+
         protected void the_configuration_should_contain_service(string service, string serviceType)
         {
             Logger.LogInformation($"checking the service {serviceType} '{service}' exists");
@@ -240,6 +256,20 @@ namespace scratch
         {
             Logger.LogInformation($"checking the service '{service}' does not exist");
             new ConfigurationFile(ProjectDirectory).Configuration.Services.Keys.ShouldNotContain(service);
+        }
+
+        protected void the_configuration_should_contain_service_args(string service, string args)
+        {
+            Logger.LogInformation($"checking the service '{service}' contains args '{args}'");
+            var cfg = new ConfigurationFile(ProjectDirectory);
+            cfg.Configuration.Services[service].Args.ShouldBe(args);
+        }
+
+        protected void the_configuration_should_contain_service_args(string service, string target, string args)
+        {
+            Logger.LogInformation($"checking the service '{service}' contains args '{args}' for target '{target}");
+            var cfg = new ConfigurationFile(ProjectDirectory);
+            cfg.Configuration.Services[service].DeployArgs[target].ShouldBe(args);
         }
 
         private static string NormalizeString(string s)

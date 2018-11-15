@@ -22,9 +22,9 @@ using Steeltoe.Tooling.Executor;
 namespace Steeltoe.Cli
 {
     [Command(
-        Description = "Set or get the deployment arguments for an app or service",
+        Description = "Set or get the arguments for an app or service",
         ExtendedHelpText =
-            "If run with no arguments, show the current deployment arguments for the app or service.",
+            "If run with no arguments, show the current arguments for the app or service.",
         AllowArgumentSeparator = true
     )]
     public class ArgsCommand : Command
@@ -33,16 +33,15 @@ namespace Steeltoe.Cli
 
         [Required(ErrorMessage = "App or service name not specified")]
         [Argument(0, Name = "name", Description = "App or service name")]
-        private string ApplicationOrService { get; }
+        private string AppOrServiceName { get; }
 
-        [Required(ErrorMessage = "Deployment target name not specified")]
-        [Argument(1, Name = "target", Description = "Deployment target name")]
-        private string Target { get; }
-
-        [Argument(2, Name = "args", Description = "Deployment arguments")]
+        [Argument(2, Name = "args", Description = "App or service arguments")]
         private List<string> Arguments { get; }
 
-        [Option("-F|--force", Description = "Overwrite existing deployment environment arguments")]
+        [Option("-t|--target", Description = "Apply the args to the deployment on the specified target")]
+        private string Target { get; }
+
+        [Option("-F|--force", Description = "Overwrite existing arguments")]
         private bool Force { get; }
 
         private List<string> RemainingArguments { get; }
@@ -66,10 +65,10 @@ namespace Steeltoe.Cli
 
             if (args.Count == 0)
             {
-                return new GetArgsExecutor(ApplicationOrService, Target);
+                return new GetArgsExecutor(AppOrServiceName, Target);
             }
 
-            return new SetArgsExecutor(ApplicationOrService, Target, string.Join(" ", args), Force);
+            return new SetArgsExecutor(AppOrServiceName, Target, string.Join(" ", args), Force);
         }
     }
 }

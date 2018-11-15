@@ -14,19 +14,32 @@
 
 namespace Steeltoe.Tooling.Executor
 {
-    public class GetArgsExecutor : ServiceExecutor
+    [RequiresInitialization]
+    public class GetArgsExecutor : AppOrServiceExecutor
     {
-        private string _target;
+        private readonly string _target;
 
-        public GetArgsExecutor(string service, string target) : base(service)
+        public GetArgsExecutor(string appOrServiceName, string target = null) : base(appOrServiceName)
         {
             _target = target;
         }
 
-        protected override void Execute()
+        protected override void ExecuteForApp()
         {
-            base.Execute();
-            var args = Context.Configuration.GetServiceDeploymentArgs(Service, _target);
+            ShowArgs(_target == null
+                ? Context.Configuration.GetAppArgs(AppOrServiceName)
+                : Context.Configuration.GetAppArgs(AppOrServiceName, _target));
+        }
+
+        protected override void ExecuteForService()
+        {
+            ShowArgs(_target == null
+                ? Context.Configuration.GetServiceArgs(AppOrServiceName)
+                : Context.Configuration.GetServiceArgs(AppOrServiceName, _target));
+        }
+
+        private void ShowArgs(string args)
+        {
             if (args != null)
             {
                 Context.Console.WriteLine(args);

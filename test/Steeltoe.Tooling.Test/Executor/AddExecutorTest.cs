@@ -21,9 +21,9 @@ namespace Steeltoe.Tooling.Test.Executor
     public class AddExecutorTest : ToolingTest
     {
         [Fact]
-        public void TestAddApplication()
+        public void TestAdd()
         {
-            new AddExecutor("my-app", "app").Execute(Context);
+            new AddExecutor("my-app").Execute(Context);
             Console.ToString().Trim().ShouldBe("Added app 'my-app'");
             Context.Configuration.GetApps().Count.ShouldBe(1);
             Context.Configuration.GetApps()[0].ShouldBe("my-app");
@@ -32,11 +32,11 @@ namespace Steeltoe.Tooling.Test.Executor
         }
 
         [Fact]
-        public void TestAddExistingApplication()
+        public void TestAddExistingApp()
         {
             Context.Configuration.AddApp("existing-app");
             var e = Assert.Throws<ItemExistsException>(
-                () => new AddExecutor("existing-app", "app").Execute(Context)
+                () => new AddExecutor("existing-app").Execute(Context)
             );
             e.Name.ShouldBe("existing-app");
             e.Description.ShouldBe("app");

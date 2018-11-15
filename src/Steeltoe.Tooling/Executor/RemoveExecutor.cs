@@ -14,36 +14,24 @@
 
 namespace Steeltoe.Tooling.Executor
 {
-    // TODO : write unit test for init req
     [RequiresInitialization]
-    public class RemoveExecutor : Executor
+    public class RemoveExecutor : AppOrServiceExecutor
     {
-        private readonly string _name;
-
-        public RemoveExecutor(string name)
+        public RemoveExecutor(string appOrServiceName) : base(appOrServiceName)
         {
-            _name = name;
         }
 
-        protected override void Execute()
+        protected override void ExecuteForApp()
         {
-            var cfg = Context.Configuration;
-            if (cfg.GetApps().Contains(_name))
-            {
-                Context.Configuration.RemoveApp(_name);
-                Context.Console.WriteLine($"Removed app '{_name}'");
-            }
-            else if (cfg.GetServices().Contains(_name))
-            {
-                var svcInfo = cfg.GetServiceInfo(_name);
-                Context.Configuration.RemoveService(_name);
-                Context.Console.WriteLine($"Removed {svcInfo.ServiceType} service '{_name}'");
+            Context.Configuration.RemoveApp(AppOrServiceName);
+            Context.Console.WriteLine($"Removed app '{AppOrServiceName}'");
+        }
 
-            }
-            else
-            {
-                throw new ItemDoesNotExistException(_name, "app or service");
-            }
+        protected override void ExecuteForService()
+        {
+            var svcInfo = Context.Configuration.GetServiceInfo(AppOrServiceName);
+            Context.Configuration.RemoveService(AppOrServiceName);
+            Context.Console.WriteLine($"Removed {svcInfo.ServiceType} service '{AppOrServiceName}'");
         }
     }
 }

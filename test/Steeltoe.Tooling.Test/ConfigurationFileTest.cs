@@ -68,11 +68,12 @@ namespace Steeltoe.Tooling.Test
 
         private const string SampleConfig = @"target: dummy-target
 apps:
-  my-app: {}
+  my-app:
+    deployArgs: {}
 services:
   my-service:
     type: dummy-svc
-    args: {}
+    deployArgs: {}
 ";
     }
 }

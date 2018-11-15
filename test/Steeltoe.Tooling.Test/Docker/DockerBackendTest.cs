@@ -41,7 +41,7 @@ namespace Steeltoe.Tooling.Test.Docker
         public void TestDeployServiceWithArgs()
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
-            Context.Configuration.SetServiceDeploymentArgs("my-service", "docker", "arg1 arg2");
+            Context.Configuration.SetServiceArgs("my-service", "docker", "arg1 arg2");
             _backend.DeployService("my-service", "dummy-svc");
             Shell.LastCommand.ShouldBe(
                 "docker run --name my-service --publish 0:0 --detach --rm arg1 arg2 dummy-server:0.1");

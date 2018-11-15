@@ -31,19 +31,202 @@ namespace Steeltoe.Tooling.Test
         }
 
         [Fact]
+        public void TestAddApp()
+        {
+            _cfg.AddApp("my-app");
+            _cfg.Apps.Count.ShouldBe(1);
+            _cfg.Apps.Keys.ShouldContain("my-app");
+            _listener.ReceivedCount.ShouldBe(1);
+        }
+
+        [Fact]
+        public void TestAddAlreadyExistingApp()
+        {
+            _cfg.AddApp("preexisting-app");
+            var e = Assert.Throws<ItemExistsException>(
+                () => _cfg.AddApp("preexisting-app")
+            );
+            e.Name.ShouldBe("preexisting-app");
+            e.Description.ShouldBe("app");
+        }
+
+        [Fact]
+        public void TestRemoveApp()
+        {
+            _cfg.AddApp("my-app");
+            _cfg.RemoveApp("my-app");
+            _cfg.Services.Count.ShouldBe(0);
+            _listener.ReceivedCount.ShouldBe(2);
+        }
+
+        [Fact]
+        public void TestRemoveUnknownApp()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.RemoveApp("no-such-app")
+            );
+            e.Name.ShouldBe("no-such-app");
+            e.Description.ShouldBe("app");
+        }
+
+        [Fact]
+        public void TestGetApps()
+        {
+            _cfg.GetApps().Count.ShouldBe(0);
+            _cfg.AddApp("my-app");
+            _cfg.AddApp("another-app");
+            var apps = _cfg.GetApps();
+            apps.Remove("my-app").ShouldBeTrue();
+            apps.Remove("another-app").ShouldBeTrue();
+            apps.Count.ShouldBe(0);
+        }
+
+        [Fact]
+        public void TestGetAppInfo()
+        {
+            _cfg.AddApp("my-app");
+            var info = _cfg.GetAppInfo("my-app");
+            info.App.ShouldBe("my-app");
+        }
+
+        [Fact]
+        public void TestGetAppInfoUnknownApp()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.GetAppInfo("no-such-app")
+            );
+            e.Name.ShouldBe("no-such-app");
+            e.Description.ShouldBe("app");
+        }
+
+        [Fact]
+        public void TestSetAppArgs()
+        {
+            _cfg.AddApp("my-app");
+            _cfg.SetAppArgs("my-app", "arg1 arg2");
+            _cfg.Apps["my-app"].Args.ShouldBe("arg1 arg2");
+            _listener.ReceivedCount.ShouldBe(2);
+        }
+
+        [Fact]
+        public void TestSetAppTargetArgs()
+        {
+            _cfg.AddApp("my-app");
+            _cfg.SetAppArgs("my-app", "dummy-target", "arg1 arg2");
+            _cfg.Apps["my-app"].DeployArgs["dummy-target"].ShouldBe("arg1 arg2");
+            _listener.ReceivedCount.ShouldBe(2);
+        }
+
+        [Fact]
+        public void TestSetAppArgsUnknownApp()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.SetAppArgs("no-such-app", "arg1 arg2")
+            );
+            e.Name.ShouldBe("no-such-app");
+            e.Description.ShouldBe("app");
+        }
+
+        [Fact]
+        public void TestSetAppTargetArgsUnknownApp()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.SetAppArgs("no-such-app", "dummy-target", "arg1 arg2")
+            );
+            e.Name.ShouldBe("no-such-app");
+            e.Description.ShouldBe("app");
+        }
+
+        [Fact]
+        public void TestSetAppTargetArgsUnknownTarget()
+        {
+            _cfg.AddApp("my-app");
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.SetAppArgs("my-app", "no-such-target", "arg1 arg2")
+            );
+            e.Name.ShouldBe("no-such-target");
+            e.Description.ShouldBe("target");
+        }
+
+        [Fact]
+        public void TestGetAppArgs()
+        {
+            _cfg.AddApp("my-app");
+            _cfg.SetAppArgs("my-app", "arg1 arg2");
+            _cfg.GetAppArgs("my-app").ShouldBe("arg1 arg2");
+        }
+
+        [Fact]
+        public void TestGetAppTargetArgs()
+        {
+            _cfg.AddApp("my-app");
+            _cfg.SetAppArgs("my-app", "dummy-target", "arg1 arg2");
+            _cfg.GetAppArgs("my-app", "dummy-target").ShouldBe("arg1 arg2");
+        }
+
+        [Fact]
+        public void TestGetAppNoArgs()
+        {
+            _cfg.AddApp("my-app");
+            _cfg.GetAppArgs("my-app").ShouldBe(null);
+        }
+
+        [Fact]
+        public void TestGetAppTargetNoArgs()
+        {
+            _cfg.AddApp("my-app");
+            _cfg.GetAppArgs("my-app", "dummy-target").ShouldBe(null);
+        }
+
+        [Fact]
+        public void TestGetAppArgsUnknownApp()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.GetAppArgs("no-such-app")
+            );
+            e.Name.ShouldBe("no-such-app");
+            e.Description.ShouldBe("app");
+        }
+
+        [Fact]
+        public void TestGetAppTargetArgsUnknownApp()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.GetAppArgs("no-such-app", "dummy-target")
+            );
+            e.Name.ShouldBe("no-such-app");
+            e.Description.ShouldBe("app");
+        }
+
+        [Fact]
+        public void TestGetAppTargetArgsUnknownTarget()
+        {
+            _cfg.AddApp("my-app");
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.GetAppArgs("my-app", "no-such-target")
+            );
+            e.Name.ShouldBe("no-such-target");
+            e.Description.ShouldBe("target");
+        }
+
+        [Fact]
+        public void TestAddServiceUnknownServiceType()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.AddService("my-service", "no-such-service-type")
+            );
+            e.Name.ShouldBe("no-such-service-type");
+            e.Description.ShouldBe("service type");
+        }
+
+        [Fact]
         public void TestAddService()
         {
             _cfg.AddService("my-service", "dummy-svc");
             _cfg.Services.Count.ShouldBe(1);
             _cfg.Services.Keys.ShouldContain("my-service");
             _cfg.Services["my-service"].ServiceTypeName.ShouldBe("dummy-svc");
-        }
-
-        [Fact]
-        public void TestListenAddService()
-        {
-            _cfg.AddService("my-service", "dummy-svc");
-            _listener.ReceivedEvent.ShouldBeTrue();
+            _listener.ReceivedCount.ShouldBe(1);
         }
 
         [Fact]
@@ -58,30 +241,12 @@ namespace Steeltoe.Tooling.Test
         }
 
         [Fact]
-        public void TestAddServiceUnknownServiceType()
-        {
-            var e = Assert.Throws<ItemDoesNotExistException>(
-                () => _cfg.AddService("my-service", "no-such-service-type")
-            );
-            e.Name.ShouldBe("no-such-service-type");
-            e.Description.ShouldBe("service type");
-        }
-
-        [Fact]
         public void TestRemoveService()
         {
             _cfg.AddService("my-service", "dummy-svc");
             _cfg.RemoveService("my-service");
             _cfg.Services.Count.ShouldBe(0);
-        }
-
-        [Fact]
-        public void TestListenRemoveService()
-        {
-            _cfg.AddService("my-service", "dummy-svc");
-            _listener.ReceivedEvent = false;
-            _cfg.RemoveService("my-service");
-            _listener.ReceivedEvent.ShouldBeTrue();
+            _listener.ReceivedCount.ShouldBe(2);
         }
 
         [Fact]
@@ -91,6 +256,19 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.RemoveService("no-such-service")
             );
             e.Name.ShouldBe("no-such-service");
+            e.Description.ShouldBe("service");
+        }
+
+        [Fact]
+        public void TestGetServices()
+        {
+            _cfg.GetServices().Count.ShouldBe(0);
+            _cfg.AddService("my-service", "dummy-svc");
+            _cfg.AddService("another-service", "dummy-svc");
+            var svcs = _cfg.GetServices();
+            svcs.Remove("my-service").ShouldBeTrue();
+            svcs.Remove("another-service").ShouldBeTrue();
+            svcs.Count.ShouldBe(0);
         }
 
         [Fact]
@@ -109,110 +287,132 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.GetServiceInfo("no-such-service")
             );
             e.Name.ShouldBe("no-such-service");
+            e.Description.ShouldBe("service");
         }
 
         [Fact]
-        public void TestGetServiceNames()
-        {
-            _cfg.GetServices().Count.ShouldBe(0);
-            _cfg.AddService("my-service", "dummy-svc");
-            _cfg.AddService("another-service", "dummy-svc");
-            var names = _cfg.GetServices();
-            names.Remove("my-service").ShouldBeTrue();
-            names.Remove("another-service").ShouldBeTrue();
-            names.Count.ShouldBe(0);
-        }
-
-        [Fact]
-        public void TestSetServiceDeploymentArgs()
+        public void TestSetServiceArgs()
         {
             _cfg.AddService("my-service", "dummy-svc");
-            _cfg.SetServiceDeploymentArgs("my-service", "dummy-target", "arg1 arg2");
-            _cfg.Services["my-service"].Args["dummy-target"].ShouldBe("arg1 arg2");
+            _cfg.SetServiceArgs("my-service", "arg1 arg2");
+            _cfg.Services["my-service"].Args.ShouldBe("arg1 arg2");
+            _listener.ReceivedCount.ShouldBe(2);
         }
 
         [Fact]
-        public void TestListenSetServiceDeploymentArgs()
+        public void TestSetServiceTargetArgs()
         {
             _cfg.AddService("my-service", "dummy-svc");
-            _listener.ReceivedEvent = false;
-            _cfg.SetServiceDeploymentArgs("my-service", "dummy-target", "arg1 arg2");
-            _listener.ReceivedEvent.ShouldBeTrue();
+            _cfg.SetServiceArgs("my-service", "dummy-target", "arg1 arg2");
+            _cfg.Services["my-service"].DeployArgs["dummy-target"].ShouldBe("arg1 arg2");
+            _listener.ReceivedCount.ShouldBe(2);
         }
 
         [Fact]
-        public void TestSetServiceDeploymentArgsUnknownService()
+        public void TestSetServiceArgsUnknownService()
         {
             var e = Assert.Throws<ItemDoesNotExistException>(
-                () => _cfg.SetServiceDeploymentArgs("no-such-service", "dummy-target", "arg1 arg2")
+                () => _cfg.SetServiceArgs("no-such-service", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-service");
             e.Description.ShouldBe("service");
         }
 
         [Fact]
-        public void TestSetServiceDeploymentArgsUnknownEnvironment()
+        public void TestSetServiceTargetArgsUnknownService()
         {
             var e = Assert.Throws<ItemDoesNotExistException>(
-                () => _cfg.SetServiceDeploymentArgs("my-service", "no-such-target", "arg1 arg2")
-            );
-            e.Name.ShouldBe("no-such-target");
-            e.Description.ShouldBe("target");
-        }
-
-        [Fact]
-        public void TestGetServiceDeploymentArgs()
-        {
-            _cfg.AddService("my-service", "dummy-svc");
-            _cfg.SetServiceDeploymentArgs("my-service", "dummy-target", "arg1 arg2");
-            _cfg.GetServiceDeploymentArgs("my-service", "dummy-target").ShouldBe("arg1 arg2");
-        }
-
-        [Fact]
-        public void TestGetServiceDeploymentNoArgs()
-        {
-            _cfg.AddService("my-service", "dummy-svc");
-            _cfg.GetServiceDeploymentArgs("my-service", "dummy-target").ShouldBe(null);
-        }
-
-        [Fact]
-        public void TestGetServiceDeploymentArgsUnknownService()
-        {
-            var e = Assert.Throws<ItemDoesNotExistException>(
-                () => _cfg.GetServiceDeploymentArgs("no-such-service", "dummy-target")
+                () => _cfg.SetServiceArgs("no-such-service", "dummy-target", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-service");
             e.Description.ShouldBe("service");
         }
 
         [Fact]
-        public void TestGetServiceDeploymentArgsUnknownTarget()
+        public void TestSetServiceTargetArgsUnknownTarget()
         {
             _cfg.AddService("my-service", "dummy-svc");
             var e = Assert.Throws<ItemDoesNotExistException>(
-                () => _cfg.GetServiceDeploymentArgs("my-service", "no-such-target")
+                () => _cfg.SetServiceArgs("my-service", "no-such-target", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-target");
             e.Description.ShouldBe("target");
         }
 
         [Fact]
-        public void TestChangeEvent()
+        public void TestGetServiceArgs()
         {
-            var cfg = new Configuration();
-            var listener = new MyListener();
-            cfg.AddListener(listener);
-            cfg.NotifyChanged();
-            listener.ReceivedEvent.ShouldBeTrue();
+            _cfg.AddService("my-service", "dummy-svc");
+            _cfg.SetServiceArgs("my-service", "arg1 arg2");
+            _cfg.GetServiceArgs("my-service").ShouldBe("arg1 arg2");
         }
 
-        internal class MyListener : IConfigurationListener
+        [Fact]
+        public void TestGetServiceTargetArgs()
         {
-            internal bool ReceivedEvent { get; set; }
+            _cfg.AddService("my-service", "dummy-svc");
+            _cfg.SetServiceArgs("my-service", "dummy-target", "arg1 arg2");
+            _cfg.GetServiceArgs("my-service", "dummy-target").ShouldBe("arg1 arg2");
+        }
+
+        [Fact]
+        public void TestGetServiceNoArgs()
+        {
+            _cfg.AddService("my-service", "dummy-svc");
+            _cfg.GetServiceArgs("my-service").ShouldBe(null);
+        }
+
+        [Fact]
+        public void TestGetServiceTargetNoArgs()
+        {
+            _cfg.AddService("my-service", "dummy-svc");
+            _cfg.GetServiceArgs("my-service", "dummy-target").ShouldBe(null);
+        }
+
+        [Fact]
+        public void TestGetServiceArgsUnknownService()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.GetServiceArgs("no-such-service")
+            );
+            e.Name.ShouldBe("no-such-service");
+            e.Description.ShouldBe("service");
+        }
+
+        [Fact]
+        public void TestGetServiceTargetArgsUnknownService()
+        {
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.GetServiceArgs("no-such-service", "dummy-target")
+            );
+            e.Name.ShouldBe("no-such-service");
+            e.Description.ShouldBe("service");
+        }
+
+        [Fact]
+        public void TestGetServiceTargetArgsUnknownTarget()
+        {
+            _cfg.AddService("my-service", "dummy-svc");
+            var e = Assert.Throws<ItemDoesNotExistException>(
+                () => _cfg.GetServiceArgs("my-service", "no-such-target")
+            );
+            e.Name.ShouldBe("no-such-target");
+            e.Description.ShouldBe("target");
+        }
+
+        private class MyListener : IConfigurationListener
+        {
+            private int _receivedCount;
+
+            internal int ReceivedCount
+            {
+                get => _receivedCount;
+                private set => _receivedCount = value;
+            }
 
             public void ConfigurationChangeEvent()
             {
-                ReceivedEvent = true;
+                ++ReceivedCount;
             }
         }
     }

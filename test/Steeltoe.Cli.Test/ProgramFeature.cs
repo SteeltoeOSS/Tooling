@@ -49,7 +49,7 @@ namespace Steeltoe.Cli.Test
                     "-?|-h|--help Show help information",
                     "Commands:",
                     "add Add an app or service",
-                    "args Set or get the deployment arguments for an app or service",
+                    "args Set or get the arguments for an app or service",
                     "deploy Deploy apps and services to the target",
                     "doctor Check for potential problems",
                     "init Initialize Steeltoe Developer Tools",

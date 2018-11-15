@@ -25,11 +25,11 @@ namespace Steeltoe.Cli
 
         [Required(ErrorMessage = "'app' or service type not specified")]
         [Argument(0, Name = "type", Description = "'app' or service type")]
-        private string ProjectOrServiceType { get; } = null;
+        private string AppOrServiceType { get; } = null;
 
         [Required(ErrorMessage = "App or service name not specified")]
         [Argument(1, Name = "name", Description = "App or service name")]
-        private string ProjectOrServiceName { get; } = null;
+        private string AppOrServiceName { get; } = null;
 
         public AddCommand(IConsole console) : base(console)
         {
@@ -37,7 +37,9 @@ namespace Steeltoe.Cli
 
         protected override Executor GetExecutor()
         {
-            return new AddExecutor(ProjectOrServiceName, ProjectOrServiceType);
+            return AppOrServiceType == "app"
+                ? new AddExecutor(AppOrServiceName)
+                : new AddExecutor(AppOrServiceName, AppOrServiceType);
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Steeltoe.Tooling.Docker
             var svcInfo = _context.Configuration.GetServiceInfo(service);
             var port = GetPort(svcInfo.ServiceType);
             var image = LookupImage(svcInfo.ServiceType, os);
-            var args = _context.Configuration.GetServiceDeploymentArgs(service, "docker");
+            var args = _context.Configuration.GetServiceArgs(service, "docker");
             if (args == null)
             {
                 args = "";

@@ -14,34 +14,106 @@
 
 namespace Steeltoe.Tooling.Executor
 {
-    public class SetArgsExecutor : ServiceExecutor
+    [RequiresInitialization]
+    public class SetArgsExecutor : AppOrServiceExecutor
     {
         private readonly string _target;
 
-        private readonly string _arguments;
+        private readonly string _args;
 
         private readonly bool _force;
 
-        public SetArgsExecutor(string service, string target, string arguments, bool force = false) :
-            base(service)
+        public SetArgsExecutor(string appOrServiceName, string args, bool force = false)
+            : this(appOrServiceName, null, args, force)
+        {
+        }
+
+        public SetArgsExecutor(string appOrServiceName, string target, string args, bool force = false)
+            : base(appOrServiceName)
         {
             _target = target;
-            _arguments = arguments;
+            _args = args;
             _force = force;
         }
 
-        protected override void Execute()
+        protected override void ExecuteForApp()
         {
-            base.Execute();
-            var args = Context.Configuration.GetServiceDeploymentArgs(Service, _target);
+            if (_target == null)
+            {
+                ExecuteSetAppArgs();
+            }
+            else
+            {
+                ExecuteSetAppTargetArgs();
+            }
+        }
+
+        protected override void ExecuteForService()
+        {
+            if (_target == null)
+            {
+                ExecuteSetServiceArgs();
+            }
+            else
+            {
+                ExecuteSetServiceTargetArgs();
+            }
+        }
+
+        private void ExecuteSetAppArgs()
+        {
+            var appName = AppOrServiceName;
+            var args = Context.Configuration.GetAppArgs(appName);
+            if (args != null && !_force)
+            {
+                throw new ToolingException($"'{appName}' app args already set to '{args}'");
+            }
+
+            Context.Configuration.SetAppArgs(appName, _args);
+            Context.Console.WriteLine($"Set '{appName}' app args to '{_args}'");
+        }
+
+        private void ExecuteSetAppTargetArgs()
+        {
+            var appName = AppOrServiceName;
+            var args = Context.Configuration.GetAppArgs(appName, _target);
+            if (args != null && !_force)
+            {
+                throw new ToolingException($"'{_target}' deploy args for '{appName}' app already set to '{args}'");
+            }
+
+            Context.Configuration.SetAppArgs(appName, _target, _args);
+            Context.Console.WriteLine($"Set '{_target}' deploy args for '{appName}' app to '{_args}'");
+        }
+
+        private void ExecuteSetServiceArgs()
+        {
+            var svcName = AppOrServiceName;
+            var svcInfo = Context.Configuration.GetServiceInfo(svcName);
+            var args = Context.Configuration.GetServiceArgs(svcName);
+            if (args != null && !_force)
+            {
+                throw new ToolingException($"'{svcName}' {svcInfo.ServiceType} service args already set to '{args}'");
+            }
+
+            Context.Configuration.SetServiceArgs(svcName, _args);
+            Context.Console.WriteLine($"Set '{svcName}' {svcInfo.ServiceType} service args to '{_args}'");
+        }
+
+        private void ExecuteSetServiceTargetArgs()
+        {
+            var svcName = AppOrServiceName;
+            var svcInfo = Context.Configuration.GetServiceInfo(svcName);
+            var args = Context.Configuration.GetServiceArgs(svcName, _target);
             if (args != null && !_force)
             {
                 throw new ToolingException(
-                    $"Service '{Service}' args for target '{_target}' already set to '{args}'");
+                    $"'{_target}' deploy args for '{AppOrServiceName}' {svcInfo.ServiceType} service already set to '{args}'");
             }
 
-            Context.Configuration.SetServiceDeploymentArgs(Service, _target, _arguments);
-            Context.Console.WriteLine($"Service '{Service}' args for target '{_target}' set to '{_arguments}'");
+            Context.Configuration.SetServiceArgs(AppOrServiceName, _target, _args);
+            Context.Console.WriteLine(
+                $"Set '{_target}' deploy args for '{AppOrServiceName}' {svcInfo.ServiceType} service to '{_args}'");
         }
     }
 }

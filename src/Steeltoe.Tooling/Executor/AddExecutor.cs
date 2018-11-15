@@ -17,27 +17,33 @@ namespace Steeltoe.Tooling.Executor
     [RequiresInitialization]
     public class AddExecutor : Executor
     {
-        private readonly string _itemName;
+        private readonly string _name;
 
-        private readonly string _itemType;
+        private readonly string _serviceType;
 
-        public AddExecutor(string itemName, string itemType)
+        public AddExecutor(string appName)
         {
-            _itemName = itemName;
-            _itemType = itemType;
+            _name = appName;
+            _serviceType = null;
+        }
+
+        public AddExecutor(string serviceName, string serviceType)
+        {
+            _name = serviceName;
+            _serviceType = serviceType;
         }
 
         protected override void Execute()
         {
-            if (_itemType == "app")
+            if (_serviceType == null)
             {
-                Context.Configuration.AddApp(_itemName);
-                Context.Console.WriteLine($"Added app '{_itemName}'");
+                Context.Configuration.AddApp(_name);
+                Context.Console.WriteLine($"Added app '{_name}'");
             }
             else
             {
-                Context.Configuration.AddService(_itemName, _itemType);
-                Context.Console.WriteLine($"Added {_itemType} service '{_itemName}'");
+                Context.Configuration.AddService(_name, _serviceType);
+                Context.Console.WriteLine($"Added {_serviceType} service '{_name}'");
             }
         }
     }
