@@ -35,8 +35,8 @@ namespace Steeltoe.Cli
                 Arguments = args,
                 WorkingDirectory = workingDirectory
             };
-            Logger.LogDebug($"[{result.Id}] command: {result.Command}");
-            Logger.LogDebug($"[{result.Id}] arguments: {result.Arguments}");
+            var expanded = result.Arguments == null ? result.Command : $"{result.Command} {result.Arguments}";
+            Logger.LogDebug($"[{result.Id}] command: {expanded}");
             Logger.LogDebug($"[{result.Id}] working directory: {result.WorkingDirectory}");
 
             var pinfo = new ProcessStartInfo(result.Command, result.Arguments)
