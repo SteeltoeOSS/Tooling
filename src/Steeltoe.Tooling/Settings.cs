@@ -22,8 +22,6 @@ namespace Steeltoe.Tooling
 
         public static bool DummiesEnabled { get; set; }
 
-        public static bool ParallelExecutionEnabled { get; set; } = true;
-
         public static int MaxChecks { get; set; } = -1;
 
         static Settings()

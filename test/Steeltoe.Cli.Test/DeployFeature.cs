@@ -63,7 +63,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add app my-app"),
                 and => the_developer_runs_cli_command("add dummy-svc my-service-a"),
                 and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
-                and => the_developer_runs_cli_command("-S deploy"),
+                and => the_developer_runs_cli_command("deploy"),
                 then => the_cli_should_output(new[]
                 {
                     "Deploying service 'my-service-a'",

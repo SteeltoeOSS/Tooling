@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Threading.Tasks;
 
 namespace Steeltoe.Tooling.Executor
 {
@@ -31,51 +30,28 @@ namespace Steeltoe.Tooling.Executor
             var services = Context.Configuration.GetServices();
             var apps = Context.Configuration.GetApps();
 
-            if (Settings.ParallelExecutionEnabled)
+            if (_appsFirst)
             {
-                try
+                foreach (var app in apps)
                 {
-                    if (_appsFirst)
-                    {
-                        Parallel.ForEach(apps, ExecuteForApp);
-                        Parallel.ForEach(services, ExecuteForService);
-                    }
-                    else
-                    {
-                        Parallel.ForEach(services, ExecuteForService);
-                        Parallel.ForEach(apps, ExecuteForApp);
-                    }
+                    ExecuteForApp(app);
                 }
-                catch (AggregateException e)
+
+                foreach (var service in services)
                 {
-                    throw e.InnerException;
+                    ExecuteForService(service);
                 }
             }
             else
             {
-                if (_appsFirst)
+                foreach (var service in services)
                 {
-                    foreach (var app in apps)
-                    {
-                        ExecuteForApp(app);
-                    }
-
-                    foreach (var service in services)
-                    {
-                        ExecuteForService(service);
-                    }
+                    ExecuteForService(service);
                 }
-                else
-                {
-                    foreach (var service in services)
-                    {
-                        ExecuteForService(service);
-                    }
 
-                    foreach (var app in apps)
-                    {
-                        ExecuteForApp(app);
-                    }
+                foreach (var app in apps)
+                {
+                    ExecuteForApp(app);
                 }
             }
         }

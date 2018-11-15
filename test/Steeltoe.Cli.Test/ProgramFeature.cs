@@ -45,7 +45,6 @@ namespace Steeltoe.Cli.Test
                     "-V|--version Show version information",
                     $"-C|--config-file Configure tooling using the specified file instead of steeltoe.yml",
                     "-D|--debug Enable debug output",
-                    "-S|--no-parallel Disable parallel execution",
                     "-?|-h|--help Show help information",
                     "Commands:",
                     "add Add an app or service",
@@ -80,16 +79,6 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("program_debug"),
                 when => the_developer_runs_cli_command("--debug --version"),
                 then => setting_should_be(Settings.DebugEnabled, true)
-            );
-        }
-
-        [Scenario]
-        public void ProgramNoParallel()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("program_noparallel"),
-                when => the_developer_runs_cli_command("--no-parallel --version"),
-                then => setting_should_be(Settings.ParallelExecutionEnabled, false)
             );
         }
 

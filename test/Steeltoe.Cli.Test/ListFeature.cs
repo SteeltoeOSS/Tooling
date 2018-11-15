@@ -160,7 +160,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("add dummy-svc my-service-c"),
                 and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
                 and => the_developer_runs_cli_command("add dummy-svc my-service-a"),
-                and => the_developer_runs_cli_command("-S list -v"),
+                and => the_developer_runs_cli_command("list -v"),
                 then => the_cli_should_output(new[]
                 {
                     "my-service-a 0 dummy-svc",

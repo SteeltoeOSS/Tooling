@@ -29,7 +29,6 @@ namespace Steeltoe.Tooling.Test
         static ToolingTest()
         {
             Settings.DummiesEnabled = true;
-            Settings.ParallelExecutionEnabled = false;
             Settings.MaxChecks = 10;
         }
 
