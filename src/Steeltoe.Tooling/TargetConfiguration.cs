@@ -23,8 +23,11 @@ namespace Steeltoe.Tooling
 
         [YamlMember(Alias = "description")] public string Description { get; set; }
 
+        [YamlMember(Alias = "properties")]
+        public Dictionary<string, string> Properties { get; set; } = new Dictionary<string, string>();
+
         [YamlMember(Alias = "serviceTypeProperties")]
-        public SortedDictionary<string, Dictionary<string, string>> ServiceTypeProperties { get; set; } =
-            new SortedDictionary<string, Dictionary<string, string>>();
+        public Dictionary<string, Dictionary<string, string>> ServiceTypeProperties { get; set; } =
+            new Dictionary<string, Dictionary<string, string>>();
     }
 }

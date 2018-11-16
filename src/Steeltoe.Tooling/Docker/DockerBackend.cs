@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System;
-using System.Linq;
+using System.IO;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
@@ -23,29 +23,46 @@ namespace Steeltoe.Tooling.Docker
     {
         private const string Localhost = "127.0.0.1";
 
+        private const string HardCodedFramework = "netcoreapp2.1";
+
+        private const int HardCodedLocalPort = 8080;
+
+        private const int HardCodedRemotePort = 80;
+
         private readonly Context _context;
 
-        private readonly DockerCli _cli;
+        private readonly DockerCli _dockerCli;
+
+        private readonly Cli _dotnetCli;
 
         internal DockerBackend(Context context)
         {
             _context = context;
-            _cli = new DockerCli(_context.Shell);
+            _dockerCli = new DockerCli(_context.Shell);
+            _dotnetCli = new Cli("dotnet", _context.Shell);
         }
 
-        public void DeployApp(string application)
+        public void DeployApp(string app)
         {
-            throw new NotImplementedException();
+            _dotnetCli.Run($"publish -f {HardCodedFramework}");
+            var dotnetImage = _context.Target.GetProperty("dotnetRuntimeImage");
+            var projectDll =
+                $"bin/Debug/{HardCodedFramework}/publish/{Path.GetFileName(_context.ProjectDirectory)}.dll";
+            const string appDir = "/app";
+            var mount = $"{Path.GetFullPath(_context.ProjectDirectory)}:{appDir}";
+            var portMap = $"{HardCodedLocalPort}:{HardCodedRemotePort}";
+            _dockerCli.Run(
+                $"run --name {app} --volume {mount} --publish {portMap} --detach --rm {dotnetImage} dotnet {appDir}/{projectDll}");
         }
 
-        public void UndeployApp(string application)
+        public void UndeployApp(string app)
         {
-            throw new NotImplementedException();
+            StopContainer(app);
         }
 
-        public Lifecycle.Status GetAppStatus(string application)
+        public Lifecycle.Status GetAppStatus(string app)
         {
-            throw new NotImplementedException();
+            return GetContainerStatus(app, HardCodedLocalPort);
         }
 
         public void DeployService(string service)
@@ -58,29 +75,38 @@ namespace Steeltoe.Tooling.Docker
         public void DeployService(string service, string os)
         {
             var svcInfo = _context.Configuration.GetServiceInfo(service);
-            var port = GetPort(svcInfo.ServiceType);
+            var port = Registry.GetServiceTypeInfo(svcInfo.ServiceType).Port;
             var image = LookupImage(svcInfo.ServiceType, os);
-            var args = _context.Configuration.GetServiceArgs(service, "docker");
-            if (args == null)
-            {
-                args = "";
-            }
+            var args = _context.Configuration.GetServiceArgs(service, "docker") ?? "";
+
             if (args.Length > 0)
             {
                 args += " ";
             }
 
-            _cli.Run($"run --name {service} --publish {port}:{port} --detach --rm {args}{image}");
+            _dockerCli.Run($"run --name {service} --publish {port}:{port} --detach --rm {args}{image}");
         }
 
         public void UndeployService(string service)
         {
-            _cli.Run($"stop {service}");
+            _dockerCli.Run($"stop {service}");
         }
 
         public Lifecycle.Status GetServiceStatus(string service)
         {
-            var containerInfo = _cli.Run($"ps --no-trunc --filter name=^/{service}$").Split('\n');
+            var svcInfo = _context.Configuration.GetServiceInfo(service);
+            var port = Registry.GetServiceTypeInfo(svcInfo.ServiceType).Port;
+            return GetContainerStatus(service, port);
+        }
+
+        private void StopContainer(string name)
+        {
+            _dockerCli.Run($"stop {name}");
+        }
+
+        private Lifecycle.Status GetContainerStatus(string name, int port)
+        {
+            var containerInfo = _dockerCli.Run($"ps --no-trunc --filter name=^/{name}$").Split('\n');
             if (containerInfo.Length <= 2)
             {
                 return Lifecycle.Status.Offline;
@@ -92,10 +118,6 @@ namespace Steeltoe.Tooling.Docker
                 return Lifecycle.Status.Unknown;
             }
 
-            var imageStart = containerInfo[0].IndexOf("IMAGE", StringComparison.Ordinal);
-            var image = new Regex(@"\S+").Match(containerInfo[1].Substring(imageStart)).ToString();
-            var svc = LookupServiceType(image);
-            var port = GetPort(svc);
             try
             {
                 new TcpClient(Localhost, port).Dispose();
@@ -111,26 +133,6 @@ namespace Steeltoe.Tooling.Docker
         {
             var images = _context.Target.Configuration.ServiceTypeProperties[type];
             return images.TryGetValue($"image-{os}", out var image) ? image : images["image"];
-        }
-
-        private string LookupServiceType(string image)
-        {
-            var svcTypes = _context.Target.Configuration.ServiceTypeProperties;
-            foreach (var svcType in svcTypes.Keys)
-            {
-                var images = svcTypes[svcType];
-                if (images.Values.Contains(image))
-                {
-                    return svcType;
-                }
-            }
-
-            throw new ToolingException($"Failed to lookup service type for image '{image}'");
-        }
-
-        private int GetPort(string serviceType)
-        {
-            return Registry.GetServiceTypeInfo(serviceType).Port;
         }
     }
 }

@@ -35,5 +35,10 @@ namespace Steeltoe.Tooling
         {
             return $"Target[name={Name},desc=\"{Description}\"]";
         }
+
+        public string GetProperty(string name)
+        {
+            return Configuration.Properties[name];
+        }
     }
 }

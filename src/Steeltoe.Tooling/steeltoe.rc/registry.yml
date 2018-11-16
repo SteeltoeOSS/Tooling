@@ -59,6 +59,8 @@ targets:
         plan: shared-vm
   docker:
     description: Docker
+    properties:
+      dotnetRuntimeImage: steeltoeoss/dotnet-runtime:2.1
     serviceTypeProperties:
       dummy-svc:
         image: dummy-server:0.1

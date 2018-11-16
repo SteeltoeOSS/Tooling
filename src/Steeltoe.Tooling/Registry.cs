@@ -32,12 +32,12 @@ namespace Steeltoe.Tooling
         public class Configuration
         {
             [YamlMember(Alias = "serviceTypes")]
-            public SortedDictionary<string, ServiceTypeInfo> ServiceTypes { get; set; } =
-                new SortedDictionary<string, ServiceTypeInfo>();
+            public Dictionary<string, ServiceTypeInfo> ServiceTypes { get; set; } =
+                new Dictionary<string, ServiceTypeInfo>();
 
             [YamlMember(Alias = "targets")]
-            public SortedDictionary<string, TargetConfiguration> TargetConfigurations { get; set; } =
-                new SortedDictionary<string, TargetConfiguration>();
+            public Dictionary<string, TargetConfiguration> TargetConfigurations { get; set; } =
+                new Dictionary<string, TargetConfiguration>();
 
             public void DefineServiceType(string name, int port, string description)
             {

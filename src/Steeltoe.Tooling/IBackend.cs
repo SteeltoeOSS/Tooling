@@ -16,11 +16,11 @@ namespace Steeltoe.Tooling
 {
     public interface IBackend
     {
-        void DeployApp(string application);
+        void DeployApp(string app);
 
-        void UndeployApp(string application);
+        void UndeployApp(string app);
 
-        Lifecycle.Status GetAppStatus(string application);
+        Lifecycle.Status GetAppStatus(string app);
 
         void DeployService(string service);
 

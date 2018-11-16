@@ -38,7 +38,8 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
             Shell.Commands.Count.ShouldBe(2);
             Shell.Commands[0].ShouldBe("dotnet publish -f netcoreapp2.1 -r win10-x64");
             Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yml -p bin/Debug/netcoreapp2.1/win10-x64/publish");
-            var manifestFile = new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yml"));
+            var manifestFile =
+                new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yml"));
             manifestFile.Exists().ShouldBeTrue();
             manifestFile.CloudFoundryManifest.Applications.Count.ShouldBe(1);
             var app = manifestFile.CloudFoundryManifest.Applications[0];
@@ -49,8 +50,8 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
             app.Stack.ShouldBe("windows2016");
             app.Memory.ShouldBe("512M");
             app.Environment["ASPNETCORE_ENVIRONMENT"].ShouldBe("development");
-            app.ServiceNames.Count.ShouldBe(1);
             app.ServiceNames[0].ShouldBe("my-service");
+            app.ServiceNames.Count.ShouldBe(1);
         }
 
         [Fact]

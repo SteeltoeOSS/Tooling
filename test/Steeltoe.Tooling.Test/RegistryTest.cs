@@ -74,6 +74,7 @@ namespace Steeltoe.Tooling.Test
         public void TestDockerTarget()
         {
             Registry.GetTarget("docker").ShouldBeOfType<DockerTarget>();
+            Registry.GetTarget("docker").GetProperty("dotnetRuntimeImage").ShouldBe("steeltoeoss/dotnet-runtime:2.1");
         }
 
         [Fact]

@@ -33,7 +33,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             _dotnetCli = new Cli("dotnet", _context.Shell);
         }
 
-        public void DeployApp(string application)
+        public void DeployApp(string app)
         {
             var manifestPath = Path.Combine(_context.ProjectDirectory, CloudFoundryManifestFile.DefaultFileName);
             if (File.Exists(manifestPath))
@@ -44,7 +44,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             var manifestFile = new CloudFoundryManifestFile(manifestPath);
             manifestFile.CloudFoundryManifest.Applications.Add(new CloudFoundryManifest.Application
                 {
-                    Name = application,
+                    Name = app,
                     Command = $"cmd /c .\\{Path.GetFileName(_context.ProjectDirectory)}",
                     BuildPacks = new List<string> {"binary_buildpack"},
                     Stack = "windows2016",
@@ -59,16 +59,16 @@ namespace Steeltoe.Tooling.CloudFoundry
                 $"push -f {CloudFoundryManifestFile.DefaultFileName} -p bin/Debug/netcoreapp2.1/win10-x64/publish");
         }
 
-        public void UndeployApp(string application)
+        public void UndeployApp(string app)
         {
-            _cfCli.Run($"delete {application} -f");
+            _cfCli.Run($"delete {app} -f");
         }
 
-        public Lifecycle.Status GetAppStatus(string application)
+        public Lifecycle.Status GetAppStatus(string app)
         {
             try
             {
-                var appInfo = _cfCli.Run($"app {application}");
+                var appInfo = _cfCli.Run($"app {app}");
                 var state = new Regex(@"^#0\s+(\S+)", RegexOptions.Multiline).Match(appInfo).Groups[1].ToString()
                     .Trim();
                 switch (state)
@@ -81,7 +81,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             }
             catch (CliException e)
             {
-                if (e.Error.Contains($"App {application} not found"))
+                if (e.Error.Contains($"App {app} not found"))
                 {
                     return Lifecycle.Status.Offline;
                 }

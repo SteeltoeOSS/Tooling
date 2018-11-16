@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
 using Shouldly;
 using Steeltoe.Tooling.Docker;
 using Xunit;
@@ -26,6 +27,52 @@ namespace Steeltoe.Tooling.Test.Docker
         {
             Context.Configuration.Target = "docker";
             _backend = Context.Target.GetBackend(Context) as DockerBackend;
+        }
+
+        [Fact]
+        public void TestDeployApp()
+        {
+            Context.Configuration.AddApp("my-app");
+            _backend.DeployApp("my-app");
+            Shell.Commands[0].ShouldBe("dotnet publish -f netcoreapp2.1");
+            Shell.Commands[1].ShouldBe(
+                $"docker run --name my-app --volume {Path.GetFullPath(Context.ProjectDirectory)}:/app --publish 8080:80 --detach --rm steeltoeoss/dotnet-runtime:2.1 dotnet /app/bin/Debug/netcoreapp2.1/publish/{Path.GetFileName(Context.ProjectDirectory)}.dll");
+            Shell.Commands.Count.ShouldBe(2);
+        }
+
+        [Fact]
+        public void TestUndeployApp()
+        {
+            _backend.UndeployApp("my-app");
+            Shell.LastCommand.ShouldBe("docker stop my-app");
+        }
+
+        [Fact]
+        public void TestGetAppLifecycleStateCommand()
+        {
+            Context.Configuration.AddApp("my-app");
+            _backend.GetAppStatus("my-app");
+            Shell.LastCommand.ShouldBe("docker ps --no-trunc --filter name=^/my-app$");
+        }
+
+        [Fact]
+        public void TestGetAppLifecycleStateOffline()
+        {
+            Context.Configuration.AddApp("my-app");
+            var state = _backend.GetAppStatus("my-app");
+            state.ShouldBe(Lifecycle.Status.Offline);
+        }
+
+        [Fact]
+        public void TestGetAppLifecycleStateStarting()
+        {
+            Context.Configuration.AddApp("my-app");
+            Shell.AddResponse(
+                @"CONTAINER ID                                                       IMAGE                        COMMAND                                               CREATED             STATUS              PORTS                  NAMES
+d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/dotnet-sdk:2.1   ""dotnet /work/bin/Debug/netcoreapp2.1/MyWebApp.dll""   56 seconds ago      Up 55 seconds       0.0.0.0:8080->80/tcp   my-app
+");
+            var state = _backend.GetAppStatus("my-app");
+            state.ShouldBe(Lifecycle.Status.Starting);
         }
 
         [Fact]
@@ -136,6 +183,7 @@ namespace Steeltoe.Tooling.Test.Docker
         [Fact]
         public void TestGetServiceLifecycleStateCommand()
         {
+            Context.Configuration.AddService("my-service", "dummy-svc");
             _backend.GetServiceStatus("my-service");
             Shell.LastCommand.ShouldBe("docker ps --no-trunc --filter name=^/my-service$");
         }
@@ -143,6 +191,7 @@ namespace Steeltoe.Tooling.Test.Docker
         [Fact]
         public void TestGetServiceLifecycleStateOffline()
         {
+            Context.Configuration.AddService("my-service", "dummy-svc");
             var state = _backend.GetServiceStatus("my-service");
             state.ShouldBe(Lifecycle.Status.Offline);
         }
@@ -150,6 +199,7 @@ namespace Steeltoe.Tooling.Test.Docker
         [Fact]
         public void TestGetServiceLifecycleStateStarting()
         {
+            Context.Configuration.AddService("my-service", "dummy-svc");
             Shell.AddResponse(
                 @"CONTAINER ID                                                       IMAGE                           COMMAND                                                                 CREATED             STATUS              PORTS                    NAMES
 0000000000000000000000000000000000000000000000000000000000000000   dummy-server:0.1                 java -Djava.security.egd=file:/dev/./urandom -jar config-server.jar    37 seconds ago      Up 36 seconds       0.0.0.0:0000->0000/tcp   my-service
@@ -161,6 +211,7 @@ namespace Steeltoe.Tooling.Test.Docker
         [Fact]
         public void TestGetServiceLifecycleStateStartingForOs()
         {
+            Context.Configuration.AddService("my-service", "dummy-svc");
             Shell.AddResponse(
                 @"CONTAINER ID                                                       IMAGE                           COMMAND                                                                 CREATED             STATUS              PORTS                    NAMES
 0000000000000000000000000000000000000000000000000000000000000000   dummy-server:for_dummyos         java -Djava.security.egd=file:/dev/./urandom -jar config-server.jar    37 seconds ago      Up 36 seconds       0.0.0.0:0000->0000/tcp   my-service
