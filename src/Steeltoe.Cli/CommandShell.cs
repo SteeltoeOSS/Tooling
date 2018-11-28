@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling;
@@ -38,43 +40,39 @@ namespace Steeltoe.Cli
             var expanded = result.Arguments == null ? result.Command : $"{result.Command} {result.Arguments}";
             Logger.LogDebug($"[{result.Id}] command: {expanded}");
             Logger.LogDebug($"[{result.Id}] working directory: {result.WorkingDirectory}");
+            OutputToConsole(expanded);
 
-            var pinfo = new ProcessStartInfo(result.Command, result.Arguments)
+            var pInfo = new ProcessStartInfo(result.Command, result.Arguments)
             {
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
             };
             if (result.WorkingDirectory != null)
             {
-                pinfo.WorkingDirectory = result.WorkingDirectory;
+                pInfo.WorkingDirectory = result.WorkingDirectory;
             }
 
             try
             {
-                var proc = Process.Start(pinfo);
-                if (proc == null)
-                {
-                    throw new ShellException("Unable to start process; no additional information available");
-                }
-
+                var proc = new Process {StartInfo = pInfo};
+                var outputWatcher = new Watcher();
+                proc.OutputDataReceived += outputWatcher.WatchOutput;
+                var errorWatcher = new Watcher();
+                proc.ErrorDataReceived += errorWatcher.WatchOutput;
+                proc.Start();
+                proc.BeginOutputReadLine();
+                proc.BeginErrorReadLine();
+                proc.WaitForExit();
                 proc.WaitForExit();
                 result.ExitCode = proc.ExitCode;
                 Logger.LogDebug($"[{result.Id}] exit code: {result.ExitCode}");
-                using (var pout = proc.StandardOutput)
-                {
-                    result.Out = pout.ReadToEnd();
-                }
-
+                result.Out = outputWatcher.Data.ToString();
                 if (!string.IsNullOrWhiteSpace(result.Out))
                 {
                     Logger.LogDebug($"[{result.Id}] stdout:{FormatOutputForLogger(result.Out)}");
                 }
 
-                using (var perr = proc.StandardError)
-                {
-                    result.Error = perr.ReadToEnd();
-                }
-
+                result.Error = errorWatcher.Data.ToString();
                 if (!string.IsNullOrWhiteSpace(result.Error))
                 {
                     Logger.LogDebug($"[{result.Id}] stderr:{FormatOutputForLogger(result.Error)}");
@@ -88,9 +86,30 @@ namespace Steeltoe.Cli
             return result;
         }
 
+        private static void OutputToConsole(string output)
+        {
+            if (!Settings.VerboseEnabled) return;
+            var oldFg = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.Out.WriteLine(output);
+            Console.ForegroundColor = oldFg;
+        }
+
+        private class Watcher
+        {
+            internal readonly StringWriter Data = new StringWriter();
+
+            internal void WatchOutput(object sender, DataReceivedEventArgs eventArgs)
+            {
+                if (eventArgs.Data == null) return;
+                Data.WriteLine(eventArgs.Data);
+                OutputToConsole(eventArgs.Data);
+            }
+        }
+
         private static string FormatOutputForLogger(string output)
         {
-            var newLine = System.Environment.NewLine;
+            var newLine = Environment.NewLine;
             var buf = new StringBuilder();
             buf.Append(newLine);
             buf.Append("| ");

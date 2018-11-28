@@ -20,6 +20,8 @@ namespace Steeltoe.Tooling
     {
         public static bool DebugEnabled { get; set; }
 
+        public static bool VerboseEnabled { get; set; }
+
         public static bool DummiesEnabled { get; set; }
 
         public static int MaxChecks { get; set; } = -1;

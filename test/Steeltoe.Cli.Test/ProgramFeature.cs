@@ -45,6 +45,7 @@ namespace Steeltoe.Cli.Test
                     "-V|--version Show version information",
                     $"-C|--config-file Configure tooling using the specified file instead of steeltoe.yml",
                     "-D|--debug Enable debug output",
+                    "-v|--verbose Enable verbose output",
                     "-?|-h|--help Show help information",
                     "Commands:",
                     "add Add an app or service",
