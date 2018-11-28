@@ -36,11 +36,7 @@ namespace Steeltoe.Cli
             try
             {
                 Logger.LogDebug($"tooling working directory: {app.WorkingDirectory}");
-                var cfgFilePath = Program.ProjectConfigurationPath;
-                if (cfgFilePath == null)
-                {
-                    cfgFilePath = app.WorkingDirectory;
-                }
+                var cfgFilePath = Program.ProjectConfigurationPath ?? app.WorkingDirectory;
 
                 Configuration cfg;
                 var cfgFile = new ConfigurationFile(cfgFilePath);
