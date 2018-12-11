@@ -14,18 +14,52 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Defines the interface for Steeltoe Tooling backends.
+    /// </summary>
     public interface IBackend
     {
+
+        /// <summary>
+        /// Deploys the named application.
+        /// </summary>
+        /// <param name="app">The application name.</param>
+        /// <remarks>Implementations may return before the application is fully deployed.</remarks>
         void DeployApp(string app);
 
+        /// <summary>
+        /// Undeploys the named application.
+        /// </summary>
+        /// <param name="app">The application name.</param>
+        /// <remarks>Implementations may return before the application is fully undeployed.</remarks>
         void UndeployApp(string app);
 
+        /// <summary>
+        /// Returns the named application's lifecycle status.
+        /// </summary>
+        /// <param name="app">The application name.</param>
+        /// <returns>The named application's lifecycle status.</returns>
         Lifecycle.Status GetAppStatus(string app);
 
+        /// <summary>
+        /// Deploys the named service.
+        /// </summary>
+        /// <param name="service">The service name.</param>
+        /// <remarks>Implementations may return before the service is fully deployed.</remarks>
         void DeployService(string service);
 
+        /// <summary>
+        /// Undeploys the named service.
+        /// </summary>
+        /// <param name="service">The service name.</param>
+        /// <remarks>Implementations may return before the service is fully undeployed.</remarks>
         void UndeployService(string service);
 
+        /// <summary>
+        /// Returns the named service's lifecycle status.
+        /// </summary>
+        /// <param name="service">The service name.</param>
+        /// <returns>The named service's lifecycle status.</returns>
         Lifecycle.Status GetServiceStatus(string service);
     }
 }
