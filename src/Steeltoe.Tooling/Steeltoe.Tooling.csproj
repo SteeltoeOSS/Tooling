@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Title>Steeltoe Developer Tooling Library</Title>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />
