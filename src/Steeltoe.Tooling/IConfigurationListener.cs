@@ -14,8 +14,14 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Defines the interface to receive alerts that the Steeltoe Tooling project configuration has changed.
+    /// </summary>
     public interface IConfigurationListener
     {
+        /// <summary>
+        /// Called when the Steeltoe Project configuration has changed.
+        /// </summary>
         void ConfigurationChangeEvent();
     }
 }

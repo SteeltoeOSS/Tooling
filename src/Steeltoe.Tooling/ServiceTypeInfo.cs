@@ -16,20 +16,36 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Specifies a service.
+    /// </summary>
     public class ServiceTypeInfo
     {
+        /// <summary>
+        /// Service name.
+        /// </summary>
         [YamlMember(Alias = "name")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Service port.
+        /// </summary>
         [YamlMember(Alias = "port")]
         public int Port { get; set; }
 
+        /// <summary>
+        /// Service description.
+        /// </summary>
         [YamlMember(Alias = "description")]
         public string Description { get; set;  }
 
+        /// <summary>
+        /// Returns a human-readable representation of this ServiceTypeInfo.
+        /// </summary>
+        /// <returns>A human readable string.</returns>
         public override string ToString()
         {
-            return $"ServiceType[name={Name},port={Port},desc=\"{Description}\"]";
+            return $"ServiceTypeinfo[name={Name},port={Port},desc=\"{Description}\"]";
         }
     }
 }

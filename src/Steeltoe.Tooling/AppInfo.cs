@@ -14,10 +14,20 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// An application that can be deployed on a managed backend.
+    /// </summary>
     public class AppInfo
     {
+        /// <summary>
+        /// Application name.
+        /// </summary>
         public string App { get; }
 
+        /// <summary>
+        /// Creates a new AppInfo for the specifed applicaition.
+        /// </summary>
+        /// <param name="app">Application name.</param>
         public AppInfo(string app)
         {
             App = app;

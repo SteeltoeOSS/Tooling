@@ -18,16 +18,32 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents a Steeltoe Tooling project configuration file.
+    /// </summary>
     public class ConfigurationFile : IConfigurationListener
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ConfigurationFile>();
 
+        /// <summary>
+        /// Default file name.
+        /// </summary>
         public const string DefaultFileName = "steeltoe.yml";
 
+        /// <summary>
+        /// The configuration stored in this configuration file.
+        /// </summary>
         public Configuration Configuration { get; private set; }
 
+        /// <summary>
+        /// Configuration file name.
+        /// </summary>
         public string File { get; }
 
+        /// <summary>
+        /// Creates a new ConfigurationFile at the specified path.
+        /// </summary>
+        /// <param name="path">Configuration file path.</param>
         public ConfigurationFile(string path)
         {
             File = Directory.Exists(path) ? Path.Combine(path, DefaultFileName) : path;
@@ -41,6 +57,9 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Loads this configuration file from the file system.
+        /// </summary>
         public void Load()
         {
             Logger.LogDebug($"loading configuration from {File}");
@@ -53,6 +72,9 @@ namespace Steeltoe.Tooling
             Configuration.AddListener(this);
         }
 
+        /// <summary>
+        /// Loads this configuration file to the file system.
+        /// </summary>
         public void Store()
         {
             Logger.LogDebug($"storing configuration to {File}");
@@ -64,11 +86,18 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Tests if this configuration file exists on the file system.
+        /// </summary>
+        /// <returns>True is this configuration file exists.</returns>
         public bool Exists()
         {
             return System.IO.File.Exists(File);
         }
 
+        /// <summary>
+        /// Called when this configuration file's configuration has been changed.
+        /// </summary>
         public void ConfigurationChangeEvent()
         {
             Store();

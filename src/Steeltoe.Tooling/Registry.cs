@@ -25,30 +25,60 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents a Steeltoe Tooling projects available application service types and deployment targets.
+    /// </summary>
     public class Registry
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Registry>();
 
+        /// <summary>
+        /// Represents the Registry's configuration.
+        /// </summary>
         public class Configuration
         {
+            /// <summary>
+            /// Available application service types.
+            /// </summary>
             [YamlMember(Alias = "serviceTypes")]
             public Dictionary<string, ServiceTypeInfo> ServiceTypes { get; set; } =
                 new Dictionary<string, ServiceTypeInfo>();
 
+            /// <summary>
+            /// Available deployment targets.
+            /// </summary>
             [YamlMember(Alias = "targets")]
             public Dictionary<string, TargetConfiguration> TargetConfigurations { get; set; } =
                 new Dictionary<string, TargetConfiguration>();
 
+            /// <summary>
+            /// Defines a new application service type.
+            /// </summary>
+            /// <param name="name">Application service type name.</param>
+            /// <param name="port">Application service port.</param>
+            /// <param name="description">Application service description.</param>
             public void DefineServiceType(string name, int port, string description)
             {
                 ServiceTypes[name] = new ServiceTypeInfo {Port = port, Description = description};
             }
 
+            /// <summary>
+            /// Defines a new deployment target.
+            /// </summary>
+            /// <param name="target">Deployment target name.</param>
+            /// <param name="description">Deployment target description.</param>
             public void DefineTarget(string target, string description)
             {
                 TargetConfigurations[target] = new TargetConfiguration {Description = description};
             }
 
+            /// <summary>
+            /// Defines a new application service type property for a deployment target.
+            /// </summary>
+            /// <param name="target">Deployment target name.</param>
+            /// <param name="serviceType">Application service type name.</param>
+            /// <param name="propertyName">Application service type property name.</param>
+            /// <param name="propertyValue">Application service type property value.</param>
             public void DefineTargetServiceTypeProperty(
                 string target,
                 string serviceType,
@@ -73,6 +103,9 @@ namespace Steeltoe.Tooling
 
         private static Configuration _configuration = new Configuration();
 
+        /// <summary>
+        /// Returns available deployment targets.
+        /// </summary>
         public static List<string> Targets => _configuration.TargetConfigurations.Keys.ToList();
 
         static Registry()
@@ -102,11 +135,20 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Returns available application service types.
+        /// </summary>
+        /// <returns>Available application service types.</returns>
         public static List<string> GetServiceTypes()
         {
             return _configuration.ServiceTypes.Keys.ToList();
         }
 
+        /// <summary>
+        /// Returns the application service type information for the named type.
+        /// </summary>
+        /// <param name="serviceType">Application service type name.</param>
+        /// <returns></returns>
         public static ServiceTypeInfo GetServiceTypeInfo(string serviceType)
         {
             ServiceTypeInfo svcTypeInfo;
@@ -119,6 +161,12 @@ namespace Steeltoe.Tooling
             return null;
         }
 
+        /// <summary>
+        /// Returns the named deployment target.
+        /// </summary>
+        /// <param name="target">Deployment target name.</param>
+        /// <returns>Named deployment target.</returns>
+        /// <exception cref="ToolingException">Thrown if there is no such deployment target.</exception>
         public static Target GetTarget(string target)
         {
             TargetConfiguration targetCfg;

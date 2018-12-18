@@ -14,14 +14,39 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents the lifecycle or an application or application service.
+    /// </summary>
     public class Lifecycle
     {
+        /// <summary>
+        /// Represents the states of a lifecycle.
+        /// </summary>
         public enum Status
         {
+            /// <summary>
+            /// An application or application that is fully undeployed.
+            /// </summary>
             Offline,
+
+            /// <summary>
+            /// The state of an application or application service in the process of being deployed.  A transitional state from Offline to Online.
+            /// </summary>
             Starting,
+
+            /// <summary>
+            /// An application or application that is fully deployed and ready to be used.
+            /// </summary>
             Online,
+
+            /// <summary>
+            /// The state of an application or application service in the process of being undeployed.  A transitional state from Online to Offline.
+            /// </summary>
             Stopping,
+
+            /// <summary>
+            /// Represents a undetermined state.
+            /// </summary>
             Unknown,
         }
 
@@ -29,6 +54,11 @@ namespace Steeltoe.Tooling
 
         private readonly BackendBridge _bridge;
 
+        /// <summary>
+        /// Creates a new lifecycle for the named application or application service.
+        /// </summary>
+        /// <param name="context">Steeltoe Tooling context.</param>
+        /// <param name="name">Application or application service name.</param>
         public Lifecycle(Context context, string name)
         {
             var backend = context.Backend;
@@ -44,16 +74,26 @@ namespace Steeltoe.Tooling
 
         }
 
+        /// <summary>
+        /// Returns this lifecycle's current status.
+        /// </summary>
+        /// <returns></returns>
         public Status GetStatus()
         {
             return _bridge.GetStatus(_name);
         }
 
+        /// <summary>
+        /// Undeploy an application or application service in the context of this lifecycle.
+        /// </summary>
         public void Undeploy()
         {
             GetState().Undeploy(_name, _bridge);
         }
 
+        /// <summary>
+        /// Deploy an application or application service in the context of this lifecycle.
+        /// </summary>
         public void Deploy()
         {
             GetState().Deploy(_name, _bridge);

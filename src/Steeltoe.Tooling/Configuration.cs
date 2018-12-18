@@ -19,12 +19,18 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents a configuration for a Steeltoe Tooling project.
+    /// </summary>
     public class Configuration
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Configuration>();
 
         private string _target;
 
+        /// <summary>
+        /// Project deployment target.
+        /// </summary>
         [YamlMember(Alias = "target")]
         public string Target
         {
@@ -36,14 +42,25 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Project applications.
+        /// </summary>
         [YamlMember(Alias = "apps")]
         public SortedDictionary<string, App> Apps { get; set; } = new SortedDictionary<string, App>();
 
+        /// <summary>
+        /// Project application services.
+        /// </summary>
         [YamlMember(Alias = "services")]
         public SortedDictionary<string, Service> Services { get; set; } = new SortedDictionary<string, Service>();
 
         private readonly List<IConfigurationListener> _listeners = new List<IConfigurationListener>();
 
+        /// <summary>
+        /// Adds the named application to this configuration.
+        /// </summary>
+        /// <param name="app">Name of application to be added.</param>
+        /// <exception cref="ItemExistsException">Thrown if an application of the same name has already been added to this configuration.</exception>
         public void AddApp(string app)
         {
             Logger.LogDebug($"adding app {app}");
@@ -56,6 +73,11 @@ namespace Steeltoe.Tooling
             NotifyChanged();
         }
 
+        /// <summary>
+        /// Removes the named application from the configuration.
+        /// </summary>
+        /// <param name="app">Name of application to be removed.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application does not exist in this configuration.</exception>
         public void RemoveApp(string app)
         {
             Logger.LogDebug($"removing app {app}");
@@ -67,11 +89,21 @@ namespace Steeltoe.Tooling
             NotifyChanged();
         }
 
+        /// <summary>
+        /// Returns this configuration's applications.
+        /// </summary>
+        /// <returns>This configuration's applications.</returns>
         public List<string> GetApps()
         {
             return Apps.Keys.ToList();
         }
 
+        /// <summary>
+        /// Returns the named application.
+        /// </summary>
+        /// <param name="app">Application name</param>
+        /// <returns>Named application.</returns>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application does not exist in this configuration.</exception>
         public AppInfo GetAppInfo(string app)
         {
             if (Apps.ContainsKey(app))
@@ -84,6 +116,12 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Sets the named application's arguments.
+        /// </summary>
+        /// <param name="app">Application name.</param>
+        /// <param name="args">Application arguments.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application does not exist in this configuration.</exception>
         public void SetAppArgs(string app, string args)
         {
             Logger.LogDebug($"setting app '{app}' args to '{args}'");
@@ -96,6 +134,13 @@ namespace Steeltoe.Tooling
             NotifyChanged();
         }
 
+        /// <summary>
+        /// Sets the named application's deployment arguments.
+        /// </summary>
+        /// <param name="app">Application name.</param>
+        /// <param name="target">Deployment target.</param>
+        /// <param name="args">Application arguments.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application does not exist in this configuration.</exception>
         public void SetAppArgs(string app, string target, string args)
         {
             Logger.LogDebug($"setting app '{app}' args for target '{target}' to '{args}'");
@@ -113,6 +158,11 @@ namespace Steeltoe.Tooling
             NotifyChanged();
         }
 
+        /// <summary>
+        /// Gets the named application's arguments.
+        /// </summary>
+        /// <param name="app">Application name.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application does not exist in this configuration.</exception>
         public string GetAppArgs(string app)
         {
             try
@@ -125,6 +175,12 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Gets the named application's deployment arguments.
+        /// </summary>
+        /// <param name="app">Application name.</param>
+        /// <param name="target">Deployment target.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application does not exist in this configuration.</exception>
         public string GetAppArgs(string app, string target)
         {
             if (!Registry.Targets.Contains(target))
@@ -143,6 +199,12 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Adds the named application service to this configuration.
+        /// </summary>
+        /// <param name="service">Name of application service to be added.</param>
+        /// <param name="serviceType">Name of application service type.</param>
+        /// <exception cref="ItemExistsException">Thrown if an application service of the same name has already been added to this configuration.</exception>
         public void AddService(string service, string serviceType)
         {
             Logger.LogDebug($"adding service {serviceType} '{service}'");
@@ -160,6 +222,11 @@ namespace Steeltoe.Tooling
             NotifyChanged();
         }
 
+        /// <summary>
+        /// Removes the named application service from the configuration.
+        /// </summary>
+        /// <param name="service">Name of application service to be removed.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application service does not exist in this configuration.</exception>
         public void RemoveService(string service)
         {
             Logger.LogDebug($"removing service {service}");
@@ -171,11 +238,21 @@ namespace Steeltoe.Tooling
             NotifyChanged();
         }
 
+        /// <summary>
+        /// Returns this configuration's application services.
+        /// </summary>
+        /// <returns>This configuration's applications services.</returns>
         public List<string> GetServices()
         {
             return Services.Keys.ToList();
         }
 
+        /// <summary>
+        /// Returns the named application service.
+        /// </summary>
+        /// <param name="service">Application service name</param>
+        /// <returns>Named application service.</returns>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application service does not exist in this configuration.</exception>
         public ServiceInfo GetServiceInfo(string service)
         {
             try
@@ -188,6 +265,12 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Sets the named application service's arguments.
+        /// </summary>
+        /// <param name="service">Application service name.</param>
+        /// <param name="args">Application service arguments.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application service does not exist in this configuration.</exception>
         public void SetServiceArgs(string service, string args)
         {
             Logger.LogDebug($"setting service '{service}' args to '{args}'");
@@ -200,6 +283,13 @@ namespace Steeltoe.Tooling
             NotifyChanged();
         }
 
+        /// <summary>
+        /// Sets the named application services's deployment arguments.
+        /// </summary>
+        /// <param name="service">Application service name.</param>
+        /// <param name="target">Deployment target.</param>
+        /// <param name="args">Application service arguments.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application service does not exist in this configuration.</exception>
         public void SetServiceArgs(string service, string target, string args)
         {
             Logger.LogDebug($"setting service '{service}' args for target '{target} to '{args}'");
@@ -217,6 +307,11 @@ namespace Steeltoe.Tooling
             NotifyChanged();
         }
 
+        /// <summary>
+        /// Gets the named application service's arguments.
+        /// </summary>
+        /// <param name="service">Application service name.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application service does not exist in this configuration.</exception>
         public string GetServiceArgs(string service)
         {
             try
@@ -229,6 +324,12 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Gets the named application service's deployment arguments.
+        /// </summary>
+        /// <param name="service">Application service name.</param>
+        /// <param name="target">Deployment target.</param>
+        /// <exception cref="ItemDoesNotExistException">Thrown if the named application service does not exist in this configuration.</exception>
         public string GetServiceArgs(string service, string target)
         {
             if (!Registry.Targets.Contains(target))
@@ -247,11 +348,18 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Adds a listener for configuration changes,
+        /// </summary>
+        /// <param name="listener">Listener to be notified when configuration changes.</param>
         public void AddListener(IConfigurationListener listener)
         {
             _listeners.Add(listener);
         }
 
+        /// <summary>
+        /// Notify all listeners that this configuration has changed.
+        /// </summary>
         public void NotifyChanged()
         {
             Logger.LogDebug("configuration changed");
@@ -261,17 +369,31 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Represents an application in this configuration.
+        /// </summary>
         public class App
         {
-            [YamlMember(Alias = "args")]
-            public string Args { get; set; }
+            /// <summary>
+            /// Application arguments.
+            /// </summary>
+            [YamlMember(Alias = "args")] public string Args { get; set; }
 
+            /// <summary>
+            /// Application deployment target arguments.
+            /// </summary>
             [YamlMember(Alias = "deployArgs")]
             public SortedDictionary<string, string> DeployArgs { get; set; } = new SortedDictionary<string, string>();
         }
 
+        /// <summary>
+        /// Represents an application service in this configuration.
+        /// </summary>
         public class Service : App
         {
+            /// <summary>
+            /// Application service type.
+            /// </summary>
             [YamlMember(Alias = "type")] public string ServiceTypeName { get; set; }
         }
     }

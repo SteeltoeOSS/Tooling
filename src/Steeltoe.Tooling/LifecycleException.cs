@@ -14,10 +14,17 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents lifecycle state machine transition errors.
+    /// </summary>
     public class LifecycleException : ToolingException
     {
         public Lifecycle.Status Status { get; }
 
+        /// <summary>
+        /// Creates a new LifecycleException.
+        /// </summary>
+        /// <param name="status">Current lifecycle state.</param>
         public LifecycleException(Lifecycle.Status status) : base(
             $"Invalid status '{status.ToString().ToLower()}'")
         {

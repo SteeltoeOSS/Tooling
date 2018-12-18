@@ -16,14 +16,29 @@ using System.IO;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents Steeltoe Tooling project settings.
+    /// </summary>
     public static class Settings
     {
+        /// <summary>
+        /// Whether debugging has been enabled.
+        /// </summary>
         public static bool DebugEnabled { get; set; }
 
+        /// <summary>
+        /// Whether verbose console output has been enabled.
+        /// </summary>
         public static bool VerboseEnabled { get; set; }
 
+        /// <summary>
+        /// Whether the dummy deployment target and dummy services have been enabled.  Used for debugging and development.
+        /// </summary>
         public static bool DummiesEnabled { get; set; }
 
+        /// <summary>
+        /// The maximum number of checks when waiting for an application or application service lifecycle transition.
+        /// </summary>
         public static int MaxChecks { get; set; } = -1;
 
         static Settings()

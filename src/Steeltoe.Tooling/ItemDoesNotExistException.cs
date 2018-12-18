@@ -14,12 +14,26 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents errors when referencing items that do not exist in the Steeltoe Tooling project configuration.
+    /// </summary>
     public class ItemDoesNotExistException : ToolingException
     {
+        /// <summary>
+        /// Item name.
+        /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        /// Item description.
+        /// </summary>
         public string Description { get; }
 
+        /// <summary>
+        /// Creates a new ItemDoesNotExistException.
+        /// </summary>
+        /// <param name="name">Item name.</param>
+        /// <param name="description">Item description.</param>
         public ItemDoesNotExistException(string name, string description) : base(
             $"{char.ToUpper(description[0]) + description.Substring(1)} '{name}' does not exist")
         {

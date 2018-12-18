@@ -16,16 +16,35 @@ using System.IO;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents the context in which Steeltoe Tooling operations are performed.
+    /// </summary>
     public class Context
     {
+        /// <summary>
+        /// Steeltoe Tooling project directory.
+        /// </summary>
         public string ProjectDirectory { get; }
 
+        /// <summary>
+        /// Steeltoe Tooling configuration.
+        /// </summary>
         public Configuration Configuration { get; }
 
+        /// <summary>
+        /// Steeltoe Tooling console.  Typically the console is used to display messages to the user.
+        /// </summary>
         public TextWriter Console { get; }
 
+        /// <summary>
+        /// Shell which which to run system commands.
+        /// </summary>
         public Shell Shell { get; }
 
+        /// <summary>
+        /// Steeltoe Tooling deployment target.
+        /// </summary>
+        /// <exception cref="ToolingException">Throw if the target has not been set.</exception>
         public Target Target
         {
             get
@@ -39,8 +58,18 @@ namespace Steeltoe.Tooling
             }
         }
 
+        /// <summary>
+        /// Steeltoe Tooling backend.  The backend is used to deploy applications and their services.
+        /// </summary>
         public IBackend Backend => Target.GetBackend(this);
 
+        /// <summary>
+        /// Creates a new Steeltoe Tooling Content.
+        /// </summary>
+        /// <param name="dir">Project directory.</param>
+        /// <param name="config">Project configuration.{</param>
+        /// <param name="console">User console.</param>
+        /// <param name="shell">Command shell.</param>
         public Context(string dir, Configuration config, TextWriter console, Shell shell)
         {
             ProjectDirectory = dir;

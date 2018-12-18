@@ -14,28 +14,63 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents a deployment target.
+    /// </summary>
     public abstract class Target
     {
+        /// <summary>
+        /// Deployment target configuration.
+        /// </summary>
         public TargetConfiguration Configuration { get; }
 
+        /// <summary>
+        /// Deployment target name.
+        /// </summary>
         public string Name => Configuration.Name;
 
+        /// <summary>
+        /// Deployment target description.
+        /// </summary>
         public string Description => Configuration.Description;
 
+        /// <summary>
+        /// Creates a new Target.
+        /// </summary>
+        /// <param name="configuration">Deployment target configuration.</param>
         protected Target(TargetConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Return the deployment target backend.
+        /// </summary>
+        /// <param name="context">Steeltoe Tooling project context.</param>
+        /// <returns></returns>
         public abstract IBackend GetBackend(Context context);
 
+        /// <summary>
+        /// Tests if the deployment target is healthy.  E.g., is the target available.
+        /// </summary>
+        /// <param name="context">Steeltoe Tooling project context.</param>
+        /// <returns></returns>
         public abstract bool IsHealthy(Context context);
 
+        /// <summary>
+        /// Return a human-readable representation of this Target.
+        /// </summary>
+        /// <returns>A human readable representation.</returns>
         public override string ToString()
         {
             return $"Target[name={Name},desc=\"{Description}\"]";
         }
 
+        /// <summary>
+        /// Return the named property value.
+        /// </summary>
+        /// <param name="name">Property name.</param>
+        /// <returns>Property value.</returns>
         public string GetProperty(string name)
         {
             return Configuration.Properties[name];

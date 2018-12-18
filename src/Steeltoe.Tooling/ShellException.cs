@@ -16,8 +16,15 @@ using System;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents errors in shell invocations.
+    /// </summary>
     public class ShellException : Exception
     {
+        /// <summary>
+        /// Creates a new ShellException.
+        /// </summary>
+        /// <param name="message">Exception message.</param>
         public ShellException(string message) : base(message)
         {
         }

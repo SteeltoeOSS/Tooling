@@ -16,8 +16,15 @@ using System;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents generic errors in Steeltoe Tooling.
+    /// </summary>
     public class ToolingException : Exception
     {
+        /// <summary>
+        /// Creates a new ToolingException.
+        /// </summary>
+        /// <param name="message">Exception message.</param>
         public ToolingException(string message) : base(message)
         {
         }

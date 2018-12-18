@@ -18,6 +18,9 @@ namespace Steeltoe.Tooling
 {
     public static class Logging
     {
+        /// <summary>
+        /// Returns a logger factory instance.
+        /// </summary>
         public static ILoggerFactory LoggerFactory
         {
             get

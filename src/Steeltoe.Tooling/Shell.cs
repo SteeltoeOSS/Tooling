@@ -14,18 +14,55 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents a system command shell.
+    /// </summary>
     public abstract class Shell
     {
+        /// <summary>
+        /// Implemetations return the result of running a command.
+        /// </summary>
+        /// <param name="command">System command.</param>
+        /// <param name="args">Command arguments.</param>
+        /// <param name="workingDirectory">Command working directory.</param>
+        /// <returns></returns>
         public abstract Result Run(string command, string args = null, string workingDirectory = null);
 
         public struct Result
         {
+            /// <summary>
+            /// An arbitrary ID that can be used to identify a command, such as in a log file.
+            /// </summary>
             public int Id { get; set; }
+
+            /// <summary>
+            /// System command.
+            /// </summary>
             public string Command { get; set; }
+
+            /// <summary>
+            /// Command arguments.
+            /// </summary>
             public string Arguments { get; set; }
+
+            /// <summary>
+            /// Command working directory.
+            /// </summary>
             public string WorkingDirectory { get; set; }
+
+            /// <summary>
+            /// Command exit code as reported by system.
+            /// </summary>
             public int ExitCode { get; set; }
+
+            /// <summary>
+            /// Command stdout.
+            /// </summary>
             public string Out { get; set; }
+
+            /// <summary>
+            /// Command stderr.
+            /// </summary>
             public string Error { get; set; }
         }
     }

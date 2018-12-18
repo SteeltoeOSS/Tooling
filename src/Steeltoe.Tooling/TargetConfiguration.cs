@@ -17,15 +17,30 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Rerpresents the configuration of a deployment target.
+    /// </summary>
     public class TargetConfiguration
     {
+        /// <summary>
+        /// Deployment target name.
+        /// </summary>
         [YamlMember(Alias = "name")] public string Name { get; set; }
 
+        /// <summary>
+        /// Deployment target description.
+        /// </summary>
         [YamlMember(Alias = "description")] public string Description { get; set; }
 
+        /// <summary>
+        /// Deployment target properties.
+        /// </summary>
         [YamlMember(Alias = "properties")]
         public Dictionary<string, string> Properties { get; set; } = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Deployment target application service type properties.
+        /// </summary>
         [YamlMember(Alias = "serviceTypeProperties")]
         public Dictionary<string, Dictionary<string, string>> ServiceTypeProperties { get; set; } =
             new Dictionary<string, Dictionary<string, string>>();

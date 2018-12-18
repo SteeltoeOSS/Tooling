@@ -14,12 +14,26 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// An application service, such as a database, that can be deployed on a managed backend.
+    /// </summary>
     public class ServiceInfo
     {
+        /// <summary>
+        /// Service name.
+        /// </summary>
         public string Service { get; }
 
+        /// <summary>
+        /// Service type.
+        /// </summary>
         public string ServiceType { get; }
 
+        /// <summary>
+        /// Creates a new ServiceInfo instance.
+        /// </summary>
+        /// <param name="service">Service name.</param>
+        /// <param name="serviceType">Service type.</param>
         public ServiceInfo(string service, string serviceType)
         {
             Service = service;

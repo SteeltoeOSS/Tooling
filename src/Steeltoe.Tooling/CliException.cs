@@ -14,14 +14,32 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// Represents errors that can be thrown by a <see cref="Cli"/>
+    /// </summary>
     public class CliException : ToolingException
     {
+        /// <summary>
+        /// Command return code.
+        /// </summary>
         public int ReturnCode { get; }
 
+        /// <summary>
+        /// Command that generated the exception.
+        /// </summary>
         public string Command { get; }
 
+        /// <summary>
+        /// Command error message.
+        /// </summary>
         public string Error { get; }
 
+        /// <summary>
+        /// Creates a new CliException.
+        /// </summary>
+        /// <param name="returnCode">Command return code.</param>
+        /// <param name="command">Command.</param>
+        /// <param name="error">Command error message.</param>
         public CliException(int returnCode, string command, string error) : base(
             $"{error} [rc={returnCode},cmd='{command}']")
         {

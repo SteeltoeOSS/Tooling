@@ -14,18 +14,38 @@
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// A Cli (command line interface) that can be used to run system commands.
+    /// </summary>
     public class Cli
     {
+        /// <summary>
+        /// The Cli command run or to be run.
+        /// </summary>
         public string Command { get; }
 
+        /// <summary>
+        /// The shell with which to run a command.
+        /// </summary>
         private Shell Shell { get; }
 
+        /// <summary>
+        /// Creates a new Cli with the specified command and shell.
+        /// </summary>
+        /// <param name="command">System command to be run.</param>
+        /// <param name="shell">Shell with which to run command.</param>
         public Cli(string command, Shell shell)
         {
             Command = command;
             Shell = shell;
         }
 
+        /// <summary>
+        /// Run the Cli's command using the specified arguments.
+        /// </summary>
+        /// <param name="args">Cli command arguments.</param>
+        /// <returns>The command output.</returns>
+        /// <exception cref="CliException">Thrown if the command fails.</exception>
         public string Run(string args)
         {
             var result = Shell.Run(Command, args);
