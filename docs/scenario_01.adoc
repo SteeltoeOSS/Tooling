@@ -1,0 +1,25 @@
+= Steeltoe Tooling: Scenario 1, a Simple App
+How to deploy an application using Steeltoe Tooling.
+
+.Create a Simple Web App project
+----
+$ mkdir myapp
+$ cd myapp
+$ dotnet new webapp
+----
+
+.Set up Steeltoe Tooling
+----
+$ st init
+$ st target docker    # alternatively, st target cloudfoundry
+----
+
+.Deploy the Simple Web App
+----
+$ st add app myapp
+$ st deploy
+Deploying app 'myapp'
+----
+
+.Use the Simple Web App
+Go to https://localhost:5001/

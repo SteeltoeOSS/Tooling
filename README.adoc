@@ -1,11 +1,8 @@
-:toc: preamble
+= Building Steeltoe Tooling
+:toc:
 :toclevels: 2
-:!toc-title:
-:linkattrs:
 
-= Steeltoe Tooling
-
-Steeltoe developer tool collection
+_See link:docs/[documentation] for more user and developer information._
 
 == Testing
 

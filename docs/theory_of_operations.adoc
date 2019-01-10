@@ -1,0 +1,74 @@
+= Steeltoe Tooling: Theory of Operations
+How to setup and run the sample tests.
+:uri-api-src: ../src/Steeltoe.Tooling
+:uri-cli-src: ../src/Steeltoe.Cli
+:toc:
+
+== Overview
+
+Steeltoe Tooling is comprised of 3 layers:
+
+API::  Tooling operations and workflows
+
+UI:: Interface with which users interact
+
+Backends:: Used by the API to interact with deployment targets
+
+== Components
+
+=== API
+
+The Steeltoe Tooling API provides a programmatic interface into Tooling functionality.
+
+The API defines link:{uri-api-src}/Executor[workflow abstractions] intended to be used by UIs.
+
+The API also defines the Tooling object model to be used in creating additional workflow abstractions, or as an integration point in cases where the available workflow abstractions are not sufficient.
+
+=== UIs
+
+The only current user interface is the link:{uri-cli-src}[Steeltoe CLI].
+
+Future UIs may include extensions to Visual Studio and JetBrains Rider.
+
+A UI's job is to be and integration bridge between a UI, such as a CLI or IDE, and the Steeltoe API workflows.
+
+=== Backends
+
+Integration with deployment backends is achieved using implementations of an link:{uri-api-src}/IBackend.cs[IBackend.cs].  A backend's job is relatively simple in scope: deploy and undeploy applications and services, and report statuses of those applications and services.
+
+== Key Concepts
+
+=== Registry
+
+link:{uri-api-src}/Registry.cs[Registry.cs] defines services available to Steeltoe Tooling.
+Service definitions include basic information about the service, such as the service name and port.
+The registry also defines services in the context of a backend.  E.g., for the Docker backend, the service defintion includes the Docker image name.
+
+The service definitions are loaded from the configuration file link:{uri-api-src}/steeltoe.rc/registry.yml[registry.yml].
+
+=== Lifecycles
+
+The Steeltoe API implements a link:{uri-api-src}/Lifecycle.cs[Lifecycle.cs] of applications and services regardless of backends.
+The API defers unto a backend the determination of an item's current state.  Based on that state, operations may or may not be performed.
+E.g., an item in an _Offline_ state may be deployed whereas an item in a _Starting_ state may not.
+
+.States
+Offline:: an item is not deployed
+Starting:: an item is in the process of being deployed and is not yet available for use
+Online:: an item is fully deployed and available for use
+Stopping:: an item is in the process of being undeployed is not available for use
+Unknown:: a failsafe for backends when unable to determine an item's state
+
+.Transitions
+Deploy:: deploy an offline item
+Undeploy:: undeploy an online item
+
+=== Context
+
+All worflows are executed in an instance of a link:{uri-api-src}/Context.cs[Context.cs] that is constructed prior to execution.  The context provides:
+
+* path to project directory
+* project configuration
+* a console to which use output maybe displayed
+* a shell in which commands, such as backend commands, may be run
+* the current deployment target
