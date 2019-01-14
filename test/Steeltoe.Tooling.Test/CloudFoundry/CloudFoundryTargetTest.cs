@@ -40,9 +40,9 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         }
 
         [Fact]
-        public void TestGetBackend()
+        public void TestGetDriver()
         {
-            _target.GetBackend(Context).ShouldBeOfType<CloudFoundryBackend>();
+            _target.GetDriver(Context).ShouldBeOfType<CloudFoundryDriver>();
         }
 
         [Fact]

@@ -44,11 +44,11 @@ namespace Steeltoe.Tooling
         }
 
         /// <summary>
-        /// Return the deployment target backend.
+        /// Return the deployment target driver.
         /// </summary>
         /// <param name="context">Steeltoe Tooling project context.</param>
         /// <returns></returns>
-        public abstract IBackend GetBackend(Context context);
+        public abstract IDriver GetDriver(Context context);
 
         /// <summary>
         /// Tests if the deployment target is healthy.  E.g., is the target available.

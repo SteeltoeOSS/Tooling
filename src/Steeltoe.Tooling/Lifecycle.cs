@@ -52,7 +52,7 @@ namespace Steeltoe.Tooling
 
         private readonly string _name;
 
-        private readonly BackendBridge _bridge;
+        private readonly DriverBridge _bridge;
 
         /// <summary>
         /// Creates a new lifecycle for the named application or application service.
@@ -61,15 +61,15 @@ namespace Steeltoe.Tooling
         /// <param name="name">Application or application service name.</param>
         public Lifecycle(Context context, string name)
         {
-            var backend = context.Backend;
+            var driver = context.Driver;
             _name = name;
             if (context.Configuration.GetApps().Contains(name))
             {
-                _bridge = new AppBackendBridge(backend);
+                _bridge = new AppDriverBridge(driver);
             }
             else
             {
-                _bridge = new ServiceBackendBridge(backend);
+                _bridge = new ServiceDriverBridge(driver);
             }
 
         }
@@ -119,18 +119,18 @@ namespace Steeltoe.Tooling
 
         abstract class State
         {
-            internal virtual void Deploy(string name, BackendBridge bridge)
+            internal virtual void Deploy(string name, DriverBridge bridge)
             {
             }
 
-            internal virtual void Undeploy(string name, BackendBridge bridge)
+            internal virtual void Undeploy(string name, DriverBridge bridge)
             {
             }
         }
 
         class OfflineState : State
         {
-            internal override void Deploy(string name, BackendBridge bridge)
+            internal override void Deploy(string name, DriverBridge bridge)
             {
                 bridge.Deploy(name);
             }
@@ -142,7 +142,7 @@ namespace Steeltoe.Tooling
 
         class OnlineState : State
         {
-            internal override void Undeploy(string name, BackendBridge bridge)
+            internal override void Undeploy(string name, DriverBridge bridge)
             {
                 bridge.Undeploy(name);
             }
@@ -152,13 +152,13 @@ namespace Steeltoe.Tooling
         {
         }
 
-        abstract class BackendBridge
+        abstract class DriverBridge
         {
-            protected readonly IBackend Backend;
+            protected readonly IDriver Driver;
 
-            internal BackendBridge(IBackend backend)
+            internal DriverBridge(IDriver driver)
             {
-                Backend = backend;
+                Driver = driver;
             }
 
             internal abstract Status GetStatus(string name);
@@ -168,48 +168,48 @@ namespace Steeltoe.Tooling
             internal abstract void Undeploy(string name);
         }
 
-        class AppBackendBridge : BackendBridge
+        class AppDriverBridge : DriverBridge
         {
-            internal AppBackendBridge(IBackend backend) : base(backend)
+            internal AppDriverBridge(IDriver driver) : base(driver)
             {
             }
 
             internal override Status GetStatus(string name)
             {
-                return Backend.GetAppStatus(name);
+                return Driver.GetAppStatus(name);
             }
 
             internal override void Deploy(string name)
             {
-                Backend.DeployApp(name);
+                Driver.DeployApp(name);
             }
 
             internal override void Undeploy(string name)
             {
-                Backend.UndeployApp(name);
+                Driver.UndeployApp(name);
             }
 
         }
 
-        class ServiceBackendBridge : BackendBridge
+        class ServiceDriverBridge : DriverBridge
         {
-            internal ServiceBackendBridge(IBackend backend) : base(backend)
+            internal ServiceDriverBridge(IDriver driver) : base(driver)
             {
             }
 
             internal override Status GetStatus(string name)
             {
-                return Backend.GetServiceStatus(name);
+                return Driver.GetServiceStatus(name);
             }
 
             internal override void Deploy(string name)
             {
-                Backend.DeployService(name);
+                Driver.DeployService(name);
             }
 
             internal override void Undeploy(string name)
             {
-                Backend.UndeployService(name);
+                Driver.UndeployService(name);
             }
         }
     }

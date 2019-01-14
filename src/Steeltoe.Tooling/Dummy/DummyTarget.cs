@@ -22,9 +22,9 @@ namespace Steeltoe.Tooling.Dummy
         {
         }
 
-        public override IBackend GetBackend(Context context)
+        public override IDriver GetDriver(Context context)
         {
-            return new DummyBackend(Path.Combine(context.ProjectDirectory, "dummy-service-backend.db"));
+            return new DummyDriver(Path.Combine(context.ProjectDirectory, "dummy-service-driver.db"));
         }
 
         public override bool IsHealthy(Context context)

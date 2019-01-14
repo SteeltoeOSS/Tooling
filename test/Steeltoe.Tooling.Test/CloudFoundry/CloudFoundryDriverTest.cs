@@ -19,14 +19,14 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test.CloudFoundry
 {
-    public class CloudFoundryBackendTest : ToolingTest
+    public class CloudFoundryDriverTest : ToolingTest
     {
-        private readonly CloudFoundryBackend _backend;
+        private readonly CloudFoundryDriver _driver;
 
-        public CloudFoundryBackendTest()
+        public CloudFoundryDriverTest()
         {
             Context.Configuration.Target = "cloud-foundry";
-            _backend = Context.Target.GetBackend(Context) as CloudFoundryBackend;
+            _driver = Context.Target.GetDriver(Context) as CloudFoundryDriver;
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
             Context.Configuration.AddApp("my-app");
-            _backend.DeployApp("my-app");
+            _driver.DeployApp("my-app");
             Shell.Commands.Count.ShouldBe(2);
             Shell.Commands[0].ShouldBe("dotnet publish -f netcoreapp2.1 -r win10-x64");
             Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yml -p bin/Debug/netcoreapp2.1/win10-x64/publish");
@@ -58,7 +58,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestUndeployApp()
         {
             Context.Configuration.AddApp("my-app");
-            _backend.UndeployApp("my-app");
+            _driver.UndeployApp("my-app");
             Shell.LastCommand.ShouldBe("cf delete my-app -f");
         }
 
@@ -66,7 +66,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestDeployService()
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
-            _backend.DeployService("my-service");
+            _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe("cf create-service dummy-server dummy-plan my-service");
         }
 
@@ -74,7 +74,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestDeployConfigServer()
         {
             Context.Configuration.AddService("my-service", "config-server");
-            _backend.DeployService("my-service");
+            _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe("cf create-service p-config-server standard my-service");
         }
 
@@ -82,7 +82,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestDeployEurekaServer()
         {
             Context.Configuration.AddService("my-service", "eureka-server");
-            _backend.DeployService("my-service");
+            _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe("cf create-service p-service-registry standard my-service");
         }
 
@@ -90,7 +90,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestDeployHystrixDashboard()
         {
             Context.Configuration.AddService("my-service", "hystrix-dashboard");
-            _backend.DeployService("my-service");
+            _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe("cf create-service p-circuit-breaker-dashboard standard my-service");
         }
 
@@ -98,7 +98,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestDeployMySql()
         {
             Context.Configuration.AddService("my-service", "mysql");
-            _backend.DeployService("my-service");
+            _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe("cf create-service p-mysql 100mb my-service");
         }
 
@@ -106,7 +106,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestDeployRedis()
         {
             Context.Configuration.AddService("my-service", "redis");
-            _backend.DeployService("my-service");
+            _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe("cf create-service p-redis shared-vm my-service");
         }
 
@@ -114,7 +114,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestUndeployService()
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
-            _backend.UndeployService("my-service");
+            _driver.UndeployService("my-service");
             Shell.LastCommand.ShouldBe("cf delete-service my-service -f");
         }
 
@@ -122,7 +122,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestCheckApp()
         {
             Context.Configuration.AddApp("my-app");
-            _backend.GetAppStatus("my-app");
+            _driver.GetAppStatus("my-app");
             Shell.LastCommand.ShouldBe("cf app my-app");
         }
 
@@ -130,7 +130,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         public void TestCheckService()
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
-            _backend.GetServiceStatus("my-service");
+            _driver.GetServiceStatus("my-service");
             Shell.LastCommand.ShouldBe("cf service my-service");
         }
 
@@ -139,7 +139,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
             Shell.AddResponse("status:    create in progress");
-            var status = _backend.GetServiceStatus("my-service");
+            var status = _driver.GetServiceStatus("my-service");
             status.ShouldBe(Lifecycle.Status.Starting);
         }
 
@@ -148,7 +148,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         {
             Context.Configuration.AddApp("my-app");
             Shell.AddResponse("#0   running   2018-11-02T16:32:37Z   16.9%   129.2M of 512M   124.8M of 1G");
-            var status = _backend.GetAppStatus("my-app");
+            var status = _driver.GetAppStatus("my-app");
             status.ShouldBe(Lifecycle.Status.Online);
         }
 
@@ -157,7 +157,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
             Shell.AddResponse("status:    create succeeded");
-            var status = _backend.GetServiceStatus("my-service");
+            var status = _driver.GetServiceStatus("my-service");
             status.ShouldBe(Lifecycle.Status.Online);
         }
 
@@ -166,7 +166,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
             Shell.AddResponse("Service instance my-service not found", 1);
-            var status = _backend.GetServiceStatus("my-service");
+            var status = _driver.GetServiceStatus("my-service");
             status.ShouldBe(Lifecycle.Status.Offline);
         }
     }

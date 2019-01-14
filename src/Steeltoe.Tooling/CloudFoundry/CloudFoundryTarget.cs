@@ -20,9 +20,9 @@ namespace Steeltoe.Tooling.CloudFoundry
         {
         }
 
-        public override IBackend GetBackend(Context context)
+        public override IDriver GetDriver(Context context)
         {
-            return new CloudFoundryBackend(context);
+            return new CloudFoundryDriver(context);
         }
 
         public override bool IsHealthy(Context context)

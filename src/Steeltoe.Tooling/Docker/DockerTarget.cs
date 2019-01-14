@@ -22,9 +22,9 @@ namespace Steeltoe.Tooling.Docker
         {
         }
 
-        public override IBackend GetBackend(Context context)
+        public override IDriver GetDriver(Context context)
         {
-            return new DockerBackend(context);
+            return new DockerDriver(context);
         }
 
         public override bool IsHealthy(Context context)

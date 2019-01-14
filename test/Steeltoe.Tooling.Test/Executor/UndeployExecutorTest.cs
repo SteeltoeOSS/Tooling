@@ -27,17 +27,17 @@ namespace Steeltoe.Tooling.Test.Executor
             Context.Configuration.AddService("my-service", "dummy-svc");
             Context.Configuration.AddService("my-other-service", "dummy-svc");
             new DeployExecutor().Execute(Context);
-            Context.Backend.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Online);
-            Context.Backend.GetServiceStatus("my-other-service").ShouldBe(Lifecycle.Status.Online);
-            Context.Backend.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Online);
+            Context.Driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Online);
+            Context.Driver.GetServiceStatus("my-other-service").ShouldBe(Lifecycle.Status.Online);
+            Context.Driver.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Online);
             ClearConsole();
             new UndeployExecutor().Execute(Context);
             Console.ToString().ShouldContain("Undeploying app 'my-app'");
             Console.ToString().ShouldContain("Undeploying service 'my-service'");
             Console.ToString().ShouldContain("Undeploying service 'my-other-service'");
-            Context.Backend.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Stopping);
-            Context.Backend.GetServiceStatus("my-other-service").ShouldBe(Lifecycle.Status.Stopping);
-            Context.Backend.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Offline);
+            Context.Driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Stopping);
+            Context.Driver.GetServiceStatus("my-other-service").ShouldBe(Lifecycle.Status.Stopping);
+            Context.Driver.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Offline);
         }
 
         [Fact]

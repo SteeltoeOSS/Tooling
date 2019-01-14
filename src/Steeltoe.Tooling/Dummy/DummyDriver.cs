@@ -14,13 +14,13 @@
 
 namespace Steeltoe.Tooling.Dummy
 {
-    public class DummyBackend : IBackend
+    public class DummyDriver : IDriver
     {
         private readonly string _path;
 
         private DummyServiceDatabase _database;
 
-        public DummyBackend(string path)
+        public DummyDriver(string path)
         {
             _path = path;
             _database = DummyServiceDatabase.Load(_path);

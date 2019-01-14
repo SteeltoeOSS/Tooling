@@ -15,7 +15,7 @@
 namespace Steeltoe.Tooling
 {
     /// <summary>
-    /// An application service, such as a database, that can be deployed on a managed backend.
+    /// An application service, such as a database, that can be deployed.
     /// </summary>
     public class ServiceInfo
     {

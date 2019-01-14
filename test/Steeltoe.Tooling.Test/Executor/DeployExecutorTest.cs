@@ -31,9 +31,9 @@ namespace Steeltoe.Tooling.Test.Executor
             Console.ToString().ShouldContain("Deploying service 'my-service'");
             Console.ToString().ShouldContain("Deploying service 'another-service'");
             Console.ToString().ShouldContain("Deploying app 'my-app'");
-            Context.Backend.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Online);
-            Context.Backend.GetServiceStatus("another-service").ShouldBe(Lifecycle.Status.Online);
-            Context.Backend.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Online);
+            Context.Driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Online);
+            Context.Driver.GetServiceStatus("another-service").ShouldBe(Lifecycle.Status.Online);
+            Context.Driver.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Online);
         }
 
         [Fact]

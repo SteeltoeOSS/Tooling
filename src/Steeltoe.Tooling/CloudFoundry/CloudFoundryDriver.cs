@@ -18,7 +18,7 @@ using System.Text.RegularExpressions;
 
 namespace Steeltoe.Tooling.CloudFoundry
 {
-    public class CloudFoundryBackend : IBackend
+    public class CloudFoundryDriver : IDriver
     {
         private readonly Context _context;
 
@@ -26,7 +26,7 @@ namespace Steeltoe.Tooling.CloudFoundry
 
         private readonly Cli _dotnetCli;
 
-        public CloudFoundryBackend(Context context)
+        public CloudFoundryDriver(Context context)
         {
             _context = context;
             _cfCli = new CloudFoundryCli(context.Shell);

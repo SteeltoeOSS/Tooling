@@ -23,13 +23,13 @@ namespace Steeltoe.Tooling.Executor
 
         protected override void ExecuteForApp(string app)
         {
-            var status = Context.Backend.GetAppStatus(app);
+            var status = Context.Driver.GetAppStatus(app);
             Context.Console.WriteLine($"{app} {status.ToString().ToLower()}");
         }
 
         protected override void ExecuteForService(string service)
         {
-            var status = Context.Backend.GetServiceStatus(service);
+            var status = Context.Driver.GetServiceStatus(service);
             Context.Console.WriteLine($"{service} {status.ToString().ToLower()}");
         }
     }

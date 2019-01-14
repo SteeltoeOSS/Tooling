@@ -59,9 +59,9 @@ namespace Steeltoe.Tooling
         }
 
         /// <summary>
-        /// Steeltoe Tooling backend.  The backend is used to deploy applications and their services.
+        /// Steeltoe Tooling driver.  The driver is used to deploy applications and their services.
         /// </summary>
-        public IBackend Backend => Target.GetBackend(this);
+        public IDriver Driver => Target.GetDriver(this);
 
         /// <summary>
         /// Creates a new Steeltoe Tooling Content.

@@ -21,17 +21,17 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test.Dummy
 {
-    public class DummyBackendTest : ToolingTest
+    public class DummyDriverTest : ToolingTest
     {
         private readonly string _dbFile;
 
-        private readonly DummyBackend _backend;
+        private readonly DummyDriver _driver;
 
-        public DummyBackendTest()
+        public DummyDriverTest()
         {
             Directory.CreateDirectory(Context.ProjectDirectory);
             _dbFile = Path.Combine(Context.ProjectDirectory, "dummy.db");
-            _backend = new DummyBackend(_dbFile);
+            _driver = new DummyDriver(_dbFile);
         }
 
         [Fact]
@@ -40,17 +40,17 @@ namespace Steeltoe.Tooling.Test.Dummy
             File.Exists(_dbFile).ShouldBeTrue();
 
             // start state -> offline
-            _backend.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Offline);
+            _driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Offline);
 
             // offline -> deploy -> starting -> online
-            _backend.DeployService("my-service");
-            _backend.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Starting);
-            _backend.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Online);
+            _driver.DeployService("my-service");
+            _driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Starting);
+            _driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Online);
 
             // online -> undeploy -> stopping -> offline
-            _backend.UndeployService("my-service");
-            _backend.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Stopping);
-            _backend.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Offline);
+            _driver.UndeployService("my-service");
+            _driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Stopping);
+            _driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Offline);
         }
     }
 }

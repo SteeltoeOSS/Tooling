@@ -15,7 +15,7 @@
 namespace Steeltoe.Tooling
 {
     /// <summary>
-    /// An application that can be deployed on a managed backend.
+    /// An application that can be deployed.
     /// </summary>
     public class AppInfo
     {

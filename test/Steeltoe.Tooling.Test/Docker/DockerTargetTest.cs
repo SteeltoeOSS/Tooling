@@ -40,9 +40,9 @@ namespace Steeltoe.Tooling.Test.Docker
         }
 
         [Fact]
-        public void TestGetBackend()
+        public void TestGetDriver()
         {
-            _env.GetBackend(Context).ShouldBeOfType<DockerBackend>();
+            _env.GetDriver(Context).ShouldBeOfType<DockerDriver>();
         }
 
         [Fact]

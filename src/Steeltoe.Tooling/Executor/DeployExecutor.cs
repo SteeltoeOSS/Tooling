@@ -26,7 +26,7 @@ namespace Steeltoe.Tooling.Executor
             foreach (var service in Context.Configuration.GetServices())
             {
                 int count = 0;
-                while (Context.Backend.GetServiceStatus(service) != Lifecycle.Status.Online)
+                while (Context.Driver.GetServiceStatus(service) != Lifecycle.Status.Online)
                 {
                     ++count;
                     if (Settings.MaxChecks >= 0 && ++count > Settings.MaxChecks)

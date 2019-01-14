@@ -15,10 +15,10 @@
 namespace Steeltoe.Tooling
 {
     /// <summary>
-    /// Defines the interface for Steeltoe Tooling backends.  Backends are responsible for application and service
+    /// Defines the interface for Steeltoe Tooling drivers.  Drivers are responsible for application and service
     /// deployment and for reporting the state of applications and services.
     /// </summary>
-    public interface IBackend
+    public interface IDriver
     {
         /// <summary>
         /// Deploys the named application.
