@@ -1,4 +1,4 @@
-version: '0.0.1-{branch}-{build}'
+version: '1.0.0-{branch}-{build}'
 init:
   - git config --global core.autocrlf true
 image:
@@ -6,7 +6,6 @@ image:
 branches:
   only:
     - dev
-    - springone-2018
 install:
   - ps: dotnet --info
   - git clone https://github.com/SteeltoeOSS/steeltoe-ci.git -v
@@ -30,5 +29,5 @@ deploy:
   api_key:
     secure: 246ApObnMYYvzDo9Ki72CxxuKfuoqYbrbUK2HLevGIGHXYY6f0OkAdE3EWCwNJ7g
   on:
-    branch: springone-2018
+    branch: dev
     appveyor_repo_tag: false
