@@ -1,0 +1,23 @@
+= Building Steeltoe Tooling
+
+.Build
+----
+> dotnet build
+----
+
+.Run Unit and CLI Tests
+----
+> dotnet test test/Steeltoe.Tooling.Test
+> dotnet test test/Steeltoe.CLI.Test
+----
+
+.Install
+----
+> dotnet pack
+> dotnet tool install -g --add-source src/Steeltoe.Cli/bin/Debug Steeltoe.Cli
+----
+
+.Uninstall
+----
+> dotnet tool uninstall -g Steeltoe.Cli
+----

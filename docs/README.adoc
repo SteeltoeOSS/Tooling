@@ -2,12 +2,11 @@
 :toc:
 :toclevels: 2
 
-== Users
-
-link:scenario_01.adoc[Scenario 1]:: deploy a simple web app
-link:scenario_02.adoc[Scenario 2]:: deploy a service
-
 == Developers
 
 link:theory_of_operations.adoc[Theory of Operations]:: key Steeltoe Tooling implementation concepts
+link:build.adoc[Building]:: building, testing, and installing Steeltoe Tooling from source
 
+== Users
+
+link:users_guide.adoc[Users Guide]:: Users guide to using Steeltoe Tooling

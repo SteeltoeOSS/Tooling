@@ -1,0 +1,131 @@
+= Steeltoe Tooling Users Guide
+:toc:
+:toclevels: 3
+
+== CLI
+
+=== Installing
+
+.install
+----
+> dotnet tool install steeltoe.cli --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-dev-00146
+----
+
+.uninstall
+----
+> dotnet tool uninstall --global steeltoe.cli
+----
+
+=== Deploying DotNet Projects
+
+==== Simple WebApp
+
+.create a WebApp project
+----
+> dotnet new webapp -o myapp
+> cd myapp
+----
+
+.add Steeltoe Tooling to project
+----
+> st init
+Initialized Steeltoe Developer Tools
+----
+
+.add WebApp application to deployment configuration
+----
+> st add app myapp
+Added app 'myapp'
+----
+
+.target Docker for deployment
+----
+> st target docker
+Docker ... Docker version 18.09.1, build 4c52b90
+Docker host OS ... Docker for Mac
+Docker container OS ... linux
+Target set to 'docker
+----
+
+.deploy project
+----
+> st deploy
+Deploying app 'myapp'
+----
+
+.open WebApp
+Go to http://localhost:8080/
+
+.undeploy project
+----
+> st undeploy
+Undeploying app 'myapp'
+----
+
+==== Webapp with a Dependent Service
+
+.checkout Steeltoe Samples and navigate to the SimpleCloudFoundry project
+----
+> git clone https://github.com/SteeltoeOSS/Samples
+> cd Samples/Configuration/src/AspDotNetCore/SimpleCloudFoundry
+----
+
+.add Steeltoe Tooling to project
+----
+> st init
+Initialized Steeltoe Developer Tools
+----
+
+.target CloudFoundry for deployment
+----
+> st target cloud-foundry
+Cloud Foundry ... cf version 6.42.0+0cba12168.2019-01-10
+logged into Cloud Foundry ... yes
+Target set to 'cloud-foundry'
+----
+
+.add SimpleCloudFoundry webapp to deployment configuration
+----
+> st add app SimpleCloudFoundry
+Added app 'myapp'
+----
+
+.add myConfigServer config-server to deployment configuration
+----
+> st add config-server myConfigServer
+Added config-server service 'myConfigServer'
+----
+
+.deploy SimpleCloudFoundry project to CloudFoundry
+----
+> st deploy
+Deploying service 'myConfigServer'
+Waiting for service 'myConfigServer' to come online (1)
+Waiting for service 'myConfigServer' to come online (2)
+Waiting for service 'myConfigServer' to come online (3)
+Waiting for service 'myConfigServer' to come online (4)
+Waiting for service 'myConfigServer' to come online (5)
+...
+Waiting for service 'myConfigServer' to come online (35)
+Deploying app 'SimpleCloudFoundry'
+----
+
+.check status, then navigate to application
+----
+> cf apps
+Getting apps in org pivot-ccheetham / space playground as ccheetham@pivotal.io...
+OK
+
+name                 requested state   instances   memory   disk   urls
+SimpleCloudFoundry   started           1/1         512M     1G     simplecloudfoundry.apps.pcfone.io
+
+#                                                                  ^-------------------------------^
+# go to this url -------------------------------------------------/ 
+----
+
+.undeploy SimpleCoundFoundry project
+----
+> st undeploy
+Undeploying app 'SimpleCloudFoundry'
+Undeploying service 'myConfigServer'
+----

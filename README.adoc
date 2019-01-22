@@ -1,39 +1,78 @@
-= Building Steeltoe Tooling
+= Steeltoe Tooling
 :toc:
 :toclevels: 2
 
-_See link:docs/[documentation] for more user and developer information._
+|===
+| Platform   | Build Status
 
-== Testing
+| Windows    | image:{uri-status-windows}?svg=true&branch={branch}["Windows Build Status", link={uri-build-windows}]
+| Linux/OS X | image:{uri-status-linuxosx}.svg?branch={branch}["Linux/OS X Build Status", link={uri-build-linuxosx}]
+|===
 
-.Run unit test suite
+== About
+
+Tools for Steeltoe Developers.
+
+This projects provides a CLI to assist Steeltoe Developers with deploying Steeloe projects to Cloud Foundry and Docker.
+This project also provides an API that can be used to integrate Steeltoe Tooling with other tools such as IDEs.
+
+== Quick Start
+
+In this Quick Start, you'll install the Steeloe Tooling CLI and use it to deploy a WebApp project to a Docker host.
+
+.install Steeltoe Tooling CLI
 ----
-> scripts/unit-test
-
-# Alternatively
-> dotnet test test/Steeltoe.Tooling.Test
-----
-
-.Run CLI test suite
-----
-> scripts/cli-test
-
-# Alternatively
-> dotnet test test/Steeltoe.Cli.Test
-----
-
-== Install/Uninstall
-
-.Install
-----
-> scripts/install
-
-# Alternatively
-> dotnet pack
-> dotnet tool install -g --add-source src/Steeltoe.Cli/bin/Debug Steeltoe.Cli
+> dotnet tool install steeltoe.cli --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-dev-00146
 ----
 
-.Uninstall
+.check version
 ----
-> dotnet tool uninstall -g Steeltoe.Cli
+> st --version
+1.0.0-dev-00146
 ----
+
+.create a WebApp project
+----
+> dotnet new webapp -o myapp
+> cd myapp
+----
+
+.add Steeltoe Tooling to project
+----
+> st init
+Initialized Steeltoe Developer Tools
+----
+
+.add WebApp application to deployment configuration
+----
+> st add app myapp
+Added app 'myapp'
+----
+
+.target Docker for deployment
+----
+> st target docker
+Docker ... Docker version 18.09.1, build 4c52b90
+Docker host OS ... Docker for Mac
+Docker container OS ... linux
+Target set to 'docker
+----
+
+.deploy project
+----
+> st deploy
+Deploying app 'myapp'
+----
+
+.open WebApp
+Go to http://localhost:8080/
+
+.undeploy project
+----
+> st undeploy
+Undeploying app 'myapp'
+----
+
+== Further Reading
+
+See link:docs/[Steeltoe Tooling Documentation] for more user and developer information.
