@@ -13,7 +13,7 @@
 
 Tools for Steeltoe Developers.
 
-This projects provides a CLI to assist Steeltoe Developers with deploying Steeloe projects to Cloud Foundry and Docker.
+This projects provides a CLI to assist Steeltoe Developers with deploying Steeloe projects to CloudFoundry and Docker.
 This project also provides an API that can be used to integrate Steeltoe Tooling with other tools such as IDEs.
 
 == Quick Start
