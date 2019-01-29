@@ -15,6 +15,6 @@ branches:
 script:
   - dotnet --info
   - dotnet build
-  - scripts/unit-test
-  - scripts/cli-test
+  - dotnet test test/Steeltoe.Tooling.Test
+  - dotnet test test/Steeltoe.CLI.Test
   - dotnet pack

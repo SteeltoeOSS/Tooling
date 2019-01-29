@@ -11,8 +11,8 @@ install:
   - git clone https://github.com/SteeltoeOSS/steeltoe-ci.git -v
   - ps: steeltoe-ci\scripts\appveyor_install.ps1
 test_script:
-  - ps: scripts\unit-test
-  - ps: scripts\cli-test
+  - ps: dotnet test test\Steeltoe.Tooling.Test
+  - ps: dotnet test test\Steeltoe.CLI.Test
 build_script:
   - ps: steeltoe-ci\scripts\appveyor_build.ps1
 artifacts:
