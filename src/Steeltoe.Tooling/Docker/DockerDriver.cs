@@ -68,7 +68,7 @@ namespace Steeltoe.Tooling.Docker
         public void DeployService(string service)
         {
             var dockerInfo = new DockerCli(_context.Shell).Run("info");
-            var dockerOs = new Regex(@"OSType:\s*(.+)", RegexOptions.Multiline).Match(dockerInfo).Groups[1].ToString();
+            var dockerOs = new Regex(@"OSType:\s*(\S+)", RegexOptions.Multiline).Match(dockerInfo).Groups[1].ToString();
             DeployService(service, dockerOs);
         }
 
