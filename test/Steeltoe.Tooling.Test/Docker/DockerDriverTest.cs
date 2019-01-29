@@ -137,10 +137,10 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Context.Configuration.AddService("my-service", "mssql");
             _driver.DeployService("my-service", "linux");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql:2017-CU11-linux");
+                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql-amd64-linux:2017-CU11");
             _driver.DeployService("my-service", "windows");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql:2017-CU1-windows");
+                "docker run --name my-service --publish 1433:1433 --detach --rm steeltoeoss/mssql-amd64-windows:2017-CU1");
         }
 
         [Fact]
@@ -158,10 +158,10 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Context.Configuration.AddService("my-service", "redis");
             _driver.DeployService("my-service", "linux");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis:4.0.11-linux");
+                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis-amd64-linux:4.0.11");
             _driver.DeployService("my-service", "windows");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis:3.0.504-windows");
+               "docker run --name my-service --publish 6379:6379 --detach --rm steeltoeoss/redis-amd64-windows:3.0.504");
         }
 
         [Fact]

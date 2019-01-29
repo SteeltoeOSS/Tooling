@@ -73,7 +73,7 @@ targets:
         image: steeltoeoss/hystrix-dashboard:1.4.5
       mssql:
         image-linux: steeltoeoss/mssql-amd64-linux:2017-CU11
-        image-windows: steeltoeoss/mssql-adm64-windows:2017-CU1
+        image-windows: steeltoeoss/mssql-amd64-windows:2017-CU1
       mysql:
         image: steeltoeoss/mysql:5.7.24
       redis:
