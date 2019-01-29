@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-basedir=$(dirname $0)/..
-dotnet test $basedir/test/Steeltoe.Tooling.Test
-

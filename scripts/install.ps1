@@ -1,7 +1,12 @@
-$globalToolProject = "Steeltoe.Cli"
+#!/usr/bin/env pwsh
 
-Set-Location $PSScriptRoot\..
-
-dotnet tool uninstall --global $globalToolProject
-dotnet pack
-dotnet tool install --global --add-source src/$globalToolProject/bin/Debug $globalToolProject
+$project = "Steeltoe.Cli"
+Push-Location $PSScriptRoot/..
+try {
+    dotnet tool uninstall --global $project
+    dotnet pack
+    dotnet tool install --global --add-source src/$project/bin/Debug $project
+}
+finally {
+    Pop-Location
+}
