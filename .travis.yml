@@ -16,5 +16,5 @@ script:
   - dotnet --info
   - dotnet build
   - dotnet test test/Steeltoe.Tooling.Test
-  - dotnet test test/Steeltoe.CLI.Test
+  - dotnet test test/Steeltoe.Cli.Test
   - dotnet pack
