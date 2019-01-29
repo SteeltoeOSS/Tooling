@@ -12,7 +12,7 @@ install:
   - ps: steeltoe-ci\scripts\appveyor_install.ps1
 test_script:
   - ps: dotnet test test\Steeltoe.Tooling.Test
-  - ps: dotnet test test\Steeltoe.CLI.Test
+  - ps: dotnet test test\Steeltoe.Cli.Test
 build_script:
   - ps: steeltoe-ci\scripts\appveyor_build.ps1
 artifacts:
