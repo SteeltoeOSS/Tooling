@@ -1,6 +1,6 @@
 = Steeltoe Tooling Users Guide
 :toc:
-:toclevels: 3
+:toclevels: 4
 
 == CLI
 
@@ -8,12 +8,12 @@
 
 .install
 ----
-> dotnet tool install steeltoe.cli --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-dev-00146
+$ dotnet tool install steeltoe.cli --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-dev-00146
 ----
 
 .uninstall
 ----
-> dotnet tool uninstall --global steeltoe.cli
+$ dotnet tool uninstall --global steeltoe.cli
 ----
 
 === Deploying DotNet Projects
@@ -22,25 +22,25 @@
 
 .create a WebApp project
 ----
-> dotnet new webapp -o myapp
-> cd myapp
+$ dotnet new webapp -o myapp
+$ cd myapp
 ----
 
 .add Steeltoe Tooling to project
 ----
-> st init
+$ st init
 Initialized Steeltoe Developer Tools
 ----
 
 .add WebApp application to deployment configuration
 ----
-> st add app myapp
+$ st add app myapp
 Added app 'myapp'
 ----
 
 .target Docker for deployment
 ----
-> st target docker
+$ st target docker
 Docker ... Docker version 18.09.1, build 4c52b90
 Docker host OS ... Docker for Mac
 Docker container OS ... linux
@@ -49,7 +49,7 @@ Target set to 'docker
 
 .deploy project
 ----
-> st deploy
+$ st deploy
 Deploying app 'myapp'
 ----
 
@@ -58,27 +58,27 @@ Go to http://localhost:8080/
 
 .undeploy project
 ----
-> st undeploy
+$ st undeploy
 Undeploying app 'myapp'
 ----
 
-==== Webapp with a Dependent Service
+==== WebApp with a Dependent Service
 
 .checkout Steeltoe Samples and navigate to the SimpleCloudFoundry project
 ----
-> git clone https://github.com/SteeltoeOSS/Samples
-> cd Samples/Configuration/src/AspDotNetCore/SimpleCloudFoundry
+$ git clone https://github.com/SteeltoeOSS/Samples
+$ cd Samples/Configuration/src/AspDotNetCore/SimpleCloudFoundry
 ----
 
 .add Steeltoe Tooling to project
 ----
-> st init
+$ st init
 Initialized Steeltoe Developer Tools
 ----
 
 .target CloudFoundry for deployment
 ----
-> st target cloud-foundry
+$ st target cloud-foundry
 Cloud Foundry ... cf version 6.42.0+0cba12168.2019-01-10
 logged into Cloud Foundry ... yes
 Target set to 'cloud-foundry'
@@ -86,19 +86,19 @@ Target set to 'cloud-foundry'
 
 .add SimpleCloudFoundry webapp to deployment configuration
 ----
-> st add app SimpleCloudFoundry
+$ st add app SimpleCloudFoundry
 Added app 'myapp'
 ----
 
 .add myConfigServer config-server to deployment configuration
 ----
-> st add config-server myConfigServer
+$ st add config-server myConfigServer
 Added config-server service 'myConfigServer'
 ----
 
 .deploy SimpleCloudFoundry project to CloudFoundry
 ----
-> st deploy
+$ st deploy
 Deploying service 'myConfigServer'
 Waiting for service 'myConfigServer' to come online (1)
 Waiting for service 'myConfigServer' to come online (2)
@@ -112,7 +112,7 @@ Deploying app 'SimpleCloudFoundry'
 
 .check status, then navigate to application
 ----
-> cf apps
+$ cf apps
 Getting apps in org pivot-ccheetham / space playground as ccheetham@pivotal.io...
 OK
 
@@ -125,7 +125,131 @@ SimpleCloudFoundry   started           1/1         512M     1G     simplecloudfo
 
 .undeploy SimpleCoundFoundry project
 ----
-> st undeploy
+$ st undeploy
 Undeploying app 'SimpleCloudFoundry'
 Undeploying service 'myConfigServer'
+----
+
+== Services
+
+=== Overview
+
+Services are configured using the CLI command:
+----
+$ st add <type> <name>
+----
+
+Where _type_ is a known service type and _name_ is a user-supplied name.
+
+.Service Types
+|===
+| Type | Description
+
+| config-server | Spring Cloud Config Server
+| eureka-server | Netflix Eureka Server
+| hystrix-dashboard | Netflix Hystrix Dashboard
+| mssql | Microsoft SQL Server
+| mysql | MySQL
+| redis | Redis Server
+| zipkin | Zipkin Tracing Collector and UI
+|===
+
+
+=== Spring Cloud Config Server
+
+https://spring.io/projects/spring-cloud-config[Spring Cloud Config] provides support for externalized configuration.
+
+type:: `config-server`
+port:: 8888
+
+.Example
+----
+$ st add config-server myConfigServer
+----
+
+=== Netflix Eureka Server
+
+https://github.com/Netflix/eureka/wiki[Netflix Eureka Server] provides service discovery.
+
+type:: `eureka-server`
+port:: 8761
+
+.Example
+----
+$ st add eureka-server myDiscoveryServer
+----
+
+=== Hystrix Dashboard
+
+https://github.com/Netflix/Hystrix/wiki[Hystrix Dashboard] provides latency and fault tolerance.
+
+type:: `hystrix-dashboard`
+port:: 8761
+
+.Example
+----
+$ st add hystrix-dashboard myHystrixDashboard
+----
+
+=== Microsoft SQL Server
+
+https://www.microsoft.com/sql-server/[Microsoft SQL Server] provides Microsoft's RDBMS.
+
+type:: `mssql`
+port:: 1433
+
+.Example
+----
+$ st add mssql mySQLServer
+----
+
+The SteeltoeOSS Microsoft SQL Docker images (`steeltoeoss/mssql`) require explicit acceptance of the Microsoft EULA.
+Acceptance can be specified using a service argument.
+
+.Example accepting EULA in Docker images
+----
+$ st args -t docker mySQLServer -- --env ACCEPT_EULA=Y
+----
+
+=== MySQL
+
+https://www.mysql.com/[MySQL] provides the MySQL RDBMS.
+
+type:: `mysql`
+port:: 3306
+
+.Example
+----
+$ st add mysql myMySQLServer
+----
+
+The MySQL Docker images (`steeltoeoss/mssql`) for Linux containers require a MySQL root password to be set.
+
+.Example setting MySQL root password for Linux Docker containers
+----
+$ st args -t docker myMySQLServer -- --env MYSQL_ROOT_PASSWORD=my-secret-pw
+----
+
+=== Redis
+
+https://redis.io/[Redis] provides an in-memory data structure store.
+
+type:: `redis`
+port:: 6379
+
+.Example
+----
+$ st add redis myRedis
+----
+
+=== Zipkin Tracing Collector and UI
+
+https://zipkin.io/[Zipkin] provides a distributed tracing system.
+
+type:: `zipkin`
+port:: 9411
+
+.Example
+----
+$ st add zipkin myZipkinCollector
 ----

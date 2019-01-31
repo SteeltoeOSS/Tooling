@@ -22,36 +22,36 @@ In this Quick Start, you'll install the Steeloe Tooling CLI and use it to deploy
 
 .install Steeltoe Tooling CLI
 ----
-> dotnet tool install steeltoe.cli --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-dev-00146
+$ dotnet tool install steeltoe.cli --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-dev-00146
 ----
 
 .check version
 ----
-> st --version
+$ st --version
 1.0.0-dev-00146
 ----
 
 .create a WebApp project
 ----
-> dotnet new webapp -o myapp
-> cd myapp
+$ dotnet new webapp -o myapp
+$ cd myapp
 ----
 
 .add Steeltoe Tooling to project
 ----
-> st init
+$ st init
 Initialized Steeltoe Developer Tools
 ----
 
 .add WebApp application to deployment configuration
 ----
-> st add app myapp
+$ st add app myapp
 Added app 'myapp'
 ----
 
 .target Docker for deployment
 ----
-> st target docker
+$ st target docker
 Docker ... Docker version 18.09.1, build 4c52b90
 Docker host OS ... Docker for Mac
 Docker container OS ... linux
@@ -60,7 +60,7 @@ Target set to 'docker
 
 .deploy project
 ----
-> st deploy
+$ st deploy
 Deploying app 'myapp'
 ----
 
@@ -69,7 +69,7 @@ Go to http://localhost:8080/
 
 .undeploy project
 ----
-> st undeploy
+$ st undeploy
 Undeploying app 'myapp'
 ----
 
