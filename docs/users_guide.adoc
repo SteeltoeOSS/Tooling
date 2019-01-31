@@ -285,6 +285,14 @@ Pre-requisistes for using Cloud Foundry as a target:
 * https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Cloud Foundry CLI] (`cf` command)
 * an account on a Cloud Foundry instance (or derivative such as Pivotal Cloud Foundry)
 
+.Setting Cloud Foundry as the deployment target using the CLI:
+----
+$ st target cloud-foundry
+Cloud Foundry ... cf version 6.42.0+0cba12168.2019-01-10
+logged into Cloud Foundry ... yes
+Target set to 'cloud-foundry'
+----
+
 It is assumed that you are are logged into your Cloud Foundry instance and have selected an _org_ and a _target_.
 E.g., running `cf target` should look something like:
 
@@ -295,14 +303,6 @@ api version:    2.98.0
 user:           myuser
 org:            myorg
 space:          myspace
-----
-
-.Setting Cloud Foundry as the deployment target using the CLI:
-----
-$ st target cloud-foundry
-Cloud Foundry ... cf version 6.42.0+0cba12168.2019-01-10
-logged into Cloud Foundry ... yes
-Target set to 'cloud-foundry'
 ----
 
 === Docker
