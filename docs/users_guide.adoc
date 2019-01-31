@@ -134,7 +134,9 @@ Undeploying service 'myConfigServer'
 
 === Overview
 
-Services are configured using the CLI command:
+A _service_ is an application that provides a capability (such as data storage) over a network protocol.
+
+.Adding a service using the CLI command:
 ----
 $ st add <type> <name>
 ----
@@ -252,4 +254,68 @@ port:: 9411
 .Example
 ----
 $ st add zipkin myZipkinCollector
+----
+
+== Targets
+
+=== Overview
+
+A _target_ is a deployment environment into which applications and services can be run.
+
+.Setting the deployment target using the CLI:
+----
+$ st target <target>
+----
+
+Where _target_ is a known deployment target.
+
+.Deployment Targets
+|===
+| Target | Description
+
+| `cloud-foundry` | Cloud Foundry
+| `docker` | Docker
+|===
+
+
+=== Cloud Foundry
+
+Pre-requisistes for using Cloud Foundry as a target:
+
+* https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Cloud Foundry CLI] (`cf` command)
+* an account on a Cloud Foundry instance (or derivative such as Pivotal Cloud Foundry)
+
+It is assumed that you are are logged into your Cloud Foundry instance and have selected an _org_ and a _target_.
+E.g., running `cf target` should look something like:
+
+----
+$ cf target
+api endpoint:   https://api.my.cloud.foundry.instance/
+api version:    2.98.0
+user:           myuser
+org:            myorg
+space:          myspace
+----
+
+.Setting Cloud Foundry as the deployment target using the CLI:
+----
+$ st target cloud-foundry
+Cloud Foundry ... cf version 6.42.0+0cba12168.2019-01-10
+logged into Cloud Foundry ... yes
+Target set to 'cloud-foundry'
+----
+
+=== Docker
+
+Pre-requisistes for using Docker as a target:
+
+* https://docs.docker.com/install/[Docker] installed and running
+
+.Setting Docker as the deployment target using the CLI:
+----
+$ st target docker
+Docker ... Docker version 18.09.1, build 4c52b90
+Docker host OS ... Docker for Mac
+Docker container OS ... linux
+Target set to 'docker'
 ----
