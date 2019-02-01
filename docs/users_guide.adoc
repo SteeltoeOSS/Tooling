@@ -120,7 +120,7 @@ name                 requested state   instances   memory   disk   urls
 SimpleCloudFoundry   started           1/1         512M     1G     simplecloudfoundry.apps.pcfone.io
 
 #                                                                  ^-------------------------------^
-# go to this url -------------------------------------------------/ 
+# go to this url -------------------------------------------------/
 ----
 
 .undeploy SimpleCoundFoundry project
