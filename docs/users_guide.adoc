@@ -73,7 +73,7 @@ Undeploying app 'simple'
 Undeploying service 'the-config-server'
 ----
 
-==== Deploy Cloud Foudnry
+==== Deploy to Cloud Foundry
 
 .checkout Steeltoe Samples and navigate to the SimpleCloudFoundry project
 ----
