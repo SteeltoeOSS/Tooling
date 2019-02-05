@@ -21,7 +21,7 @@ This project also provides an API that can be used to integrate Steeltoe Tooling
 
 == Quick Start
 
-In this Quick Start, you'll install the Steeloe Tooling CLI and use it to deploy a WebApp project to a Docker host.
+In this Quick Start, you'll install the Steeloe Tooling CLI and use it to deploy a sample SteeltoeOSS project to Docker.
 
 .install Steeltoe Tooling CLI
 ----
@@ -34,10 +34,10 @@ $ st --version
 1.0.0-dev-00146
 ----
 
-.create a WebApp project
+.checkout Steeltoe Samples and navigate to the Simple project
 ----
-$ dotnet new webapp -o myapp
-$ cd myapp
+$ git clone https://github.com/SteeltoeOSS/Samples.git
+$ cd Samples/Configuration/src/AspDotNetCore/Simple
 ----
 
 .add Steeltoe Tooling to project
@@ -46,10 +46,13 @@ $ st init
 Initialized Steeltoe Developer Tools
 ----
 
-.add WebApp application to deployment configuration
+.add application and config-server to deployment configuration
 ----
-$ st add app myapp
-Added app 'myapp'
+$ st add app simple
+Added app 'simple'
+
+$ st add config-server the-config-server
+Added config-server service 'the-config-server'
 ----
 
 .target Docker for deployment
@@ -58,22 +61,30 @@ $ st target docker
 Docker ... Docker version 18.09.1, build 4c52b90
 Docker host OS ... Docker for Mac
 Docker container OS ... linux
-Target set to 'docker
+Target set to 'docker'
 ----
 
-.deploy project
+.deploy
 ----
 $ st deploy
-Deploying app 'myapp'
+Deploying service 'the-config-server'
+Deploying app 'simple'
 ----
 
-.open WebApp
-Go to http://localhost:8080/
+.check status, then navigate to application
+----
+st status
+the-config-server online
+simple online
+----
 
-.undeploy project
+Open http://localhost:8080/
+
+.undeploy
 ----
 $ st undeploy
-Undeploying app 'myapp'
+Undeploying app 'simple'
+Undeploying service 'the-config-server'
 ----
 
 == Further Reading

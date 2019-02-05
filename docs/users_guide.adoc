@@ -16,14 +16,14 @@ $ dotnet tool install steeltoe.cli --global --add-source https://www.myget.org/F
 $ dotnet tool uninstall --global steeltoe.cli
 ----
 
-=== Deploying DotNet Projects
+=== Quickstart
 
-==== Simple WebApp
+==== Deploy to Docker
 
-.create a WebApp project
+.checkout Steeltoe Samples and navigate to the Simple project
 ----
-$ dotnet new webapp -o myapp
-$ cd myapp
+$ git clone https://github.com/SteeltoeOSS/Samples.git
+$ cd Samples/Configuration/src/AspDotNetCore/Simple
 ----
 
 .add Steeltoe Tooling to project
@@ -32,10 +32,13 @@ $ st init
 Initialized Steeltoe Developer Tools
 ----
 
-.add WebApp application to deployment configuration
+.add application and config-server to deployment configuration
 ----
-$ st add app myapp
-Added app 'myapp'
+$ st add app simple
+Added app 'simple'
+
+$ st add config-server the-config-server
+Added config-server service 'the-config-server'
 ----
 
 .target Docker for deployment
@@ -44,29 +47,37 @@ $ st target docker
 Docker ... Docker version 18.09.1, build 4c52b90
 Docker host OS ... Docker for Mac
 Docker container OS ... linux
-Target set to 'docker
+Target set to 'docker'
 ----
 
-.deploy project
+.deploy
 ----
 $ st deploy
-Deploying app 'myapp'
+Deploying service 'the-config-server'
+Deploying app 'simple'
 ----
 
-.open WebApp
-Go to http://localhost:8080/
+.check status, then navigate to application
+----
+st status
+the-config-server online
+simple online
+----
 
-.undeploy project
+Open http://localhost:8080/
+
+.undeploy
 ----
 $ st undeploy
-Undeploying app 'myapp'
+Undeploying app 'simple'
+Undeploying service 'the-config-server'
 ----
 
-==== WebApp with a Dependent Service
+==== Deploy Cloud Foudnry
 
 .checkout Steeltoe Samples and navigate to the SimpleCloudFoundry project
 ----
-$ git clone https://github.com/SteeltoeOSS/Samples
+$ git clone https://github.com/SteeltoeOSS/Samples.git
 $ cd Samples/Configuration/src/AspDotNetCore/SimpleCloudFoundry
 ----
 
@@ -74,6 +85,15 @@ $ cd Samples/Configuration/src/AspDotNetCore/SimpleCloudFoundry
 ----
 $ st init
 Initialized Steeltoe Developer Tools
+----
+
+.add application and config-server to deployment configuration
+----
+$ st add app simple-cloud-foundry
+Added app 'simple-cloud-foundry'
+
+$ st add config-server the-config-server
+Added config-server service 'the-config-server'
 ----
 
 .target CloudFoundry for deployment
@@ -84,50 +104,41 @@ logged into Cloud Foundry ... yes
 Target set to 'cloud-foundry'
 ----
 
-.add SimpleCloudFoundry webapp to deployment configuration
-----
-$ st add app SimpleCloudFoundry
-Added app 'myapp'
-----
-
-.add myConfigServer config-server to deployment configuration
-----
-$ st add config-server myConfigServer
-Added config-server service 'myConfigServer'
-----
-
-.deploy SimpleCloudFoundry project to CloudFoundry
+.deploy
 ----
 $ st deploy
-Deploying service 'myConfigServer'
-Waiting for service 'myConfigServer' to come online (1)
-Waiting for service 'myConfigServer' to come online (2)
-Waiting for service 'myConfigServer' to come online (3)
-Waiting for service 'myConfigServer' to come online (4)
-Waiting for service 'myConfigServer' to come online (5)
+Deploying service 'the-config-server'
+Waiting for service 'the-config-server' to come online (1)
+Waiting for service 'the-config-server' to come online (2)
+Waiting for service 'the-config-server' to come online (3)
 ...
-Waiting for service 'myConfigServer' to come online (35)
-Deploying app 'SimpleCloudFoundry'
+Waiting for service 'the-config-server' to come online (35)
+Deploying app 'simple-cloud-foundry'
 ----
 
 .check status, then navigate to application
 ----
+$ st status
+the-config-server online
+simple-cloud-foundry online
+
 $ cf apps
 Getting apps in org pivot-ccheetham / space playground as ccheetham@pivotal.io...
 OK
 
-name                 requested state   instances   memory   disk   urls
-SimpleCloudFoundry   started           1/1         512M     1G     simplecloudfoundry.apps.pcfone.io
-
-#                                                                  ^-------------------------------^
-# go to this url -------------------------------------------------/
+name                   requested state   instances   memory   disk   urls
+simple-cloud-foundry   started           1/1         512M     1G     simple-cloud-foundry...
+                                                                     ^
+#                                                                   /
+# go to this url  -------------------------------------------------/
+#
 ----
 
-.undeploy SimpleCoundFoundry project
+.undeploy
 ----
 $ st undeploy
-Undeploying app 'SimpleCloudFoundry'
-Undeploying service 'myConfigServer'
+Undeploying app 'simple-cloud-foundry'
+Undeploying service 'the-config-server'
 ----
 
 == Services
