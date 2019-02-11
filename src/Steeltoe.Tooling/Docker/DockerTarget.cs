@@ -16,9 +16,9 @@ using System.Text.RegularExpressions;
 
 namespace Steeltoe.Tooling.Docker
 {
-    public class DockerTarget : Target
+    internal class DockerTarget : Target
     {
-        public DockerTarget(TargetConfiguration configuration) : base(configuration)
+        internal DockerTarget(TargetConfiguration configuration) : base(configuration)
         {
         }
 

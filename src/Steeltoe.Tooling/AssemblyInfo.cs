@@ -12,25 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using System.Runtime.CompilerServices;
 
-namespace Steeltoe.Tooling.Dummy
-{
-    internal class DummyTarget : Target
-    {
-        internal DummyTarget(TargetConfiguration configuration) : base(configuration)
-        {
-        }
-
-        public override IDriver GetDriver(Context context)
-        {
-            return new DummyDriver(Path.Combine(context.ProjectDirectory, "dummy-service-driver.db"));
-        }
-
-        public override bool IsHealthy(Context context)
-        {
-            context.Console.WriteLine("dummy tool version ... 0.0.0");
-            return true;
-        }
-    }
-}
+[assembly: InternalsVisibleTo("Steeltoe.Tooling.Test")]
