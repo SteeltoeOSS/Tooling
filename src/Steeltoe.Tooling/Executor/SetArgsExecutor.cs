@@ -14,6 +14,9 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to set the arguments of an application or service.
+    /// </summary>
     [RequiresInitialization]
     public class SetArgsExecutor : AppOrServiceExecutor
     {
@@ -23,11 +26,26 @@ namespace Steeltoe.Tooling.Executor
 
         private readonly bool _force;
 
+        /// <summary>
+        /// A workflow to set the arguments for an application or service.
+        /// </summary>
+        /// <param name="appOrServiceName">Application or service name.</param>
+        /// <param name="args">Application or service arguments.</param>
+        /// <param name="force">Force replacement of existing arguments.</param>
         public SetArgsExecutor(string appOrServiceName, string args, bool force = false)
             : this(appOrServiceName, null, args, force)
         {
         }
 
+        /// <summary>
+        /// A workflow to set the arguments for an application or service.
+        /// If <code>target</code> is null, set the application or service arguments.
+        /// If <code>target</code> is not null, set the arguments for deploying the application or service.
+        /// </summary>
+        /// <param name="appOrServiceName">Application or service name.</param>
+        /// <param name="target">Deployment target name (can be null).</param>
+        /// <param name="args">Application or service arguments.</param>
+        /// <param name="force">Force replacement of existing arguments.</param>
         public SetArgsExecutor(string appOrServiceName, string target, string args, bool force = false)
             : base(appOrServiceName)
         {
@@ -36,7 +54,10 @@ namespace Steeltoe.Tooling.Executor
             _force = force;
         }
 
-        protected override void ExecuteForApp()
+        /// <summary>
+        /// Set the application arguments.
+        /// </summary>
+        internal override void ExecuteForApp()
         {
             if (_target == null)
             {
@@ -48,7 +69,10 @@ namespace Steeltoe.Tooling.Executor
             }
         }
 
-        protected override void ExecuteForService()
+        /// <summary>
+        /// Set the service arguments.
+        /// </summary>
+        internal override void ExecuteForService()
         {
             if (_target == null)
             {

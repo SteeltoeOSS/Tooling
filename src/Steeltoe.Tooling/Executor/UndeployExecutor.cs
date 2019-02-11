@@ -14,20 +14,34 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to undeploy applications and dependent services from the current target.
+    /// </summary>
     [RequiresTarget]
     public class UndeployExecutor : GroupExecutor
     {
+        /// <summary>
+        /// Creates a workflow undeploy applications and dependent services from the current target.
+        /// </summary>
         public UndeployExecutor() : base(true)
         {
         }
 
-        protected override void ExecuteForApp(string app)
+        /// <summary>
+        /// Undeploys an application to the current target.
+        /// </summary>
+        /// <param name="app">Application name.</param>
+        internal override void ExecuteForApp(string app)
         {
             Context.Console.WriteLine($"Undeploying app '{app}'");
             new Lifecycle(Context, app).Undeploy();
         }
 
-        protected override void ExecuteForService(string service)
+        /// <summary>
+        /// Undeploys a service to the current target.
+        /// </summary>
+        /// <param name="service">Service name.</param>
+        internal override void ExecuteForService(string service)
         {
             Context.Console.WriteLine($"Undeploying service '{service}'");
             new Lifecycle(Context, service).Undeploy();

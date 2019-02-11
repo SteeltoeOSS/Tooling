@@ -16,12 +16,23 @@ using Microsoft.Extensions.Logging;
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// Represents a Steeltoe Tooling workflow.
+    /// </summary>
     public abstract class Executor
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Executor>();
 
+        /// <summary>
+        /// The context in which the workflow executes.
+        /// </summary>
         protected Context Context { get; private set; }
 
+        /// <summary>
+        /// Executes this workflow in the specified context.
+        /// </summary>
+        /// <param name="context">Context in which to run this workflow.</param>
+        /// <exception cref="ToolingException">If an error occurs running the workflow.</exception>
         public void Execute(Context context)
         {
             var type = GetType();
@@ -52,6 +63,9 @@ namespace Steeltoe.Tooling.Executor
             Execute();
         }
 
+        /// <summary>
+        /// Sub-classes implement this to perform their specific workflow.
+        /// </summary>
         protected abstract void Execute();
     }
 }

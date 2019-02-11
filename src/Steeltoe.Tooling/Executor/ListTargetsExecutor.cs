@@ -16,13 +16,20 @@ using System.Linq;
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to list available deployment targets.
+    /// </summary>
     public class ListTargetsExecutor : ListExecutor
     {
+        /// <summary>
+        /// Creates a workflow to list available deployment targets.
+        /// </summary>
+        /// <param name="verbose">if true, be verbose</param>
         public ListTargetsExecutor(bool verbose = false) : base(verbose)
         {
         }
 
-        protected void ExecuteList(Context context)
+        internal void ExecuteList(Context context)
         {
             foreach (var envName in Registry.Targets)
             {
@@ -30,7 +37,7 @@ namespace Steeltoe.Tooling.Executor
             }
         }
 
-        protected void ExecuteListVerbose(Context context)
+        internal void ExecuteListVerbose(Context context)
         {
             var targets = Registry.Targets;
             var max = targets.Max(n => n.Length);

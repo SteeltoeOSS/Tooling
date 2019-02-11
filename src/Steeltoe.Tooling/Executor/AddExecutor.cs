@@ -14,6 +14,9 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to add an application or service to the Steeltoe Tooling configuration.
+    /// </summary>
     [RequiresInitialization]
     public class AddExecutor : Executor
     {
@@ -21,18 +24,30 @@ namespace Steeltoe.Tooling.Executor
 
         private readonly string _serviceType;
 
+        /// <summary>
+        /// Create a new workflow to add an application to the Steeltoe Tooling configuration.
+        /// </summary>
+        /// <param name="appName">Application name.</param>
         public AddExecutor(string appName)
         {
             _name = appName;
             _serviceType = null;
         }
 
+        /// <summary>
+        /// Create a new workflow to add a service to the Steeltoe Tooling configuration.
+        /// </summary>
+        /// <param name="serviceName">Service name.</param>
+        /// <param name="serviceType">Service type.</param>
         public AddExecutor(string serviceName, string serviceType)
         {
             _name = serviceName;
             _serviceType = serviceType;
         }
 
+        /// <summary>
+        /// Add the application or service to the Steeltoe Tooling configuration.
+        /// </summary>
         protected override void Execute()
         {
             if (_serviceType == null)

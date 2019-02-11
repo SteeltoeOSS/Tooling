@@ -14,15 +14,29 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// An abstract class representing a workflow relating to an application or service.
+    /// </summary>
     public abstract class AppOrServiceExecutor : Executor
     {
+        /// <summary>
+        /// The name of the related application or service.
+        /// </summary>
         protected string AppOrServiceName { get; private set; }
 
+        /// <summary>
+        /// Create a workflow relating to an application or service.
+        /// </summary>
+        /// <param name="appOrServiceName"></param>
         protected AppOrServiceExecutor(string appOrServiceName)
         {
             AppOrServiceName = appOrServiceName;
         }
 
+        /// <summary>
+        /// Execute this workflow.
+        /// </summary>
+        /// <exception cref="ItemDoesNotExistException">If the application or service relating to this workflow does not exist.</exception>
         protected override void Execute()
         {
             if (Context.Configuration.GetApps().Contains(AppOrServiceName))
@@ -39,8 +53,8 @@ namespace Steeltoe.Tooling.Executor
             }
         }
 
-        protected abstract void ExecuteForApp();
+        internal abstract void ExecuteForApp();
 
-        protected abstract void ExecuteForService();
+        internal abstract void ExecuteForService();
     }
 }

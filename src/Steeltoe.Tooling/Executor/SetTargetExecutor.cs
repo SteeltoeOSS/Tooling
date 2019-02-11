@@ -14,6 +14,9 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to set the current deployment target.
+    /// </summary>
     [RequiresInitialization]
     public class SetTargetExecutor : Executor
     {
@@ -21,12 +24,21 @@ namespace Steeltoe.Tooling.Executor
 
         private readonly bool _force;
 
+        /// <summary>
+        /// Create a workflow to set the current deployment target.
+        /// </summary>
+        /// <param name="target">Deployment target name.</param>
+        /// <param name="force">Overwrite an existing deployment target.</param>
         public SetTargetExecutor(string target, bool force = false)
         {
             _target = target;
             _force = force;
         }
 
+        /// <summary>
+        /// Set the current deployment target.
+        /// </summary>
+        /// <exception cref="ToolingException">If an error occurs setting the deployment target.</exception>
         protected override void Execute()
         {
             Target tgt = Registry.GetTarget(_target);

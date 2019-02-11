@@ -16,18 +16,33 @@ using System.IO;
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to initialize the Steeltoe Tooling configuration.
+    /// </summary>
     public class InitializationExecutor : Executor
     {
         private readonly string _path;
 
         private readonly bool _force;
 
+        /// <summary>
+        /// Create a workflow to initialize the Steeltoe Tooling configuration file.
+        /// If the <paramref name="path"/> is null, the default path is used.
+        /// If the <paramref name="path"/> is a directory, the path is the directory joined with the default file name.
+        /// </summary>
+        /// <param name="path">Path to the Steeltoe Configuration file.</param>
+        /// <param name="force">Forces the overwriting of an existing configuration file.</param>
+        /// <seealso cref="ConfigurationFile"/>.
         public InitializationExecutor(string path = null, bool force = false)
         {
             _path = path;
             _force = force;
         }
 
+        /// <summary>
+        /// Initialize the Steeltoe Configuration file.
+        /// </summary>
+        /// <exception cref="ToolingException">If an error occurs when initialization the Steeltoe Configuration file.</exception>
         protected override void Execute()
         {
             var path = _path == null

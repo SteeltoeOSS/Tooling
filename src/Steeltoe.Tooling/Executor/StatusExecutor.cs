@@ -14,20 +14,26 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to display the deployment status of applications and dependent services.
+    /// </summary>
     [RequiresTarget]
     public class StatusExecutor : GroupExecutor
     {
+        /// <summary>
+        /// Create a workflow to display the deployment status of applications and dependent services.
+        /// </summary>
         public StatusExecutor() : base(false)
         {
         }
 
-        protected override void ExecuteForApp(string app)
+        internal override void ExecuteForApp(string app)
         {
             var status = Context.Driver.GetAppStatus(app);
             Context.Console.WriteLine($"{app} {status.ToString().ToLower()}");
         }
 
-        protected override void ExecuteForService(string service)
+        internal override void ExecuteForService(string service)
         {
             var status = Context.Driver.GetServiceStatus(service);
             Context.Console.WriteLine($"{service} {status.ToString().ToLower()}");

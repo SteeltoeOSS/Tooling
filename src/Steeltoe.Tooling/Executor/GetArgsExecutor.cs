@@ -14,24 +14,34 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to get the arguments of an application or service.
+    /// </summary>
     [RequiresInitialization]
     public class GetArgsExecutor : AppOrServiceExecutor
     {
         private readonly string _target;
 
+        /// <summary>
+        /// A workflow to display the arguments for an application or service.
+        /// If <code>target</code> is null, display the application or service arguments.
+        /// If <code>target</code> is not null, display the arguments for deploying the application or service.
+        /// </summary>
+        /// <param name="appOrServiceName">Application or service name.</param>
+        /// <param name="target">Deployment target name (can be null).</param>
         public GetArgsExecutor(string appOrServiceName, string target = null) : base(appOrServiceName)
         {
             _target = target;
         }
 
-        protected override void ExecuteForApp()
+        internal override void ExecuteForApp()
         {
             ShowArgs(_target == null
                 ? Context.Configuration.GetAppArgs(AppOrServiceName)
                 : Context.Configuration.GetAppArgs(AppOrServiceName, _target));
         }
 
-        protected override void ExecuteForService()
+        internal override void ExecuteForService()
         {
             ShowArgs(_target == null
                 ? Context.Configuration.GetServiceArgs(AppOrServiceName)
