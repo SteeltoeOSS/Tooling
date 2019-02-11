@@ -29,15 +29,11 @@ Subsequent goals include:
 
 In this Quick Start, you'll install the Steeloe Tooling CLI and use it to deploy a sample SteeltoeOSS project to Docker.
 
-.install Steeltoe Tooling CLI
+.install Steeltoe Tooling CLI and check version
 ----
-$ dotnet tool install steeltoe.cli --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-dev-00146
-----
-
-.check version
-----
+$ dotnet tool install --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-m1 steeltoe.cli
 $ st --version
-1.0.0-dev-00146
+1.0.0-m1
 ----
 
 .checkout Steeltoe Samples and navigate to the Simple project

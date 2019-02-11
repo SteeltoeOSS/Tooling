@@ -8,7 +8,9 @@
 
 .install
 ----
-$ dotnet tool install steeltoe.cli --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-dev-00146
+$ dotnet tool install --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-m1 steeltoe.cli
+$ st --version
+1.0.0-m1
 ----
 
 .uninstall
