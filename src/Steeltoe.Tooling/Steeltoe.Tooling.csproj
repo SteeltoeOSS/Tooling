@@ -1,14 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\config\versions.props" />
   <PropertyGroup>
-    <ToolCommandName>steeltoe</ToolCommandName>
-    <PackAsTool>True</PackAsTool>
-    <OutputType>Exe</OutputType>
+    <Title>Steeltoe Developer Tooling Library</Title>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Content Include="steeltoe.rc/**/*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

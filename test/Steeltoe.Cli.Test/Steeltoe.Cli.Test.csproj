@@ -5,6 +5,8 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="LightBDD.XUnit2" Version="$(LightBDDXUnit2Version)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftExtensionsVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsVersion)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(TestSdkVersion)" />
@@ -15,6 +17,7 @@
     <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Steeltoe.Cli\Steeltoe.Cli.csproj" />
     <ProjectReference Include="..\..\src\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
   </ItemGroup>
   <Target Name="SpicNSpan" AfterTargets="Clean">

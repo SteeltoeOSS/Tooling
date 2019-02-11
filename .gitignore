@@ -265,3 +265,12 @@ __pycache__/
 
 # vi/vim
 \.*\.sw[A-z]
+
+# test files
+steeltoe.yml
+manifest-steeltoe.yml
+\.steeltoe.dummies
+dummy-service-backend.db
+
+# OS X Finder state
+\.DS_Store

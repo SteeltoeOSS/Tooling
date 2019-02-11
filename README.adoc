@@ -1,0 +1,94 @@
+:branch: dev
+:uri-build-windows: https://ci.appveyor.com/project/steeltoe/tooling/branch/{branch}
+:uri-status-windows: https://ci.appveyor.com/api/projects/status/bpwhsnue8j7iiwpp/branch/{branch}?svg=true
+:uri-build-linuxosx: https://travis-ci.org/SteeltoeOSS/Tooling
+:uri-status-linuxosx: {uri-build-linuxosx}.svg?branch={branch}
+
+= Steeltoe Tooling
+:toc:
+:toclevels: 2
+
+Windows    image:{uri-status-windows}["Windows Build Status", link={uri-build-windows}]
+
+Linux/OS X image:{uri-status-linuxosx}["Linux/OS X Build Status", link={uri-build-linuxosx}]
+
+== About
+
+Tools for Steeltoe Developers.
+
+The goal of this project is to provide tools to assist Steeltoe Developers.
+The current focus is an API and CLI to help with deploying Steeltoe Applications and dependent services to Cloud Foundry and Docker.
+
+Subsequent goals include:
+
+* a Visual Studio plugin leveraging the API
+* plugins for other IDES, such as Visual Studio Code and JetBrains Riser
+* Visual Studio/DotNET templates
+
+== Quick Start
+
+In this Quick Start, you'll install the Steeloe Tooling CLI and use it to deploy a sample SteeltoeOSS project to Docker.
+
+.install Steeltoe Tooling CLI and check version
+----
+$ dotnet tool install --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-m1 steeltoe.cli
+$ st --version
+1.0.0-m1
+----
+
+.checkout Steeltoe Samples and navigate to the Simple project
+----
+$ git clone https://github.com/SteeltoeOSS/Samples.git
+$ cd Samples/Configuration/src/AspDotNetCore/Simple
+----
+
+.add Steeltoe Tooling to project
+----
+$ st init
+Initialized Steeltoe Developer Tools
+----
+
+.add application and config-server to deployment configuration
+----
+$ st add app simple
+Added app 'simple'
+
+$ st add config-server the-config-server
+Added config-server service 'the-config-server'
+----
+
+.target Docker for deployment
+----
+$ st target docker
+Docker ... Docker version 18.09.1, build 4c52b90
+Docker host OS ... Docker for Mac
+Docker container OS ... linux
+Target set to 'docker'
+----
+
+.deploy
+----
+$ st deploy
+Deploying service 'the-config-server'
+Deploying app 'simple'
+----
+
+.check status, then navigate to application
+----
+st status
+the-config-server online
+simple online
+----
+
+Open http://localhost:8080/
+
+.undeploy
+----
+$ st undeploy
+Undeploying app 'simple'
+Undeploying service 'the-config-server'
+----
+
+== Further Reading
+
+See link:docs/[Steeltoe Tooling Documentation] for more user and developer information.

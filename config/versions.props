@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <LightBDDXUnit2Version>2.4.3</LightBDDXUnit2Version>
+    <McMasterExtensionsCommandLineUtilsVersion>2.2.5</McMasterExtensionsCommandLineUtilsVersion>
+    <MicrosoftExtensionsVersion>2.1.1</MicrosoftExtensionsVersion>
+    <ShouldlyVersion>3.0.0</ShouldlyVersion>
+    <TestSdkVersion>15.7.2</TestSdkVersion>
+    <XunitStudioVersion>2.3.1</XunitStudioVersion>
+    <XunitVersion>2.3.1</XunitVersion>
+    <YamlDotNetVersion>5.0.1</YamlDotNetVersion>
+  </PropertyGroup>
+</Project>

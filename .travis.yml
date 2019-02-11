@@ -11,9 +11,10 @@ os:
   - osx
 branches:
   only:
-    - master
+    - dev
 script:
   - dotnet --info
   - dotnet build
   - dotnet test test/Steeltoe.Tooling.Test
+  - dotnet test test/Steeltoe.Cli.Test
   - dotnet pack

@@ -1,0 +1,83 @@
+# Copyright 2018 the original author or authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+serviceTypes:
+  config-server:
+    description: Cloud Foundry Config Server
+    port: 8888
+  eureka-server:
+    description: Netflix Eureka Server
+    port: 8761
+  hystrix-dashboard:
+    description: Netflix Hystrix Dashboard
+    port: 7979
+  mssql:
+    description: Microsoft SQL Server
+    port: 1433
+  mysql:
+    description: MySQL Server
+    port: 3306
+  redis:
+    description: Redis In-Memory Datastore
+    port: 6379
+  zipkin:
+    description: Zipkin Tracing Collector and UI
+    port: 9411
+
+targets:
+  cloud-foundry:
+    description: Cloud Foundry
+    serviceTypeProperties:
+      dummy-svc:
+        service: dummy-server
+        plan: dummy-plan
+      config-server:
+        service: p-config-server
+        plan: standard
+      eureka-server:
+        service: p-service-registry
+        plan: standard
+      hystrix-dashboard:
+        service: p-circuit-breaker-dashboard
+        plan: standard
+      mysql:
+        service: p-mysql
+        plan: 100mb
+      redis:
+        service: p-redis
+        plan: shared-vm
+  docker:
+    description: Docker
+    properties:
+      dotnetRuntimeImage: steeltoeoss/dotnet-runtime:2.1
+    serviceTypeProperties:
+      dummy-svc:
+        image: dummy-server:0.1
+        image-dummyos: dummy-server:for_dummyos
+      config-server:
+        image: steeltoeoss/config-server:2.0.1
+      eureka-server:
+        image: steeltoeoss/eureka-server:2.0.1
+      hystrix-dashboard:
+        image: steeltoeoss/hystrix-dashboard:1.4.5
+      mssql:
+        image-linux: steeltoeoss/mssql-amd64-linux:2017-CU11
+        image-windows: steeltoeoss/mssql-amd64-windows:2017-CU1
+      mysql:
+        image: steeltoeoss/mysql:5.7.24
+      redis:
+        image-linux: steeltoeoss/redis-amd64-linux:4.0.11
+        image-windows: steeltoeoss/redis-amd64-windows:3.0.504
+      zipkin:
+        image: steeltoeoss/zipkin:2.11.6

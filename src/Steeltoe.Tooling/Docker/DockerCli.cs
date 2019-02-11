@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+﻿// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using McMaster.Extensions.CommandLineUtils;
-
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Docker
 {
-    internal abstract class DotnetSteeltoeCommand
+    internal class DockerCli : Cli
     {
-        protected virtual int OnExecute(CommandLineApplication app)
+        internal DockerCli(Shell shell) : base("docker", shell)
         {
-            return 0;
         }
     }
 }
