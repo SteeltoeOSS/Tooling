@@ -30,5 +30,5 @@ deploy:
   api_key:
     secure: 246ApObnMYYvzDo9Ki72CxxuKfuoqYbrbUK2HLevGIGHXYY6f0OkAdE3EWCwNJ7g
   on:
-    branch: dev
-    appveyor_repo_tag: false
+    branch: update-m1
+    appveyor_repo_tag: true
