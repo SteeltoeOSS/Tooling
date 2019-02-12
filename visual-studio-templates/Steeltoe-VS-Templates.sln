@@ -12,6 +12,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Win-Framework-Base", "Win-Framework-Base", "{69A06309-A3FE-477E-BF12-FC8F5C84BC01}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linux-Core-Base", "Linux-Core-Base", "{A478D85F-5A8A-4B1E-BBD7-ABD997FBFFCE}"
+	ProjectSection(SolutionItems) = preProject
+		linux-core-base\README.md = linux-core-base\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Win-Core-Base", "Win-Core-Base", "{3DD12969-4EE9-4F9B-A5E2-55C81A53A05D}"
 EndProject

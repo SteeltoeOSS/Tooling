@@ -8,8 +8,8 @@
         <License>Resources\LICENSE.txt</License>
         <GettingStartedGuide>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/readme.md</GettingStartedGuide>
         <ReleaseNotes>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/release-notes.txt</ReleaseNotes>
-        <Icon>Resources\CloudFoundryLogo-32x32.png</Icon>
-        <PreviewImage>Resources\SteeltoeLogo-50x50.png</PreviewImage>
+        <Icon>Resources\CloudFoundryLogo-128x128.png</Icon>
+        <PreviewImage>Resources\SteeltoeLogo-128x128.png</PreviewImage>
         <Tags>asp-net-core;microservices;project-template;restful-api;steeltoe;cloud-native;dotnet;cloud-foundry</Tags>
     </Metadata>
     <Installation>

@@ -32,4 +32,4 @@ When using the Cloud Foundry templates that target .NET Framework, you will need
 
 ## More Info
 
-To learn more about Steeltoe, go to the site (https://steeltoe.io)[https://steeltoe.io].
+To learn more about Steeltoe, head over to the site (https://steeltoe.io)[https://steeltoe.io].

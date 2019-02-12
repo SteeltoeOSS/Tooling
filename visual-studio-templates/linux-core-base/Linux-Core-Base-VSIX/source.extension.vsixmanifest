@@ -8,7 +8,7 @@
         <License>Resources\LICENSE.txt</License>
         <GettingStartedGuide>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/readme.md</GettingStartedGuide>
         <ReleaseNotes>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/release-notes.txt</ReleaseNotes>
-        <Icon>Resources\SteeltoeLogo-32x32.png</Icon>
+        <Icon>Resources\SteeltoeLogo-128x128.png</Icon>
         <Tags>asp-net-core;microservices;project-template;restful;restful-api;steeltoe;linux;cloud-native;dotnet</Tags>
     </Metadata>
     <Installation>
