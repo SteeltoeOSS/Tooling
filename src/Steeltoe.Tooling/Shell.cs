@@ -28,6 +28,9 @@ namespace Steeltoe.Tooling
         /// <returns></returns>
         public abstract Result Run(string command, string args = null, string workingDirectory = null);
 
+        /// <summary>
+        /// A struct representing the result of shell command.
+        /// </summary>
         public struct Result
         {
             /// <summary>

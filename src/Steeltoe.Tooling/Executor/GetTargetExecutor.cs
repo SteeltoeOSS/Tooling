@@ -14,9 +14,15 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to display the current deployment target.
+    /// </summary>
     [RequiresTarget]
     public class GetTargetExecutor : Executor
     {
+        /// <summary>
+        /// Display the current deployment target.
+        /// </summary>
         protected override void Execute()
         {
             Context.Console.WriteLine(Context.Configuration.Target);

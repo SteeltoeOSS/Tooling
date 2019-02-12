@@ -19,7 +19,7 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.Dummy
 {
-    public class DummyServiceDatabase
+    internal class DummyServiceDatabase
     {
         public List<string> Apps { get; set; } = new List<string>();
 

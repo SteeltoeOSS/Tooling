@@ -17,7 +17,7 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.CloudFoundry
 {
-    public class CloudFoundryManifest
+    internal class CloudFoundryManifest
     {
         [YamlMember(Alias = "applications")]
         public List<Application> Applications { get; set; }= new List<Application>();

@@ -14,20 +14,27 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to remove an application or service from the Steeltoe Tooling configuration.
+    /// </summary>
     [RequiresInitialization]
     public class RemoveExecutor : AppOrServiceExecutor
     {
+        /// <summary>
+        /// Create a new workflow to remove an application or service from the Steeltoe Tooling configuration.
+        /// </summary>
+        /// <param name="appOrServiceName">Application or service name.</param>
         public RemoveExecutor(string appOrServiceName) : base(appOrServiceName)
         {
         }
 
-        protected override void ExecuteForApp()
+        internal override void ExecuteForApp()
         {
             Context.Configuration.RemoveApp(AppOrServiceName);
             Context.Console.WriteLine($"Removed app '{AppOrServiceName}'");
         }
 
-        protected override void ExecuteForService()
+        internal override void ExecuteForService()
         {
             var svcInfo = Context.Configuration.GetServiceInfo(AppOrServiceName);
             Context.Configuration.RemoveService(AppOrServiceName);

@@ -4,17 +4,17 @@ using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.CloudFoundry
 {
-    public class CloudFoundryManifestFile
+    internal class CloudFoundryManifestFile
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<CloudFoundryManifestFile>();
 
-        public const string DefaultFileName = "manifest-steeltoe.yml";
+        internal const string DefaultFileName = "manifest-steeltoe.yml";
 
-        public CloudFoundryManifest CloudFoundryManifest { get; private set; }
+        internal CloudFoundryManifest CloudFoundryManifest { get; private set; }
 
-        public string File { get; }
+        internal string File { get; }
 
-        public CloudFoundryManifestFile(string file)
+        internal CloudFoundryManifestFile(string file)
         {
             File = file;
             if (Exists())
@@ -27,7 +27,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             }
         }
 
-        public void Load()
+        private void Load()
         {
             Logger.LogDebug($"loading cloud foundry manifest from {File}");
             var deserializer = new DeserializerBuilder().Build();
@@ -37,7 +37,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             }
         }
 
-        public void Store()
+        internal void Store()
         {
             Logger.LogDebug($"storing cloud foundry manifest to {File}");
             var serializer = new SerializerBuilder().Build();
@@ -48,7 +48,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             }
         }
 
-        public bool Exists()
+        internal bool Exists()
         {
             return System.IO.File.Exists(File);
         }

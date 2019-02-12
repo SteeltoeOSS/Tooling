@@ -16,6 +16,9 @@ using System;
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// An attribute that indicates a workflow that needs a configured deployment target.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresTargetAttribute: RequiresInitializationAttribute
     {

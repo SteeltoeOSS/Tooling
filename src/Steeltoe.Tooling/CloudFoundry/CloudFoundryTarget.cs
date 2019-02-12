@@ -14,9 +14,9 @@
 
 namespace Steeltoe.Tooling.CloudFoundry
 {
-    public class CloudFoundryTarget : Target
+    internal class CloudFoundryTarget : Target
     {
-        public CloudFoundryTarget(TargetConfiguration configuration) : base(configuration)
+        internal CloudFoundryTarget(TargetConfiguration configuration) : base(configuration)
         {
         }
 

@@ -16,6 +16,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Steeltoe.Tooling
 {
+    /// <summary>
+    /// A static class containing Steeltoe Tooling logging configuration.
+    /// </summary>
     public static class Logging
     {
         /// <summary>

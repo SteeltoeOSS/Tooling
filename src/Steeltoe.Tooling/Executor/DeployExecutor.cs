@@ -14,14 +14,20 @@
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to deploy applications and dependent services to the current target.
+    /// </summary>
     [RequiresTarget]
     public class DeployExecutor : GroupExecutor
     {
+        /// <summary>
+        /// Create a new workflow to deploy applications and dependent services to the current target.
+        /// </summary>
         public DeployExecutor() : base(false)
         {
         }
 
-        protected override void ExecuteForApp(string app)
+        internal override void ExecuteForApp(string app)
         {
             foreach (var service in Context.Configuration.GetServices())
             {
@@ -40,7 +46,7 @@ namespace Steeltoe.Tooling.Executor
             new Lifecycle(Context, app).Deploy();
         }
 
-        protected override void ExecuteForService(string service)
+        internal override void ExecuteForService(string service)
         {
             Context.Console.WriteLine($"Deploying service '{service}'");
             new Lifecycle(Context, service).Deploy();

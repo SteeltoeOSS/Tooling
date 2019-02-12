@@ -16,13 +16,20 @@ using System.Linq;
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to list available service types.
+    /// </summary>
     public class ListServiceTypesExecutor : ListExecutor
     {
+        /// <summary>
+        /// Creates a workflow to list available service types.
+        /// </summary>
+        /// <param name="verbose">if true, be verbose</param>
         public ListServiceTypesExecutor(bool verbose = false) : base(verbose)
         {
         }
 
-        protected void ExecuteList(Context context)
+        internal void ExecuteList(Context context)
         {
             foreach (var svcType in Registry.GetServiceTypes())
             {
@@ -30,7 +37,7 @@ namespace Steeltoe.Tooling.Executor
             }
         }
 
-        protected void ExecuteListVerbose(Context context)
+        internal void ExecuteListVerbose(Context context)
         {
             var svcTypeNames = Registry.GetServiceTypes();
             var max = svcTypeNames.Max(n => n.Length);

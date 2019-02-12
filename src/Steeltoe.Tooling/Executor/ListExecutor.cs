@@ -16,6 +16,9 @@ using System.Linq;
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// A workflow to display the applications and dependent services of the Steeltoe Tooling configuration.
+    /// </summary>
     [RequiresInitialization]
     public class ListExecutor : GroupExecutor
     {
@@ -23,11 +26,18 @@ namespace Steeltoe.Tooling.Executor
 
         private string _format;
 
+        /// <summary>
+        /// Create a workflow to display the applications and dependent services of the Steeltoe Tooling configuration.
+        /// </summary>
+        /// <param name="verbose"></param>
         public ListExecutor(bool verbose = false) : base(false)
         {
             _verbose = verbose;
         }
 
+        /// <summary>
+        /// Display the applications and dependent services of the Steeltoe Tooling configuration.
+        /// </summary>
         protected override void Execute()
         {
             var services = Context.Configuration.GetServices();
@@ -43,12 +53,12 @@ namespace Steeltoe.Tooling.Executor
             base.Execute();
         }
 
-        protected override void ExecuteForApp(string app)
+        internal override void ExecuteForApp(string app)
         {
             Context.Console.WriteLine(_format, app, "", "app");
         }
 
-        protected override void ExecuteForService(string service)
+        internal override void ExecuteForService(string service)
         {
             var svcInfo = Context.Configuration.GetServiceInfo(service);
             var svcTypeInfo = Registry.GetServiceTypeInfo(svcInfo.ServiceType);

@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 
 namespace Steeltoe.Tooling.Docker
 {
-    public class DockerDriver : IDriver
+    internal class DockerDriver : IDriver
     {
         private const string Localhost = "127.0.0.1";
 

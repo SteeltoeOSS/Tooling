@@ -19,6 +19,9 @@ namespace Steeltoe.Tooling
     /// </summary>
     public class LifecycleException : ToolingException
     {
+        /// <summary>
+        /// The status that causes this exception.
+        /// </summary>
         public Lifecycle.Status Status { get; }
 
         /// <summary>

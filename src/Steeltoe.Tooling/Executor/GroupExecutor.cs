@@ -16,15 +16,25 @@ using System;
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// An abstract workflow operating on a group of applications and dependent services.
+    /// </summary>
     public abstract class GroupExecutor : Executor
     {
         private readonly bool _appsFirst;
 
+        /// <summary>
+        /// Create a workflow to operate on a group of applications and dependent services.
+        /// </summary>
+        /// <param name="appsFirst">Whether applications or services are operated on first.</param>
         protected GroupExecutor(Boolean appsFirst)
         {
             _appsFirst = appsFirst;
         }
 
+        /// <summary>
+        /// Execute this workflow on the applications and dependent services.
+        /// </summary>
         protected override void Execute()
         {
             var services = Context.Configuration.GetServices();
@@ -56,8 +66,8 @@ namespace Steeltoe.Tooling.Executor
             }
         }
 
-        protected abstract void ExecuteForApp(string app);
+        internal abstract void ExecuteForApp(string app);
 
-        protected abstract void ExecuteForService(string service);
+        internal abstract void ExecuteForService(string service);
     }
 }

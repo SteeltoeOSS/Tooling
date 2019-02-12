@@ -16,6 +16,9 @@ using System;
 
 namespace Steeltoe.Tooling.Executor
 {
+    /// <summary>
+    /// An attribute indicating a workflow that needs an existing Steeltoe Configuration.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresInitializationAttribute : Attribute
     {

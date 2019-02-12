@@ -16,9 +16,9 @@ using System.IO;
 
 namespace Steeltoe.Tooling.Dummy
 {
-    public class DummyTarget : Target
+    internal class DummyTarget : Target
     {
-        public DummyTarget(TargetConfiguration configuration) : base(configuration)
+        internal DummyTarget(TargetConfiguration configuration) : base(configuration)
         {
         }
 
