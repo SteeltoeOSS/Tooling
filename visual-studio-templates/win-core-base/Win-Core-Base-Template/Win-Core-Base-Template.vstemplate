@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Steeltoe 2.1 Microservice (.NET Core - Windows)</Name>
+    <Description>Project template for creating a RESTful api microserivce that can be deployed to a variety of platforms. The project targets .NET Core on Windows and uses Steeltoe cloud native libraries.</Description>
+		<Icon>SteeltoeLogo-32x32.png</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>1000</SortOrder>
+    <TemplateID>c2436613-4f46-4723-8d1f-9ca8c4d2f562</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Steeltoe-Base-Template</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="ProjectTemplate.csproj" ReplaceParameters="true">
+			<ProjectItem ReplaceParameters="true" TargetFileName="Controllers\ValuesController.cs" OpenInEditor="true">ValuesController.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+
+			<ProjectItem ReplaceParameters="false" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

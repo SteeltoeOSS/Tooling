@@ -6,11 +6,125 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1CAB5E59-0F41-4F5C-AD8D-672907B8E2A8}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		release-notes.txt = release-notes.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Win-Framework-Base", "Win-Framework-Base", "{69A06309-A3FE-477E-BF12-FC8F5C84BC01}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linux-Core-Base", "Linux-Core-Base", "{A478D85F-5A8A-4B1E-BBD7-ABD997FBFFCE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Win-Core-Base", "Win-Core-Base", "{3DD12969-4EE9-4F9B-A5E2-55C81A53A05D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linux-Core-CloudFoundry", "Linux-Core-CloudFoundry", "{90B3BE8F-4926-41EE-9E74-99BB3F245E0B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Win-Framework-CloudFoundry", "Win-Framework-CloudFoundry", "{8006CD8B-3DBE-4413-8BA7-ED00568ACE88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linux-Core-Base-Template", "linux-core-base\Linux-Core-Base-Template\Linux-Core-Base-Template.csproj", "{0AA4888D-0D95-4B58-A0AB-0E9BE0E1A79C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linux-Core-Base-VSIX", "linux-core-base\Linux-Core-Base-VSIX\Linux-Core-Base-VSIX.csproj", "{B033F8EA-7D82-461C-B489-1D46AA9F8704}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Win-Core-CloudFoundry", "Win-Core-CloudFoundry", "{BD1AE9B6-8E44-4EB3-ADBC-671EDADABBAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win-Core-Base-Template", "win-core-base\Win-Core-Base-Template\Win-Core-Base-Template.csproj", "{15432380-061B-4CF3-85E5-D43F1ACEE7C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win-Core-Base-VSIX", "win-core-base\Win-Core-Base-VSIX\Win-Core-Base-VSIX.csproj", "{019F801D-6DD9-4EDC-91AD-99F569CF7BCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win-Framework-Base-Template", "win-framework-base\Win-Framework-Base-Template\Win-Framework-Base-Template.csproj", "{B1C973C2-6DC3-471E-81C7-ED079F32FD75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win-Framework-Base-VSIX", "win-framework-base\Win-Framework-Base-VSIX\Win-Framework-Base-VSIX.csproj", "{FDE74D28-A04F-4478-9B63-0F51F872CCF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linux-Core-CloudFoundry-VSIX", "linux-core-cloudfoundry\Linux-Core-CloudFoundry-VSIX\Linux-Core-CloudFoundry-VSIX.csproj", "{17508E49-BB8D-424A-9EAB-40F6988ED62F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win-Core-CloudFoundry-Template", "win-core-cloudfoundry\Win-Core-CloudFoundry-Template\Win-Core-CloudFoundry-Template.csproj", "{91EEDCF0-E59D-4DC1-9B3D-E150FC7EBFD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win-Core-CloudFoundry-VSIX", "win-core-cloudfoundry\Win-Core-CloudFoundry-VSIX\Win-Core-CloudFoundry-VSIX.csproj", "{2B5DF7C9-5D19-4F94-A857-91393E13061A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win-Framework-CloudFoundry-VSIX", "win-framework-cloudfoundry\Win-Framework-CloudFoundry-VSIX\Win-Framework-CloudFoundry-VSIX.csproj", "{E22D04C2-5115-43B0-8CD5-82DAB7B72567}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linux-Core-CloudFoundry-Template", "linux-core-cloudfoundry\Linux-Core-CloudFoundry-Template\Linux-Core-CloudFoundry-Template.csproj", "{1B17C417-52A4-46E1-BD8A-FBD5BD3BDF6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win-Framework-CloudFoundry-Template", "win-framework-cloudfoundry\Win-Framework-CloudFoundry-Template\Win-Framework-CloudFoundry-Template.csproj", "{610AA0A1-CF71-4056-93B0-A909CC684213}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "All-Templates-VSIX", "All-Templates-VSIX", "{E8A8DD3B-A2D9-4353-B1F3-94D04E106B29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App-Templates-VSIX", "all-templates-vsix\App-Templates-VSIX\App-Templates-VSIX.csproj", "{FE654B05-DAB9-4E7D-A430-418CCF521A71}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0AA4888D-0D95-4B58-A0AB-0E9BE0E1A79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA4888D-0D95-4B58-A0AB-0E9BE0E1A79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA4888D-0D95-4B58-A0AB-0E9BE0E1A79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA4888D-0D95-4B58-A0AB-0E9BE0E1A79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B033F8EA-7D82-461C-B489-1D46AA9F8704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B033F8EA-7D82-461C-B489-1D46AA9F8704}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B033F8EA-7D82-461C-B489-1D46AA9F8704}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B033F8EA-7D82-461C-B489-1D46AA9F8704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15432380-061B-4CF3-85E5-D43F1ACEE7C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15432380-061B-4CF3-85E5-D43F1ACEE7C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15432380-061B-4CF3-85E5-D43F1ACEE7C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15432380-061B-4CF3-85E5-D43F1ACEE7C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{019F801D-6DD9-4EDC-91AD-99F569CF7BCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{019F801D-6DD9-4EDC-91AD-99F569CF7BCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{019F801D-6DD9-4EDC-91AD-99F569CF7BCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{019F801D-6DD9-4EDC-91AD-99F569CF7BCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1C973C2-6DC3-471E-81C7-ED079F32FD75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1C973C2-6DC3-471E-81C7-ED079F32FD75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1C973C2-6DC3-471E-81C7-ED079F32FD75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1C973C2-6DC3-471E-81C7-ED079F32FD75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDE74D28-A04F-4478-9B63-0F51F872CCF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE74D28-A04F-4478-9B63-0F51F872CCF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE74D28-A04F-4478-9B63-0F51F872CCF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE74D28-A04F-4478-9B63-0F51F872CCF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17508E49-BB8D-424A-9EAB-40F6988ED62F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17508E49-BB8D-424A-9EAB-40F6988ED62F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17508E49-BB8D-424A-9EAB-40F6988ED62F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17508E49-BB8D-424A-9EAB-40F6988ED62F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91EEDCF0-E59D-4DC1-9B3D-E150FC7EBFD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91EEDCF0-E59D-4DC1-9B3D-E150FC7EBFD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91EEDCF0-E59D-4DC1-9B3D-E150FC7EBFD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91EEDCF0-E59D-4DC1-9B3D-E150FC7EBFD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B5DF7C9-5D19-4F94-A857-91393E13061A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B5DF7C9-5D19-4F94-A857-91393E13061A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B5DF7C9-5D19-4F94-A857-91393E13061A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B5DF7C9-5D19-4F94-A857-91393E13061A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E22D04C2-5115-43B0-8CD5-82DAB7B72567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E22D04C2-5115-43B0-8CD5-82DAB7B72567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E22D04C2-5115-43B0-8CD5-82DAB7B72567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E22D04C2-5115-43B0-8CD5-82DAB7B72567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B17C417-52A4-46E1-BD8A-FBD5BD3BDF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B17C417-52A4-46E1-BD8A-FBD5BD3BDF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B17C417-52A4-46E1-BD8A-FBD5BD3BDF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B17C417-52A4-46E1-BD8A-FBD5BD3BDF6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{610AA0A1-CF71-4056-93B0-A909CC684213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{610AA0A1-CF71-4056-93B0-A909CC684213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{610AA0A1-CF71-4056-93B0-A909CC684213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{610AA0A1-CF71-4056-93B0-A909CC684213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE654B05-DAB9-4E7D-A430-418CCF521A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE654B05-DAB9-4E7D-A430-418CCF521A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE654B05-DAB9-4E7D-A430-418CCF521A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE654B05-DAB9-4E7D-A430-418CCF521A71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0AA4888D-0D95-4B58-A0AB-0E9BE0E1A79C} = {A478D85F-5A8A-4B1E-BBD7-ABD997FBFFCE}
+		{B033F8EA-7D82-461C-B489-1D46AA9F8704} = {A478D85F-5A8A-4B1E-BBD7-ABD997FBFFCE}
+		{15432380-061B-4CF3-85E5-D43F1ACEE7C4} = {3DD12969-4EE9-4F9B-A5E2-55C81A53A05D}
+		{019F801D-6DD9-4EDC-91AD-99F569CF7BCD} = {3DD12969-4EE9-4F9B-A5E2-55C81A53A05D}
+		{B1C973C2-6DC3-471E-81C7-ED079F32FD75} = {69A06309-A3FE-477E-BF12-FC8F5C84BC01}
+		{FDE74D28-A04F-4478-9B63-0F51F872CCF7} = {69A06309-A3FE-477E-BF12-FC8F5C84BC01}
+		{17508E49-BB8D-424A-9EAB-40F6988ED62F} = {90B3BE8F-4926-41EE-9E74-99BB3F245E0B}
+		{91EEDCF0-E59D-4DC1-9B3D-E150FC7EBFD2} = {BD1AE9B6-8E44-4EB3-ADBC-671EDADABBAC}
+		{2B5DF7C9-5D19-4F94-A857-91393E13061A} = {BD1AE9B6-8E44-4EB3-ADBC-671EDADABBAC}
+		{E22D04C2-5115-43B0-8CD5-82DAB7B72567} = {8006CD8B-3DBE-4413-8BA7-ED00568ACE88}
+		{1B17C417-52A4-46E1-BD8A-FBD5BD3BDF6B} = {90B3BE8F-4926-41EE-9E74-99BB3F245E0B}
+		{610AA0A1-CF71-4056-93B0-A909CC684213} = {8006CD8B-3DBE-4413-8BA7-ED00568ACE88}
+		{FE654B05-DAB9-4E7D-A430-418CCF521A71} = {E8A8DD3B-A2D9-4353-B1F3-94D04E106B29}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A70EF17C-08B2-4106-9D04-EDC7B02214BF}

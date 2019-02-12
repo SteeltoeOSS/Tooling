@@ -1,0 +1,13 @@
+﻿---
+applications:
+- name: $manifestAppName$
+  host: $manifestHostName$
+  instances: 1
+  memory: 512M
+  disk_quota: 512M
+  buildpack: $manifestBuildpack$
+  stack: $manifestStack$
+  command: "cmd /c $safeprojectname$ --server.urls=http://0.0.0.0:%PORT%"
+  env:
+    PROJECT_GUID: $guid1$
+    PROJECT_NAME: '$projectname$'
