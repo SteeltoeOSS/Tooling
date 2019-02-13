@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="Linux_Core_CloudFoundry_VSIX.5111db5e-bfeb-4cf1-8596-0f207aff00b7" Version="0.0.1" Language="en-US" Publisher="Steeltoe" />
-        <DisplayName>Cloud Foundry w Steeltoe 2.1 (.NET Core - Linux)</DisplayName>
+        <DisplayName>Steeltoe for Cloud Foundry .NET Core Linux</DisplayName>
         <Description xml:space="preserve">Project template for creating a RESTful api microservice that will be deployed to Cloud Foundry. The service targets .NET Core on Linux and uses Steeltoe cloud-native libraries to aid integration.</Description>
         <MoreInfo>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/readme.md</MoreInfo>
         <License>Resources\LICENSE.txt</License>

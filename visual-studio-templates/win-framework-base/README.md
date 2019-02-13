@@ -1,6 +1,6 @@
-# Steeltoe .NET Core on Linux
+# Steeltoe .NET Framework
 
-This C# project targets .NET Core 2.1 running on Linux and is a great beginning point to create a cloud native api. Using the Visual Studio MVC template as a base, the code has been simplified to host a few RESTful endpoints. Steeltoe packages like logging have been added to aid in streaming logs, along with other 12 Factor best practices.
+This C# project targets .NET Framework 4.6.1 for Windows and is a great beginning point to create a cloud native api. Using the Visual Studio MVC template as a base, the code has been simplified to host a few RESTful endpoints. Steeltoe packages like logging have been added to aid in streaming logs, along with other 12 Factor best practices.
 
 ## About Steeltoe
 

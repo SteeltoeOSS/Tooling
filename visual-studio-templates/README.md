@@ -24,12 +24,12 @@ The templates with `base` naming are platform neutral ie: they can be used anywh
 
 ### Cloud Foundry Templates
 
-The templates with `cloudfoundry` naming extend the base templates to target deploying the app to [Cloud Foundry](https://cloudfoundry.io). These templates offer additional features like management integrations enhanced log streaming, and each template has a ready to `cf push` manifest.
+The templates with `cloudfoundry` naming extend the base templates to target deploying the app to [Cloud Foundry](https://cloudfoundry.org). These templates offer additional features like management integrations enhanced log streaming, and each template has a ready to `cf push` manifest.
 
-### Windows Diego Cells on Cloud Foundry
+#### Windows Diego Cells on Cloud Foundry
 
-When using the Cloud Foundry templates that target .NET Framework, you will need to ensure your platform has the proper cell deployed. Read more about Windows Diego Cells [here](https://docs.pivotal.io/pivotalcf/windows/index.html).
+When using the Cloud Foundry templates that target .NET Framework, you will need to ensure your platform has the proper cells deployed. Read more about Windows Diego Cells [here](https://docs.pivotal.io/pivotalcf/windows/index.html).
 
 ## More Info
 
-To learn more about Steeltoe, head over to the site (https://steeltoe.io)[https://steeltoe.io].
+To learn more about Steeltoe, head over to the site [https://steeltoe.io](https://steeltoe.io).

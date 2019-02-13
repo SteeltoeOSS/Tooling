@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="Win_Core_CloudFoundry_VSIX.84bdcf13-acd5-45fd-8352-7f05349bba30" Version="0.0.1" Language="en-US" Publisher="Steeltoe" />
-        <DisplayName>Cloud Foundry w Steeltoe 2.1 (.NET Core - Win)</DisplayName>
+        <DisplayName>Steeltoe for Cloud Foundry .NET Core Windows</DisplayName>
         <Description xml:space="preserve">Project template for creating a RESTful api microservice that will be deployed to Cloud Foundry. The service targets .NET Core on Windows and uses Steeltoe cloud-native libraries to aid integration. Note, the Cloud Foundry platform must have Windows 2016 (or newer) Diego Cells deployed. Click -more info- link for more explaination.</Description>
         <MoreInfo>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/readme.md</MoreInfo>
         <License>Resources\LICENSE.txt</License>

@@ -3,7 +3,7 @@
     <Metadata>
         <Identity Id="App_Templates_VSIX.8f169bb2-678a-449f-89ee-a7093dc129ae" Version="0.0.1" Language="en-US" Publisher="Steeltoe" />
         <DisplayName>Steeltoe 2.1 Microservice Templates</DisplayName>
-        <Description xml:space="preserve">Project templates for creating RESTful api microserivces using the Steeltoe framework. Templates include a base version (for any platform) and a Cloud Foundry version. Choose between targeting .NET Core or Framework on Windows or Linux.</Description>
+        <Description xml:space="preserve">Project templates for creating RESTful api microservices using the Steeltoe framework. Templates include a base version (for any platform) and a Cloud Foundry version. Choose between targeting .NET Core or Framework on Windows or Linux.</Description>
         <MoreInfo>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/readme.md</MoreInfo>
         <License>Resources\LICENSE.txt</License>
         <GettingStartedGuide>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/readme.md</GettingStartedGuide>

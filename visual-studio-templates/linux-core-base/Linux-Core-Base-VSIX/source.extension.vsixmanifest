@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="Linux_Core_Base_VSIX.33717932-2a78-4d5f-bbfa-f6ddf9780ce8" Version="0.0.1" Language="en-US" Publisher="Steeltoe" />
-        <DisplayName>Steeltoe 2.1 Microservice (.NET Core - Linux)</DisplayName>
+        <DisplayName>Steeltoe .NET Core Linux  Microservice</DisplayName>
         <Description xml:space="preserve">Project template for creating a RESTful api microserivce that can be deployed to a variety of platforms. The project targets .NET Core on Linux and uses Steeltoe cloud native libraries.</Description>
         <MoreInfo>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/readme.md</MoreInfo>
         <License>Resources\LICENSE.txt</License>

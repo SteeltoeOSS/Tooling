@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="Win_Framework_Base_VSIX.c414a7f7-a967-41c6-b957-9b529490633b" Version="0.0.1" Language="en-US" Publisher="Steeltoe" />
-        <DisplayName>Steeltoe 2.1 Microservice (.NET Framework)</DisplayName>
+        <DisplayName>Steeltoe .NET Framework Microservice</DisplayName>
         <Description xml:space="preserve">Project template for creating a RESTful api microserivce that can be deployed to a variety of platforms. The project targets .NET Framework and uses Steeltoe cloud native libraries to achieve 12 Factors.</Description>
         <MoreInfo>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/readme.md</MoreInfo>
         <License>Resources\LICENSE.txt</License>

@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="Win_Core_Base_VSIX.0dfacf27-516a-4992-b04c-93119b19bb04" Version="0.0.1" Language="en-US" Publisher="Steeltoe" />
-        <DisplayName>Steeltoe 2.1 Microservice (.NET Core - Windows)</DisplayName>
+        <DisplayName>Steeltoe .NET Core Windows  Microservice</DisplayName>
         <Description xml:space="preserve">Project template for creating a RESTful api microserivce that can be deployed to a variety of platforms. The project targets .NET Core on Windows and uses Steeltoe cloud native libraries.</Description>
         <MoreInfo>https://github.com/SteeltoeOSS/Tooling/tree/master/visual-studio-templates/readme.md</MoreInfo>
         <License>Resources\LICENSE.txt</License>
