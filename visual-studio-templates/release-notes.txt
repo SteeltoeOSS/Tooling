@@ -1,0 +1,11 @@
+
+0.0.1
+
+- [X] Initialize Project
+- [X] Initialize github repository
+- [X] Cask
+- [X] Create template projects
+- [X] Link VSIX projects
+- [X] Create "All" VSIX project
+- [X] List github release
+- [X] Release notes

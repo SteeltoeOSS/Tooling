@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Steeltoe 2.1 Microservice (.NET Framework)</Name>
+    <Description>Project template for creating a RESTful api microserivce that can be deployed to a variety of platforms. The project targets .NET Framework and uses Steeltoe cloud native libraries.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>1000</SortOrder>
+    <TemplateID>ff7df17c-da5e-407e-b585-bb4212de9a83</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Steeltoe-Base-Template</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+		<Icon>SteeltoeLogo-32x32.png</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="ProjectTemplate.csproj" ReplaceParameters="true">
+			<ProjectItem ReplaceParameters="true" TargetFileName="Properties\AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="App_Start\ApplicationConfig.cs">ApplicationConfig.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="App_Start\LoggingConfig.cs">LoggingConfig.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="App_Start\WebApiConfig.cs">WebApiConfig.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" OpenInEditor="true" TargetFileName="Controllers\ValuesController.cs">ValuesController.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="false" TargetFileName="Properties\PublishProfiles\FolderProfile.pubxml">FolderProfile.pubxml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Global.asax.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Global.asax</ProjectItem>
+			<ProjectItem ReplaceParameters="false">appsettings.json</ProjectItem>
+			<ProjectItem ReplaceParameters="false">web.config</ProjectItem>
+			<ProjectItem ReplaceParameters="false">app.config</ProjectItem>
+			<ProjectItem ReplaceParameters="false">packages.config</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

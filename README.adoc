@@ -31,7 +31,7 @@ In this Quick Start, you'll install the Steeloe Tooling CLI and use it to deploy
 
 .install Steeltoe Tooling CLI and check version
 ----
-$ dotnet tool install --global --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json --version 1.0.0-m1 steeltoe.cli
+$ dotnet tool install --global --version 1.0.0-m1 Steeltoe.Cli
 $ st --version
 1.0.0-m1
 ----

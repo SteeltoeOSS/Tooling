@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Cloud Foundry w Steeltoe 2.1 (.NET Core - Linux)</Name>
+    <Description>Project template for creating a RESTful api microservice that will be deployed to Cloud Foundry. The service targets .NET Core on Linux and uses Steeltoe cloud-native libraries to aid integration.</Description>
+    <Icon>CloudFoundryLogo-32x32.png</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>1000</SortOrder>
+    <TemplateID>824ae528-995f-4c45-aa27-b08c1d73b214</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+		<DefaultName>Steeltoe-CoudFoundry-Template</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+  </TemplateData>
+  <TemplateContent>
+		<Project File="ProjectTemplate.csproj" ReplaceParameters="true">
+			<ProjectItem ReplaceParameters="true" TargetFileName="Controllers\ValuesController.cs" OpenInEditor="true">ValuesController.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+
+			<ProjectItem ReplaceParameters="false" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="manifest.yml">manifest.yml</ProjectItem>
+		</Project>
+		<CustomParameters>
+			<CustomParameter Name="$manifestAppName$" Value="Steeltoe-CoudFoundry-Template"/>
+			<CustomParameter Name="$manifestHostName$" Value="Steeltoe-CoudFoundry-Template"/>
+			<CustomParameter Name="$manifestBuildpack$" Value="dotnet_core_buildpack"/>
+			<CustomParameter Name="$manifestStack$" Value="cflinuxfs3"/>
+		</CustomParameters>
+  </TemplateContent>
+</VSTemplate>
