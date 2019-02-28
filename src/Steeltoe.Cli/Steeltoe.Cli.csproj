@@ -1,15 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\config\versions.props" />
   <PropertyGroup>
+    <Title>Steeltoe CLI</Title>
+    <Description>Commandline interface to Steeltoe Tooling</Description>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <ToolCommandName>st</ToolCommandName>
     <PackAsTool>true</PackAsTool>
     <OutputType>exe</OutputType>
+    <PackageIconUrl>https://steeltoe.io/images/transparent.png</PackageIconUrl>
+    <PackageProjectUrl>https://steeltoe.io</PackageProjectUrl>
+    <PackageTags>Docker, CloudFoundry</PackageTags>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <VersionPrefix>$(SteeltoeVersion)</VersionPrefix>
+    <VersionSuffix>$(SteeltoeVersionSuffix)</VersionSuffix>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(CI_BUILD)' == ''">
     <ProjectReference Include="..\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(CI_BUILD)' == 'True'">
+    <ProjectReference Include="Steeltoe.Tooling" Version="$(SteeltoeVersion)$(SteeltoeVersionSuffix)" />
   </ItemGroup>
 </Project>
