@@ -21,6 +21,6 @@
     <ProjectReference Include="..\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(CI_BUILD)' == 'True'">
-    <ProjectReference Include="Steeltoe.Tooling" Version="$(SteeltoeVersion)$(SteeltoeVersionSuffix)" />
+    <PackageReference Include="Steeltoe.Tooling" Version="$(SteeltoeVersion)$(SteeltoeVersionSuffix)" />
   </ItemGroup>
 </Project>
