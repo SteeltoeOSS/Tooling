@@ -7,7 +7,7 @@ applications:
   disk_quota: 512M
   buildpack: $manifestBuildpack$
   stack: $manifestStack$
-  command: "cmd /c $safeprojectname$ --server.urls=https://0.0.0.0:%PORT%"
+  command: "cmd /c $safeprojectname$ --server.urls=http://0.0.0.0:%PORT%"
   env:
     PROJECT_GUID: $guid1$
     PROJECT_NAME: '$projectname$'
