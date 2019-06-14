@@ -63,7 +63,6 @@ namespace Steeltoe.Cli
                 proc.BeginOutputReadLine();
                 proc.BeginErrorReadLine();
                 proc.WaitForExit();
-                proc.WaitForExit();
                 result.ExitCode = proc.ExitCode;
                 Logger.LogDebug($"[{result.Id}] exit code: {result.ExitCode}");
                 result.Out = outputWatcher.Data.ToString();
