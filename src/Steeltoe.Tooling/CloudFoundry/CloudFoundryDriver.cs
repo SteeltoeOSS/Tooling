@@ -94,7 +94,14 @@ namespace Steeltoe.Tooling.CloudFoundry
         {
             var svcInfo = _context.Configuration.GetServiceInfo(service);
             var cfServiceDef = _context.Target.Configuration.ServiceTypeProperties[svcInfo.ServiceType];
-            _cfCli.Run($"create-service {cfServiceDef["service"]} {cfServiceDef["plan"]} {service}");
+            var cfCmd = $"create-service {cfServiceDef["service"]} {cfServiceDef["plan"]} {service}";
+            var svcArgs = _context.Configuration.GetServiceArgs(service, "cloud-foundry") ?? "";
+            if (svcArgs.Length > 0)
+            {
+                svcArgs = svcArgs.Replace("\"", "\"\"\"");
+                cfCmd += $" {svcArgs}";
+            }
+            _cfCli.Run(cfCmd);
         }
 
         public void UndeployService(string service)

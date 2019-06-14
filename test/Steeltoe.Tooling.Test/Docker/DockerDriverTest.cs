@@ -88,10 +88,10 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
         public void TestDeployServiceWithArgs()
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
-            Context.Configuration.SetServiceArgs("my-service", "docker", "arg1 arg2");
+            Context.Configuration.SetServiceArgs("my-service", "docker", "arg1 \"arg2\"");
             _driver.DeployService("my-service", "dummy-svc");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 0:0 --detach --rm arg1 arg2 dummy-server:0.1");
+                "docker run --name my-service --publish 0:0 --detach --rm arg1 \"\"\"arg2\"\"\" dummy-server:0.1");
         }
 
         [Fact]
@@ -151,6 +151,16 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Shell.LastCommand.ShouldBe(
                 "docker run --name my-service --publish 3306:3306 --detach --rm steeltoeoss/mysql:5.7.24");
         }
+
+        [Fact]
+        public void TestDeployMyPostgreSql()
+        {
+            Context.Configuration.AddService("my-service", "postgresql");
+            _driver.DeployService("my-service");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 5432:5432 --detach --rm steeltoeoss/postgresql:10.8");
+        }
+
 
         [Fact]
         public void TestDeployRedis()

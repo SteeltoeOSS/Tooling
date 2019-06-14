@@ -77,14 +77,15 @@ namespace Steeltoe.Tooling.Docker
             var svcInfo = _context.Configuration.GetServiceInfo(service);
             var port = Registry.GetServiceTypeInfo(svcInfo.ServiceType).Port;
             var image = LookupImage(svcInfo.ServiceType, os);
-            var args = _context.Configuration.GetServiceArgs(service, "docker") ?? "";
-
-            if (args.Length > 0)
+            var dockerCmd = $"run --name {service} --publish {port}:{port} --detach --rm";
+            var svcArgs = _context.Configuration.GetServiceArgs(service, "docker") ?? "";
+            if (svcArgs.Length > 0)
             {
-                args += " ";
+                svcArgs = svcArgs.Replace("\"", "\"\"\"");
+                dockerCmd += $" {svcArgs}";
             }
-
-            _dockerCli.Run($"run --name {service} --publish {port}:{port} --detach --rm {args}{image}");
+            dockerCmd += $" {image}";
+            _dockerCli.Run(dockerCmd);
         }
 
         public void UndeployService(string service)

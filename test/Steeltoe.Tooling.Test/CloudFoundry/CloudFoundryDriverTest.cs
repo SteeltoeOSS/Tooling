@@ -71,6 +71,15 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
         }
 
         [Fact]
+        public void TestDeployServiceWithArgs()
+        {
+            Context.Configuration.AddService("my-service", "dummy-svc");
+            Context.Configuration.SetServiceArgs("my-service", "cloud-foundry", "arg1 \"arg2\"");
+            _driver.DeployService("my-service");
+            Shell.LastCommand.ShouldBe("cf create-service dummy-server dummy-plan my-service arg1 \"\"\"arg2\"\"\"");
+        }
+
+        [Fact]
         public void TestDeployConfigServer()
         {
             Context.Configuration.AddService("my-service", "config-server");
@@ -101,6 +110,15 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
             _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe("cf create-service p-mysql 100mb my-service");
         }
+
+        [Fact]
+        public void TestDeployPostgreSql()
+        {
+            Context.Configuration.AddService("my-service", "postgresql");
+            _driver.DeployService("my-service");
+            Shell.LastCommand.ShouldBe("cf create-service postgresql-10-odb standalone my-service");
+        }
+
 
         [Fact]
         public void TestDeployRedis()

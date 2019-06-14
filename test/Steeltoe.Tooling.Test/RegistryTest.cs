@@ -34,6 +34,7 @@ namespace Steeltoe.Tooling.Test
                 "hystrix-dashboard",
                 "mssql",
                 "mysql",
+                "postgresql",
                 "redis",
                 "zipkin",
             };

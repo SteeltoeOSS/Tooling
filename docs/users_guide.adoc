@@ -164,7 +164,8 @@ Where _type_ is a known service type and _name_ is a user-supplied name.
 | eureka-server | Netflix Eureka Server
 | hystrix-dashboard | Netflix Hystrix Dashboard
 | mssql | Microsoft SQL Server
-| mysql | MySQL
+| mysql | MySQL Server
+| postgresql | PostgreSQL Server
 | redis | Redis Server
 | zipkin | Zipkin Tracing Collector and UI
 |===
@@ -226,7 +227,7 @@ Acceptance can be specified using a service argument.
 $ st args -t docker mySQLServer -- --env ACCEPT_EULA=Y
 ----
 
-=== MySQL
+=== MySQL Server
 
 https://www.mysql.com/[MySQL] provides the MySQL RDBMS.
 
@@ -245,7 +246,26 @@ The MySQL Docker images (`steeltoeoss/mssql`) for Linux containers require a MyS
 $ st args -t docker myMySQLServer -- --env MYSQL_ROOT_PASSWORD=my-secret-pw
 ----
 
-=== Redis
+=== PostgreSQL Server
+
+https://www.postgresql.org//[PostgreSQL] provides the PostgreSQL RDBMS.
+
+type:: `postgresql`
+port:: 5432
+
+.Example
+----
+$ st add postgresql myPGServer
+----
+
+Running PostgreSQL on Cloud Foundry requires additional configuration specifying database name and user details.
+
+.Example specifying Cloud Foundry PostgreSQL database configuration
+----
+$ st args -t cloud-foundry myPGServer -- -c \{\"db_name\":\"mydb\",\"db_username\":\"myuser\",\"owner_name\":\"myowner\",\"owner_email\":\"myowner@example.com\"\}
+----
+
+=== Redis Server
 
 https://redis.io/[Redis] provides an in-memory data structure store.
 

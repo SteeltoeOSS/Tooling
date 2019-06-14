@@ -127,6 +127,7 @@ namespace Steeltoe.Cli.Test
                     "hystrix-dashboard 7979 Netflix Hystrix Dashboard",
                     "mssql 1433 Microsoft SQL Server",
                     "mysql 3306 Microsoft SQL Server",
+                    "postgresql 5432 PostgreSQL Server",
                     "redis 6379 Redis In-Memory Datastore",
                     "zipkin 9411 Zipkin Tracing Collector and UI",
                 })
