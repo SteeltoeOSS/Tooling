@@ -128,6 +128,7 @@ namespace Steeltoe.Cli.Test
                     "mssql 1433 Microsoft SQL Server",
                     "mysql 3306 Microsoft SQL Server",
                     "postgresql 5432 PostgreSQL Server",
+                    "rabbitmq 5672 RabbitMQ Message Broker",
                     "redis 6379 Redis In-Memory Datastore",
                     "zipkin 9411 Zipkin Tracing Collector and UI",
                 })

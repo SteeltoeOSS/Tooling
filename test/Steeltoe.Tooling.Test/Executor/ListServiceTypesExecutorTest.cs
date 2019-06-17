@@ -32,6 +32,7 @@ namespace Steeltoe.Tooling.Test.Executor
             reader.ReadLine().ShouldBe("mssql");
             reader.ReadLine().ShouldBe("mysql");
             reader.ReadLine().ShouldBe("postgresql");
+            reader.ReadLine().ShouldBe("rabbitmq");
             reader.ReadLine().ShouldBe("redis");
             reader.ReadLine().ShouldBe("zipkin");
             reader.ReadLine().ShouldBeNull();
@@ -49,6 +50,7 @@ namespace Steeltoe.Tooling.Test.Executor
             reader.ReadLine().ShouldBe("mssql               1433  Microsoft SQL Server");
             reader.ReadLine().ShouldBe("mysql               3306  MySQL Server");
             reader.ReadLine().ShouldBe("postgresql          5432  PostgreSQL SQL Server");
+            reader.ReadLine().ShouldBe("rabbitmq            5672  RabbitMQ Message Broker");
             reader.ReadLine().ShouldBe("redis               6379  Redis In-Memory Datastore");
             reader.ReadLine().ShouldBe("zipkin              9411  Zipkin Tracing Collector and UI");
             reader.ReadLine().ShouldBeNull();
