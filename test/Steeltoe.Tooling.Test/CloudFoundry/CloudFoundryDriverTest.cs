@@ -119,6 +119,13 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
             Shell.LastCommand.ShouldBe("cf create-service postgresql-10-odb standalone my-service");
         }
 
+        [Fact]
+        public void TestDeployRabbitMQ()
+        {
+            Context.Configuration.AddService("my-service", "rabbitmq");
+            _driver.DeployService("my-service");
+            Shell.LastCommand.ShouldBe("cf create-service p-rabbitmq standard my-service");
+        }
 
         [Fact]
         public void TestDeployRedis()
@@ -127,6 +134,7 @@ namespace Steeltoe.Tooling.Test.CloudFoundry
             _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe("cf create-service p-redis shared-vm my-service");
         }
+
 
         [Fact]
         public void TestUndeployService()

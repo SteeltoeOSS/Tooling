@@ -31,6 +31,9 @@ serviceTypes:
   postgresql:
     description: PostgreSQL Server
     port: 5432
+  rabbitmq:
+    description: RabbitMQ Message Broker
+    port: 5672
   redis:
     description: Redis In-Memory Datastore
     port: 6379
@@ -60,6 +63,9 @@ targets:
       postgresql:
         service: postgresql-10-odb
         plan: standalone
+      rabbitmq:
+        service: p-rabbitmq
+        plan: standard
       redis:
         service: p-redis
         plan: shared-vm
@@ -84,6 +90,8 @@ targets:
         image: steeltoeoss/mysql:5.7.24
       postgresql:
         image: steeltoeoss/postgresql:10.8
+      rabbitmq:
+        image: steeltoeoss/rabbitmq:3.7.15
       redis:
         image-linux: steeltoeoss/redis-amd64-linux:4.0.11
         image-windows: steeltoeoss/redis-amd64-windows:3.0.504

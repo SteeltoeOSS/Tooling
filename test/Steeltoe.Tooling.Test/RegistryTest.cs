@@ -35,6 +35,7 @@ namespace Steeltoe.Tooling.Test
                 "mssql",
                 "mysql",
                 "postgresql",
+                "rabbitmq",
                 "redis",
                 "zipkin",
             };

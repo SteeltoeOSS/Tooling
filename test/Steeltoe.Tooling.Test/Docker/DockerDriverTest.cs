@@ -161,6 +161,14 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
                 "docker run --name my-service --publish 5432:5432 --detach --rm steeltoeoss/postgresql:10.8");
         }
 
+        [Fact]
+        public void TestDeployMyRabbitMQ()
+        {
+            Context.Configuration.AddService("my-service", "rabbitmq");
+            _driver.DeployService("my-service");
+            Shell.LastCommand.ShouldBe(
+                "docker run --name my-service --publish 5672:5672 --detach --rm steeltoeoss/rabbitmq:3.7.15");
+        }
 
         [Fact]
         public void TestDeployRedis()
