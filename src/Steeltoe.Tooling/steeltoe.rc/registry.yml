@@ -97,3 +97,11 @@ targets:
         image-windows: steeltoeoss/redis-amd64-windows:3.0.504
       zipkin:
         image: steeltoeoss/zipkin:2.11.6
+  kubernetes:
+    description: Kubernetes
+    serviceTypeProperties:
+      dummy-svc:
+        image: dummy-server:0.1
+        image-dummyos: dummy-server:for_dummyos
+      config-server:
+        image: steeltoeoss/config-server:2.0.1
