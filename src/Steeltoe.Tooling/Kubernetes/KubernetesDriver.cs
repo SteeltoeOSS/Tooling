@@ -26,8 +26,6 @@ namespace Steeltoe.Tooling.Kubernetes
 
         private readonly Cli _kubectlCli;
 
-        private readonly Cli _dotnetCli;
-
         private readonly Cli _dockerCli;
 
         private const string ServiceKind = "Service";
@@ -202,7 +200,7 @@ namespace Steeltoe.Tooling.Kubernetes
             {
                 _kubectlCli.Run($"delete --filename {name}-service.yml");
             }
-            catch (CliException e)
+            catch (CliException)
             {
                 _context.Console.WriteLine($"hmm, Kubernetes service doesn't seem to exist: {name}");
             }
@@ -233,7 +231,7 @@ namespace Steeltoe.Tooling.Kubernetes
                     _kubectlCli.Run($"get services {name.ToLower()}");
                     return Lifecycle.Status.Stopping;
                 }
-                catch (CliException e)
+                catch (CliException)
                 {
                     return Lifecycle.Status.Offline;
                 }

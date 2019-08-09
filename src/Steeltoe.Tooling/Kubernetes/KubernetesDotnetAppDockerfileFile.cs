@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Steeltoe.Tooling.Kubernetes
 {
-    public class KubernetesDotnetAppDockerfileFile
+    internal class KubernetesDotnetAppDockerfileFile
     {
         private static readonly ILogger Logger =
             Logging.LoggerFactory.CreateLogger<KubernetesDotnetAppDockerfileFile>();
