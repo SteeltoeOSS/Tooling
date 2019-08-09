@@ -55,7 +55,8 @@ namespace Steeltoe.Tooling.Test
             {
                 "dummy-target",
                 "cloud-foundry",
-                "docker"
+                "docker",
+                "kubernetes",
             };
             foreach (var name in Registry.Targets)
             {

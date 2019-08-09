@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling.CloudFoundry;
 using Steeltoe.Tooling.Docker;
 using Steeltoe.Tooling.Dummy;
+using Steeltoe.Tooling.Kubernetes;
 using YamlDotNet.Serialization;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
@@ -179,6 +180,8 @@ namespace Steeltoe.Tooling
                         return new CloudFoundryTarget(targetCfg);
                     case "docker":
                         return new DockerTarget(targetCfg);
+                    case "kubernetes":
+                        return new KubernetesTarget(targetCfg);
                     case "dummy-target":
                         return new DummyTarget(targetCfg);
                 }

@@ -36,10 +36,10 @@ $ st --version
 1.0.0-m1
 ----
 
-.checkout Steeltoe Samples and navigate to the Simple project
+.checkout Steeltoe Samples and navigate to the SimpleCloudFoundry project
 ----
 $ git clone https://github.com/SteeltoeOSS/Samples.git
-$ cd Samples/Configuration/src/AspDotNetCore/Simple
+$ cd Samples/Configuration/src/AspDotNetCore/SimpleCloudFoundry
 ----
 
 .add Steeltoe Tooling to project
@@ -50,11 +50,11 @@ Initialized Steeltoe Developer Tools
 
 .add application and config-server to deployment configuration
 ----
-$ st add app simple
-Added app 'simple'
+$ st add config-server myConfigServer
+Added config-server service 'myConfigServer'
 
-$ st add config-server the-config-server
-Added config-server service 'the-config-server'
+$ st add app SimpleCloudFoundry
+Added app 'SimpleCloudFoundry'
 ----
 
 .target Docker for deployment
@@ -69,15 +69,15 @@ Target set to 'docker'
 .deploy
 ----
 $ st deploy
-Deploying service 'the-config-server'
-Deploying app 'simple'
+Deploying service 'myConfigServer'
+Deploying app 'SimpleCloudFoundry'
 ----
 
 .check status, then navigate to application
 ----
-st status
-the-config-server online
-simple online
+$ st status
+myConfigServer online
+SimpleCloudFoundry online
 ----
 
 Open http://localhost:8080/
@@ -85,8 +85,32 @@ Open http://localhost:8080/
 .undeploy
 ----
 $ st undeploy
-Undeploying app 'simple'
-Undeploying service 'the-config-server'
+Undeploying app 'SimpleCloudFoundry'
+Undeploying service 'myConfigServer'
+----
+
+.deploy to Cloud Foundry
+----
+$ st target cloud-foundry
+Cloud Foundry ... cf version 6.46.0+29d6257f1.2019-07-09
+logged into Cloud Foundry ... yes
+Target set to 'cloud-foundry'
+
+$ st deploy
+...
+----
+
+.deploy to Kubernetes
+----
+$ eval $(minikube docker-env)  # if using minikube's Docker
+
+$ st target kubernetes
+Kubernetes ... kubectl client version 1.15, server version 1.15
+current context ... minikube
+Target set to 'kubernetes'
+
+$ st deploy
+...
 ----
 
 == Further Reading
