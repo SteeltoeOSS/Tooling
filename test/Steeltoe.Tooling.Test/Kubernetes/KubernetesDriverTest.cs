@@ -129,52 +129,118 @@ namespace Steeltoe.Tooling.Test.Kubernetes
             svcCfg.Spec.Ports[0].Port.ShouldBe(8888);
         }
 
-//        [Fact]
+        [Fact]
         public void TestDeployEurekaServer()
         {
-//            Context.Configuration.AddService("my-service", "eureka-server");
-//            _driver.DeployService("my-service");
-//            Shell.LastCommand.ShouldBe("cf create-service p-service-registry standard my-service");
+            Context.Configuration.AddService("my-service", "eureka-server");
+            _driver.DeployService("my-service");
+            var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/eureka-server:2.0.1");
+            deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
+            deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(8761);
+            var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
+            svcCfg.Spec.Ports[0].Port.ShouldBe(8761);
         }
 
-//        [Fact]
+        [Fact]
         public void TestDeployHystrixDashboard()
         {
-//            Context.Configuration.AddService("my-service", "hystrix-dashboard");
-//            _driver.DeployService("my-service");
-//            Shell.LastCommand.ShouldBe("cf create-service p-circuit-breaker-dashboard standard my-service");
+            Context.Configuration.AddService("my-service", "hystrix-dashboard");
+            _driver.DeployService("my-service");
+            var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/hystrix-dashboard:1.4.5");
+            deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
+            deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(7979);
+            var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
+            svcCfg.Spec.Ports[0].Port.ShouldBe(7979);
         }
 
-//        [Fact]
+        [Fact]
+        public void TestDeployMicrosoftSqlServer()
+        {
+            Context.Configuration.AddService("my-service", "mssql");
+            _driver.DeployService("my-service");
+            var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
+            deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(1433);
+            var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
+            svcCfg.Spec.Ports[0].Port.ShouldBe(1433);
+            _driver.DeployService("my-service", "linux");
+            deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/mssql-amd64-linux:2017-CU11");
+            _driver.DeployService("my-service", "windows");
+            deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/mssql-amd64-windows:2017-CU1");
+        }
+
+        [Fact]
         public void TestDeployMySql()
         {
-//            Context.Configuration.AddService("my-service", "mysql");
-//            _driver.DeployService("my-service");
-//            Shell.LastCommand.ShouldBe("cf create-service p-mysql 100mb my-service");
+            Context.Configuration.AddService("my-service", "mysql");
+            _driver.DeployService("my-service");
+            var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/mysql:5.7.24");
+            deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
+            deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(3306);
+            var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
+            svcCfg.Spec.Ports[0].Port.ShouldBe(3306);
         }
 
-//        [Fact]
+        [Fact]
         public void TestDeployPostgreSql()
         {
-//            Context.Configuration.AddService("my-service", "postgresql");
-//            _driver.DeployService("my-service");
-//            Shell.LastCommand.ShouldBe("cf create-service postgresql-10-odb standalone my-service");
+            Context.Configuration.AddService("my-service", "postgresql");
+            _driver.DeployService("my-service");
+            var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/postgresql:10.8");
+            deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
+            deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(5432);
+            var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
+            svcCfg.Spec.Ports[0].Port.ShouldBe(5432);
         }
 
-//        [Fact]
+        [Fact]
         public void TestDeployRabbitMQ()
         {
-//            Context.Configuration.AddService("my-service", "rabbitmq");
-//            _driver.DeployService("my-service");
-//            Shell.LastCommand.ShouldBe("cf create-service p-rabbitmq standard my-service");
+            Context.Configuration.AddService("my-service", "rabbitmq");
+            _driver.DeployService("my-service");
+            var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/rabbitmq:3.7.15");
+            deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
+            deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(5672);
+            var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
+            svcCfg.Spec.Ports[0].Port.ShouldBe(5672);
         }
 
-//        [Fact]
+        [Fact]
         public void TestDeployRedis()
         {
-//            Context.Configuration.AddService("my-service", "redis");
-//            _driver.DeployService("my-service");
-//            Shell.LastCommand.ShouldBe("cf create-service p-redis shared-vm my-service");
+            Context.Configuration.AddService("my-service", "redis");
+            _driver.DeployService("my-service");
+            var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
+            deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(6379);
+            var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
+            svcCfg.Spec.Ports[0].Port.ShouldBe(6379);
+            _driver.DeployService("my-service", "linux");
+            deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/redis-amd64-linux:4.0.11");
+            _driver.DeployService("my-service", "windows");
+            deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/redis-amd64-windows:3.0.504");
+        }
+
+        [Fact]
+        public void TestDeployZipkin()
+        {
+            Context.Configuration.AddService("my-service", "zipkin");
+            _driver.DeployService("my-service");
+            var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/zipkin:2.11.6");
+            deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
+            deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(9411);
+            var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
+            svcCfg.Spec.Ports[0].Port.ShouldBe(9411);
         }
 
 

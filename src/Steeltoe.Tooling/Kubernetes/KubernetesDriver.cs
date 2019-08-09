@@ -89,13 +89,10 @@ namespace Steeltoe.Tooling.Kubernetes
 
         public void DeployService(string service)
         {
-            var svcInfo = _context.Configuration.GetServiceInfo(service);
-            var port = Registry.GetServiceTypeInfo(svcInfo.ServiceType).Port;
             // TODO: get 'os' from from docker command
-            var image = LookupImage(svcInfo.ServiceType, "linux");
-            DeployKubernetesService(service, image, port);
+            DeployService(service, "linux");
         }
-
+        
         public void UndeployService(string service)
         {
             UndeployKubernetesService(service);
@@ -104,6 +101,14 @@ namespace Steeltoe.Tooling.Kubernetes
         public Lifecycle.Status GetServiceStatus(string service)
         {
             return GetKubernetesServiceStatus(service);
+        }
+
+        internal void DeployService(string service, string os)
+        {
+            var svcInfo = _context.Configuration.GetServiceInfo(service);
+            var port = Registry.GetServiceTypeInfo(svcInfo.ServiceType).Port;
+            var image = LookupImage(svcInfo.ServiceType, os);
+            DeployKubernetesService(service, image, port);
         }
 
         private void DeployKubernetesService(String name, String image, int port,
