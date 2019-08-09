@@ -54,21 +54,22 @@ namespace Steeltoe.Tooling.CloudFoundry
                 }
             );
             manifestFile.Store();
-            _dotnetCli.Run("publish -f netcoreapp2.1 -r win10-x64");
+            _dotnetCli.Run("publish -f netcoreapp2.1 -r win10-x64", "publishing app");
             _cfCli.Run(
-                $"push -f {CloudFoundryManifestFile.DefaultFileName} -p bin/Debug/netcoreapp2.1/win10-x64/publish");
+                $"push -f {CloudFoundryManifestFile.DefaultFileName} -p bin/Debug/netcoreapp2.1/win10-x64/publish",
+                "pushing app to Cloud Foundry");
         }
 
         public void UndeployApp(string app)
         {
-            _cfCli.Run($"delete {app} -f");
+            _cfCli.Run($"delete {app} -f", $"deleting Cloud Foundry app");
         }
 
         public Lifecycle.Status GetAppStatus(string app)
         {
             try
             {
-                var appInfo = _cfCli.Run($"app {app}");
+                var appInfo = _cfCli.Run($"app {app}", "getting details for Cloud Foundry app");
                 var state = new Regex(@"^#0\s+(\S+)", RegexOptions.Multiline).Match(appInfo).Groups[1].ToString()
                     .Trim();
                 switch (state)
@@ -101,19 +102,20 @@ namespace Steeltoe.Tooling.CloudFoundry
                 svcArgs = svcArgs.Replace("\"", "\"\"\"");
                 cfCmd += $" {svcArgs}";
             }
-            _cfCli.Run(cfCmd);
+
+            _cfCli.Run(cfCmd, "creating Cloud Foundry service");
         }
 
         public void UndeployService(string service)
         {
-            _cfCli.Run($"delete-service {service} -f");
+            _cfCli.Run($"delete-service {service} -f", "deleting Cloud Foundry service");
         }
 
         public Lifecycle.Status GetServiceStatus(string service)
         {
             try
             {
-                var serviceInfo = _cfCli.Run($"service {service}");
+                var serviceInfo = _cfCli.Run($"service {service}", "getting details for Cloud Foundry service");
                 var state = new Regex(@"^status:\s+(.*)$", RegexOptions.Multiline).Match(serviceInfo).Groups[1]
                     .ToString().Trim();
                 switch (state)

@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 namespace Steeltoe.Tooling
 {
     /// <summary>
@@ -44,10 +46,12 @@ namespace Steeltoe.Tooling
         /// Run the Cli's command using the specified arguments.
         /// </summary>
         /// <param name="args">Cli command arguments.</param>
+        /// <param name="why">A description of why the command is being run; output when running in verbose mode.</param>
         /// <returns>The command output.</returns>
         /// <exception cref="CliException">Thrown if the command fails.</exception>
-        public string Run(string args)
+        public string Run(string args, string why)
         {
+            OutputToConsole(why);
             var result = Shell.Run(Command, args);
             if (result.ExitCode != 0)
             {
@@ -55,6 +59,15 @@ namespace Steeltoe.Tooling
             }
 
             return result.Out;
+        }
+        
+        private static void OutputToConsole(string output)
+        {
+            if (!Settings.VerboseEnabled) return;
+            var oldFg = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Out.WriteLine(output);
+            Console.ForegroundColor = oldFg;
         }
     }
 }

@@ -41,7 +41,8 @@ namespace Steeltoe.Cli
 
             // dotnet
             Context.Console.Write("DotNet ... ");
-            var dotnetVersion = new Tooling.Cli("dotnet", Context.Shell).Run("--version").Trim();
+            var dotnetVersion = new Tooling.Cli("dotnet", Context.Shell).Run("--version", "getting dotnet version")
+                .Trim();
             Context.Console.WriteLine($"dotnet version {dotnetVersion}");
 
             // is intialized?

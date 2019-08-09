@@ -25,12 +25,12 @@ namespace Steeltoe.Tooling.Test
             var shell = new MockShell();
             shell.AddResponse("output of mycommand");
             var cli = new Cli("mycommand", shell);
-            var output = cli.Run("arg1 arg2");
+            var output = cli.Run("arg1 arg2", null);
             shell.LastCommand.ShouldBe("mycommand arg1 arg2");
             output.ShouldBe("output of mycommand");
             shell.AddResponse("some error message", 3);
             var e = Assert.Throws<CliException>(
-                () => cli.Run("bad args")
+                () => cli.Run("bad args", null)
             );
             e.ReturnCode.ShouldBe(3);
             e.Command.ShouldBe("mycommand bad args");

@@ -33,7 +33,7 @@ namespace Steeltoe.Tooling.Kubernetes
             try
             {
                 context.Console.Write($"Kubernetes ... ");
-                var versionInfo = cli.Run("version");
+                var versionInfo = cli.Run("version", "getting Kubernetes CLI version");
                 var matcher =
                     new Regex(@"Client Version:.*Major:""(\d+).*Minor:""(\d+)", RegexOptions.Multiline).Match(
                         versionInfo);
@@ -53,7 +53,7 @@ namespace Steeltoe.Tooling.Kubernetes
             try
             {
                 context.Console.Write("current context ... ");
-                var contextInfo = cli.Run("config get-contexts");
+                var contextInfo = cli.Run("config get-contexts", "getting Kubernetes context");
                 var matcher = new Regex(@"\*\s+(\S+)", RegexOptions.Multiline).Match(contextInfo);
                 context.Console.WriteLine(matcher.Groups[1]);
             }

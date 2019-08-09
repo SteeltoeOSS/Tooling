@@ -44,7 +44,7 @@ namespace Steeltoe.Tooling.Docker
 
         public void DeployApp(string app)
         {
-            _dotnetCli.Run($"publish -f {HardCodedFramework}");
+            _dotnetCli.Run($"publish -f {HardCodedFramework}", "publishing dotnet app");
             var dotnetImage = _context.Target.GetProperty("dotnetRuntimeImage");
             var projectDll =
                 $"bin/Debug/{HardCodedFramework}/publish/{Path.GetFileName(_context.ProjectDirectory)}.dll";
@@ -52,12 +52,13 @@ namespace Steeltoe.Tooling.Docker
             var mount = $"{Path.GetFullPath(_context.ProjectDirectory)}:{appDir}";
             var portMap = $"{HardCodedLocalPort}:{HardCodedRemotePort}";
             _dockerCli.Run(
-                $"run --name {app} --volume {mount} --publish {portMap} --detach --rm {dotnetImage} dotnet {appDir}/{projectDll}");
+                $"run --name {app} --volume {mount} --publish {portMap} --detach --rm {dotnetImage} dotnet {appDir}/{projectDll}",
+                "running app in Docker container");
         }
 
         public void UndeployApp(string app)
         {
-            StopContainer(app);
+            _dockerCli.Run($"stop {app}", "stopping Docker container for app");
         }
 
         public Lifecycle.Status GetAppStatus(string app)
@@ -67,7 +68,7 @@ namespace Steeltoe.Tooling.Docker
 
         public void DeployService(string service)
         {
-            var dockerInfo = new DockerCli(_context.Shell).Run("info");
+            var dockerInfo = new DockerCli(_context.Shell).Run("info", "getting Docker container OS");
             var dockerOs = new Regex(@"OSType:\s*(\S+)", RegexOptions.Multiline).Match(dockerInfo).Groups[1].ToString();
             DeployService(service, dockerOs);
         }
@@ -84,13 +85,14 @@ namespace Steeltoe.Tooling.Docker
                 svcArgs = svcArgs.Replace("\"", "\"\"\"");
                 dockerCmd += $" {svcArgs}";
             }
+
             dockerCmd += $" {image}";
-            _dockerCli.Run(dockerCmd);
+            _dockerCli.Run(dockerCmd, "running Docker container for service");
         }
 
         public void UndeployService(string service)
         {
-            _dockerCli.Run($"stop {service}");
+            _dockerCli.Run($"stop {service}", "stopping Docker container for service");
         }
 
         public Lifecycle.Status GetServiceStatus(string service)
@@ -100,14 +102,9 @@ namespace Steeltoe.Tooling.Docker
             return GetContainerStatus(service, port);
         }
 
-        private void StopContainer(string name)
-        {
-            _dockerCli.Run($"stop {name}");
-        }
-
         private Lifecycle.Status GetContainerStatus(string name, int port)
         {
-            var containerInfo = _dockerCli.Run($"ps --no-trunc --filter name=^/{name}$").Split('\n');
+            var containerInfo = _dockerCli.Run($"ps --no-trunc --filter name=^/{name}$", "getting Docker container status").Split('\n');
             if (containerInfo.Length <= 2)
             {
                 return Lifecycle.Status.Offline;

@@ -55,7 +55,7 @@ namespace Steeltoe.Tooling.Kubernetes
             dockerfile.BaseImage = "steeltoeoss/dotnet-runtime:2.1";
             dockerfile.BuildPath = "bin/Debug/netcoreapp2.1/publish";
             dockerfileFile.Store();
-            _dockerCli.Run($"build --tag {app.ToLower()} .");
+            _dockerCli.Run($"build --tag {app.ToLower()} .", "building Docker image for app");
 
             void PreSaveAction(KubernetesDeploymentConfig deployCfg, KubernetesServiceConfig svcCfg)
             {
@@ -90,7 +90,7 @@ namespace Steeltoe.Tooling.Kubernetes
             // TODO: get 'os' from from docker command
             DeployService(service, "linux");
         }
-        
+
         public void UndeployService(string service)
         {
             UndeployKubernetesService(service);
@@ -190,27 +190,28 @@ namespace Steeltoe.Tooling.Kubernetes
             preSaveAction?.Invoke(deployCfg, svcCfg);
             deployCfgFile.Store();
             svcCfgFile.Store();
-            _kubectlCli.Run($"apply --filename {deployCfgFile.File}");
-            _kubectlCli.Run($"apply --filename {svcCfgFile.File}");
+            _kubectlCli.Run($"apply --filename {deployCfgFile.File}", "applying Kubernetes deployment configuration");
+            _kubectlCli.Run($"apply --filename {svcCfgFile.File}", "applying Kubernetes service configuration");
         }
 
         private void UndeployKubernetesService(string name)
         {
             try
             {
-                _kubectlCli.Run($"delete --filename {name}-service.yml");
+                _kubectlCli.Run($"delete --filename {name}-service.yml", "deleting Kubernetes service");
             }
             catch (CliException)
             {
                 _context.Console.WriteLine($"hmm, Kubernetes service doesn't seem to exist: {name}");
             }
 
-            _kubectlCli.Run($"delete --filename {name}-deployment.yml");
+            _kubectlCli.Run($"delete --filename {name}-deployment.yml", "deleting Kubernetes deployment");
         }
 
         private Lifecycle.Status GetKubernetesServiceStatus(String name)
         {
-            var podInfo = _kubectlCli.Run($"get pods --selector app={name.ToLower()}");
+            var podInfo = _kubectlCli.Run($"get pods --selector app={name.ToLower()}",
+                "getting Kubernetes deployment status");
             if (podInfo.Contains("Running"))
             {
 //                _kubectlCli.Run($"get services {name.ToLower()}");
@@ -228,7 +229,7 @@ namespace Steeltoe.Tooling.Kubernetes
             {
                 try
                 {
-                    _kubectlCli.Run($"get services {name.ToLower()}");
+                    _kubectlCli.Run($"get services {name.ToLower()}", "getting Kubernetes service status");
                     return Lifecycle.Status.Stopping;
                 }
                 catch (CliException)

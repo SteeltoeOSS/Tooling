@@ -40,7 +40,7 @@ namespace Steeltoe.Cli
             var expanded = result.Arguments == null ? result.Command : $"{result.Command} {result.Arguments}";
             Logger.LogDebug($"[{result.Id}] command: {expanded}");
             Logger.LogDebug($"[{result.Id}] working directory: {result.WorkingDirectory}");
-            OutputToConsole(expanded);
+            OutputToConsole($"> {expanded}");
 
             var pInfo = new ProcessStartInfo(result.Command, result.Arguments)
             {

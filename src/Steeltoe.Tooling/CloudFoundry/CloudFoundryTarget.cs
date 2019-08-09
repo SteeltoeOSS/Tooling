@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             try
             {
                 context.Console.Write($"Cloud Foundry ... ");
-                context.Console.WriteLine(cli.Run("--version").Trim());
+                context.Console.WriteLine(cli.Run("--version", "getting Cloud Foundry CLI version").Trim());
             }
             catch (ShellException)
             {
@@ -42,7 +42,7 @@ namespace Steeltoe.Tooling.CloudFoundry
             try
             {
                 context.Console.Write("logged into Cloud Foundry ... ");
-                cli.Run("target");
+                cli.Run("target", "checking if logged into Cloud Foundry");
                 context.Console.WriteLine("yes");
             }
             catch (ToolingException)

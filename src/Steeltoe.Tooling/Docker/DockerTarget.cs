@@ -34,10 +34,10 @@ namespace Steeltoe.Tooling.Docker
             var cli = new DockerCli(context.Shell);
             try
             {
-                var dockerVersion = cli.Run("--version").Trim();
+                var dockerVersion = cli.Run("--version", "getting Docker CLI version").Trim();
                 console.WriteLine(dockerVersion);
 
-                var dockerInfo = cli.Run("info");
+                var dockerInfo = cli.Run("info", "getting Docker info");
 
                 console.Write("Docker host OS ... ");
                 context.Console.WriteLine(new Regex(@"Operating System:\s*(.+)", RegexOptions.Multiline)
