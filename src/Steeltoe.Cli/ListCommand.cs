@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Executor;
+using Steeltoe.Tooling.Executors;
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
 

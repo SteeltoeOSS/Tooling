@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+// Copyright 2018 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Executors;
+using System;
 
-namespace Steeltoe.Cli
+namespace Steeltoe.Tooling.Executors
 {
-    [Command(Description = "Deploy apps and services to the target")]
-    public class DeployCommand : Command
+    /// <summary>
+    /// An attribute indicating a workflow that needs an existing Steeltoe Configuration.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class)]
+    public class RequiresInitializationAttribute : Attribute
     {
-        public const string Name = "deploy";
-
-        public DeployCommand(IConsole console) : base(console)
-        {
-        }
-
-        protected override Executor GetExecutor()
-        {
-            return new DeployExecutor();
-        }
     }
 }

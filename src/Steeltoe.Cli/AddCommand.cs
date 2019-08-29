@@ -14,7 +14,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Executor;
+using Steeltoe.Tooling.Executors;
 
 namespace Steeltoe.Cli
 {

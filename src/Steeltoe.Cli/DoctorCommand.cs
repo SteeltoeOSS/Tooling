@@ -14,7 +14,7 @@
 
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling;
-using Steeltoe.Tooling.Executor;
+using Steeltoe.Tooling.Executors;
 
 namespace Steeltoe.Cli
 {
