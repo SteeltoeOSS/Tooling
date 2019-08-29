@@ -17,6 +17,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Drivers" />
+  </ItemGroup>
   <Target Name="SpicNSpan" AfterTargets="Clean">
     <RemoveDir Directories="$(BaseOutputPath)" />
   </Target>

@@ -17,10 +17,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Tooling.CloudFoundry;
-using Steeltoe.Tooling.Docker;
-using Steeltoe.Tooling.Dummy;
-using Steeltoe.Tooling.Kubernetes;
+using Steeltoe.Tooling.Drivers.CloudFoundry;
+using Steeltoe.Tooling.Drivers.Docker;
+using Steeltoe.Tooling.Drivers.Dummy;
+using Steeltoe.Tooling.Drivers.Kubernetes;
 using YamlDotNet.Serialization;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 

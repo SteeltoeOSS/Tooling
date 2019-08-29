@@ -14,9 +14,9 @@
 
 using System.Collections.Generic;
 using Shouldly;
-using Steeltoe.Tooling.CloudFoundry;
-using Steeltoe.Tooling.Docker;
-using Steeltoe.Tooling.Dummy;
+using Steeltoe.Tooling.Drivers.CloudFoundry;
+using Steeltoe.Tooling.Drivers.Docker;
+using Steeltoe.Tooling.Drivers.Dummy;
 using Xunit;
 
 namespace Steeltoe.Tooling.Test
