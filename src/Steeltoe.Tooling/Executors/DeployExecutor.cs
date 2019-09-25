@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Threading;
+
 namespace Steeltoe.Tooling.Executors
 {
     /// <summary>
@@ -31,17 +34,34 @@ namespace Steeltoe.Tooling.Executors
         {
             foreach (var service in Context.Configuration.GetServices())
             {
-                int count = 0;
-                while (Context.Driver.GetServiceStatus(service) != Lifecycle.Status.Online)
+                var count = 0;
+                while (true)
                 {
                     ++count;
                     if (Settings.MaxChecks >= 0 && ++count > Settings.MaxChecks)
                     {
                         throw new ToolingException($"max check exceeded ({Settings.MaxChecks})");
                     }
+
+                    var startTicks = DateTime.Now.Ticks;
+                    if (Context.Driver.GetServiceStatus(service) == Lifecycle.Status.Online)
+                    {
+                        break;
+                    }
+
+                    const int ticksPerMillis = 10000;
+                    var elapsedMillis = (DateTime.Now.Ticks - startTicks) / ticksPerMillis;
+                    const int oneSecondMillis = 1000;
+                    var waitMillis = oneSecondMillis - elapsedMillis;
+                    if (waitMillis > 0L)
+                    {
+                        Thread.Sleep((int) waitMillis);
+                    }
+
                     Context.Console.WriteLine($"Waiting for service '{service}' to come online ({count})");
                 }
             }
+
             Context.Console.WriteLine($"Deploying app '{app}'");
             new Lifecycle(Context, app).Deploy();
         }
