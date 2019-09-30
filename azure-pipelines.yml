@@ -14,12 +14,12 @@ jobs:
     displayName: Build
     inputs:
       command: build
-      projects: '**/*.sln'
+      projects: '**/Tooling.sln'
       arguments: '--configuration Release'
   - task: DotNetCoreCLI@2
     inputs:
       command: test
-      projects: '**/*.Test/*.csproj'
+      projects: '**/test/**/*Test.csproj'
 - job: MacOS_Build_and_Test
   pool:
     vmImage: 'macOS-10.14'
@@ -28,12 +28,12 @@ jobs:
     displayName: Build
     inputs:
       command: build
-      projects: '**/*.sln'
+      projects: '**/Tooling.sln'
       arguments: '--configuration Release'
   - task: DotNetCoreCLI@2
     inputs:
       command: test
-      projects: '**/*.Test/*.csproj'
+      projects: '**/test/**/*Test.csproj'
 - job: Windows_Build_and_Test
   pool:
     vmImage: 'Windows-2019'
@@ -42,10 +42,10 @@ jobs:
     displayName: Build
     inputs:
       command: build
-      projects: '**/*.sln'
+      projects: '**/Tooling.sln'
       arguments: '--configuration Release'
   - task: DotNetCoreCLI@2
     inputs:
       command: test
-      projects: '**/*.Test/*.csproj'
+      projects: '**/test/**/*Test.csproj'
       arguments: '--configuration $(buildConfiguration)'
