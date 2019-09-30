@@ -1,0 +1,51 @@
+trigger:
+- master
+
+variables:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+jobs:
+- job: Linux_Build_and_Test
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: '**/*.sln'
+      arguments: '--configuration Release'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: '**/*.Test/*.csproj'
+- job: MacOS_Build_and_Test
+  pool:
+    vmImage: 'macOS-10.14'
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: '**/*.sln'
+      arguments: '--configuration Release'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: '**/*.Test/*.csproj'
+- job: Windows_Build_and_Test
+  pool:
+    vmImage: 'Windows-2019'
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: '**/*.sln'
+      arguments: '--configuration Release'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: '**/*.Test/*.csproj'
+      arguments: '--configuration $(buildConfiguration)'
