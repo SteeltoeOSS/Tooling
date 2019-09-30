@@ -1,5 +1,6 @@
 trigger:
 - master
+- dev
 
 variables:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
