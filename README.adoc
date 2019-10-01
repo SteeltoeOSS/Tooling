@@ -8,9 +8,7 @@
 :toc:
 :toclevels: 2
 
-Windows    image:{uri-status-windows}["Windows Build Status", link={uri-build-windows}]
-
-Linux/OS X image:{uri-status-linuxosx}["Linux/OS X Build Status", link={uri-build-linuxosx}]
+[![Build Status](https://dev.azure.com/SteeltoeOSS/Steeltoe/_apis/build/status/SteeltoeOSS.steeltoe?branchName=master)](https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/latest?definitionId=4&branchName=dev)
 
 == About
 
