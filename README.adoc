@@ -1,14 +1,12 @@
 :branch: dev
-:uri-build-windows: https://ci.appveyor.com/project/steeltoe/tooling/branch/{branch}
-:uri-status-windows: https://ci.appveyor.com/api/projects/status/bpwhsnue8j7iiwpp/branch/{branch}?svg=true
-:uri-build-linuxosx: https://travis-ci.org/SteeltoeOSS/Tooling
-:uri-status-linuxosx: {uri-build-linuxosx}.svg?branch={branch}
+:uri-build: https://dev.azure.com/SteeltoeOSS/Steeltoe/_build?definitionId=11&_a=summary
+:uri-build-status: https://dev.azure.com/SteeltoeOSS/Steeltoe/_apis/build/status/SteeltoeOSS.Tooling?branchName={branch}
 
 = Steeltoe Tooling
 :toc:
 :toclevels: 2
 
-[![Build Status](https://dev.azure.com/SteeltoeOSS/Steeltoe/_apis/build/status/SteeltoeOSS.steeltoe?branchName=master)](https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/latest?definitionId=4&branchName=dev)
+image:{uri-build-status}["Build Status", link={uri-build}]
 
 == About
 
