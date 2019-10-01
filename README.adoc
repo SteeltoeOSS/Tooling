@@ -1,4 +1,4 @@
-:branch: dev
+:branch: master
 :uri-build: https://dev.azure.com/SteeltoeOSS/Steeltoe/_build?definitionId=11&_a=summary
 :uri-build-status: https://dev.azure.com/SteeltoeOSS/Steeltoe/_apis/build/status/SteeltoeOSS.Tooling?branchName={branch}
 
