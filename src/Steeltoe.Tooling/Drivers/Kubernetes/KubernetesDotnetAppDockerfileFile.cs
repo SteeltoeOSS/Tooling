@@ -8,7 +8,7 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
     {
         private static readonly ILogger Logger =
             Logging.LoggerFactory.CreateLogger<KubernetesDotnetAppDockerfileFile>();
-        
+
         internal string File { get; }
 
         internal KubernetesDotnetAppDockerfile KubernetesDotnetAppDockerfile { get; private set; }
@@ -32,11 +32,11 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
             string text = System.IO.File.ReadAllText(File);
             KubernetesDotnetAppDockerfile = new KubernetesDotnetAppDockerfile()
             {
-                BaseImage = new Regex(@"^FROM\s+(.+)", RegexOptions.Multiline)
+                BaseImage = new Regex(@"^FROM\s+(\S+)", RegexOptions.Multiline)
                     .Match(text).Groups[1].ToString(),
-                App = new Regex(@"^CMD dotnet /app/(.+)\.dll$", RegexOptions.Multiline)
+                App = new Regex(@"^CMD dotnet /app/(.+)\.dll\s+", RegexOptions.Multiline)
                     .Match(text).Groups[1].ToString(),
-                BuildPath = new Regex(@"^COPY (.+) /app$", RegexOptions.Multiline)
+                BuildPath = new Regex(@"^COPY (.+) /app\s+", RegexOptions.Multiline)
                     .Match(text).Groups[1].ToString(),
             };
         }
@@ -54,6 +54,6 @@ CMD dotnet /app/{KubernetesDotnetAppDockerfile.App}.dll
         {
             return System.IO.File.Exists(File);
         }
-        
+
     }
 }
