@@ -124,6 +124,8 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
                         return Lifecycle.Status.Starting;
                     case "create succeeded":
                         return Lifecycle.Status.Online;
+                    case "delete in progress":
+                        return Lifecycle.Status.Stopping;
                 }
             }
             catch (CliException e)

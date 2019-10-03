@@ -195,5 +195,14 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
             var status = _driver.GetServiceStatus("my-service");
             status.ShouldBe(Lifecycle.Status.Offline);
         }
+
+        [Fact]
+        public void TestServiceStopping()
+        {
+            Context.Configuration.AddService("my-service", "dummy-svc");
+            Shell.AddResponse("status:    delete in progress");
+            var status = _driver.GetServiceStatus("my-service");
+            status.ShouldBe(Lifecycle.Status.Stopping);
+        }
     }
 }
