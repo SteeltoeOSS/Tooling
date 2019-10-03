@@ -52,7 +52,23 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("init"),
                 when => the_developer_runs_cli_command("init"),
-                then => the_cli_should_output("Initialized Steeltoe Developer Tools")
+                then => the_configuration_should_contain_app("init"),
+                then => the_cli_should_output(new[]
+                {
+                    "Added app 'init'",
+                    "Initialized Steeltoe Developer Tools",
+                })
+            );
+        }
+
+        [Scenario]
+        public void InitEmptyDirectory()
+        {
+            Runner.RunScenario(
+                given => an_empty_directory("empty_directory"),
+                when => the_developer_runs_cli_command("init"),
+                then => the_configuration_should_be_empty(),
+                and => the_cli_should_output("Initialized Steeltoe Developer Tools")
             );
         }
 
@@ -64,7 +80,11 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("init"),
                 then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools already initialized"),
                 when => the_developer_runs_cli_command("init --force"),
-                then => the_cli_should_output("Initialized Steeltoe Developer Tools")
+                then => the_cli_should_output(new[]
+                {
+                    "Added app 'init_force'",
+                    "Initialized Steeltoe Developer Tools",
+                })
             );
         }
     }

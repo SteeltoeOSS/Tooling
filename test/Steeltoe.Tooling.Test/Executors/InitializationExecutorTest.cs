@@ -30,6 +30,20 @@ namespace Steeltoe.Tooling.Test.Executors
         }
 
         [Fact]
+        public void TestInitializationAutodetectApp()
+        {
+            var projectFile = Path.Combine(Context.ProjectDirectory, "my-autodetected-app.csproj");
+            File.Create(projectFile).Dispose();
+            new InitializationExecutor().Execute(Context);
+            File.Exists(Path.Join(Context.ProjectDirectory, ConfigurationFile.DefaultFileName)).ShouldBeTrue();
+            Context.Configuration.GetAppInfo("my-autodetected-app").App.ShouldBe("my-autodetected-app");
+            var reader = new StringReader(Console.ToString());
+            reader.ReadLine().ShouldBe("Added app 'my-autodetected-app'");
+            reader.ReadLine().ShouldBe("Initialized Steeltoe Developer Tools");
+            reader.ReadLine().ShouldBeNull();
+        }
+
+        [Fact]
         public void TestInitializationForce()
         {
             var file = "config-file";

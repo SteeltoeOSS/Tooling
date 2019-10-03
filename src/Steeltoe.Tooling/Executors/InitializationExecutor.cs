@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System.IO;
+using Microsoft.Extensions.Logging;
+using Steeltoe.Tooling.Scanners;
 
 namespace Steeltoe.Tooling.Executors
 {
@@ -53,6 +55,13 @@ namespace Steeltoe.Tooling.Executors
             if (cfgFile.Exists() && !_force)
             {
                 throw new ToolingException("Steeltoe Developer Tools already initialized");
+            }
+
+            Context.Configuration = cfgFile.Configuration;
+
+            foreach (var appInfo in new AppScanner().Scan(Context.ProjectDirectory))
+            {
+                new AddExecutor(appInfo.App).Execute(Context);
             }
 
             cfgFile.Store();
