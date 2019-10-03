@@ -58,8 +58,8 @@ targets:
         service: p-circuit-breaker-dashboard
         plan: standard
       mysql:
-        service: p-mysql
-        plan: 100mb
+        service: p.mysql
+        plan: db-small
       postgresql:
         service: postgresql-10-odb
         plan: standalone
