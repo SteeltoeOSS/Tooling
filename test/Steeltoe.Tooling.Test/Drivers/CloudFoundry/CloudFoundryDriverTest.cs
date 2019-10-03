@@ -108,7 +108,7 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         {
             Context.Configuration.AddService("my-service", "mysql");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe("cf create-service p-mysql 100mb my-service");
+            Shell.LastCommand.ShouldBe("cf create-service p.mysql db-small my-service");
         }
 
         [Fact]
