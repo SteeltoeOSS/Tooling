@@ -86,6 +86,11 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
                 {
                     return Lifecycle.Status.Offline;
                 }
+
+                if (e.Error.Contains($"App '{app}' not found"))
+                {
+                    return Lifecycle.Status.Offline;
+                }
             }
 
             return Lifecycle.Status.Unknown;

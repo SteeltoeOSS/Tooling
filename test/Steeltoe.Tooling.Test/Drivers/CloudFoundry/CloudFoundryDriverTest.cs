@@ -161,21 +161,31 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         }
 
         [Fact]
-        public void TestServiceStarting()
-        {
-            Context.Configuration.AddService("my-service", "dummy-svc");
-            Shell.AddResponse("status:    create in progress");
-            var status = _driver.GetServiceStatus("my-service");
-            status.ShouldBe(Lifecycle.Status.Starting);
-        }
-
-        [Fact]
         public void TestAppOnline()
         {
             Context.Configuration.AddApp("my-app");
             Shell.AddResponse("#0   running   2018-11-02T16:32:37Z   16.9%   129.2M of 512M   124.8M of 1G");
             var status = _driver.GetAppStatus("my-app");
             status.ShouldBe(Lifecycle.Status.Online);
+        }
+
+        [Fact]
+        public void TestAppOffline()
+        {
+            Context.Configuration.AddApp("my-app");
+            Shell.AddResponse("App my-app not found.", -1);
+            _driver.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Offline);
+            Shell.AddResponse("App 'my-app' not found.", -1);
+            _driver.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Offline);
+        }
+
+        [Fact]
+        public void TestServiceStarting()
+        {
+            Context.Configuration.AddService("my-service", "dummy-svc");
+            Shell.AddResponse("status:    create in progress");
+            var status = _driver.GetServiceStatus("my-service");
+            status.ShouldBe(Lifecycle.Status.Starting);
         }
 
         [Fact]
