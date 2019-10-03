@@ -135,6 +135,15 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
             Shell.LastCommand.ShouldBe("cf create-service p-redis shared-vm my-service");
         }
 
+        [Fact]
+        public void TestDeployUnavailableService()
+        {
+            Context.Configuration.AddService("my-service", "zipkin");
+            var e = Assert.Throws<ToolingException>(
+                () => _driver.DeployService("my-service")
+            );
+            e.Message.ShouldBe("No Cloud Foundry service available for 'my-service' [zipkin]");
+        }
 
         [Fact]
         public void TestUndeployService()
