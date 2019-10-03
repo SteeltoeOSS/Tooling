@@ -99,7 +99,12 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
         public void DeployService(string service)
         {
             var svcInfo = _context.Configuration.GetServiceInfo(service);
-            var cfServiceDef = _context.Target.Configuration.ServiceTypeProperties[svcInfo.ServiceType];
+            _context.Target.Configuration.ServiceTypeProperties.TryGetValue(svcInfo.ServiceType, out var cfServiceDef);
+            if (cfServiceDef == null)
+            {
+                throw new ToolingException($"No Cloud Foundry service available for '{svcInfo.Service}' [{svcInfo.ServiceType}]");
+            }
+
             var cfCmd = $"create-service {cfServiceDef["service"]} {cfServiceDef["plan"]} {service}";
             var svcArgs = _context.Configuration.GetServiceArgs(service, "cloud-foundry") ?? "";
             if (svcArgs.Length > 0)

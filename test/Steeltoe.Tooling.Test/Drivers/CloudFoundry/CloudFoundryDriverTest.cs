@@ -108,7 +108,7 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         {
             Context.Configuration.AddService("my-service", "mysql");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe("cf create-service p-mysql 100mb my-service");
+            Shell.LastCommand.ShouldBe("cf create-service p.mysql db-small my-service");
         }
 
         [Fact]
@@ -135,6 +135,15 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
             Shell.LastCommand.ShouldBe("cf create-service p-redis shared-vm my-service");
         }
 
+        [Fact]
+        public void TestDeployUnavailableService()
+        {
+            Context.Configuration.AddService("my-service", "zipkin");
+            var e = Assert.Throws<ToolingException>(
+                () => _driver.DeployService("my-service")
+            );
+            e.Message.ShouldBe("No Cloud Foundry service available for 'my-service' [zipkin]");
+        }
 
         [Fact]
         public void TestUndeployService()
