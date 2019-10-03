@@ -122,7 +122,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
             Context.Configuration.AddService("my-service", "config-server");
             _driver.DeployService("my-service");
             var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
-            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/config-server:2.0.1");
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/config-server:2.0");
             deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
             deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(8888);
             var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
@@ -135,7 +135,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
             Context.Configuration.AddService("my-service", "eureka-server");
             _driver.DeployService("my-service");
             var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
-            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/eureka-server:2.0.1");
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/eureka-server:2.0");
             deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
             deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(8761);
             var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
@@ -148,7 +148,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
             Context.Configuration.AddService("my-service", "hystrix-dashboard");
             _driver.DeployService("my-service");
             var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
-            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/hystrix-dashboard:1.4.5");
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/hystrix-dashboard:1.4");
             deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
             deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(7979);
             var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
@@ -179,7 +179,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
             Context.Configuration.AddService("my-service", "mysql");
             _driver.DeployService("my-service");
             var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
-            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/mysql:5.7.24");
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/mysql:5.7");
             deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
             deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(3306);
             var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
@@ -205,7 +205,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
             Context.Configuration.AddService("my-service", "rabbitmq");
             _driver.DeployService("my-service");
             var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
-            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/rabbitmq:3.7.15");
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/rabbitmq:3.7");
             deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
             deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(5672);
             var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;
@@ -236,7 +236,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
             Context.Configuration.AddService("my-service", "zipkin");
             _driver.DeployService("my-service");
             var deployCfg = new KubernetesDeploymentConfigFile("my-service-deployment.yml").KubernetesDeploymentConfig;
-            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/zipkin:2.11.6");
+            deployCfg.Spec.Template.Spec.Containers[0].Image.ShouldBe("steeltoeoss/zipkin:2.11");
             deployCfg.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
             deployCfg.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(9411);
             var svcCfg = new KubernetesServiceConfigFile("my-service-service.yml").KubernetesServiceConfig;

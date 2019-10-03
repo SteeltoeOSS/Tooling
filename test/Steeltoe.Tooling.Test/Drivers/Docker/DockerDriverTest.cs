@@ -110,7 +110,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Context.Configuration.AddService("my-service", "config-server");
             _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/config-server:2.0.1");
+                "docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/config-server:2.0");
         }
 
         [Fact]
@@ -119,7 +119,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Context.Configuration.AddService("my-service", "eureka-server");
             _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0.1");
+                "docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0");
         }
 
         [Fact]
@@ -128,7 +128,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Context.Configuration.AddService("my-service", "hystrix-dashboard");
             _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4.5");
+                "docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4");
         }
 
         [Fact]
@@ -149,7 +149,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Context.Configuration.AddService("my-service", "mysql");
             _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 3306:3306 --detach --rm steeltoeoss/mysql:5.7.24");
+                "docker run --name my-service --publish 3306:3306 --detach --rm steeltoeoss/mysql:5.7");
         }
 
         [Fact]
@@ -167,7 +167,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Context.Configuration.AddService("my-service", "rabbitmq");
             _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 5672:5672 --detach --rm steeltoeoss/rabbitmq:3.7.15");
+                "docker run --name my-service --publish 5672:5672 --detach --rm steeltoeoss/rabbitmq:3.7");
         }
 
         [Fact]
@@ -188,7 +188,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Context.Configuration.AddService("my-service", "zipkin");
             _driver.DeployService("my-service");
             Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 9411:9411 --detach --rm steeltoeoss/zipkin:2.11.6");
+                "docker run --name my-service --publish 9411:9411 --detach --rm steeltoeoss/zipkin:2.11");
         }
 
         [Fact]
