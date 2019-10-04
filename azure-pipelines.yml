@@ -18,7 +18,7 @@ jobs:
     inputs:
       command: 'build'
       projects: '$(Solution).sln'
-      arguments: '--configuration $(buildConfiguration) /p:TreatWarningsAsErrors=True'
+      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
   - task: 'DotNetCoreCLI@2'
     displayName: 'Test'
     inputs:
@@ -33,7 +33,7 @@ jobs:
     inputs:
       command: 'build'
       projects: '$(Solution).sln'
-      arguments: '--configuration $(buildConfiguration) /p:TreatWarningsAsErrors=True'
+      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
   - task: 'DotNetCoreCLI@2'
     displayName: 'Test'
     inputs:
@@ -48,7 +48,7 @@ jobs:
     inputs:
       command: 'pack'
       packagesToPack: '$(Solution).sln'
-      arguments: '--configuration $(buildConfiguration) /p:TreatWarningsAsErrors=True'
+      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
       versioningScheme: 'byEnvVar'
       versionEnvVar: 'PackageVersion'
   - task: 'DotNetCoreCLI@2'
