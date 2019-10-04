@@ -5,6 +5,7 @@ trigger:
 variables:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  PackageVersion: $[format('0.5.0-{0}', variables['Build.BuildId'])]
 
 jobs:
 - job: Linux_Build_and_Test
@@ -40,11 +41,13 @@ jobs:
     vmImage: 'Windows-2019'
   steps:
   - task: DotNetCoreCLI@2
-    displayName: Build
+    displayName: Pack
     inputs:
-      command: build
-      projects: '**/Tooling.sln'
-      arguments: '--configuration Release'
+      command: 'pack'
+      arguments: '---no-restore -c $(buildConfiguration) /p:TreatWarningsAsErrors=True'
+      packagesToPack: 'Tooling.sln'
+      versioningScheme: 'byEnvVar'
+      versionEnvVar: 'PackageVersion'
   - task: DotNetCoreCLI@2
     inputs:
       command: test
