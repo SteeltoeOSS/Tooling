@@ -24,7 +24,7 @@ jobs:
     inputs:
       command: 'test'
       projects: '$(Solution).sln'
-- job: 'Mac OS'
+- job: 'OSX'
   pool:
     vmImage: 'macOS-10.14'
   steps:
