@@ -3,53 +3,56 @@ trigger:
 - dev
 
 variables:
+  Solution: 'Tooling'
+  PackageVersion: $[format('0.5.0-{0}', variables['Build.BuildId'])]
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
-  PackageVersion: $[format('0.5.0-{0}', variables['Build.BuildId'])]
 
 jobs:
-- job: Linux_Build_and_Test
+- job: 'Linux'
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
-  - task: DotNetCoreCLI@2
-    displayName: Build
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Build'
     inputs:
-      command: build
-      projects: '**/Tooling.sln'
-      arguments: '--configuration Release'
-  - task: DotNetCoreCLI@2
+      command: 'build'
+      projects: '$(Solution).sln'
+      arguments: '--configuration $(buildConfiguration) /p:TreatWarningsAsErrors=True'
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Test'
     inputs:
-      command: test
-      projects: '**/test/**/*Test.csproj'
-- job: MacOS_Build_and_Test
+      command: 'test'
+      projects: '$(Solution).sln'
+- job: 'Mac OS'
   pool:
     vmImage: 'macOS-10.14'
   steps:
-  - task: DotNetCoreCLI@2
-    displayName: Build
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Build'
     inputs:
-      command: build
-      projects: '**/Tooling.sln'
-      arguments: '--configuration Release'
-  - task: DotNetCoreCLI@2
+      command: 'build'
+      projects: '$(Solution).sln'
+      arguments: '--configuration $(buildConfiguration) /p:TreatWarningsAsErrors=True'
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Test'
     inputs:
-      command: test
-      projects: '**/test/**/*Test.csproj'
-- job: Windows_Build_and_Test
+      command: 'test'
+      projects: '$(Solution).sln'
+- job: 'Windows'
   pool:
-    vmImage: 'Windows-2019'
+    vmImage: 'Windows2019'
   steps:
-  - task: DotNetCoreCLI@2
-    displayName: Pack
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Pack'
     inputs:
       command: 'pack'
-      arguments: '---no-restore -c $(buildConfiguration) /p:TreatWarningsAsErrors=True'
-      packagesToPack: 'Tooling.sln'
+      packagesToPack: '$(Solution).sln'
+      arguments: '--configuration $(buildConfiguration) /p:TreatWarningsAsErrors=True'
       versioningScheme: 'byEnvVar'
       versionEnvVar: 'PackageVersion'
-  - task: DotNetCoreCLI@2
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Test'
     inputs:
-      command: test
-      projects: '**/test/**/*Test.csproj'
-      arguments: '--configuration $(buildConfiguration)'
+      command: 'test'
+      projects: '$(Solution).sln'
