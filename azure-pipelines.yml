@@ -56,3 +56,10 @@ jobs:
     inputs:
       command: 'test'
       projects: '$(Solution).sln'
+  - task: 'PublishBuildArtifacts@1'
+    displayName: 'Publish Artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'Packages'
+      publishLocation: 'Container'
+    condition: 'always()'
