@@ -41,7 +41,7 @@ jobs:
       projects: '$(Solution).sln'
 - job: 'Windows'
   pool:
-    vmImage: 'Windows2019'
+    vmImage: 'Windows-2019'
   steps:
   - task: 'DotNetCoreCLI@2'
     displayName: 'Pack'
