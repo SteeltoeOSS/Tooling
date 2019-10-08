@@ -53,17 +53,16 @@ namespace Steeltoe.Cli.Test
         // Givens
         //
 
+        protected void an_empty_directory(string name)
+        {
+            CreateProjectDirectory(name);
+        }
+
         protected void a_dotnet_project(string name)
         {
+            an_empty_directory(name);
             Logger.LogInformation($"rigging a dotnet project '{name}'");
-            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), name);
-            if (Directory.Exists(ProjectDirectory))
-            {
-                Directory.Delete(ProjectDirectory, true);
-            }
-
-            Logger.LogInformation($"creating project directory '${ProjectDirectory}'");
-            Directory.CreateDirectory(ProjectDirectory);
+            CreateProjectDirectory(name);
             var csprojFile = Path.Combine(ProjectDirectory, $"{name}.csproj");
             File.WriteAllText(csprojFile, @"<Project Sdk=""Microsoft.NET.Sdk"">
 
@@ -101,7 +100,7 @@ namespace scratch
 
         protected void the_developer_runs_cli_command(string command)
         {
-            Logger.LogInformation($"checking the developer runs cli command '{command}'");
+            Logger.LogInformation($"developer runs cli command '{command}'");
             var svcs = new ServiceCollection()
                 .AddSingleton<IConsole>(Console)
                 .BuildServiceProvider();
@@ -211,6 +210,15 @@ namespace scratch
             setting.ShouldBe(expected);
         }
 
+        protected void the_configuration_should_be_empty()
+        {
+            Logger.LogInformation($"checking the configuration should be empty");
+            var config = new ConfigurationFile(ProjectDirectory).Configuration;
+            config.Target.ShouldBeNull();
+            config.Apps.Count.ShouldBe(0);
+            config.Services.Count.ShouldBe(0);
+        }
+
         protected void the_configuration_should_target(string env)
         {
             Logger.LogInformation($"checking the target config '{env}' exists");
@@ -270,6 +278,18 @@ namespace scratch
             Logger.LogInformation($"checking the service '{service}' contains args '{args}' for target '{target}");
             var cfg = new ConfigurationFile(ProjectDirectory);
             cfg.Configuration.Services[service].DeployArgs[target].ShouldBe(args);
+        }
+
+        private void CreateProjectDirectory(string name)
+        {
+            Logger.LogInformation($"creating project directory '{ProjectDirectory}'");
+            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), name);
+            if (Directory.Exists(ProjectDirectory))
+            {
+                Directory.Delete(ProjectDirectory, true);
+            }
+
+            Directory.CreateDirectory(ProjectDirectory);
         }
 
         private static string NormalizeString(string s)

@@ -30,6 +30,7 @@ namespace Steeltoe.Cli.Test
                     "Initialize Steeltoe Developer Tools",
                     $"Usage: {Program.Name} init [options]",
                     "Options:",
+                    "-a|--autodetect Autodetect application",
                     "-F|--force Initialize the project even if already initialized",
                     "-?|-h|--help Show help information",
                 })
@@ -52,7 +53,36 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("init"),
                 when => the_developer_runs_cli_command("init"),
-                then => the_cli_should_output("Initialized Steeltoe Developer Tools")
+                then => the_cli_should_output(new[]
+                {
+                    "Initialized Steeltoe Developer Tools",
+                })
+            );
+        }
+
+        [Scenario]
+        public void InitAutodetect()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("init_autodetect"),
+                when => the_developer_runs_cli_command("init --autodetect"),
+                then => the_configuration_should_contain_app("init_autodetect"),
+                then => the_cli_should_output(new[]
+                {
+                    "Added app 'init_autodetect'",
+                    "Initialized Steeltoe Developer Tools",
+                })
+            );
+        }
+
+        [Scenario]
+        public void InitEmptyDirectory()
+        {
+            Runner.RunScenario(
+                given => an_empty_directory("empty_directory"),
+                when => the_developer_runs_cli_command("init"),
+                then => the_configuration_should_be_empty(),
+                and => the_cli_should_output("Initialized Steeltoe Developer Tools")
             );
         }
 
@@ -64,7 +94,10 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("init"),
                 then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools already initialized"),
                 when => the_developer_runs_cli_command("init --force"),
-                then => the_cli_should_output("Initialized Steeltoe Developer Tools")
+                then => the_cli_should_output(new[]
+                {
+                    "Initialized Steeltoe Developer Tools",
+                })
             );
         }
     }
