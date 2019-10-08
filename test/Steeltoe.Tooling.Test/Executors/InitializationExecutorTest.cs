@@ -34,7 +34,7 @@ namespace Steeltoe.Tooling.Test.Executors
         {
             var projectFile = Path.Combine(Context.ProjectDirectory, "my-autodetected-app.csproj");
             File.Create(projectFile).Dispose();
-            new InitializationExecutor().Execute(Context);
+            new InitializationExecutor(autodetect: true).Execute(Context);
             File.Exists(Path.Join(Context.ProjectDirectory, ConfigurationFile.DefaultFileName)).ShouldBeTrue();
             Context.Configuration.GetAppInfo("my-autodetected-app").App.ShouldBe("my-autodetected-app");
             var reader = new StringReader(Console.ToString());
@@ -52,7 +52,7 @@ namespace Steeltoe.Tooling.Test.Executors
                 () => new InitializationExecutor(file).Execute(Context)
             );
             e.Message.ShouldBe("Steeltoe Developer Tools already initialized");
-            new InitializationExecutor(file, true).Execute(Context);
+            new InitializationExecutor(file, force: true).Execute(Context);
             Console.ToString().Trim().ShouldBe("Initialized Steeltoe Developer Tools");
         }
     }

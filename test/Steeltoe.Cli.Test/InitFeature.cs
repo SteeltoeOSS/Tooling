@@ -30,6 +30,7 @@ namespace Steeltoe.Cli.Test
                     "Initialize Steeltoe Developer Tools",
                     $"Usage: {Program.Name} init [options]",
                     "Options:",
+                    "-a|--autodetect Autodetect application",
                     "-F|--force Initialize the project even if already initialized",
                     "-?|-h|--help Show help information",
                 })
@@ -52,10 +53,23 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("init"),
                 when => the_developer_runs_cli_command("init"),
-                then => the_configuration_should_contain_app("init"),
                 then => the_cli_should_output(new[]
                 {
-                    "Added app 'init'",
+                    "Initialized Steeltoe Developer Tools",
+                })
+            );
+        }
+
+        [Scenario]
+        public void InitAutodetect()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("init_autodetect"),
+                when => the_developer_runs_cli_command("init --autodetect"),
+                then => the_configuration_should_contain_app("init_autodetect"),
+                then => the_cli_should_output(new[]
+                {
+                    "Added app 'init_autodetect'",
                     "Initialized Steeltoe Developer Tools",
                 })
             );
@@ -82,7 +96,6 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("init --force"),
                 then => the_cli_should_output(new[]
                 {
-                    "Added app 'init_force'",
                     "Initialized Steeltoe Developer Tools",
                 })
             );

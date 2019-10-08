@@ -25,6 +25,8 @@ namespace Steeltoe.Tooling.Executors
     {
         private readonly string _path;
 
+        private readonly bool _autodetect;
+
         private readonly bool _force;
 
         /// <summary>
@@ -33,11 +35,13 @@ namespace Steeltoe.Tooling.Executors
         /// If the <paramref name="path"/> is a directory, the path is the directory joined with the default file name.
         /// </summary>
         /// <param name="path">Path to the Steeltoe Configuration file.</param>
+        /// <param name="autodetect">Detect apps when initializing.</param>
         /// <param name="force">Forces the overwriting of an existing configuration file.</param>
         /// <seealso cref="ConfigurationFile"/>.
-        public InitializationExecutor(string path = null, bool force = false)
+        public InitializationExecutor(string path = null, bool autodetect = false, bool force = false)
         {
             _path = path;
+            _autodetect = autodetect;
             _force = force;
         }
 
@@ -59,9 +63,12 @@ namespace Steeltoe.Tooling.Executors
 
             Context.Configuration = cfgFile.Configuration;
 
-            foreach (var appInfo in new AppScanner().Scan(Context.ProjectDirectory))
+            if (_autodetect)
             {
-                new AddExecutor(appInfo.App).Execute(Context);
+                foreach (var appInfo in new AppScanner().Scan(Context.ProjectDirectory))
+                {
+                    new AddExecutor(appInfo.App).Execute(Context);
+                }
             }
 
             cfgFile.Store();

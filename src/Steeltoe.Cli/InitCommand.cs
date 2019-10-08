@@ -24,6 +24,9 @@ namespace Steeltoe.Cli
     {
         public const string Name = "init";
 
+        [Option("-a|--autodetect", Description = "Autodetect application")]
+        private bool Autodetect { get; }
+
         [Option("-F|--force", Description = "Initialize the project even if already initialized")]
         private bool Force { get; }
 
@@ -33,7 +36,7 @@ namespace Steeltoe.Cli
 
         protected override Executor GetExecutor()
         {
-            return new InitializationExecutor(Program.ProjectConfigurationPath, Force);
+            return new InitializationExecutor(Program.ProjectConfigurationPath, autodetect: Autodetect, force: Force);
         }
     }
 }
