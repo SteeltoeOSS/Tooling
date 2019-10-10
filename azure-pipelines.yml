@@ -45,9 +45,10 @@ jobs:
   steps:
   - pwsh: |
       if ($env:PackageVersionOverride) {
-        Write-Host "overriding package version: $env:PackageVersion -> $env:PackageVersionOverride"
+        Write-Host "overriding build version $env:PackageVersion -> $env:PackageVersionOverride"
         $env:PackageVersion = $env:PackageVersionOverride
       }
+      Write-Host "build version set to $env:PackageVersion"
     env:
       PackageVersion: $(PackageVersion)
       PackageVersionOverride: $(PackageVersionOverride)
