@@ -43,6 +43,14 @@ jobs:
   pool:
     vmImage: 'Windows-2019'
   steps:
+  - pwsh: |
+      if ($env:PackageVersionOverride) {
+        Write-Host "overriding package version: $env:PackageVersion -> $env:PackageVersionOverride"
+        $env:PackageVersion = $env:PackageVersionOverride
+      }
+    env:
+      PackageVersion: $(PackageVersion)
+      PackageVersionOverride: $(PackageVersionOverride)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
