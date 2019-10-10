@@ -44,7 +44,7 @@ jobs:
     vmImage: 'Windows-2019'
   steps:
   - task: 'DotNetCoreCLI@2'
-    displayName: 'Pack'
+    displayName: 'Build'
     inputs:
       command: 'pack'
       packagesToPack: '$(Solution).sln'
@@ -56,8 +56,17 @@ jobs:
     inputs:
       command: 'test'
       projects: '$(Solution).sln'
+  - task: PowerShell@2
+    displayName: 'Sign'
+    inputs:
+      filePath: build/sign-packages.ps1
+    env:
+      SignClientUser: $(SignClientUser)
+      SignClientSecret: $(SignClientSecret)
+      ArtifactDirectory: $(Build.ArtifactStagingDirectory)
+    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
   - task: 'PublishBuildArtifacts@1'
-    displayName: 'Publish Artifacts'
+    displayName: 'Publish'
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'Packages'
