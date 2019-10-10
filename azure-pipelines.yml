@@ -51,6 +51,7 @@ jobs:
     env:
       PackageVersion: $(PackageVersion)
       PackageVersionOverride: $(PackageVersionOverride)
+    displayName: 'Version'
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
