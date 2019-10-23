@@ -15,8 +15,14 @@ if ([string]::IsNullOrEmpty($Env:SignClientSecret)) {
 New-Item -ItemType Directory -Force -Path $toolDir
 dotnet tool install --tool-path $toolDir signclient
 
+Write-Host "looking for nugets in $ArtifactDirectory"
 $nupkgs = Get-ChildItem $ArtifactDirectory/Steeltoe*.*nupkg -recurse | Select-Object -ExpandProperty FullName
-foreach ($nupkg in $nupkgs) {
-    Write-Host "signing $nupkg"
-    & $toolDir/SignClient 'sign' -c $appSettings -i $nupkg -r $Env:SignClientUser -s $Env:SignClientSecret -n 'Steeltoe' -d 'Steeltoe' -u 'https://github.com/SteeltoeOSS'
+if ($nupkgs) {
+    foreach ($nupkg in $nupkgs) {
+        Write-Host "signing $nupkg"
+        # & $toolDir/SignClient 'sign' -c $appSettings -i $nupkg -r $Env:SignClientUser -s $Env:SignClientSecret -n 'Steeltoe' -d 'Steeltoe' -u 'https://github.com/SteeltoeOSS'
+    }
+}
+else {
+    Write-Host "no nugets found"
 }
