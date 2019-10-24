@@ -3,50 +3,89 @@ trigger:
 - dev
 
 variables:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+- group: '.NET Foundation'
+- name: Solution
+  value: 'Tooling'
+- name: PackageVersion
+  value: $[format('0.5.0-{0}', variables['Build.BuildId'])]
+- name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
+  value: true
+- name: DOTNET_CLI_TELEMETRY_OPTOUT
+  value: 1
 
 jobs:
-- job: Linux_Build_and_Test
+- job: 'Linux'
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
-  - task: DotNetCoreCLI@2
-    displayName: Build
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Build'
     inputs:
-      command: build
-      projects: '**/Tooling.sln'
-      arguments: '--configuration Release'
-  - task: DotNetCoreCLI@2
+      command: 'build'
+      projects: '$(Solution).sln'
+      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Test'
     inputs:
-      command: test
-      projects: '**/test/**/*Test.csproj'
-- job: MacOS_Build_and_Test
+      command: 'test'
+      projects: '$(Solution).sln'
+- job: 'OSX'
   pool:
     vmImage: 'macOS-10.14'
   steps:
-  - task: DotNetCoreCLI@2
-    displayName: Build
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Build'
     inputs:
-      command: build
-      projects: '**/Tooling.sln'
-      arguments: '--configuration Release'
-  - task: DotNetCoreCLI@2
+      command: 'build'
+      projects: '$(Solution).sln'
+      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Test'
     inputs:
-      command: test
-      projects: '**/test/**/*Test.csproj'
-- job: Windows_Build_and_Test
+      command: 'test'
+      projects: '$(Solution).sln'
+- job: 'Windows'
   pool:
     vmImage: 'Windows-2019'
   steps:
-  - task: DotNetCoreCLI@2
-    displayName: Build
+  - pwsh: |
+      if ($env:PackageVersionOverride) {
+        Write-Host "overriding build version $env:PackageVersion -> $env:PackageVersionOverride"
+        $env:PackageVersion = $env:PackageVersionOverride
+      }
+      Write-Host "build version set to $env:PackageVersion"
+      Write-Host "##vso[build.updatebuildnumber]$env:PackageVersion"
+      Write-Host "##vso[task.setvariable variable=PackageVersion;]$env:PackageVersion"
+    env:
+      PackageVersion: $(PackageVersion)
+      PackageVersionOverride: $(PackageVersionOverride)
+    displayName: 'Version'
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Build'
     inputs:
-      command: build
-      projects: '**/Tooling.sln'
-      arguments: '--configuration Release'
-  - task: DotNetCoreCLI@2
+      command: 'pack'
+      packagesToPack: '$(Solution).sln'
+      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
+      versioningScheme: 'byEnvVar'
+      versionEnvVar: 'PackageVersion'
+  - task: 'DotNetCoreCLI@2'
+    displayName: 'Test'
     inputs:
-      command: test
-      projects: '**/test/**/*Test.csproj'
-      arguments: '--configuration $(buildConfiguration)'
+      command: 'test'
+      projects: '$(Solution).sln'
+  - task: PowerShell@2
+    displayName: 'Sign'
+    inputs:
+      filePath: build/sign-packages.ps1
+    env:
+      SignClientUser: $(SignClientUser)
+      SignClientSecret: $(SignClientSecret)
+      ArtifactDirectory: $(Build.ArtifactStagingDirectory)
+    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+  - task: 'PublishBuildArtifacts@1'
+    displayName: 'Publish'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'Packages'
+      publishLocation: 'Container'
+    condition: 'always()'

@@ -29,7 +29,7 @@ namespace Steeltoe.Tooling
         /// <summary>
         /// Steeltoe Tooling configuration.
         /// </summary>
-        public Configuration Configuration { get; }
+        public Configuration Configuration { get; set; }
 
         /// <summary>
         /// Steeltoe Tooling console.  Typically the console is used to display messages to the user.

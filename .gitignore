@@ -274,3 +274,6 @@ dummy-service-backend.db
 
 # OS X Finder state
 \.DS_Store
+
+# local tools
+/tools/
