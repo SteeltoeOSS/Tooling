@@ -91,10 +91,11 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("init_force"),
-                when => the_developer_runs_cli_command("init"),
+                and => the_developer_runs_cli_command("init"),
                 then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools already initialized"),
                 when => the_developer_runs_cli_command("init --force"),
-                then => the_cli_should_output(new[]
+                then => the_configuration_should_be_empty(),
+                and => the_cli_should_output(new[]
                 {
                     "Initialized Steeltoe Developer Tools",
                 })

@@ -56,9 +56,14 @@ namespace Steeltoe.Tooling.Executors
                 : Path.Combine(Context.ProjectDirectory, _path);
 
             var cfgFile = new ConfigurationFile(path);
-            if (cfgFile.Exists() && !_force)
+            if (cfgFile.Exists())
             {
-                throw new ToolingException("Steeltoe Developer Tools already initialized");
+                if (!_force)
+                {
+                    throw new ToolingException("Steeltoe Developer Tools already initialized");
+                }
+                File.Delete(cfgFile.File);
+                cfgFile = new ConfigurationFile(path);
             }
 
             Context.Configuration = cfgFile.Configuration;
