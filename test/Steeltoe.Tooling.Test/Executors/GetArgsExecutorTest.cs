@@ -43,7 +43,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetAppArgs()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             new SetArgsExecutor("my-app", "arg1 arg2").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-app").Execute(Context);
@@ -53,7 +53,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetAppTargetArgs()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             new SetArgsExecutor("my-app", "dummy-target", "arg1 arg2").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-app", "dummy-target").Execute(Context);
@@ -63,7 +63,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetAppNoArgs()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-app").Execute(Context);
             Console.ToString().Trim().ShouldBeEmpty();
@@ -72,7 +72,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetAppTargetNoArgs()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-app", "dummy-target").Execute(Context);
             Console.ToString().Trim().ShouldBeEmpty();
@@ -81,7 +81,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetAppArgsUnknownTarget()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             var e = Assert.Throws<ItemDoesNotExistException>(
                 () => new GetArgsExecutor("my-app", "no-such-target").Execute(Context)
             );
@@ -92,7 +92,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetServiceArgs()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             new SetArgsExecutor("my-service", "arg1 arg2").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-service").Execute(Context);
@@ -102,7 +102,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetServiceTargetArgs()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             new SetArgsExecutor("my-service", "dummy-target", "arg1 arg2").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-service", "dummy-target").Execute(Context);
@@ -112,7 +112,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetServiceNoArgs()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-service").Execute(Context);
             Console.ToString().Trim().ShouldBeEmpty();
@@ -121,7 +121,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetServiceTargetNoArgs()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             ClearConsole();
             new GetArgsExecutor("my-service", "dummy-target").Execute(Context);
             Console.ToString().Trim().ShouldBeEmpty();
@@ -130,7 +130,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestGetServiceArgsUnknownTarget()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             var e = Assert.Throws<ItemDoesNotExistException>(
                 () => new GetArgsExecutor("my-service", "no-such-target").Execute(Context)
             );

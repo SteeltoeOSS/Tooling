@@ -69,7 +69,7 @@ namespace Steeltoe.Cli.Test
                 then => the_configuration_should_contain_app("init_autodetect"),
                 then => the_cli_should_output(new[]
                 {
-                    "Added app 'init_autodetect'",
+                    "Added app 'init_autodetect' (netcoreapp2.1/win10-x64)",
                     "Initialized Steeltoe Developer Tools",
                 })
             );

@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
         [Fact]
         public void TestDeployApp()
         {
-            Context.Configuration.AddApp("my-App");
+            Context.Configuration.AddApp("my-App", "dummy-framework", "dummy-runtime");
             _driver.DeployApp("my-App");
             // Dockerfile
             var dockerfileFile = new KubernetesDotnetAppDockerfileFile("Dockerfile");
@@ -79,7 +79,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
         [Fact]
         public void TestUndeployApp()
         {
-            Context.Configuration.AddApp("my-App");
+            Context.Configuration.AddApp("my-App", "dummy-framework", "dummy-runtime");
             _driver.UndeployApp("my-App");
             Shell.Commands.Count.ShouldBe(2);
             Shell.Commands[0].ShouldBe("kubectl delete --filename my-App-service.yml");
@@ -257,7 +257,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
         [Fact]
         public void TestCheckApp()
         {
-            Context.Configuration.AddApp("my-App");
+            Context.Configuration.AddApp("my-App", "dummy-framework", "dummy-runtime");
             _driver.GetAppStatus("my-App");
             Shell.Commands.Count.ShouldBe(2);
             Shell.Commands[0].ShouldBe("kubectl get pods --selector app=my-app");
@@ -298,7 +298,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
         [Fact]
         public void TestAppOnline()
         {
-            Context.Configuration.AddApp("my-App");
+            Context.Configuration.AddApp("my-App", "dummy-framework", "dummy-runtime");
             Shell.AddResponse("Running");
             _driver.GetAppStatus("my-App").ShouldBe(Lifecycle.Status.Online);
         }

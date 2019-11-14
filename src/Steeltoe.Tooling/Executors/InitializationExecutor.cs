@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.IO;
-using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling.Scanners;
 
 namespace Steeltoe.Tooling.Executors
@@ -62,6 +61,7 @@ namespace Steeltoe.Tooling.Executors
                 {
                     throw new ToolingException("Steeltoe Developer Tools already initialized");
                 }
+
                 File.Delete(cfgFile.File);
                 cfgFile = new ConfigurationFile(path);
             }
@@ -72,7 +72,8 @@ namespace Steeltoe.Tooling.Executors
             {
                 foreach (var appInfo in new AppScanner().Scan(Context.ProjectDirectory))
                 {
-                    new AddExecutor(appInfo.App).Execute(Context);
+                    // TODO: guess framework/runtime rather than hardcode
+                    new AddAppExecutor(appInfo.App, "netcoreapp2.1", "win10-x64").Execute(Context);
                 }
             }
 

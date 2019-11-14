@@ -32,7 +32,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Docker
         [Fact]
         public void TestDeployApp()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _driver.DeployApp("my-app");
             Shell.Commands[0].ShouldBe("dotnet publish -f netcoreapp2.1");
             Shell.Commands[1].ShouldBe(
@@ -50,7 +50,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Docker
         [Fact]
         public void TestGetAppLifecycleStateCommand()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _driver.GetAppStatus("my-app");
             Shell.LastCommand.ShouldBe("docker ps --no-trunc --filter name=^/my-app$");
         }
@@ -58,7 +58,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Docker
         [Fact]
         public void TestGetAppLifecycleStateOffline()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             var state = _driver.GetAppStatus("my-app");
             state.ShouldBe(Lifecycle.Status.Offline);
         }
@@ -66,7 +66,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Docker
         [Fact]
         public void TestGetAppLifecycleStateStarting()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             Shell.AddResponse(
                 @"CONTAINER ID                                                       IMAGE                        COMMAND                                               CREATED             STATUS              PORTS                  NAMES
 d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/dotnet-sdk:2.1   ""dotnet /work/bin/Debug/netcoreapp2.1/MyWebApp.dll""   56 seconds ago      Up 55 seconds       0.0.0.0:8080->80/tcp   my-app

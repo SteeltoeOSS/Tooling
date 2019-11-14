@@ -48,7 +48,7 @@ namespace Steeltoe.Tooling.Test
             var file = Path.Combine(Context.ProjectDirectory, "config-file");
             var cfgFile = new ConfigurationFile(file);
             cfgFile.Configuration.Target = "dummy-target";
-            cfgFile.Configuration.AddApp("my-app");
+            cfgFile.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             cfgFile.Configuration.AddService("my-service", "dummy-svc");
             cfgFile.Store();
             File.ReadAllText(file).ShouldBe(SampleConfig);
@@ -59,7 +59,7 @@ namespace Steeltoe.Tooling.Test
         {
             var cfgFile = new ConfigurationFile(Context.ProjectDirectory);
             cfgFile.Configuration.Target = "dummy-target";
-            cfgFile.Configuration.AddApp("my-app");
+            cfgFile.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             cfgFile.Configuration.AddService("my-service", "dummy-svc");
             cfgFile.Store();
             var defaultFile = Path.Combine(Context.ProjectDirectory, ConfigurationFile.DefaultFileName);
@@ -69,6 +69,8 @@ namespace Steeltoe.Tooling.Test
         private const string SampleConfig = @"target: dummy-target
 apps:
   my-app:
+    targetFramework: dummy-framework
+    targetRuntime: dummy-runtime
     deployArgs: {}
 services:
   my-service:
