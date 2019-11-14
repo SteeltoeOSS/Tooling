@@ -23,7 +23,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestUndeploy()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             Context.Configuration.AddService("my-service", "dummy-svc");
             Context.Configuration.AddService("my-other-service", "dummy-svc");
             new DeployExecutor().Execute(Context);

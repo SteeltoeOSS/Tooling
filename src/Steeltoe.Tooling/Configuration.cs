@@ -60,16 +60,19 @@ namespace Steeltoe.Tooling
         /// Adds the named application to this configuration.
         /// </summary>
         /// <param name="app">Name of application to be added.</param>
+        /// <param name="framework">Target framework.</param>
         /// <exception cref="ItemExistsException">Thrown if an application of the same name has already been added to this configuration.</exception>
-        public void AddApp(string app)
+        public void AddApp(string app, string framework, string runtime)
         {
-            Logger.LogDebug($"adding app {app}");
+            Logger.LogDebug($"adding app {app} ({framework})");
             if (Apps.ContainsKey(app))
             {
                 throw new ItemExistsException(app, "app");
             }
 
             Apps[app] = new App();
+            Apps[app].TargetFramework = framework;
+            Apps[app].TargetRuntime = runtime;
             NotifyChanged();
         }
 
@@ -375,9 +378,22 @@ namespace Steeltoe.Tooling
         public class App
         {
             /// <summary>
+            /// Application target framework.
+            /// </summary>
+            [YamlMember(Alias = "targetFramework")]
+            public string TargetFramework { get; set; }
+
+            /// <summary>
+            /// Application target runtime.
+            /// </summary>
+            [YamlMember(Alias = "targetRuntime")]
+            public string TargetRuntime { get; set; }
+
+            /// <summary>
             /// Application arguments.
             /// </summary>
-            [YamlMember(Alias = "args")] public string Args { get; set; }
+            [YamlMember(Alias = "args")]
+            public string Args { get; set; }
 
             /// <summary>
             /// Application deployment target arguments.
@@ -394,7 +410,8 @@ namespace Steeltoe.Tooling
             /// <summary>
             /// Application service type.
             /// </summary>
-            [YamlMember(Alias = "type")] public string ServiceTypeName { get; set; }
+            [YamlMember(Alias = "type")]
+            public string ServiceTypeName { get; set; }
         }
     }
 }

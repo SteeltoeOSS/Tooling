@@ -60,9 +60,9 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("undeploy_services"),
-                when => the_developer_runs_cli_command("add app my-app"),
-                and => the_developer_runs_cli_command("add dummy-svc my-service-a"),
-                and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
+                when => the_developer_runs_cli_command("add-app my-app"),
+                and => the_developer_runs_cli_command("add-service dummy-svc my-service-a"),
+                and => the_developer_runs_cli_command("add-service dummy-svc my-service-b"),
                 and => the_developer_runs_cli_command("deploy"),
                 and => the_developer_runs_cli_command("status"),
                 and => the_developer_runs_cli_command("undeploy"),

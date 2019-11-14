@@ -47,7 +47,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetAppArgs()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             ClearConsole();
             new SetArgsExecutor("my-app", "arg1 arg2").Execute(Context);
             Console.ToString().Trim().ShouldBe("Set 'my-app' app args to 'arg1 arg2'");
@@ -57,7 +57,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetAppTargetArgs()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             ClearConsole();
             new SetArgsExecutor("my-app", "dummy-target", "arg1 arg2").Execute(Context);
             Console.ToString().Trim().ShouldBe("Set 'dummy-target' deploy args for 'my-app' app to 'arg1 arg2'");
@@ -67,7 +67,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetAppArgsForce()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             ClearConsole();
             new SetArgsExecutor("my-app", "arg1 arg2").Execute(Context);
             var e = Assert.Throws<ToolingException>(
@@ -84,7 +84,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetAppTargetArgsForce()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             ClearConsole();
             new SetArgsExecutor("my-app", "dummy-target", "arg1 arg2").Execute(Context);
             var e = Assert.Throws<ToolingException>(
@@ -101,7 +101,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetAppTargetArgsUnknownTarget()
         {
-            new AddExecutor("my-app").Execute(Context);
+            new AddAppExecutor("my-app", "dummy-framework", "dummy-runtime").Execute(Context);
             var e = Assert.Throws<ItemDoesNotExistException>(
                 () => new SetArgsExecutor("my-app", "no-such-target", "arg1").Execute(Context)
             );
@@ -113,7 +113,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetServiceArgs()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             ClearConsole();
             new SetArgsExecutor("my-service", "arg1 arg2").Execute(Context);
             Console.ToString().Trim().ShouldBe("Set 'my-service' dummy-svc service args to 'arg1 arg2'");
@@ -123,7 +123,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetServiceTargetArgs()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             ClearConsole();
             new SetArgsExecutor("my-service", "dummy-target", "arg1 arg2").Execute(Context);
             Console.ToString().Trim()
@@ -134,7 +134,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetServiceArgsForce()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             ClearConsole();
             new SetArgsExecutor("my-service", "arg1 arg2").Execute(Context);
             var e = Assert.Throws<ToolingException>(
@@ -151,7 +151,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetServiceTargetArgsForce()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             ClearConsole();
             new SetArgsExecutor("my-service", "dummy-target", "arg1 arg2").Execute(Context);
             var e = Assert.Throws<ToolingException>(
@@ -170,7 +170,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestSetServiceTargetArgsUnknownTarget()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             var e = Assert.Throws<ItemDoesNotExistException>(
                 () => new SetArgsExecutor("my-service", "no-such-target", "arg1").Execute(Context)
             );

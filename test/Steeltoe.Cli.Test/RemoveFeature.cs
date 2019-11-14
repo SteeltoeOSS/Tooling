@@ -72,7 +72,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("remove_app"),
-                when => the_developer_runs_cli_command("add app my-app"),
+                when => the_developer_runs_cli_command("add-app my-app"),
                 and => the_developer_runs_cli_command("remove my-app"),
                 then => the_cli_should_output("Removed app 'my-app'"),
                 and => the_configuration_should_not_contain_app("my-app")
@@ -84,7 +84,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("remove_service"),
-                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                when => the_developer_runs_cli_command("add-service dummy-svc my-service"),
                 and => the_developer_runs_cli_command("remove my-service"),
                 then => the_cli_should_output("Removed dummy-svc service 'my-service'"),
                 and => the_configuration_should_not_contain_service("my-service")

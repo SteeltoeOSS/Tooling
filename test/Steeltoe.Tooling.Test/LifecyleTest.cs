@@ -22,7 +22,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestAppStateMachine()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             var lifecycle = new Lifecycle(Context, "my-app");
 
             // start state -> offline

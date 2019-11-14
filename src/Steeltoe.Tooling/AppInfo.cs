@@ -25,7 +25,7 @@ namespace Steeltoe.Tooling
         public string App { get; }
 
         /// <summary>
-        /// Creates a new AppInfo for the specifed applicaition.
+        /// Creates a new AppInfo for the specified applicaition.
         /// </summary>
         /// <param name="app">Application name.</param>
         public AppInfo(string app)

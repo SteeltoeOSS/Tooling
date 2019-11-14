@@ -31,7 +31,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestList()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             Context.Configuration.AddService("my-service-c", "dummy-svc");
             Context.Configuration.AddService("my-service-a", "dummy-svc");
             Context.Configuration.AddService("my-service-b", "dummy-svc");
@@ -48,7 +48,7 @@ namespace Steeltoe.Tooling.Test.Executors
         [Fact]
         public void TestListVerbose()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             Context.Configuration.AddService("my-service-c", "dummy-svc");
             Context.Configuration.AddService("my-service-a", "dummy-svc");
             Context.Configuration.AddService("my-service-b", "dummy-svc");

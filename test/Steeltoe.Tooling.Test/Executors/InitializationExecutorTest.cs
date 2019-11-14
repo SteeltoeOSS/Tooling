@@ -38,7 +38,7 @@ namespace Steeltoe.Tooling.Test.Executors
             File.Exists(Path.Join(Context.ProjectDirectory, ConfigurationFile.DefaultFileName)).ShouldBeTrue();
             Context.Configuration.GetAppInfo("my-autodetected-app").App.ShouldBe("my-autodetected-app");
             var reader = new StringReader(Console.ToString());
-            reader.ReadLine().ShouldBe("Added app 'my-autodetected-app'");
+            reader.ReadLine().ShouldBe("Added app 'my-autodetected-app' (netcoreapp2.1/win10-x64)");
             reader.ReadLine().ShouldBe("Initialized Steeltoe Developer Tools");
             reader.ReadLine().ShouldBeNull();
         }

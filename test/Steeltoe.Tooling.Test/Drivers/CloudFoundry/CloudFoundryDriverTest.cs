@@ -30,14 +30,14 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         }
 
         [Fact]
-        public void TestDeployApp()
+        public void TestDeployAppWindows()
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "win");
             _driver.DeployApp("my-app");
             Shell.Commands.Count.ShouldBe(2);
-            Shell.Commands[0].ShouldBe("dotnet publish -f netcoreapp2.1 -r win10-x64");
-            Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yml -p bin/Debug/netcoreapp2.1/win10-x64/publish");
+            Shell.Commands[0].ShouldBe("dotnet publish -f dummy-framework -r win");
+            Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yml -p bin/Debug/dummy-framework/win/publish");
             var manifestFile =
                 new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yml"));
             manifestFile.Exists().ShouldBeTrue();
@@ -46,8 +46,33 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
             app.Name.ShouldBe("my-app");
             app.Command.ShouldBe($"cmd /c .\\{Path.GetFileName(Context.ProjectDirectory)}");
             app.BuildPacks.Count.ShouldBe(1);
-            app.BuildPacks[0].ShouldBe("binary_buildpack");
+            app.BuildPacks[0].ShouldBe("hwc_buildpack");
             app.Stack.ShouldBe("windows2016");
+            app.Memory.ShouldBe("512M");
+            app.Environment["ASPNETCORE_ENVIRONMENT"].ShouldBe("development");
+            app.ServiceNames[0].ShouldBe("my-service");
+            app.ServiceNames.Count.ShouldBe(1);
+        }
+
+        [Fact]
+        public void TestDeployAppUbuntu()
+        {
+            Context.Configuration.AddService("my-service", "dummy-svc");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "ubuntu");
+            _driver.DeployApp("my-app");
+            Shell.Commands.Count.ShouldBe(2);
+            Shell.Commands[0].ShouldBe("dotnet publish -f dummy-framework -r ubuntu");
+            Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yml -p bin/Debug/dummy-framework/ubuntu/publish");
+            var manifestFile =
+                new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yml"));
+            manifestFile.Exists().ShouldBeTrue();
+            manifestFile.CloudFoundryManifest.Applications.Count.ShouldBe(1);
+            var app = manifestFile.CloudFoundryManifest.Applications[0];
+            app.Name.ShouldBe("my-app");
+            app.Command.ShouldBe($"cd ${{HOME}} && ./{Path.GetFileName(Context.ProjectDirectory)}");
+            app.BuildPacks.Count.ShouldBe(1);
+            app.BuildPacks[0].ShouldBe("dotnet_core_buildpack");
+            app.Stack.ShouldBeNull();
             app.Memory.ShouldBe("512M");
             app.Environment["ASPNETCORE_ENVIRONMENT"].ShouldBe("development");
             app.ServiceNames[0].ShouldBe("my-service");
@@ -57,7 +82,7 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         [Fact]
         public void TestUndeployApp()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _driver.UndeployApp("my-app");
             Shell.LastCommand.ShouldBe("cf delete my-app -f");
         }
@@ -120,7 +145,7 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         }
 
         [Fact]
-        public void TestDeployRabbitMQ()
+        public void TestDeployRabbitMq()
         {
             Context.Configuration.AddService("my-service", "rabbitmq");
             _driver.DeployService("my-service");
@@ -156,7 +181,7 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         [Fact]
         public void TestCheckApp()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _driver.GetAppStatus("my-app");
             Shell.LastCommand.ShouldBe("cf app my-app");
         }
@@ -172,7 +197,7 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         [Fact]
         public void TestAppOnline()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             Shell.AddResponse("#0   running   2018-11-02T16:32:37Z   16.9%   129.2M of 512M   124.8M of 1G");
             var status = _driver.GetAppStatus("my-app");
             status.ShouldBe(Lifecycle.Status.Online);
@@ -181,7 +206,7 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         [Fact]
         public void TestAppOffline()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             Shell.AddResponse("App my-app not found.", -1);
             _driver.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Offline);
             Shell.AddResponse("App 'my-app' not found.", -1);

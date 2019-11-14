@@ -33,7 +33,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestAddApp()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _cfg.Apps.Count.ShouldBe(1);
             _cfg.Apps.Keys.ShouldContain("my-app");
             _listener.ReceivedCount.ShouldBe(1);
@@ -42,9 +42,9 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestAddAlreadyExistingApp()
         {
-            _cfg.AddApp("preexisting-app");
+            _cfg.AddApp("preexisting-app", "dummy-framework", "dummy-runtime");
             var e = Assert.Throws<ItemExistsException>(
-                () => _cfg.AddApp("preexisting-app")
+                () => _cfg.AddApp("preexisting-app", "dummy-framework", "dummy-runtime")
             );
             e.Name.ShouldBe("preexisting-app");
             e.Description.ShouldBe("app");
@@ -53,7 +53,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestRemoveApp()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _cfg.RemoveApp("my-app");
             _cfg.Services.Count.ShouldBe(0);
             _listener.ReceivedCount.ShouldBe(2);
@@ -73,8 +73,8 @@ namespace Steeltoe.Tooling.Test
         public void TestGetApps()
         {
             _cfg.GetApps().Count.ShouldBe(0);
-            _cfg.AddApp("my-app");
-            _cfg.AddApp("another-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
+            _cfg.AddApp("another-app", "dummy-framework", "dummy-runtime");
             var apps = _cfg.GetApps();
             apps.Remove("my-app").ShouldBeTrue();
             apps.Remove("another-app").ShouldBeTrue();
@@ -84,7 +84,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestGetAppInfo()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             var info = _cfg.GetAppInfo("my-app");
             info.App.ShouldBe("my-app");
         }
@@ -102,7 +102,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestSetAppArgs()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _cfg.SetAppArgs("my-app", "arg1 arg2");
             _cfg.Apps["my-app"].Args.ShouldBe("arg1 arg2");
             _listener.ReceivedCount.ShouldBe(2);
@@ -111,7 +111,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestSetAppTargetArgs()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _cfg.SetAppArgs("my-app", "dummy-target", "arg1 arg2");
             _cfg.Apps["my-app"].DeployArgs["dummy-target"].ShouldBe("arg1 arg2");
             _listener.ReceivedCount.ShouldBe(2);
@@ -140,7 +140,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestSetAppTargetArgsUnknownTarget()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             var e = Assert.Throws<ItemDoesNotExistException>(
                 () => _cfg.SetAppArgs("my-app", "no-such-target", "arg1 arg2")
             );
@@ -151,7 +151,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestGetAppArgs()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _cfg.SetAppArgs("my-app", "arg1 arg2");
             _cfg.GetAppArgs("my-app").ShouldBe("arg1 arg2");
         }
@@ -159,7 +159,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestGetAppTargetArgs()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _cfg.SetAppArgs("my-app", "dummy-target", "arg1 arg2");
             _cfg.GetAppArgs("my-app", "dummy-target").ShouldBe("arg1 arg2");
         }
@@ -167,14 +167,14 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestGetAppNoArgs()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _cfg.GetAppArgs("my-app").ShouldBe(null);
         }
 
         [Fact]
         public void TestGetAppTargetNoArgs()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _cfg.GetAppArgs("my-app", "dummy-target").ShouldBe(null);
         }
 
@@ -201,7 +201,7 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestGetAppTargetArgsUnknownTarget()
         {
-            _cfg.AddApp("my-app");
+            _cfg.AddApp("my-app", "dummy-framework", "dummy-runtime");
             var e = Assert.Throws<ItemDoesNotExistException>(
                 () => _cfg.GetAppArgs("my-app", "no-such-target")
             );
