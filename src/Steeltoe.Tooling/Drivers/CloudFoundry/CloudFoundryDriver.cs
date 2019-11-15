@@ -54,7 +54,7 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
             }
             else
             {
-                cloudFoundryApp.Stack = "windows2016";
+                cloudFoundryApp.Stack = "windows";
                 cloudFoundryApp.BuildPacks = new List<string> {"hwc_buildpack"};
                 cloudFoundryApp.Command = $"cmd /c .\\{Path.GetFileName(_context.ProjectDirectory)}";
             }
