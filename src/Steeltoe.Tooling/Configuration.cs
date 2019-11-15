@@ -61,10 +61,11 @@ namespace Steeltoe.Tooling
         /// </summary>
         /// <param name="app">Name of application to be added.</param>
         /// <param name="framework">Target framework.</param>
+        /// <param name="runtime">Target runtime.</param>
         /// <exception cref="ItemExistsException">Thrown if an application of the same name has already been added to this configuration.</exception>
         public void AddApp(string app, string framework, string runtime)
         {
-            Logger.LogDebug($"adding app {app} ({framework})");
+            Logger.LogDebug($"adding app {app} ({framework}/{runtime})");
             if (Apps.ContainsKey(app))
             {
                 throw new ItemExistsException(app, "app");
