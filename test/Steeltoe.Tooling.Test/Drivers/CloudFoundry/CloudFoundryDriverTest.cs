@@ -47,7 +47,7 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
             app.Command.ShouldBe($"cmd /c .\\{Path.GetFileName(Context.ProjectDirectory)}");
             app.BuildPacks.Count.ShouldBe(1);
             app.BuildPacks[0].ShouldBe("hwc_buildpack");
-            app.Stack.ShouldBe("windows2016");
+            app.Stack.ShouldBe("windows");
             app.Memory.ShouldBe("512M");
             app.Environment["ASPNETCORE_ENVIRONMENT"].ShouldBe("development");
             app.ServiceNames[0].ShouldBe("my-service");
