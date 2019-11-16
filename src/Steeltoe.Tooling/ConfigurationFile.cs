@@ -28,7 +28,7 @@ namespace Steeltoe.Tooling
         /// <summary>
         /// Default file name.
         /// </summary>
-        public const string DefaultFileName = "steeltoe.yml";
+        public const string DefaultFileName = "steeltoe.yaml";
 
         /// <summary>
         /// The configuration stored in this configuration file.

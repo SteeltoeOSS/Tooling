@@ -56,7 +56,7 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         [Fact]
         public void TestDefaultFileName()
         {
-            CloudFoundryManifestFile.DefaultFileName.ShouldBe("manifest-steeltoe.yml");
+            CloudFoundryManifestFile.DefaultFileName.ShouldBe("manifest-steeltoe.yaml");
         }
 
         private const string SampleConfig = @"applications:

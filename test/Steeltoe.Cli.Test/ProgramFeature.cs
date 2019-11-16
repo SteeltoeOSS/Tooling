@@ -43,7 +43,7 @@ namespace Steeltoe.Cli.Test
                     $"Usage: st [options] [command]",
                     "Options:",
                     "-V|--version Show version information",
-                    $"-C|--config-file Configure tooling using the specified file instead of steeltoe.yml",
+                    $"-C|--config-file Configure tooling using the specified file instead of steeltoe.yaml",
                     "-D|--debug Enable debug output",
                     "-v|--verbose Enable verbose output",
                     "-?|-h|--help Show help information",

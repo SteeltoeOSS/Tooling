@@ -44,7 +44,7 @@ link:{uri-api-src}/Registry.cs[Registry.cs] defines services available to Steelt
 Service definitions include basic information about a service, such as the service name and port.
 The registry also defines services in the context of a driver.  E.g., for the Docker driver, the service definition includes the Docker image name.
 
-The service definitions are loaded from the configuration file link:{uri-api-src}/steeltoe.rc/registry.yml[registry.yml].
+The service definitions are loaded from the configuration file link:{uri-api-src}/steeltoe.rc/registry.yaml[registry.yaml].
 
 === Lifecycles
 

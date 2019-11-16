@@ -112,7 +112,7 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
         private void DeployKubernetesService(String name, String image, int port,
             Action<KubernetesDeploymentConfig, KubernetesServiceConfig> preSaveAction = null)
         {
-            var deployCfgFile = new KubernetesDeploymentConfigFile($"{name}-deployment.yml");
+            var deployCfgFile = new KubernetesDeploymentConfigFile($"{name}-deployment.yaml");
             var deployCfg = deployCfgFile.KubernetesDeploymentConfig;
             deployCfg.ApiVersion = HardCodedDeploymentApiVersion;
             deployCfg.Kind = DeploymentKind;
@@ -164,7 +164,7 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
                 }
             };
 
-            var svcCfgFile = new KubernetesServiceConfigFile($"{name}-service.yml");
+            var svcCfgFile = new KubernetesServiceConfigFile($"{name}-service.yaml");
             var svcCfg = svcCfgFile.KubernetesServiceConfig;
             svcCfg.ApiVersion = HardCodedServiceApiVersion;
             svcCfg.Kind = ServiceKind;
@@ -198,14 +198,14 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
         {
             try
             {
-                _kubectlCli.Run($"delete --filename {name}-service.yml", "deleting Kubernetes service");
+                _kubectlCli.Run($"delete --filename {name}-service.yaml", "deleting Kubernetes service");
             }
             catch (CliException)
             {
                 _context.Console.WriteLine($"hmm, Kubernetes service doesn't seem to exist: {name}");
             }
 
-            _kubectlCli.Run($"delete --filename {name}-deployment.yml", "deleting Kubernetes deployment");
+            _kubectlCli.Run($"delete --filename {name}-deployment.yaml", "deleting Kubernetes deployment");
         }
 
         private Lifecycle.Status GetKubernetesServiceStatus(String name)

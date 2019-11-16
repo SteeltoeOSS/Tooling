@@ -37,9 +37,9 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
             _driver.DeployApp("my-app");
             Shell.Commands.Count.ShouldBe(2);
             Shell.Commands[0].ShouldBe("dotnet publish -f dummy-framework -r win");
-            Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yml -p bin/Debug/dummy-framework/win/publish");
+            Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yaml -p bin/Debug/dummy-framework/win/publish");
             var manifestFile =
-                new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yml"));
+                new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yaml"));
             manifestFile.Exists().ShouldBeTrue();
             manifestFile.CloudFoundryManifest.Applications.Count.ShouldBe(1);
             var app = manifestFile.CloudFoundryManifest.Applications[0];
@@ -62,9 +62,9 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
             _driver.DeployApp("my-app");
             Shell.Commands.Count.ShouldBe(2);
             Shell.Commands[0].ShouldBe("dotnet publish -f dummy-framework -r ubuntu");
-            Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yml -p bin/Debug/dummy-framework/ubuntu/publish");
+            Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yaml -p bin/Debug/dummy-framework/ubuntu/publish");
             var manifestFile =
-                new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yml"));
+                new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yaml"));
             manifestFile.Exists().ShouldBeTrue();
             manifestFile.CloudFoundryManifest.Applications.Count.ShouldBe(1);
             var app = manifestFile.CloudFoundryManifest.Applications[0];
