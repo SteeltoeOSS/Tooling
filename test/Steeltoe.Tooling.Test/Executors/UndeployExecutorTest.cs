@@ -35,8 +35,8 @@ namespace Steeltoe.Tooling.Test.Executors
             Console.ToString().ShouldContain("Undeploying app 'my-app'");
             Console.ToString().ShouldContain("Undeploying service 'my-service'");
             Console.ToString().ShouldContain("Undeploying service 'my-other-service'");
-            Context.Driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Stopping);
-            Context.Driver.GetServiceStatus("my-other-service").ShouldBe(Lifecycle.Status.Stopping);
+            Context.Driver.GetServiceStatus("my-service").ShouldBe(Lifecycle.Status.Offline);
+            Context.Driver.GetServiceStatus("my-other-service").ShouldBe(Lifecycle.Status.Offline);
             Context.Driver.GetAppStatus("my-app").ShouldBe(Lifecycle.Status.Offline);
         }
 

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 
 namespace Steeltoe.Tooling.Executors
 {
@@ -42,32 +43,50 @@ namespace Steeltoe.Tooling.Executors
 
             if (_appsFirst)
             {
-                foreach (var app in apps)
-                {
-                    ExecuteForApp(app);
-                }
-
-                foreach (var service in services)
-                {
-                    ExecuteForService(service);
-                }
+                ExecuteForApps(apps);
+                ExecuteForServices(services);
             }
             else
             {
-                foreach (var service in services)
-                {
-                    ExecuteForService(service);
-                }
-
-                foreach (var app in apps)
-                {
-                    ExecuteForApp(app);
-                }
+                ExecuteForServices(services);
+                ExecuteForApps(apps);
             }
         }
 
-        internal abstract void ExecuteForApp(string app);
+        /// <summary>
+        /// Calls <see cref="ExecuteForApp"/> for each app.
+        /// </summary>
+        /// <param name="apps">Apps on which to be executed</param>
+        protected virtual void ExecuteForApps(List<string> apps)
+        {
+            foreach (var app in apps)
+            {
+                ExecuteForApp(app);
+            }
+        }
 
-        internal abstract void ExecuteForService(string service);
+        /// <summary>
+        /// Calls <see cref="ExecuteForService"/> for each service.
+        /// </summary>
+        /// <param name="services">Services on which to be executed</param>
+        protected virtual void ExecuteForServices(List<string> services)
+        {
+            foreach (var service in services)
+            {
+                ExecuteForService(service);
+            }
+        }
+
+        /// <summary>
+        /// Subclasses implement their business logic for executing on an app.
+        /// </summary>
+        /// <param name="app">App on which to be executed.</param>
+        protected abstract void ExecuteForApp(string app);
+
+        /// <summary>
+        /// Subclasses implement their business logic for executing on a service.
+        /// </summary>
+        /// <param name="service">Service on which to be executed.</param>
+        protected abstract void ExecuteForService(string service);
     }
 }

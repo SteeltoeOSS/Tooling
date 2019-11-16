@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Steeltoe.Tooling.Executors
@@ -30,9 +31,52 @@ namespace Steeltoe.Tooling.Executors
         {
         }
 
-        internal override void ExecuteForApp(string app)
+        /// <summary>
+        /// Deploys apps then blocks until all apps online.
+        /// </summary>
+        /// <param name="apps">Apps to deploy.</param>
+        protected override void ExecuteForApps(List<string> apps)
         {
-            foreach (var service in Context.Configuration.GetServices())
+            base.ExecuteForApps(apps);
+            foreach (var app in apps)
+            {
+                var count = 0;
+                while (true)
+                {
+                    ++count;
+                    if (Settings.MaxChecks >= 0 && ++count > Settings.MaxChecks)
+                    {
+                        throw new ToolingException($"max check exceeded ({Settings.MaxChecks})");
+                    }
+
+                    var startTicks = DateTime.Now.Ticks;
+                    if (Context.Driver.GetAppStatus(app) == Lifecycle.Status.Online)
+                    {
+                        break;
+                    }
+
+                    const int ticksPerMillis = 10000;
+                    var elapsedMillis = (DateTime.Now.Ticks - startTicks) / ticksPerMillis;
+                    const int oneSecondMillis = 1000;
+                    var waitMillis = oneSecondMillis - elapsedMillis;
+                    if (waitMillis > 0L)
+                    {
+                        Thread.Sleep((int) waitMillis);
+                    }
+
+                    Context.Console.WriteLine($"Waiting for app '{app}' to come online ({count})");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deploys services then blocks until all services online.
+        /// </summary>
+        /// <param name="services">Services to deploy.</param>
+        protected override void ExecuteForServices(List<string> services)
+        {
+            base.ExecuteForServices(services);
+            foreach (var service in services)
             {
                 var count = 0;
                 while (true)
@@ -61,12 +105,23 @@ namespace Steeltoe.Tooling.Executors
                     Context.Console.WriteLine($"Waiting for service '{service}' to come online ({count})");
                 }
             }
+        }
 
+        /// <summary>
+        /// Deploy the app.
+        /// </summary>
+        /// <param name="app">App name.</param>
+        protected override void ExecuteForApp(string app)
+        {
             Context.Console.WriteLine($"Deploying app '{app}'");
             new Lifecycle(Context, app).Deploy();
         }
 
-        internal override void ExecuteForService(string service)
+        /// <summary>
+        /// Deploy the service.
+        /// </summary>
+        /// <param name="service">Service name.</param>
+        protected override void ExecuteForService(string service)
         {
             Context.Console.WriteLine($"Deploying service '{service}'");
             new Lifecycle(Context, service).Deploy();

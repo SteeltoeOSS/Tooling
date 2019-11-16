@@ -71,6 +71,8 @@ namespace Steeltoe.Cli.Test
                     "Undeploying app 'my-app'",
                     "Undeploying service 'my-service-a'",
                     "Undeploying service 'my-service-b'",
+                    "Waiting for service 'my-service-a' to go offline (1)",
+                    "Waiting for service 'my-service-b' to go offline (1)",
                 })
             );
         }
