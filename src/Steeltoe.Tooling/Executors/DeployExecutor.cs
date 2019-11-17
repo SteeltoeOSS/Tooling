@@ -38,35 +38,7 @@ namespace Steeltoe.Tooling.Executors
         protected override void ExecuteForApps(List<string> apps)
         {
             base.ExecuteForApps(apps);
-            foreach (var app in apps)
-            {
-                var count = 0;
-                while (true)
-                {
-                    ++count;
-                    if (Settings.MaxChecks >= 0 && ++count > Settings.MaxChecks)
-                    {
-                        throw new ToolingException($"max check exceeded ({Settings.MaxChecks})");
-                    }
-
-                    var startTicks = DateTime.Now.Ticks;
-                    if (Context.Driver.GetAppStatus(app) == Lifecycle.Status.Online)
-                    {
-                        break;
-                    }
-
-                    const int ticksPerMillis = 10000;
-                    var elapsedMillis = (DateTime.Now.Ticks - startTicks) / ticksPerMillis;
-                    const int oneSecondMillis = 1000;
-                    var waitMillis = oneSecondMillis - elapsedMillis;
-                    if (waitMillis > 0L)
-                    {
-                        Thread.Sleep((int) waitMillis);
-                    }
-
-                    Context.Console.WriteLine($"Waiting for app '{app}' to come online ({count})");
-                }
-            }
+            WaitUntilAllTransitioned(apps, Context.Driver.GetAppStatus, Lifecycle.Status.Online);
         }
 
         /// <summary>
@@ -76,36 +48,9 @@ namespace Steeltoe.Tooling.Executors
         protected override void ExecuteForServices(List<string> services)
         {
             base.ExecuteForServices(services);
-            foreach (var service in services)
-            {
-                var count = 0;
-                while (true)
-                {
-                    ++count;
-                    if (Settings.MaxChecks >= 0 && ++count > Settings.MaxChecks)
-                    {
-                        throw new ToolingException($"max check exceeded ({Settings.MaxChecks})");
-                    }
-
-                    var startTicks = DateTime.Now.Ticks;
-                    if (Context.Driver.GetServiceStatus(service) == Lifecycle.Status.Online)
-                    {
-                        break;
-                    }
-
-                    const int ticksPerMillis = 10000;
-                    var elapsedMillis = (DateTime.Now.Ticks - startTicks) / ticksPerMillis;
-                    const int oneSecondMillis = 1000;
-                    var waitMillis = oneSecondMillis - elapsedMillis;
-                    if (waitMillis > 0L)
-                    {
-                        Thread.Sleep((int) waitMillis);
-                    }
-
-                    Context.Console.WriteLine($"Waiting for service '{service}' to come online ({count})");
-                }
-            }
+            WaitUntilAllTransitioned(services, Context.Driver.GetServiceStatus, Lifecycle.Status.Online);
         }
+
 
         /// <summary>
         /// Deploy the app.

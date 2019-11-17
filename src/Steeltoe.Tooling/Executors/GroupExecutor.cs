@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Steeltoe.Tooling.Executors
 {
@@ -88,5 +89,47 @@ namespace Steeltoe.Tooling.Executors
         /// </summary>
         /// <param name="service">Service on which to be executed.</param>
         protected abstract void ExecuteForService(string service);
+
+        /// <summary>
+        /// A convenience for subclasses to wait until all apps (or services) have transitioned to a desired state.
+        /// </summary>
+        /// <param name="appsOrServices">A list of either app or service names.</param>
+        /// <param name="statusCheck">A function that returns the status of an app or service.</param>
+        /// <param name="status">The desired state.</param>
+        /// <exception cref="ToolingException">If <see cref="Settings.MaxChecks"/> exceeded.</exception>
+        protected void WaitUntilAllTransitioned(List<string> appsOrServices, Func<string, Lifecycle.Status> statusCheck,
+            Lifecycle.Status status)
+        {
+            foreach (var appOrService in appsOrServices)
+            {
+                var count = 0;
+                while (true)
+                {
+                    ++count;
+                    if (Settings.MaxChecks >= 0 && ++count > Settings.MaxChecks)
+                    {
+                        throw new ToolingException($"max checks exceeded ({Settings.MaxChecks})");
+                    }
+
+                    var startTicks = DateTime.Now.Ticks;
+                    if (statusCheck(appOrService) == status)
+                    {
+                        break;
+                    }
+
+                    const int ticksPerMillis = 10000;
+                    var elapsedMillis = (DateTime.Now.Ticks - startTicks) / ticksPerMillis;
+                    const int oneSecondMillis = 1000;
+                    var waitMillis = oneSecondMillis - elapsedMillis;
+                    if (waitMillis > 0L)
+                    {
+                        Thread.Sleep((int) waitMillis);
+                    }
+
+                    Context.Console.WriteLine(
+                        $"Waiting for '{appOrService}' to transition to {status.ToString().ToLower()} ({count})");
+                }
+            }
+        }
     }
 }
