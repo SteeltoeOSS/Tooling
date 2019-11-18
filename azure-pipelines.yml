@@ -7,7 +7,7 @@ variables:
 - name: Solution
   value: 'Tooling'
 - name: PackageVersion
-  value: $[format('0.5.{0}', variables['Build.BuildId'])]
+  value: $[format('0.5.0-{0}', variables['Build.BuildId'])]
 - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
   value: true
 - name: DOTNET_CLI_TELEMETRY_OPTOUT
