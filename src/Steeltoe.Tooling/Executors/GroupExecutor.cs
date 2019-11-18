@@ -106,20 +106,23 @@ namespace Steeltoe.Tooling.Executors
                 while (true)
                 {
                     ++count;
-                    if (Settings.MaxChecks >= 0 && ++count > Settings.MaxChecks)
+                    if (Settings.MaxChecks > 0)
                     {
-                        throw new ToolingException($"max checks exceeded ({Settings.MaxChecks})");
+                        if (count > Settings.MaxChecks)
+                        {
+                            throw new ToolingException($"max checks exceeded ({Settings.MaxChecks})");
+                        }
                     }
 
-                    var startTicks = DateTime.Now.Ticks;
                     if (statusCheck(appOrService) == status)
                     {
                         break;
                     }
 
                     const int ticksPerMillis = 10000;
-                    var elapsedMillis = (DateTime.Now.Ticks - startTicks) / ticksPerMillis;
                     const int oneSecondMillis = 1000;
+                    var startTicks = DateTime.Now.Ticks;
+                    var elapsedMillis = (DateTime.Now.Ticks - startTicks) / ticksPerMillis;
                     var waitMillis = oneSecondMillis - elapsedMillis;
                     if (waitMillis > 0L)
                     {
