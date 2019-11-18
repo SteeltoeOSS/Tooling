@@ -6,6 +6,8 @@ variables:
 - group: '.NET Foundation'
 - name: Solution
   value: 'Tooling'
+- name: ProductVersion
+  value: '0.5.0'
 - name: PackageVersion
   value: $[format('0.5.0-{0}', variables['Build.BuildId'])]
 - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
@@ -65,7 +67,7 @@ jobs:
     inputs:
       command: 'pack'
       packagesToPack: '$(Solution).sln'
-      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
+      arguments: '--configuration Release /p:Version=$(ProductVersion) /p:TreatWarningsAsErrors=True'
       versioningScheme: 'byEnvVar'
       versionEnvVar: 'PackageVersion'
   - task: 'DotNetCoreCLI@2'
