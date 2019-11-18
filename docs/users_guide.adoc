@@ -143,6 +143,58 @@ Undeploying app 'simple-cloud-foundry'
 Undeploying service 'the-config-server'
 ----
 
+==== Deploy to Kubernetes
+
+.checkout Steeltoe Samples and navigate to the RabbitMQ project
+----
+$ git clone https://github.com/SteeltoeOSS/Samples.git
+$ cd Samples/Connectors/src/AspDotNetCore/RabbitMQ
+----
+
+.add Steeltoe Tooling to project
+----
+$ st init
+Initialized Steeltoe Developer Tools
+----
+
+.add application and config-server to deployment configuration
+----
+$ st add app rabbitmq-connector
+Added app 'rabbitmq-connector'
+
+$ st add rabbitmq myRabbitMQService
+Added rabbitmq service 'myRabbitMQService'
+----
+
+.target Kubernetes for deployment
+----
+$ st target kubernetes
+Kubernetes ... kubectl client version 1.14, server version 1.14
+current context ... docker-desktop
+Target set to 'kubernetes'
+----
+
+.deploy
+----
+$ st deploy
+Deploying service 'myRabbitMQService'
+Deploying app 'rabbitmq-connector'
+----
+
+.check status, then navigate to application
+----
+$ st status
+myRabbitMQService online
+rabbitmq-connector online
+----
+
+.undeploy
+----
+$ st undeploy
+Undeploying app 'rabbitmq-connector'
+Undeploying service 'myRabbitMQService'
+----
+
 == Services
 
 === Overview
