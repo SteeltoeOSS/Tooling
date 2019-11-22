@@ -1,7 +1,5 @@
 <Project>
   <PropertyGroup>
-    <SteeltoeVersion>$(STEELTOE_VERSION)</SteeltoeVersion>
-    <SteeltoeVersionSuffix>$(STEELTOE_DASH_VERSION_SUFFIX)</SteeltoeVersionSuffix>
     <LightBDDXUnit2Version>2.4.3</LightBDDXUnit2Version>
     <McMasterExtensionsCommandLineUtilsVersion>2.2.5</McMasterExtensionsCommandLineUtilsVersion>
     <MicrosoftExtensionsVersion>2.1.1</MicrosoftExtensionsVersion>
