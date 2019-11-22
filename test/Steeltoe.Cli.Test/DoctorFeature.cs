@@ -72,7 +72,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("doctor_version"),
                 when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_output_should_include("Steeltoe Developer Tools version ... 1.0.0")
+                then => the_cli_output_should_include("Steeltoe Developer Tools version ... ")
             );
         }
 

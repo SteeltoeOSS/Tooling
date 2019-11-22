@@ -164,7 +164,18 @@ namespace scratch
                 }
             }
 
-            actual.ToArray().ShouldBe(messages);
+            var actualMessages = actual.ToArray();
+
+            // '*' denotes we don't care
+            for (var i = 0; i < messages.Length; ++i)
+            {
+                if (messages[i] == "*")
+                {
+                    actualMessages[i] = "*";
+                }
+            }
+
+            actualMessages.ShouldBe(messages);
         }
 
         protected void the_cli_should_output(string message)

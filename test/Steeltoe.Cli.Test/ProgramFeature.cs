@@ -38,7 +38,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("--help"),
                 then => the_cli_should_output(new[]
                 {
-                    "1.0.0",
+                    "*",
                     "Steeltoe Developer Tools",
                     $"Usage: st [options] [command]",
                     "Options:",
@@ -70,7 +70,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("program_version"),
                 when => the_developer_runs_cli_command("--version"),
-                then => the_cli_should_output("1.0.0")
+                then => the_cli_command_should_succeed()
             );
         }
 
