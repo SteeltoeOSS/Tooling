@@ -38,8 +38,15 @@ namespace Steeltoe.Cli
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
         public static string GetVersion()
-            => typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+        {
+            var versionString = typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                 .InformationalVersion;
+            if (!versionString.Contains('-')) return versionString;
+            var version = versionString.Split('-')[0];
+            var build = versionString.Split('-')[1];
+            return
+                $"{version} (build {build} -> https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/results?buildId={build})";
+        }
 
         [Option("-C|--config-file", Description =
             "Configure tooling using the specified file instead of steeltoe.yaml")]
