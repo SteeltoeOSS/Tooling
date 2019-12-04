@@ -47,6 +47,14 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
             _dockerCli = new DockerCli(context.Shell);
         }
 
+        public void DeploySetup()
+        {
+        }
+
+        public void DeployTeardown()
+        {
+        }
+
         public void DeployApp(string app)
         {
             KubernetesDotnetAppDockerfileFile dockerfileFile = new KubernetesDotnetAppDockerfileFile("Dockerfile");

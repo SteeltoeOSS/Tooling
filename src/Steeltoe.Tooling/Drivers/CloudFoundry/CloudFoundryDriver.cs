@@ -34,6 +34,14 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
             _dotnetCli = new Cli("dotnet", _context.Shell);
         }
 
+        public void DeploySetup()
+        {
+        }
+
+        public void DeployTeardown()
+        {
+        }
+
         public void DeployApp(string app)
         {
             var manifestPath = Path.Combine(_context.ProjectDirectory, CloudFoundryManifestFile.DefaultFileName);

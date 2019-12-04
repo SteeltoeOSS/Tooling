@@ -32,6 +32,15 @@ namespace Steeltoe.Tooling.Executors
         }
 
         /// <summary>
+        /// Defers to base class then calls Driver.DeployTeardown.
+        /// </summary>
+        protected override void Execute()
+        {
+            base.Execute();
+            Context.Driver.DeployTeardown();
+        }
+
+        /// <summary>
         /// Undeploys apps then blocks until all apps offline.
         /// </summary>
         /// <param name="apps">Apps to undeploy.</param>

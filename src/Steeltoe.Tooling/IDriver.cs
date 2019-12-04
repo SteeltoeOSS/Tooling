@@ -21,6 +21,16 @@ namespace Steeltoe.Tooling
     public interface IDriver
     {
         /// <summary>
+        /// Called before apps and/or services are deployed.
+        /// </summary>
+        void DeploySetup();
+
+        /// <summary>
+        /// Called affter apps and/or services are undeployed.
+        /// </summary>
+        void DeployTeardown();
+
+        /// <summary>
         /// Deploys the named application.
         /// </summary>
         /// <param name="app">The application name.</param>

@@ -32,6 +32,15 @@ namespace Steeltoe.Tooling.Executors
         }
 
         /// <summary>
+        /// Calls Driver.DeploySetup then defers to base class.
+        /// </summary>
+        protected override void Execute()
+        {
+            Context.Driver.DeploySetup();
+            base.Execute();
+        }
+
+        /// <summary>
         /// Deploys apps then blocks until all apps online.
         /// </summary>
         /// <param name="apps">Apps to deploy.</param>
