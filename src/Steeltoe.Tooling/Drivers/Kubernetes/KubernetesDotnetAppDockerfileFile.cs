@@ -36,7 +36,7 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
                     .Match(text).Groups[1].ToString(),
                 App = new Regex(@"^CMD dotnet (.+)\.dll\s+", RegexOptions.Multiline)
                     .Match(text).Groups[1].ToString(),
-                AppPath = new Regex(@"^WORKDIR\s+(.+)\s+", RegexOptions.Multiline)
+                AppPath = new Regex(@"^WORKDIR\s+(\S+)", RegexOptions.Multiline)
                     .Match(text).Groups[1].ToString(),
                 BuildPath = new Regex(@"^COPY\s+(\S+)", RegexOptions.Multiline)
                     .Match(text).Groups[1].ToString(),
