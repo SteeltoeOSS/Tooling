@@ -52,9 +52,9 @@ jobs:
     vmImage: 'Windows-2019'
   steps:
   - pwsh: |
-      if ($env:PackageVersionOverride) {
-        Write-Host "overriding build version $env:PackageVersion -> $env:PackageVersionOverride"
-        $env:PackageVersion = $env:PackageVersionOverride
+      if ($env:BUILD_SOURCEBRANCH -match "^refs\/tags\/(.+)")
+      {
+            $env:PackageVersion = $Matches.1
       }
       Write-Host "build version set to $env:PackageVersion"
       $prefix = $env:PackageVersion.Split('-')[0]
@@ -65,7 +65,6 @@ jobs:
       Write-Host "##vso[task.setvariable variable=VersionSuffix;]$suffix"
     env:
       PackageVersion: $(PackageVersion)
-      PackageVersionOverride: $(PackageVersionOverride)
     displayName: 'Version'
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
