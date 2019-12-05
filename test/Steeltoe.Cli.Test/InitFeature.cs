@@ -69,7 +69,7 @@ namespace Steeltoe.Cli.Test
                 then => the_configuration_should_contain_app("init_autodetect"),
                 then => the_cli_should_output(new[]
                 {
-                    "Added app 'init_autodetect'",
+                    "Added app 'init_autodetect' (netcoreapp2.1/win10-x64)",
                     "Initialized Steeltoe Developer Tools",
                 })
             );
@@ -91,10 +91,11 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("init_force"),
-                when => the_developer_runs_cli_command("init"),
+                and => the_developer_runs_cli_command("init"),
                 then => the_cli_should_error(ErrorCode.Tooling, "Steeltoe Developer Tools already initialized"),
                 when => the_developer_runs_cli_command("init --force"),
-                then => the_cli_should_output(new[]
+                then => the_configuration_should_be_empty(),
+                and => the_cli_should_output(new[]
                 {
                     "Initialized Steeltoe Developer Tools",
                 })

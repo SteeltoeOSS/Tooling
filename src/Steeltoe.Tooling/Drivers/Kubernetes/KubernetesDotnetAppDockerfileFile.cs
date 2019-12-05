@@ -34,9 +34,13 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
             {
                 BaseImage = new Regex(@"^FROM\s+(\S+)", RegexOptions.Multiline)
                     .Match(text).Groups[1].ToString(),
-                App = new Regex(@"^CMD dotnet /app/(.+)\.dll\s+", RegexOptions.Multiline)
+                App = new Regex(@"^CMD dotnet (.+)\.dll\s+", RegexOptions.Multiline)
                     .Match(text).Groups[1].ToString(),
-                BuildPath = new Regex(@"^COPY (.+) /app\s+", RegexOptions.Multiline)
+                AppPath = new Regex(@"^WORKDIR\s+(.+)\s+", RegexOptions.Multiline)
+                    .Match(text).Groups[1].ToString(),
+                BuildPath = new Regex(@"^COPY\s+(\S+)", RegexOptions.Multiline)
+                    .Match(text).Groups[1].ToString(),
+                Environment = new Regex(@"^ENV\s+ASPNETCORE_ENVIRONMENT\s+(\S+)", RegexOptions.Multiline)
                     .Match(text).Groups[1].ToString(),
             };
         }
@@ -45,8 +49,10 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
         {
             Logger.LogDebug($"storing kubernetes dotnet app dockerfile to {File}");
             System.IO.File.WriteAllText(File, $@"FROM {KubernetesDotnetAppDockerfile.BaseImage}
-COPY {KubernetesDotnetAppDockerfile.BuildPath} /app
-CMD dotnet /app/{KubernetesDotnetAppDockerfile.App}.dll
+COPY {KubernetesDotnetAppDockerfile.BuildPath} {KubernetesDotnetAppDockerfile.AppPath}
+ENV ASPNETCORE_ENVIRONMENT {KubernetesDotnetAppDockerfile.Environment}
+WORKDIR {KubernetesDotnetAppDockerfile.AppPath}
+CMD dotnet {KubernetesDotnetAppDockerfile.App}.dll
 ");
         }
 

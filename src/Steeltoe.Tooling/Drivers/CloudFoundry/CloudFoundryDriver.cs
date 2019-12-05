@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -33,6 +34,14 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
             _dotnetCli = new Cli("dotnet", _context.Shell);
         }
 
+        public void DeploySetup()
+        {
+        }
+
+        public void DeployTeardown()
+        {
+        }
+
         public void DeployApp(string app)
         {
             var manifestPath = Path.Combine(_context.ProjectDirectory, CloudFoundryManifestFile.DefaultFileName);
@@ -41,22 +50,30 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
                 File.Delete(manifestPath);
             }
 
+            var cloudFoundryApp = new CloudFoundryManifest.Application();
+            cloudFoundryApp.Name = app;
+            cloudFoundryApp.Memory = "512M";
+            cloudFoundryApp.Environment = new Dictionary<string, string> {{"ASPNETCORE_ENVIRONMENT", "development"}};
+            cloudFoundryApp.ServiceNames = _context.Configuration.GetServices();
+            if (_context.Configuration.Apps[app].TargetRuntime.StartsWith("ubuntu"))
+            {
+                cloudFoundryApp.BuildPacks = new List<string> {"dotnet_core_buildpack"};
+                cloudFoundryApp.Command = $"cd ${{HOME}} && ./{Path.GetFileName(_context.ProjectDirectory)}";
+            }
+            else
+            {
+                cloudFoundryApp.Stack = "windows";
+                cloudFoundryApp.BuildPacks = new List<string> {"hwc_buildpack"};
+                cloudFoundryApp.Command = $"cmd /c .\\{Path.GetFileName(_context.ProjectDirectory)}";
+            }
             var manifestFile = new CloudFoundryManifestFile(manifestPath);
-            manifestFile.CloudFoundryManifest.Applications.Add(new CloudFoundryManifest.Application
-                {
-                    Name = app,
-                    Command = $"cmd /c .\\{Path.GetFileName(_context.ProjectDirectory)}",
-                    BuildPacks = new List<string> {"binary_buildpack"},
-                    Stack = "windows2016",
-                    Memory = "512M",
-                    Environment = new Dictionary<string, string> {{"ASPNETCORE_ENVIRONMENT", "development"}},
-                    ServiceNames = _context.Configuration.GetServices()
-                }
-            );
+            manifestFile.CloudFoundryManifest.Applications.Add(cloudFoundryApp);
             manifestFile.Store();
-            _dotnetCli.Run("publish -f netcoreapp2.1 -r win10-x64", "publishing app");
+            var framework = _context.Configuration.Apps[app].TargetFramework;
+            var runtime = _context.Configuration.Apps[app].TargetRuntime;
+            _dotnetCli.Run($"publish -f {framework} -r {runtime}", "publishing app");
             _cfCli.Run(
-                $"push -f {CloudFoundryManifestFile.DefaultFileName} -p bin/Debug/netcoreapp2.1/win10-x64/publish",
+                $"push -f {CloudFoundryManifestFile.DefaultFileName} -p bin/Debug/{framework}/{runtime}/publish",
                 "pushing app to Cloud Foundry");
         }
 

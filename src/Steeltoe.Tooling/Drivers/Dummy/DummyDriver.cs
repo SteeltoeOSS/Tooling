@@ -26,6 +26,14 @@ namespace Steeltoe.Tooling.Drivers.Dummy
             _database = DummyServiceDatabase.Load(_path);
         }
 
+        public void DeploySetup()
+        {
+        }
+
+        public void DeployTeardown()
+        {
+        }
+
         public void DeployApp(string app)
         {
             _database.Apps.Add(app);

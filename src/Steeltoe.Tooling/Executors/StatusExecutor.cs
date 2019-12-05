@@ -27,13 +27,21 @@ namespace Steeltoe.Tooling.Executors
         {
         }
 
-        internal override void ExecuteForApp(string app)
+        /// <summary>
+        /// Print app status.
+        /// </summary>
+        /// <param name="app">App name.</param>
+        protected override void ExecuteForApp(string app)
         {
             var status = Context.Driver.GetAppStatus(app);
             Context.Console.WriteLine($"{app} {status.ToString().ToLower()}");
         }
 
-        internal override void ExecuteForService(string service)
+        /// <summary>
+        /// Print service status.
+        /// </summary>
+        /// <param name="service">Service name.</param>
+        protected override void ExecuteForService(string service)
         {
             var status = Context.Driver.GetServiceStatus(service);
             Context.Console.WriteLine($"{service} {status.ToString().ToLower()}");

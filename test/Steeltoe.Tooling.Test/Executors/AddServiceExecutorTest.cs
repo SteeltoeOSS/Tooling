@@ -18,34 +18,12 @@ using Xunit;
 
 namespace Steeltoe.Tooling.Test.Executors
 {
-    public class AddExecutorTest : ToolingTest
+    public class AddServiceExecutorTest : ToolingTest
     {
-        [Fact]
-        public void TestAdd()
-        {
-            new AddExecutor("my-app").Execute(Context);
-            Console.ToString().Trim().ShouldBe("Added app 'my-app'");
-            Context.Configuration.GetApps().Count.ShouldBe(1);
-            Context.Configuration.GetApps()[0].ShouldBe("my-app");
-            var appInfo = Context.Configuration.GetAppInfo("my-app");
-            appInfo.App.ShouldBe("my-app");
-        }
-
-        [Fact]
-        public void TestAddExistingApp()
-        {
-            Context.Configuration.AddApp("existing-app");
-            var e = Assert.Throws<ItemExistsException>(
-                () => new AddExecutor("existing-app").Execute(Context)
-            );
-            e.Name.ShouldBe("existing-app");
-            e.Description.ShouldBe("app");
-        }
-
         [Fact]
         public void TestAddService()
         {
-            new AddExecutor("my-service", "dummy-svc").Execute(Context);
+            new AddServiceExecutor("my-service", "dummy-svc").Execute(Context);
             Console.ToString().Trim().ShouldBe("Added dummy-svc service 'my-service'");
             Context.Configuration.GetServices().Count.ShouldBe(1);
             var svcName = Context.Configuration.GetServices()[0];
@@ -60,7 +38,7 @@ namespace Steeltoe.Tooling.Test.Executors
         {
             Context.Configuration.AddService("existing-service", "dummy-svc");
             var e = Assert.Throws<ItemExistsException>(
-                () => new AddExecutor("existing-service", "dummy-svc").Execute(Context)
+                () => new AddServiceExecutor("existing-service", "dummy-svc").Execute(Context)
             );
             e.Name.ShouldBe("existing-service");
             e.Description.ShouldBe("service");
@@ -70,7 +48,7 @@ namespace Steeltoe.Tooling.Test.Executors
         public void TestAddUnknownServiceType()
         {
             var e = Assert.Throws<ItemDoesNotExistException>(
-                () => new AddExecutor("unknown-service", "unknown-service-type").Execute(Context)
+                () => new AddServiceExecutor("unknown-service", "unknown-service-type").Execute(Context)
             );
             e.Name.ShouldBe("unknown-service-type");
             e.Description.ShouldBe("service type");

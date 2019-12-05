@@ -53,12 +53,20 @@ namespace Steeltoe.Tooling.Executors
             base.Execute();
         }
 
-        internal override void ExecuteForApp(string app)
+        /// <summary>
+        /// Print app information.
+        /// </summary>
+        /// <param name="app">App name.</param>
+        protected override void ExecuteForApp(string app)
         {
             Context.Console.WriteLine(_format, app, "", "app");
         }
 
-        internal override void ExecuteForService(string service)
+        /// <summary>
+        /// Print service information.
+        /// </summary>
+        /// <param name="service">Service name.</param>
+        protected override void ExecuteForService(string service)
         {
             var svcInfo = Context.Configuration.GetServiceInfo(service);
             var svcTypeInfo = Registry.GetServiceTypeInfo(svcInfo.ServiceType);

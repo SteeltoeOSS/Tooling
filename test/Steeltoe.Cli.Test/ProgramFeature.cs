@@ -38,17 +38,18 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("--help"),
                 then => the_cli_should_output(new[]
                 {
-                    "1.0.0",
+                    "*",
                     "Steeltoe Developer Tools",
                     $"Usage: st [options] [command]",
                     "Options:",
                     "-V|--version Show version information",
-                    $"-C|--config-file Configure tooling using the specified file instead of steeltoe.yml",
+                    $"-C|--config-file Configure tooling using the specified file instead of steeltoe.yaml",
                     "-D|--debug Enable debug output",
                     "-v|--verbose Enable verbose output",
                     "-?|-h|--help Show help information",
                     "Commands:",
-                    "add Add an app or service",
+                    "add-app Add an app",
+                    "add-service Add a service",
                     "args Set or get the arguments for an app or service",
                     "deploy Deploy apps and services to the target",
                     "doctor Check for potential problems",
@@ -69,7 +70,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("program_version"),
                 when => the_developer_runs_cli_command("--version"),
-                then => the_cli_should_output("1.0.0")
+                then => the_cli_command_should_succeed()
             );
         }
 

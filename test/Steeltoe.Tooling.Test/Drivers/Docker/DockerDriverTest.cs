@@ -32,25 +32,29 @@ namespace Steeltoe.Tooling.Test.Drivers.Docker
         [Fact]
         public void TestDeployApp()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _driver.DeployApp("my-app");
             Shell.Commands[0].ShouldBe("dotnet publish -f netcoreapp2.1");
             Shell.Commands[1].ShouldBe(
-                $"docker run --name my-app --volume {Path.GetFullPath(Context.ProjectDirectory)}:/app --publish 8080:80 --detach --rm steeltoeoss/dotnet-runtime:2.1 dotnet /app/bin/Debug/netcoreapp2.1/publish/{Path.GetFileName(Context.ProjectDirectory)}.dll");
-            Shell.Commands.Count.ShouldBe(2);
+                $"docker run --name my-app --volume {Path.GetFullPath(Context.ProjectDirectory)}:/app --workdir /app --env ASPNETCORE_ENVIRONMENT=Docker --publish 8080:80 --rm --detach steeltoeoss/dotnet-runtime:2.1 dotnet bin/Debug/netcoreapp2.1/publish/{Path.GetFileName(Context.ProjectDirectory)}.dll");
+            Shell.Commands[2].ShouldBe("docker network connect my-app-network my-app");
+            Shell.Commands.Count.ShouldBe(3);
         }
 
         [Fact]
         public void TestUndeployApp()
         {
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _driver.UndeployApp("my-app");
-            Shell.LastCommand.ShouldBe("docker stop my-app");
+            Shell.Commands[0].ShouldBe("docker network disconnect my-app-network my-app");
+            Shell.Commands[1].ShouldBe("docker stop my-app");
+            Shell.Commands.Count.ShouldBe(2);
         }
 
         [Fact]
         public void TestGetAppLifecycleStateCommand()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             _driver.GetAppStatus("my-app");
             Shell.LastCommand.ShouldBe("docker ps --no-trunc --filter name=^/my-app$");
         }
@@ -58,7 +62,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Docker
         [Fact]
         public void TestGetAppLifecycleStateOffline()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             var state = _driver.GetAppStatus("my-app");
             state.ShouldBe(Lifecycle.Status.Offline);
         }
@@ -66,7 +70,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Docker
         [Fact]
         public void TestGetAppLifecycleStateStarting()
         {
-            Context.Configuration.AddApp("my-app");
+            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             Shell.AddResponse(
                 @"CONTAINER ID                                                       IMAGE                        COMMAND                                               CREATED             STATUS              PORTS                  NAMES
 d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/dotnet-sdk:2.1   ""dotnet /work/bin/Debug/netcoreapp2.1/MyWebApp.dll""   56 seconds ago      Up 55 seconds       0.0.0.0:8080->80/tcp   my-app
@@ -80,8 +84,10 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
         {
             Context.Configuration.AddService("my-service", "dummy-svc");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 0:0 --detach --rm dummy-server:0.1");
+            Shell.Commands[0].ShouldBe("docker info");
+            Shell.Commands[1].ShouldBe("docker run --name my-service --publish 0:0 --detach --rm dummy-server:0.1");
+            Shell.Commands[2].ShouldBe("docker network connect my-service-network my-service");
+            Shell.Commands.Count.ShouldBe(3);
         }
 
         [Fact]
@@ -100,8 +106,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
             Context.Configuration.AddService("my-service", "dummy-svc");
             Shell.AddResponse("OSType: dummyos");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 0:0 --detach --rm dummy-server:for_dummyos");
+            Shell.Commands[1].ShouldBe("docker run --name my-service --publish 0:0 --detach --rm dummy-server:for_dummyos");
         }
 
         [Fact]
@@ -109,8 +114,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
         {
             Context.Configuration.AddService("my-service", "config-server");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/config-server:2.0");
+            Shell.Commands[1].ShouldBe("docker run --name my-service --publish 8888:8888 --detach --rm steeltoeoss/config-server:2.0");
         }
 
         [Fact]
@@ -118,8 +122,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
         {
             Context.Configuration.AddService("my-service", "eureka-server");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0");
+            Shell.Commands[1].ShouldBe("docker run --name my-service --publish 8761:8761 --detach --rm steeltoeoss/eureka-server:2.0");
         }
 
         [Fact]
@@ -127,8 +130,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
         {
             Context.Configuration.AddService("my-service", "hystrix-dashboard");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4");
+            Shell.Commands[1].ShouldBe("docker run --name my-service --publish 7979:7979 --detach --rm steeltoeoss/hystrix-dashboard:1.4");
         }
 
         [Fact]
@@ -148,8 +150,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
         {
             Context.Configuration.AddService("my-service", "mysql");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 3306:3306 --detach --rm steeltoeoss/mysql:5.7");
+            Shell.Commands[1].ShouldBe("docker run --name my-service --publish 3306:3306 --detach --rm steeltoeoss/mysql:5.7");
         }
 
         [Fact]
@@ -157,8 +158,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
         {
             Context.Configuration.AddService("my-service", "postgresql");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 5432:5432 --detach --rm steeltoeoss/postgresql:10.8");
+            Shell.Commands[1].ShouldBe("docker run --name my-service --publish 5432:5432 --detach --rm steeltoeoss/postgresql:10.8");
         }
 
         [Fact]
@@ -166,8 +166,7 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
         {
             Context.Configuration.AddService("my-service", "rabbitmq");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 5672:5672 --detach --rm steeltoeoss/rabbitmq:3.7");
+            Shell.Commands[1].ShouldBe("docker run --name my-service --publish 5672:5672 --detach --rm steeltoeoss/rabbitmq:3.7");
         }
 
         [Fact]
@@ -187,15 +186,17 @@ d2832b55b9e348d98b495f4432e05bc5e54dbe562d7294b48ba1ac5470b591b2   steeltoeoss/d
         {
             Context.Configuration.AddService("my-service", "zipkin");
             _driver.DeployService("my-service");
-            Shell.LastCommand.ShouldBe(
-                "docker run --name my-service --publish 9411:9411 --detach --rm steeltoeoss/zipkin:2.11");
+            Shell.Commands[1].ShouldBe("docker run --name my-service --publish 9411:9411 --detach --rm steeltoeoss/zipkin:2.11");
         }
 
         [Fact]
         public void TestUndeployService()
         {
+            Context.Configuration.AddService("my-service", "dummy-svc");
             _driver.UndeployService("my-service");
-            Shell.LastCommand.ShouldBe("docker stop my-service");
+            Shell.Commands[0].ShouldBe("docker network disconnect my-service-network my-service");
+            Shell.Commands[1].ShouldBe("docker stop my-service");
+            Shell.Commands.Count.ShouldBe(2);
         }
 
         [Fact]

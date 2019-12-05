@@ -9,8 +9,8 @@
     <PackageProjectUrl>https://steeltoe.io</PackageProjectUrl>
     <PackageTags>Docker, CloudFoundry</PackageTags>
     <PackageLicense>https://www.apache.org/licenses/LICENSE-2.0</PackageLicense>
-    <VersionPrefix>$(SteeltoeVersion)</VersionPrefix>
-    <VersionSuffix>$(SteeltoeVersionSuffix)</VersionSuffix>
+    <VersionPrefix>$(VersionPrefix)</VersionPrefix>
+    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />

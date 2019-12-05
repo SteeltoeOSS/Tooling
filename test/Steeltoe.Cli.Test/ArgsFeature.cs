@@ -80,7 +80,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_app"),
-                when => the_developer_runs_cli_command("add app my-app"),
+                when => the_developer_runs_cli_command("add-app my-app"),
                 and => the_developer_runs_cli_command("args my-app"),
                 then => the_cli_should_output_nothing(),
                 when => the_developer_runs_cli_command("args my-app arg1 arg2"),
@@ -101,7 +101,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_app_deploy"),
-                when => the_developer_runs_cli_command("add app my-app"),
+                when => the_developer_runs_cli_command("add-app my-app"),
                 and => the_developer_runs_cli_command("args my-app -t dummy-target"),
                 then => the_cli_should_output_nothing(),
                 when => the_developer_runs_cli_command("args my-app -t dummy-target arg1 arg2"),
@@ -123,7 +123,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_app_with_opt"),
-                when => the_developer_runs_cli_command("add app my-app"),
+                when => the_developer_runs_cli_command("add-app my-app"),
                 and => the_developer_runs_cli_command("args my-app -- arg1 -opt2"),
                 then => the_cli_should_output("Set 'my-app' app args to 'arg1 -opt2'"),
                 and => the_configuration_should_contain_app_args("my-app", "arg1 -opt2"),
@@ -137,7 +137,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_app_deploy_with_opt"),
-                when => the_developer_runs_cli_command("add app my-app"),
+                when => the_developer_runs_cli_command("add-app my-app"),
                 and => the_developer_runs_cli_command("args my-app -t dummy-target -- arg1 -opt2"),
                 then => the_cli_should_output("Set 'dummy-target' deploy args for 'my-app' app to 'arg1 -opt2'"),
                 and => the_configuration_should_contain_app_args("my-app", "dummy-target", "arg1 -opt2"),
@@ -151,7 +151,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_service"),
-                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                when => the_developer_runs_cli_command("add-service dummy-svc my-service"),
                 and => the_developer_runs_cli_command("args my-service"),
                 then => the_cli_should_output_nothing(),
                 when => the_developer_runs_cli_command("args my-service arg1 arg2"),
@@ -173,7 +173,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_service"),
-                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                when => the_developer_runs_cli_command("add-service dummy-svc my-service"),
                 and => the_developer_runs_cli_command("args my-service -t dummy-target"),
                 then => the_cli_should_output_nothing(),
                 when => the_developer_runs_cli_command("args my-service -t dummy-target arg1 arg2"),
@@ -197,7 +197,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_service_with_opt"),
-                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                when => the_developer_runs_cli_command("add-service dummy-svc my-service"),
                 and => the_developer_runs_cli_command("args my-service -- arg1 -opt2"),
                 then => the_cli_should_output("Set 'my-service' dummy-svc service args to 'arg1 -opt2'"),
                 and => the_configuration_should_contain_service_args("my-service", "arg1 -opt2"),
@@ -211,7 +211,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_service_deploy_with_opt"),
-                when => the_developer_runs_cli_command("add dummy-svc my-service"),
+                when => the_developer_runs_cli_command("add-service dummy-svc my-service"),
                 and => the_developer_runs_cli_command("args my-service -t dummy-target -- arg1 -opt2"),
                 then => the_cli_should_output(
                     "Set 'dummy-target' deploy args for 'my-service' dummy-svc service to 'arg1 -opt2'"),

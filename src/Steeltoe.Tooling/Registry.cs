@@ -126,7 +126,7 @@ namespace Steeltoe.Tooling
 
             // default service types
             var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "steeltoe.rc",
-                "registry.yml");
+                "registry.yaml");
             Logger.LogDebug($"loading registry from {path}");
             var deserializer = new DeserializerBuilder().Build();
             using (var reader = new StreamReader(path))

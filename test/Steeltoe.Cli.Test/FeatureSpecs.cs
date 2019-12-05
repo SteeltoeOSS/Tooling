@@ -164,7 +164,18 @@ namespace scratch
                 }
             }
 
-            messages.ShouldBe(actual.ToArray());
+            var actualMessages = actual.ToArray();
+
+            // '*' denotes we don't care
+            for (var i = 0; i < messages.Length; ++i)
+            {
+                if (messages[i] == "*")
+                {
+                    actualMessages[i] = "*";
+                }
+            }
+
+            actualMessages.ShouldBe(messages);
         }
 
         protected void the_cli_should_output(string message)
@@ -236,6 +247,20 @@ namespace scratch
         {
             Logger.LogInformation($"checking the app '{app}' does not exist");
             new ConfigurationFile(ProjectDirectory).Configuration.Apps.Keys.ShouldNotContain(app);
+        }
+
+        protected void the_configuration_should_contain_app_framework(string app, string framework)
+        {
+            Logger.LogInformation($"checking the app '{app}' contains framework '{framework}'");
+            var cfg = new ConfigurationFile(ProjectDirectory);
+            cfg.Configuration.Apps[app].TargetFramework.ShouldBe(framework);
+        }
+
+        protected void the_configuration_should_contain_app_runtime(string app, string runtime)
+        {
+            Logger.LogInformation($"checking the app '{app}' contains runtime '{runtime}'");
+            var cfg = new ConfigurationFile(ProjectDirectory);
+            cfg.Configuration.Apps[app].TargetRuntime.ShouldBe(runtime);
         }
 
         protected void the_configuration_should_contain_app_args(string app, string args)

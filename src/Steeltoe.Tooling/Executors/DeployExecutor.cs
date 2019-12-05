@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Steeltoe.Tooling.Executors
@@ -30,43 +31,51 @@ namespace Steeltoe.Tooling.Executors
         {
         }
 
-        internal override void ExecuteForApp(string app)
+        /// <summary>
+        /// Calls Driver.DeploySetup then defers to base class.
+        /// </summary>
+        protected override void Execute()
         {
-            foreach (var service in Context.Configuration.GetServices())
-            {
-                var count = 0;
-                while (true)
-                {
-                    ++count;
-                    if (Settings.MaxChecks >= 0 && ++count > Settings.MaxChecks)
-                    {
-                        throw new ToolingException($"max check exceeded ({Settings.MaxChecks})");
-                    }
+            Context.Driver.DeploySetup();
+            base.Execute();
+        }
 
-                    var startTicks = DateTime.Now.Ticks;
-                    if (Context.Driver.GetServiceStatus(service) == Lifecycle.Status.Online)
-                    {
-                        break;
-                    }
+        /// <summary>
+        /// Deploys apps then blocks until all apps online.
+        /// </summary>
+        /// <param name="apps">Apps to deploy.</param>
+        protected override void ExecuteForApps(List<string> apps)
+        {
+            base.ExecuteForApps(apps);
+            WaitUntilAllTransitioned(apps, Context.Driver.GetAppStatus, Lifecycle.Status.Online);
+        }
 
-                    const int ticksPerMillis = 10000;
-                    var elapsedMillis = (DateTime.Now.Ticks - startTicks) / ticksPerMillis;
-                    const int oneSecondMillis = 1000;
-                    var waitMillis = oneSecondMillis - elapsedMillis;
-                    if (waitMillis > 0L)
-                    {
-                        Thread.Sleep((int) waitMillis);
-                    }
+        /// <summary>
+        /// Deploys services then blocks until all services online.
+        /// </summary>
+        /// <param name="services">Services to deploy.</param>
+        protected override void ExecuteForServices(List<string> services)
+        {
+            base.ExecuteForServices(services);
+            WaitUntilAllTransitioned(services, Context.Driver.GetServiceStatus, Lifecycle.Status.Online);
+        }
 
-                    Context.Console.WriteLine($"Waiting for service '{service}' to come online ({count})");
-                }
-            }
 
+        /// <summary>
+        /// Deploy the app.
+        /// </summary>
+        /// <param name="app">App name.</param>
+        protected override void ExecuteForApp(string app)
+        {
             Context.Console.WriteLine($"Deploying app '{app}'");
             new Lifecycle(Context, app).Deploy();
         }
 
-        internal override void ExecuteForService(string service)
+        /// <summary>
+        /// Deploy the service.
+        /// </summary>
+        /// <param name="service">Service name.</param>
+        protected override void ExecuteForService(string service)
         {
             Context.Console.WriteLine($"Deploying service '{service}'");
             new Lifecycle(Context, service).Deploy();

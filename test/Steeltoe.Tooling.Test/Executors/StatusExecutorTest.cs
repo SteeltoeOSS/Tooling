@@ -33,20 +33,10 @@ namespace Steeltoe.Tooling.Test.Executors
             new DeployExecutor().Execute(Context);
             ClearConsole();
             new StatusExecutor().Execute(Context);
-            Console.ToString().ShouldContain("my-service starting");
-            Console.ToString().ShouldContain("another-service starting");
-
-            ClearConsole();
-            new StatusExecutor().Execute(Context);
             Console.ToString().ShouldContain("my-service online");
             Console.ToString().ShouldContain("another-service online");
 
             new UndeployExecutor().Execute(Context);
-            ClearConsole();
-            new StatusExecutor().Execute(Context);
-            Console.ToString().ShouldContain("my-service stopping");
-            Console.ToString().ShouldContain("another-service stopping");
-
             ClearConsole();
             new StatusExecutor().Execute(Context);
             Console.ToString().ShouldContain("my-service offline");

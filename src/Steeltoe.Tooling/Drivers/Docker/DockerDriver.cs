@@ -14,6 +14,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
@@ -42,6 +43,29 @@ namespace Steeltoe.Tooling.Drivers.Docker
             _dotnetCli = new Cli("dotnet", _context.Shell);
         }
 
+        public void DeploySetup()
+        {
+            _dockerCli.Run(
+                $"network create {GetNetworkName()}",
+                "creating network");
+        }
+
+        public void DeployTeardown()
+        {
+            _dockerCli.Run(
+                $"network rm {GetNetworkName()}",
+                "destroying network");
+        }
+
+        private string GetNetworkName()
+        {
+            if (_context.Configuration.Apps.Count > 0)
+            {
+                return $"{_context.Configuration.Apps.First().Key}-network";
+            }
+            return $"{_context.Configuration.Services.First().Key}-network";
+        }
+
         public void DeployApp(string app)
         {
             _dotnetCli.Run($"publish -f {HardCodedFramework}", "publishing dotnet app");
@@ -52,12 +76,18 @@ namespace Steeltoe.Tooling.Drivers.Docker
             var mount = $"{Path.GetFullPath(_context.ProjectDirectory)}:{appDir}";
             var portMap = $"{HardCodedLocalPort}:{HardCodedRemotePort}";
             _dockerCli.Run(
-                $"run --name {app} --volume {mount} --publish {portMap} --detach --rm {dotnetImage} dotnet {appDir}/{projectDll}",
+                $"run --name {app} --volume {mount} --workdir {appDir} --env ASPNETCORE_ENVIRONMENT=Docker --publish {portMap} --rm --detach {dotnetImage} dotnet {projectDll}",
                 "running app in Docker container");
+            _dockerCli.Run(
+                $"network connect {GetNetworkName()} {app}",
+                $"attaching {app} to network");
         }
 
         public void UndeployApp(string app)
         {
+            _dockerCli.Run(
+                $"network disconnect {GetNetworkName()} {app}",
+                $"detaching {app} from network");
             _dockerCli.Run($"stop {app}", "stopping Docker container for app");
         }
 
@@ -71,6 +101,9 @@ namespace Steeltoe.Tooling.Drivers.Docker
             var dockerInfo = new DockerCli(_context.Shell).Run("info", "getting Docker container OS");
             var dockerOs = new Regex(@"OSType:\s*(\S+)", RegexOptions.Multiline).Match(dockerInfo).Groups[1].ToString();
             DeployService(service, dockerOs);
+            _dockerCli.Run(
+                $"network connect {GetNetworkName()} {service}",
+                $"attaching {service} to network");
         }
 
         public void DeployService(string service, string os)
@@ -92,6 +125,9 @@ namespace Steeltoe.Tooling.Drivers.Docker
 
         public void UndeployService(string service)
         {
+            _dockerCli.Run(
+                $"network disconnect {GetNetworkName()} {service}",
+                $"detaching {service} from network");
             _dockerCli.Run($"stop {service}", "stopping Docker container for service");
         }
 

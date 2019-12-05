@@ -6,6 +6,8 @@ variables:
 - group: '.NET Foundation'
 - name: Solution
   value: 'Tooling'
+- name: ProductVersion
+  value: '0.5.0'
 - name: PackageVersion
   value: $[format('0.5.0-{0}', variables['Build.BuildId'])]
 - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
@@ -54,8 +56,12 @@ jobs:
         $env:PackageVersion = $env:PackageVersionOverride
       }
       Write-Host "build version set to $env:PackageVersion"
+      $prefix = $env:PackageVersion.Split('-')[0]
+      $suffix = $env:PackageVersion.Split('-')[1]
       Write-Host "##vso[build.updatebuildnumber]$env:PackageVersion"
       Write-Host "##vso[task.setvariable variable=PackageVersion;]$env:PackageVersion"
+      Write-Host "##vso[task.setvariable variable=VersionPrefix;]$prefix"
+      Write-Host "##vso[task.setvariable variable=VersionSuffix;]$suffix"
     env:
       PackageVersion: $(PackageVersion)
       PackageVersionOverride: $(PackageVersionOverride)
@@ -65,7 +71,7 @@ jobs:
     inputs:
       command: 'pack'
       packagesToPack: '$(Solution).sln'
-      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
+      arguments: '--configuration $(buildConfiguration) /p:TreatWarningsAsErrors=True /p:VersionPrefix=$(VersionPrefix) /p:VersionSuffix=$(VersionSuffix)'
       versioningScheme: 'byEnvVar'
       versionEnvVar: 'PackageVersion'
   - task: 'DotNetCoreCLI@2'

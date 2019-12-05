@@ -22,7 +22,8 @@ namespace Steeltoe.Cli
     [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]
     [Subcommand(InitCommand.Name, typeof(InitCommand))]
     [Subcommand(TargetCommand.Name, typeof(TargetCommand))]
-    [Subcommand(AddCommand.Name, typeof(AddCommand))]
+    [Subcommand(AddAppCommand.Name, typeof(AddAppCommand))]
+    [Subcommand(AddServiceCommand.Name, typeof(AddServiceCommand))]
     [Subcommand(RemoveCommand.Name, typeof(RemoveCommand))]
     [Subcommand(DeployCommand.Name, typeof(DeployCommand))]
     [Subcommand(UndeployCommand.Name, typeof(UndeployCommand))]
@@ -37,11 +38,18 @@ namespace Steeltoe.Cli
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
         public static string GetVersion()
-            => typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+        {
+            var versionString = typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                 .InformationalVersion;
+            if (!versionString.Contains('-')) return versionString;
+            var version = versionString.Split('-')[0];
+            var build = versionString.Split('-')[1];
+            return
+                $"{version} (build {build} -> https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/results?buildId={build})";
+        }
 
         [Option("-C|--config-file", Description =
-            "Configure tooling using the specified file instead of steeltoe.yml")]
+            "Configure tooling using the specified file instead of steeltoe.yaml")]
         // ReSharper disable once UnassignedGetOnlyAutoProperty
         public static string ProjectConfigurationPath { get; }
 

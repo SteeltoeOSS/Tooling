@@ -141,9 +141,9 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("list_services"),
-                when => the_developer_runs_cli_command("add dummy-svc my-service-c"),
-                and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
-                and => the_developer_runs_cli_command("add dummy-svc my-service-a"),
+                when => the_developer_runs_cli_command("add-service dummy-svc my-service-c"),
+                and => the_developer_runs_cli_command("add-service dummy-svc my-service-b"),
+                and => the_developer_runs_cli_command("add-service dummy-svc my-service-a"),
                 and => the_developer_runs_cli_command("list"),
                 then => the_cli_should_output(new[]
                 {
@@ -159,9 +159,9 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("list_services_verbose"),
-                when => the_developer_runs_cli_command("add dummy-svc my-service-c"),
-                and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
-                and => the_developer_runs_cli_command("add dummy-svc my-service-a"),
+                when => the_developer_runs_cli_command("add-service dummy-svc my-service-c"),
+                and => the_developer_runs_cli_command("add-service dummy-svc my-service-b"),
+                and => the_developer_runs_cli_command("add-service dummy-svc my-service-a"),
                 and => the_developer_runs_cli_command("list -v"),
                 then => the_cli_should_output(new[]
                 {

@@ -60,16 +60,16 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("deploy_services"),
-                when => the_developer_runs_cli_command("add app my-app"),
-                and => the_developer_runs_cli_command("add dummy-svc my-service-a"),
-                and => the_developer_runs_cli_command("add dummy-svc my-service-b"),
+                when => the_developer_runs_cli_command("add-app my-app"),
+                and => the_developer_runs_cli_command("add-service dummy-svc my-service-a"),
+                and => the_developer_runs_cli_command("add-service dummy-svc my-service-b"),
                 and => the_developer_runs_cli_command("deploy"),
                 then => the_cli_should_output(new[]
                 {
                     "Deploying service 'my-service-a'",
                     "Deploying service 'my-service-b'",
-                    "Waiting for service 'my-service-a' to come online (1)",
-                    "Waiting for service 'my-service-b' to come online (1)",
+                    "Waiting for 'my-service-a' to transition to online (1)",
+                    "Waiting for 'my-service-b' to transition to online (1)",
                     "Deploying app 'my-app'",
                 })
             );

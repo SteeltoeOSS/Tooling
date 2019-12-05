@@ -8,7 +8,7 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<CloudFoundryManifestFile>();
 
-        internal const string DefaultFileName = "manifest-steeltoe.yml";
+        internal const string DefaultFileName = "manifest-steeltoe.yaml";
 
         internal CloudFoundryManifest CloudFoundryManifest { get; private set; }
 
