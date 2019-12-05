@@ -60,8 +60,10 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
             KubernetesDotnetAppDockerfileFile dockerfileFile = new KubernetesDotnetAppDockerfileFile("Dockerfile");
             var dockerfile = dockerfileFile.KubernetesDotnetAppDockerfile;
             dockerfile.App = app;
+            dockerfile.AppPath = "/app";
             dockerfile.BaseImage = "steeltoeoss/dotnet-runtime:2.1";
             dockerfile.BuildPath = "bin/Debug/netcoreapp2.1/publish";
+            dockerfile.Environment = "Docker";
             dockerfileFile.Store();
             _dockerCli.Run($"build --tag {app.ToLower()} .", "building Docker image for app");
 
@@ -81,6 +83,9 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
             // TODO: get 'port' from somewhere else
             // TODO: get 'image' from somewhere else
             DeployKubernetesService(app, app.ToLower(), 80, PreSaveAction);
+//            var appPodInfo = _kubectlCli.Run($"get pods --selector app={app.ToLower()}", "getting app pod");
+//            var pod = new Regex($"^({app.ToLower()}-\\S+)", RegexOptions.Multiline).Match(appPodInfo).Groups[1].ToString();
+//            _kubectlCli.Run($"port-forward {pod} 8080:80", "forwarding port 8080->80");
         }
 
         public void UndeployApp(string app)
@@ -222,7 +227,6 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
                 "getting Kubernetes deployment status");
             if (podInfo.Contains("Running"))
             {
-//                _kubectlCli.Run($"get services {name.ToLower()}");
                 return Lifecycle.Status.Online;
             }
             else if (podInfo.Contains("Pending") || podInfo.Contains("ContainerCreating"))
@@ -232,6 +236,10 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
             else if (podInfo.Contains("Terminating"))
             {
                 return Lifecycle.Status.Stopping;
+            }
+            else if (podInfo.Contains("CrashLoopBackOff")) // TODO: is this the correct assumption? need a new state?
+            {
+                return Lifecycle.Status.Online;
             }
             else if (string.IsNullOrEmpty(podInfo))
             {

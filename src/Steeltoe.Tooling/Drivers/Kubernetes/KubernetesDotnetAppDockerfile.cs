@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Steeltoe.Tooling.Drivers.Kubernetes
 {
     /// <summary>
@@ -6,18 +8,28 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
     public class KubernetesDotnetAppDockerfile
     {
         /// <summary>
+        /// Base Docker image form which to build Dotnet application image.
+        /// </summary>
+        public string BaseImage { get; set; }
+
+        /// <summary>
         /// Dotnet application name.
         /// </summary>
         public string App { get; set; }
-        
+
+        /// <summary>
+        /// Path containing Dotnet application.
+        /// </summary>
+        public string AppPath { get; set; }
+
         /// <summary>
         /// Path to Dotnet application build.
         /// </summary>
         public string BuildPath { get; set; }
-        
+
         /// <summary>
-        /// Base Docker image form which to build Dotnet application image.
+        /// Docker container environment.
         /// </summary>
-        public string BaseImage { get; set; }
+        public string Environment { get; set; }
     }
 }
