@@ -75,9 +75,9 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("add_app"),
-                when => the_developer_runs_cli_command("add-app my-app"),
-                then => the_cli_should_output("Added app 'my-app' (netcoreapp2.1/win10-x64)"),
-                and => the_configuration_should_contain_app("my-app")
+                when => the_developer_runs_cli_command("add-app add_app"),
+                then => the_cli_should_output("Added app 'add_app' (netcoreapp3.1/ubuntu.16.04-x64)"),
+                and => the_configuration_should_contain_app("add_app")
             );
         }
 
@@ -86,9 +86,9 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("add_app_existing_app"),
-                when => the_developer_runs_cli_command("add-app existing-app"),
-                and => the_developer_runs_cli_command("add-app existing-app"),
-                then => the_cli_should_error(ErrorCode.Tooling, "App 'existing-app' already exists")
+                when => the_developer_runs_cli_command("add-app add_app_existing_app"),
+                and => the_developer_runs_cli_command("add-app add_app_existing_app"),
+                then => the_cli_should_error(ErrorCode.Tooling, "App 'add_app_existing_app' already exists")
             );
         }
 
@@ -107,8 +107,8 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("add_app_runtime"),
-                when => the_developer_runs_cli_command("add-app my-app -r dummy-runtime"),
-                and => the_configuration_should_contain_app_runtime("my-app", "dummy-runtime")
+                when => the_developer_runs_cli_command("add-app add_app_runtime -r dummy-runtime"),
+                and => the_configuration_should_contain_app_runtime("add_app_runtime", "dummy-runtime")
             );
         }
     }
