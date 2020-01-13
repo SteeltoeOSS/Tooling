@@ -60,7 +60,7 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("undeploy_services"),
-                when => the_developer_runs_cli_command("add-app my-app"),
+                when => the_developer_runs_cli_command("add-app undeploy_services"),
                 and => the_developer_runs_cli_command("add-service dummy-svc my-service-a"),
                 and => the_developer_runs_cli_command("add-service dummy-svc my-service-b"),
                 and => the_developer_runs_cli_command("deploy"),
@@ -68,7 +68,7 @@ namespace Steeltoe.Cli.Test
                 and => the_developer_runs_cli_command("undeploy"),
                 then => the_cli_should_output(new[]
                 {
-                    "Undeploying app 'my-app'",
+                    "Undeploying app 'undeploy_services'",
                     "Undeploying service 'my-service-a'",
                     "Undeploying service 'my-service-b'",
                     "Waiting for 'my-service-a' to transition to offline (1)",

@@ -80,18 +80,18 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_app"),
-                when => the_developer_runs_cli_command("add-app my-app"),
-                and => the_developer_runs_cli_command("args my-app"),
+                when => the_developer_runs_cli_command("add-app args_app"),
+                and => the_developer_runs_cli_command("args args_app"),
                 then => the_cli_should_output_nothing(),
-                when => the_developer_runs_cli_command("args my-app arg1 arg2"),
-                then => the_cli_should_output("Set 'my-app' app args to 'arg1 arg2'"),
-                and => the_configuration_should_contain_app_args("my-app", "arg1 arg2"),
-                when => the_developer_runs_cli_command("args my-app arg3"),
-                then => the_cli_should_error(ErrorCode.Tooling, "'my-app' app args already set to 'arg1 arg2'"),
-                when => the_developer_runs_cli_command("args my-app arg3 --force"),
-                then => the_cli_should_output("Set 'my-app' app args to 'arg3'"),
-                and => the_configuration_should_contain_app_args("my-app", "arg3"),
-                when => the_developer_runs_cli_command("args my-app"),
+                when => the_developer_runs_cli_command("args args_app arg1 arg2"),
+                then => the_cli_should_output("Set 'args_app' app args to 'arg1 arg2'"),
+                and => the_configuration_should_contain_app_args("args_app", "arg1 arg2"),
+                when => the_developer_runs_cli_command("args args_app arg3"),
+                then => the_cli_should_error(ErrorCode.Tooling, "'args_app' app args already set to 'arg1 arg2'"),
+                when => the_developer_runs_cli_command("args args_app arg3 --force"),
+                then => the_cli_should_output("Set 'args_app' app args to 'arg3'"),
+                and => the_configuration_should_contain_app_args("args_app", "arg3"),
+                when => the_developer_runs_cli_command("args args_app"),
                 then => the_cli_should_output("arg3")
             );
         }
@@ -101,19 +101,19 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_app_deploy"),
-                when => the_developer_runs_cli_command("add-app my-app"),
-                and => the_developer_runs_cli_command("args my-app -t dummy-target"),
+                when => the_developer_runs_cli_command("add-app args_app_deploy"),
+                and => the_developer_runs_cli_command("args args_app_deploy -t dummy-target"),
                 then => the_cli_should_output_nothing(),
-                when => the_developer_runs_cli_command("args my-app -t dummy-target arg1 arg2"),
-                then => the_cli_should_output("Set 'dummy-target' deploy args for 'my-app' app to 'arg1 arg2'"),
-                and => the_configuration_should_contain_app_args("my-app", "dummy-target", "arg1 arg2"),
-                when => the_developer_runs_cli_command("args my-app -t dummy-target arg3"),
+                when => the_developer_runs_cli_command("args args_app_deploy -t dummy-target arg1 arg2"),
+                then => the_cli_should_output("Set 'dummy-target' deploy args for 'args_app_deploy' app to 'arg1 arg2'"),
+                and => the_configuration_should_contain_app_args("args_app_deploy", "dummy-target", "arg1 arg2"),
+                when => the_developer_runs_cli_command("args args_app_deploy -t dummy-target arg3"),
                 then => the_cli_should_error(ErrorCode.Tooling,
-                    "'dummy-target' deploy args for 'my-app' app already set to 'arg1 arg2'"),
-                when => the_developer_runs_cli_command("args my-app -t dummy-target arg3 --force"),
-                then => the_cli_should_output("Set 'dummy-target' deploy args for 'my-app' app to 'arg3'"),
-                and => the_configuration_should_contain_app_args("my-app", "dummy-target", "arg3"),
-                when => the_developer_runs_cli_command("args my-app -t dummy-target"),
+                    "'dummy-target' deploy args for 'args_app_deploy' app already set to 'arg1 arg2'"),
+                when => the_developer_runs_cli_command("args args_app_deploy -t dummy-target arg3 --force"),
+                then => the_cli_should_output("Set 'dummy-target' deploy args for 'args_app_deploy' app to 'arg3'"),
+                and => the_configuration_should_contain_app_args("args_app_deploy", "dummy-target", "arg3"),
+                when => the_developer_runs_cli_command("args args_app_deploy -t dummy-target"),
                 then => the_cli_should_output("arg3")
             );
         }
@@ -123,11 +123,11 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_app_with_opt"),
-                when => the_developer_runs_cli_command("add-app my-app"),
-                and => the_developer_runs_cli_command("args my-app -- arg1 -opt2"),
-                then => the_cli_should_output("Set 'my-app' app args to 'arg1 -opt2'"),
-                and => the_configuration_should_contain_app_args("my-app", "arg1 -opt2"),
-                when => the_developer_runs_cli_command("args my-app"),
+                when => the_developer_runs_cli_command("add-app args_app_with_opt"),
+                and => the_developer_runs_cli_command("args args_app_with_opt -- arg1 -opt2"),
+                then => the_cli_should_output("Set 'args_app_with_opt' app args to 'arg1 -opt2'"),
+                and => the_configuration_should_contain_app_args("args_app_with_opt", "arg1 -opt2"),
+                when => the_developer_runs_cli_command("args args_app_with_opt"),
                 then => the_cli_should_output("arg1 -opt2")
             );
         }
@@ -137,11 +137,11 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("args_app_deploy_with_opt"),
-                when => the_developer_runs_cli_command("add-app my-app"),
-                and => the_developer_runs_cli_command("args my-app -t dummy-target -- arg1 -opt2"),
-                then => the_cli_should_output("Set 'dummy-target' deploy args for 'my-app' app to 'arg1 -opt2'"),
-                and => the_configuration_should_contain_app_args("my-app", "dummy-target", "arg1 -opt2"),
-                when => the_developer_runs_cli_command("args my-app -t dummy-target"),
+                when => the_developer_runs_cli_command("add-app args_app_deploy_with_opt"),
+                and => the_developer_runs_cli_command("args args_app_deploy_with_opt -t dummy-target -- arg1 -opt2"),
+                then => the_cli_should_output("Set 'dummy-target' deploy args for 'args_app_deploy_with_opt' app to 'arg1 -opt2'"),
+                and => the_configuration_should_contain_app_args("args_app_deploy_with_opt", "dummy-target", "arg1 -opt2"),
+                when => the_developer_runs_cli_command("args args_app_deploy_with_opt -t dummy-target"),
                 then => the_cli_should_output("arg1 -opt2")
             );
         }

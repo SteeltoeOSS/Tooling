@@ -72,10 +72,10 @@ namespace Steeltoe.Cli.Test
         {
             Runner.RunScenario(
                 given => a_steeltoe_project("remove_app"),
-                when => the_developer_runs_cli_command("add-app my-app"),
-                and => the_developer_runs_cli_command("remove my-app"),
-                then => the_cli_should_output("Removed app 'my-app'"),
-                and => the_configuration_should_not_contain_app("my-app")
+                when => the_developer_runs_cli_command("add-app remove_app"),
+                and => the_developer_runs_cli_command("remove remove_app"),
+                then => the_cli_should_output("Removed app 'remove_app'"),
+                and => the_configuration_should_not_contain_app("remove_app")
             );
         }
 

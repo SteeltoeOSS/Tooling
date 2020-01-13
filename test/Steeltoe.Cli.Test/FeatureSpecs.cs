@@ -67,7 +67,7 @@ namespace Steeltoe.Cli.Test
             File.WriteAllText(csprojFile, @"<Project Sdk=""Microsoft.NET.Sdk"">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFramework>netcoreapp3.1;netcoreapp2.1;net461</TargetFramework>
     </PropertyGroup>
 
 </Project>

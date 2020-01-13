@@ -28,10 +28,10 @@ namespace Steeltoe.Cli
         private string AppName { get; } = null;
 
         [Option("-f|--framework", Description = "Target framework")]
-        private string Framework { get; } = "netcoreapp2.1";
+        private string Framework { get; } = null;
 
         [Option("-r|--runtime", Description = "Target runtime")]
-        private string Runtime { get; } = "win10-x64";
+        private string Runtime { get; } = null;
 
         public AddAppCommand(IConsole console) : base(console)
         {

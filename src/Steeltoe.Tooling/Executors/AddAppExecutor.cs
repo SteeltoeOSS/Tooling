@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
+using System.Net.Http.Headers;
+using System.Xml;
+
 namespace Steeltoe.Tooling.Executors
 {
     /// <summary>
@@ -44,8 +48,24 @@ namespace Steeltoe.Tooling.Executors
         /// </summary>
         protected override void Execute()
         {
-            Context.Configuration.AddApp(_name, _framework, _runtime);
-            Context.Console.WriteLine($"Added app '{_name}' ({_framework}/{_runtime})");
+            var framework = _framework ?? GuessFramework();
+            var runtime = _runtime ?? "ubuntu.16.04-x64";
+            Context.Configuration.AddApp(_name, framework, runtime);
+            Context.Console.WriteLine($"Added app '{_name}' ({framework}/{runtime})");
+        }
+
+        private string GuessFramework()
+        {
+            var projectFile = Path.Join(Context.ProjectDirectory, $"{_name}.csproj");
+            if (!File.Exists(projectFile))
+            {
+                throw new ToolingException($"project file does not exist: {projectFile}");
+            }
+            var doc = new XmlDocument();
+            doc.Load(projectFile);
+            var nodes = doc.GetElementsByTagName("TargetFramework");
+            var frameworks = nodes[0].InnerText;
+            return frameworks.Split(";")[0];
         }
     }
 }
