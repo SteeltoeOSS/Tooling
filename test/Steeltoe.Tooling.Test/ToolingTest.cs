@@ -45,7 +45,7 @@ namespace Steeltoe.Tooling.Test
 
         public void Dispose()
         {
-            Directory.Delete(Context.ProjectDirectory, true);
+            // Directory.Delete(Context.ProjectDirectory, true);
         }
 
         protected void ClearConsole()

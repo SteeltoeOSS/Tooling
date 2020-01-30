@@ -16,30 +16,10 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
         }
 
         [Fact]
-        public void TestLoadFromFile()
-        {
-            File.WriteAllText(_configFile, SampleConfig);
-            var cfgFile = new CloudFoundryManifestFile(_configFile);
-            cfgFile.CloudFoundryManifest.Applications.Count.ShouldBe(1);
-            var app = cfgFile.CloudFoundryManifest.Applications[0];
-            app.Name.ShouldBe("myapp");
-            app.Command.ShouldBe("my command");
-            app.BuildPacks.Count.ShouldBe(1);
-            app.BuildPacks[0].ShouldBe("my_build_pack");
-            app.Stack.ShouldBe("my stack");
-            app.Memory.ShouldBe("my mem");
-            app.Environment.Count.ShouldBe(1);
-            app.Environment["myenv"].ShouldBe("my var");
-            app.ServiceNames.Count.ShouldBe(2);
-            app.ServiceNames.ShouldContain("my-service");
-            app.ServiceNames.ShouldContain("my-other-service");
-        }
-
-        [Fact]
         public void TestStoreToFile()
         {
             var cfgFile = new CloudFoundryManifestFile(_configFile);
-            cfgFile.CloudFoundryManifest.Applications.Add(new CloudFoundryManifest.Application
+            cfgFile.CloudFoundryManifest.Applications.Add(new CloudFoundryManifest.Application()
             {
                 Name = "myapp",
                 Command = "my command",

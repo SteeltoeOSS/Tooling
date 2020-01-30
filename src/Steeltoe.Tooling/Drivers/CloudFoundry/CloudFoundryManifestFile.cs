@@ -1,4 +1,6 @@
 using System.IO;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.Extensions.Logging;
 using YamlDotNet.Serialization;
 
@@ -10,47 +12,44 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
 
         internal const string DefaultFileName = "manifest-steeltoe.yaml";
 
-        internal CloudFoundryManifest CloudFoundryManifest { get; private set; }
+        public CloudFoundryManifest CloudFoundryManifest { get; } = new CloudFoundryManifest();
 
-        internal string File { get; }
+        public string File { get; }
 
         internal CloudFoundryManifestFile(string file)
         {
             File = file;
-            if (Exists())
-            {
-                Load();
-            }
-            else
-            {
-                CloudFoundryManifest = new CloudFoundryManifest();
-            }
-        }
-
-        private void Load()
-        {
-            Logger.LogDebug($"loading cloud foundry manifest from {File}");
-            var deserializer = new DeserializerBuilder().Build();
-            using (var reader = new StreamReader(File))
-            {
-                CloudFoundryManifest = deserializer.Deserialize<CloudFoundryManifest>(reader);
-            }
         }
 
         internal void Store()
         {
             Logger.LogDebug($"storing cloud foundry manifest to {File}");
-            var serializer = new SerializerBuilder().Build();
-            var yaml = serializer.Serialize(CloudFoundryManifest);
-            using (var writer = new StreamWriter(File))
-            {
-                writer.Write(yaml);
-            }
+            var template = TemplateManager.GetTemplate("cloud-foundry-manifest.yml.st");
+            template.Bind("manifest", new CloudFoundryManifestAdapter(CloudFoundryManifest));
+            System.IO.File.WriteAllText(File, template.Render());
         }
 
         internal bool Exists()
         {
             return System.IO.File.Exists(File);
+        }
+
+        internal class CloudFoundryManifestAdapter
+        {
+            private readonly CloudFoundryManifest _manifest;
+
+            public CloudFoundryManifest.Application App { get; }
+
+            public bool EnvironmentExists => App.Environment.Count > 0;
+
+            internal CloudFoundryManifestAdapter(CloudFoundryManifest manifest)
+            {
+                _manifest = manifest;
+                if (_manifest.Applications.Count > 0)
+                {
+                    App = _manifest.Applications[0];
+                }
+            }
         }
     }
 }

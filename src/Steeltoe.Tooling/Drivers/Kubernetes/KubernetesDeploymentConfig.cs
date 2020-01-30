@@ -13,66 +13,59 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.Drivers.Kubernetes
 {
     internal class KubernetesDeploymentConfig : KubernetesConfig
     {
-        [YamlMember(Alias = "spec")] public DeploymentSpec Spec { get; set; }
+        public DeploymentSpec Spec { get; set; }
 
         public class DeploymentSpec
         {
-            [YamlMember(Alias = "replicas")] public int Replicas { get; set; }
+            public int Replicas { get; set; }
 
-            [YamlMember(Alias = "selector")] public ServiceSelector Selector { get; set; }
+            public ServiceSelector Selector { get; set; }
 
-            [YamlMember(Alias = "template")] public ServiceTemplate Template { get; set; }
+            public ServiceTemplate Template { get; set; }
 
             public class ServiceSelector
             {
-                [YamlMember(Alias = "matchLabels")]
                 public Dictionary<string, string> MatchLabels { get; set; } = new Dictionary<string, string>();
             }
 
             public class ServiceTemplate
             {
-                [YamlMember(Alias = "metadata")] public ServiceMetaData Metadata { get; set; }
+                public ServiceMetaData MetaData { get; set; }
 
-                [YamlMember(Alias = "spec")] public TemplateSpec Spec { get; set; }
+                public TemplateSpec Spec { get; set; }
 
 
                 public class ServiceMetaData
                 {
-                    [YamlMember(Alias = "labels")]
                     public Dictionary<string, string> Labels { get; set; } = new Dictionary<string, string>();
                 }
 
                 public class TemplateSpec
                 {
-                    [YamlMember(Alias = "containers")]
                     public List<Container> Containers { get; set; } = new List<Container>();
 
                     public class Container
                     {
-                        [YamlMember(Alias = "name")] public string Name { get; set; }
+                        public string Name { get; set; }
 
-                        [YamlMember(Alias = "image")] public string Image { get; set; }
+                        public string Image { get; set; }
 
-                        [YamlMember(Alias = "imagePullPolicy")]
                         public string ImagePullPolicy { get; set; }
 
-                        [YamlMember(Alias = "ports")]
                         public List<ServicePorts> Ports { get; set; }
 
-                        [YamlMember(Alias = "env")]
                         public List<NameValuePair> Env { get; set; }
 
                         public class NameValuePair
                         {
-                            [YamlMember(Alias = "name")] public string Name { get; set; }
+                            public string Name { get; set; }
 
-                            [YamlMember(Alias = "value")] public string Value { get; set; }
+                            public string Value { get; set; }
                         }
                     }
                 }

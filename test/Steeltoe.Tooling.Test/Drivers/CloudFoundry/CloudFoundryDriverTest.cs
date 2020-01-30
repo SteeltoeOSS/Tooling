@@ -38,20 +38,8 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
             Shell.Commands.Count.ShouldBe(2);
             Shell.Commands[0].ShouldBe("dotnet publish -f dummy-framework -r win");
             Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yaml -p bin/Debug/dummy-framework/win/publish");
-            var manifestFile =
-                new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yaml"));
-            manifestFile.Exists().ShouldBeTrue();
-            manifestFile.CloudFoundryManifest.Applications.Count.ShouldBe(1);
-            var app = manifestFile.CloudFoundryManifest.Applications[0];
-            app.Name.ShouldBe("my-app");
-            app.Command.ShouldBe($"cmd /c .\\{Path.GetFileName(Context.ProjectDirectory)}");
-            app.BuildPacks.Count.ShouldBe(1);
-            app.BuildPacks[0].ShouldBe("hwc_buildpack");
-            app.Stack.ShouldBe("windows");
-            app.Memory.ShouldBe("512M");
-            app.Environment["ASPNETCORE_ENVIRONMENT"].ShouldBe("development");
-            app.ServiceNames[0].ShouldBe("my-service");
-            app.ServiceNames.Count.ShouldBe(1);
+            var manifestFile = Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yaml");
+            File.Exists(manifestFile).ShouldBeTrue();
         }
 
         [Fact]
@@ -63,20 +51,8 @@ namespace Steeltoe.Tooling.Test.Drivers.CloudFoundry
             Shell.Commands.Count.ShouldBe(2);
             Shell.Commands[0].ShouldBe("dotnet publish -f dummy-framework -r ubuntu");
             Shell.Commands[1].ShouldBe("cf push -f manifest-steeltoe.yaml -p bin/Debug/dummy-framework/ubuntu/publish");
-            var manifestFile =
-                new CloudFoundryManifestFile(Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yaml"));
-            manifestFile.Exists().ShouldBeTrue();
-            manifestFile.CloudFoundryManifest.Applications.Count.ShouldBe(1);
-            var app = manifestFile.CloudFoundryManifest.Applications[0];
-            app.Name.ShouldBe("my-app");
-            app.Command.ShouldBe($"cd ${{HOME}} && ./{Path.GetFileName(Context.ProjectDirectory)}");
-            app.BuildPacks.Count.ShouldBe(1);
-            app.BuildPacks[0].ShouldBe("dotnet_core_buildpack");
-            app.Stack.ShouldBeNull();
-            app.Memory.ShouldBe("512M");
-            app.Environment["ASPNETCORE_ENVIRONMENT"].ShouldBe("development");
-            app.ServiceNames[0].ShouldBe("my-service");
-            app.ServiceNames.Count.ShouldBe(1);
+            var manifestFile = Path.Combine(Context.ProjectDirectory, "manifest-steeltoe.yaml");
+            File.Exists(manifestFile).ShouldBeTrue();
         }
 
         [Fact]

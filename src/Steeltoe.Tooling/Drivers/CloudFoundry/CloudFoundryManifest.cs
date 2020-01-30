@@ -13,36 +13,27 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.Drivers.CloudFoundry
 {
     internal class CloudFoundryManifest
     {
-        [YamlMember(Alias = "applications")]
-        public List<Application> Applications { get; set; }= new List<Application>();
+        public List<Application> Applications { get; set; } = new List<Application>();
 
         public class Application
         {
-            [YamlMember(Alias = "name")]
             public string Name { get; set; }
 
-            [YamlMember(Alias = "command")]
             public string Command { get; set; }
 
-            [YamlMember(Alias = "buildpacks")]
             public List<string> BuildPacks { get; set; }
 
-            [YamlMember(Alias = "stack")]
             public string Stack { get; set; }
 
-            [YamlMember(Alias = "memory")]
             public string Memory { get; set; }
 
-            [YamlMember(Alias = "env")]
             public Dictionary<string, string> Environment { get; set; }
 
-            [YamlMember(Alias = "services")]
             public List<string> ServiceNames { get; set; }
         }
     }

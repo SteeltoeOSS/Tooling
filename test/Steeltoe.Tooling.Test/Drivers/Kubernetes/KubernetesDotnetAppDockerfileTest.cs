@@ -15,18 +15,6 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
         }
 
         [Fact]
-        public void TestLoadFromFile()
-        {
-            File.WriteAllText(_dockerFile, SampleDockerfile);
-            var dockerfile = new KubernetesDotnetAppDockerfileFile(_dockerFile).KubernetesDotnetAppDockerfile;
-            dockerfile.BaseImage.ShouldBe("mytag");
-            dockerfile.App.ShouldBe("MyApp");
-            dockerfile.AppPath.ShouldBe("/myapppath");
-            dockerfile.BuildPath.ShouldBe("build/path");
-            dockerfile.Environment.ShouldBe("myenv");
-        }
-
-        [Fact]
         public void TestStoreToFile()
         {
             var dockerFile = new KubernetesDotnetAppDockerfileFile(_dockerFile);
@@ -34,7 +22,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
             dockerFile.KubernetesDotnetAppDockerfile.App = "MyApp";
             dockerFile.KubernetesDotnetAppDockerfile.AppPath = "/myapppath";
             dockerFile.KubernetesDotnetAppDockerfile.BuildPath = "build/path";
-            dockerFile.KubernetesDotnetAppDockerfile.Environment = "myenv";
+            dockerFile.KubernetesDotnetAppDockerfile.Environment["ASPNETCORE_ENVIRONMENT"] = "myenv";
             dockerFile.Store();
             File.ReadAllText(_dockerFile).ShouldBe(SampleDockerfile);
         }

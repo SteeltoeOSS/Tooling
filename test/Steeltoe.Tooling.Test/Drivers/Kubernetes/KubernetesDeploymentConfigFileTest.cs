@@ -16,25 +16,6 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
         }
 
         [Fact]
-        public void TestLoadFromFile()
-        {
-            File.WriteAllText(_configFile, SampleConfig);
-            var cfgFile = new KubernetesDeploymentConfigFile(_configFile);
-            cfgFile.KubernetesDeploymentConfig.ApiVersion.ShouldBe("apps/v1");
-            cfgFile.KubernetesDeploymentConfig.Kind.ShouldBe("Deployment");
-            cfgFile.KubernetesDeploymentConfig.MetaData.Name.ShouldBe("my-service-name");
-            cfgFile.KubernetesDeploymentConfig.MetaData.Labels["label1"].ShouldBe("value1");
-            cfgFile.KubernetesDeploymentConfig.Spec.Replicas.ShouldBe(9);
-            cfgFile.KubernetesDeploymentConfig.Spec.Selector.MatchLabels["label2"].ShouldBe("value2");
-            cfgFile.KubernetesDeploymentConfig.Spec.Template.Metadata.Labels["label3"].ShouldBe("value3");
-            cfgFile.KubernetesDeploymentConfig.Spec.Template.Spec.Containers.Count.ShouldBe(1);
-            cfgFile.KubernetesDeploymentConfig.Spec.Template.Spec.Containers[0].Name.ShouldBe("my-container");
-            cfgFile.KubernetesDeploymentConfig.Spec.Template.Spec.Containers[0].Image.ShouldBe("my-container-image");
-            cfgFile.KubernetesDeploymentConfig.Spec.Template.Spec.Containers[0].Ports.Count.ShouldBe(1);
-            cfgFile.KubernetesDeploymentConfig.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort.ShouldBe(1234);
-        }
-
-        [Fact]
         public void TestStoreToFile()
         {
             var cfgFile = new KubernetesDeploymentConfigFile(_configFile);
@@ -60,7 +41,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
                 },
                 Template = new KubernetesDeploymentConfig.DeploymentSpec.ServiceTemplate()
                 {
-                    Metadata = new KubernetesDeploymentConfig.DeploymentSpec.ServiceTemplate.ServiceMetaData()
+                    MetaData = new KubernetesDeploymentConfig.DeploymentSpec.ServiceTemplate.ServiceMetaData()
                     {
                         Labels = new Dictionary<string, string>
                         {

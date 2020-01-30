@@ -50,6 +50,7 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
                 File.Delete(manifestPath);
             }
 
+            var manifestFile = new CloudFoundryManifestFile(manifestPath);
             var cloudFoundryApp = new CloudFoundryManifest.Application();
             cloudFoundryApp.Name = app;
             cloudFoundryApp.Memory = "512M";
@@ -66,9 +67,10 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
                 cloudFoundryApp.BuildPacks = new List<string> {"hwc_buildpack"};
                 cloudFoundryApp.Command = $"cmd /c .\\{Path.GetFileName(_context.ProjectDirectory)}";
             }
-            var manifestFile = new CloudFoundryManifestFile(manifestPath);
+
             manifestFile.CloudFoundryManifest.Applications.Add(cloudFoundryApp);
             manifestFile.Store();
+
             var framework = _context.Configuration.Apps[app].TargetFramework;
             var runtime = _context.Configuration.Apps[app].TargetRuntime;
             _dotnetCli.Run($"publish -f {framework} -r {runtime}", "publishing app");
@@ -119,7 +121,8 @@ namespace Steeltoe.Tooling.Drivers.CloudFoundry
             _context.Target.Configuration.ServiceTypeProperties.TryGetValue(svcInfo.ServiceType, out var cfServiceDef);
             if (cfServiceDef == null)
             {
-                throw new ToolingException($"No Cloud Foundry service available for '{svcInfo.Service}' [{svcInfo.ServiceType}]");
+                throw new ToolingException(
+                    $"No Cloud Foundry service available for '{svcInfo.Service}' [{svcInfo.ServiceType}]");
             }
 
             var cfCmd = $"create-service {cfServiceDef["service"]} {cfServiceDef["plan"]} {service}";

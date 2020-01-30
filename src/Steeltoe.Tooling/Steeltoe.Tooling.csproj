@@ -16,6 +16,7 @@
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="$(McMasterExtensionsCommandLineUtilsVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageReference Include="StringTemplate4" Version="$(StringTemplate4Version)" />
     <PackageReference Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
   </ItemGroup>
   <ItemGroup>
@@ -25,5 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Drivers" />
+    <Folder Include="Templates" />
   </ItemGroup>
 </Project>

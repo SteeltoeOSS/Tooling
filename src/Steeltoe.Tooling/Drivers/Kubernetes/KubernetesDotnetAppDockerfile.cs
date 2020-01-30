@@ -30,6 +30,6 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
         /// <summary>
         /// Docker container environment.
         /// </summary>
-        public string Environment { get; set; }
+        public Dictionary<string, string> Environment { get; } = new Dictionary<string, string>();
     }
 }

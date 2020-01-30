@@ -16,24 +16,6 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
         }
 
         [Fact]
-        public void TestLoadFromFile()
-        {
-            File.WriteAllText(_configFile, SampleConfig);
-            var cfgFile = new KubernetesServiceConfigFile(_configFile);
-            cfgFile.KubernetesServiceConfig.ApiVersion.ShouldBe("v1");
-            cfgFile.KubernetesServiceConfig.Kind.ShouldBe("Service");
-            cfgFile.KubernetesServiceConfig.MetaData.Name.ShouldBe("my-service");
-            cfgFile.KubernetesServiceConfig.MetaData.Labels.Count.ShouldBe(1);
-            cfgFile.KubernetesServiceConfig.MetaData.Labels["label1"].ShouldBe("value1");
-            cfgFile.KubernetesServiceConfig.Spec.Type.ShouldBe("ServiceType");
-            cfgFile.KubernetesServiceConfig.Spec.Selector.Count.ShouldBe(1);
-            cfgFile.KubernetesServiceConfig.Spec.Selector["key1"].ShouldBe("value1");
-            cfgFile.KubernetesServiceConfig.Spec.Ports.Count.ShouldBe(1);
-            cfgFile.KubernetesServiceConfig.Spec.Ports[0].Port.ShouldBe(1234);
-            cfgFile.KubernetesServiceConfig.Spec.Ports[0].TargetPort.ShouldBe(4321);
-        }
-
-        [Fact]
         public void TestStoreToFile()
         {
             var cfgFile = new KubernetesServiceConfigFile(_configFile);
@@ -52,16 +34,21 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
                 Type = "ServiceType",
                 Selector = new Dictionary<string, string>()
                 {
-                    {"key1", "value1"}
+                    {"key1", "value1"},
                 },
                 Ports = new List<KubernetesConfig.ServicePorts>()
                 {
                     new KubernetesConfig.ServicePorts()
                     {
                         Port = 1234,
-                        TargetPort = 4321
-                    }
-                }
+                        TargetPort = 4321,
+                    },
+                    new KubernetesConfig.ServicePorts()
+                    {
+                        Port = 5678,
+                        TargetPort = 8765,
+                    },
+                },
             };
             cfgFile.Store();
             File.ReadAllText(_configFile).ShouldBe(SampleConfig);
@@ -80,6 +67,8 @@ spec:
   ports:
   - port: 1234
     targetPort: 4321
+  - port: 5678
+    targetPort: 8765
 ";
     }
 }

@@ -9,42 +9,21 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
         private static readonly ILogger Logger =
             Logging.LoggerFactory.CreateLogger<KubernetesDeploymentConfigFile>();
 
-        internal KubernetesDeploymentConfig KubernetesDeploymentConfig { get; private set; }
+        internal KubernetesDeploymentConfig KubernetesDeploymentConfig { get; } = new KubernetesDeploymentConfig();
 
         internal string File { get; }
 
         internal KubernetesDeploymentConfigFile(string file)
         {
             File = file;
-            if (Exists())
-            {
-                Load();
-            }
-            else
-            {
-                KubernetesDeploymentConfig = new KubernetesDeploymentConfig();
-            }
-        }
-
-        private void Load()
-        {
-            Logger.LogDebug($"loading kubernetes deployment config from {File}");
-            var deserializer = new DeserializerBuilder().Build();
-            using (var reader = new StreamReader(File))
-            {
-                KubernetesDeploymentConfig = deserializer.Deserialize<KubernetesDeploymentConfig>(reader);
-            }
         }
 
         internal void Store()
         {
             Logger.LogDebug($"storing kubernetes deployment config to {File}");
-            var serializer = new SerializerBuilder().Build();
-            var yaml = serializer.Serialize(KubernetesDeploymentConfig);
-            using (var writer = new StreamWriter(File))
-            {
-                writer.Write(yaml);
-            }
+            var template = TemplateManager.GetTemplate("kubernetes-deployment.yml.st");
+            template.Bind("config", KubernetesDeploymentConfig);
+            System.IO.File.WriteAllText(File, template.Render());
         }
 
         internal bool Exists()

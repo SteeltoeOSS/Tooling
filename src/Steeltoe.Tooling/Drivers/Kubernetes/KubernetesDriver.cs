@@ -57,13 +57,14 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
 
         public void DeployApp(string app)
         {
-            KubernetesDotnetAppDockerfileFile dockerfileFile = new KubernetesDotnetAppDockerfileFile("Dockerfile");
+            KubernetesDotnetAppDockerfileFile dockerfileFile =
+                new KubernetesDotnetAppDockerfileFile(Path.Join(_context.ProjectDirectory, "Dockerfile"));
             var dockerfile = dockerfileFile.KubernetesDotnetAppDockerfile;
             dockerfile.App = app;
             dockerfile.AppPath = "/app";
             dockerfile.BaseImage = "steeltoeoss/dotnet-runtime:2.1";
             dockerfile.BuildPath = "bin/Debug/netcoreapp2.1/publish";
-            dockerfile.Environment = "Docker";
+            dockerfile.Environment["ASPNETCORE_ENVIRONMENT"] = "Docker";
             dockerfileFile.Store();
             _dockerCli.Run($"build --tag {app.ToLower()} .", "building Docker image for app");
 
@@ -125,7 +126,8 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
         private void DeployKubernetesService(String name, String image, int port,
             Action<KubernetesDeploymentConfig, KubernetesServiceConfig> preSaveAction = null)
         {
-            var deployCfgFile = new KubernetesDeploymentConfigFile($"{name}-deployment.yaml");
+            var deployCfgFile =
+                new KubernetesDeploymentConfigFile(Path.Join(_context.ProjectDirectory, $"{name}-deployment.yaml"));
             var deployCfg = deployCfgFile.KubernetesDeploymentConfig;
             deployCfg.ApiVersion = HardCodedDeploymentApiVersion;
             deployCfg.Kind = DeploymentKind;
@@ -148,7 +150,7 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
                 },
                 Template = new KubernetesDeploymentConfig.DeploymentSpec.ServiceTemplate()
                 {
-                    Metadata = new KubernetesDeploymentConfig.DeploymentSpec.ServiceTemplate.ServiceMetaData()
+                    MetaData = new KubernetesDeploymentConfig.DeploymentSpec.ServiceTemplate.ServiceMetaData()
                     {
                         Labels = new Dictionary<string, string>()
                         {
@@ -177,7 +179,8 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
                 }
             };
 
-            var svcCfgFile = new KubernetesServiceConfigFile($"{name}-service.yaml");
+            var svcCfgFile =
+                new KubernetesServiceConfigFile(Path.Combine(_context.ProjectDirectory, $"{name}-service.yaml"));
             var svcCfg = svcCfgFile.KubernetesServiceConfig;
             svcCfg.ApiVersion = HardCodedServiceApiVersion;
             svcCfg.Kind = ServiceKind;
@@ -196,15 +199,18 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
                 },
                 Selector = new Dictionary<string, string>()
                 {
-                    {"app", name.ToLower()}
+                    {
+                        "app", name.ToLower()
+                    }
                 }
             };
-
             preSaveAction?.Invoke(deployCfg, svcCfg);
             deployCfgFile.Store();
             svcCfgFile.Store();
-            _kubectlCli.Run($"apply --filename {deployCfgFile.File}", "applying Kubernetes deployment configuration");
-            _kubectlCli.Run($"apply --filename {svcCfgFile.File}", "applying Kubernetes service configuration");
+            _kubectlCli.Run($"apply --filename {Path.GetFileName(deployCfgFile.File)}",
+                "applying Kubernetes deployment configuration");
+            _kubectlCli.Run($"apply --filename {Path.GetFileName(svcCfgFile.File)}",
+                "applying Kubernetes service configuration");
         }
 
         private void UndeployKubernetesService(string name)
