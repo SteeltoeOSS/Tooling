@@ -71,7 +71,6 @@ namespace Steeltoe.Tooling
             {
                 _bridge = new ServiceDriverBridge(driver);
             }
-
         }
 
         /// <summary>
@@ -117,46 +116,74 @@ namespace Steeltoe.Tooling
             }
         }
 
-        abstract class State
+        private abstract class State
         {
             internal virtual void Deploy(string name, DriverBridge bridge)
             {
+                throw new ToolingException($"Cannot deploy '{name}' because it is {this}");
             }
 
             internal virtual void Undeploy(string name, DriverBridge bridge)
             {
+                throw new ToolingException($"Cannot undeploy '{name}' because it is {this}");
             }
         }
 
-        class OfflineState : State
+        private class OfflineState : State
         {
             internal override void Deploy(string name, DriverBridge bridge)
             {
                 bridge.Deploy(name);
             }
+
+            internal override void Undeploy(string name, DriverBridge bridge)
+            {
+            }
+
+            public override string ToString()
+            {
+                return "offline";
+            }
         }
 
-        class StartingState : State
+        private class StartingState : State
         {
+            public override string ToString()
+            {
+                return "starting";
+            }
         }
 
-        class OnlineState : State
+        private class OnlineState : State
         {
+            internal override void Deploy(string name, DriverBridge bridge)
+            {
+            }
+
             internal override void Undeploy(string name, DriverBridge bridge)
             {
                 bridge.Undeploy(name);
             }
+
+            public override string ToString()
+            {
+                return "online";
+            }
         }
 
-        class StoppingState : State
+        private class StoppingState : State
         {
+            public override string ToString()
+            {
+                return "stopping";
+            }
         }
 
         abstract class DriverBridge
         {
             protected readonly IDriver Driver;
 
-            internal DriverBridge(IDriver driver)
+            protected DriverBridge(IDriver driver)
             {
                 Driver = driver;
             }
@@ -168,7 +195,7 @@ namespace Steeltoe.Tooling
             internal abstract void Undeploy(string name);
         }
 
-        class AppDriverBridge : DriverBridge
+        private class AppDriverBridge : DriverBridge
         {
             internal AppDriverBridge(IDriver driver) : base(driver)
             {
@@ -188,10 +215,9 @@ namespace Steeltoe.Tooling
             {
                 Driver.UndeployApp(name);
             }
-
         }
 
-        class ServiceDriverBridge : DriverBridge
+        private class ServiceDriverBridge : DriverBridge
         {
             internal ServiceDriverBridge(IDriver driver) : base(driver)
             {
