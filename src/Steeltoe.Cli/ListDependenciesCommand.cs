@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,25 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Shouldly;
-using Xunit;
+using System;
+using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling.Executors;
 
-namespace Steeltoe.Tooling.Test
+namespace Steeltoe.Cli
 {
-    public class ItemDoesNotExistExceptionTest
+    [Command(Description = "Displays a list of available dependencies",
+        ExtendedHelpText = @"
+Overview:
+  *** under construction ***")]
+    public class ListDependenciesCommand : Command
     {
-        private readonly ItemDoesNotExistException _exception = new ItemDoesNotExistException("no-such-thing");
+        public const string CommandName = "list-deps";
 
-        [Fact]
-        public void TestMessage()
+        public ListDependenciesCommand(IConsole console) : base(console)
         {
-            _exception.Message.ShouldBe("'no-such-thing' does not exist");
         }
 
-        [Fact]
-        public void TestName()
+        protected override Executor GetExecutor()
         {
-            _exception.Name.ShouldBe("no-such-thing");
+            throw new NotImplementedException();
         }
     }
 }

@@ -37,7 +37,6 @@ namespace Steeltoe.Tooling.Test
             var cfg = new Configuration();
             var path = new[] {"sandboxes", Guid.NewGuid().ToString()}.Aggregate(Path.Combine);
             Directory.CreateDirectory(path);
-            cfg.Target = "dummy-target";
             Console = new StringWriter();
             Shell = new MockShell();
             Context = new Context(path, cfg, Console, Shell);

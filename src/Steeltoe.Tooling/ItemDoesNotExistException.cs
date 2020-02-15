@@ -25,20 +25,13 @@ namespace Steeltoe.Tooling
         public string Name { get; }
 
         /// <summary>
-        /// Item description.
-        /// </summary>
-        public string Description { get; }
-
-        /// <summary>
         /// Creates a new ItemDoesNotExistException.
         /// </summary>
         /// <param name="name">Item name.</param>
-        /// <param name="description">Item description.</param>
-        public ItemDoesNotExistException(string name, string description) : base(
-            $"{char.ToUpper(description[0]) + description.Substring(1)} '{name}' does not exist")
+        public ItemDoesNotExistException(string name) : base(
+            $"'{name}' does not exist")
         {
             Name = name;
-            Description = description;
         }
     }
 }

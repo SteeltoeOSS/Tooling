@@ -37,28 +37,6 @@ namespace Steeltoe.Tooling.Executors
         {
             var type = GetType();
             Logger.LogDebug($"executor is {type}");
-            foreach (var attr in type.GetCustomAttributes(true))
-            {
-                if (attr is RequiresInitializationAttribute)
-                {
-                    Logger.LogDebug($"{type} requires configuration");
-                    if (context.Configuration == null)
-                    {
-                        throw new ToolingException("Steeltoe Developer Tools has not been initialized");
-                    }
-
-                }
-
-                if (attr is RequiresTargetAttribute)
-                {
-                    Logger.LogDebug($"{type} requires target");
-                    if (context.Target == null)
-                    {
-                        throw new ToolingException("Target has not been set");
-                    }
-                }
-            }
-
             Context = context;
             Execute();
         }

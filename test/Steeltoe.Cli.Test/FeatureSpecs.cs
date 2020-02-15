@@ -90,7 +90,6 @@ namespace scratch
             a_dotnet_project(name);
             Logger.LogInformation($"enabling steeltoe developer tools");
             var cfgFile = new ConfigurationFile(ProjectDirectory);
-            cfgFile.Configuration.Target = "dummy-target";
             cfgFile.Store();
         }
 
@@ -114,7 +113,12 @@ namespace scratch
                 .UseConstructorInjection(svcs);
 
             CommandException = null;
-            var args = command.Split(null);
+            var args = command.Split();
+            if (args.Length == 1 && args[0].Length == 0)
+            {
+                args = new string[0];
+            }
+
             try
             {
                 CommandExitCode = app.Execute(args);
@@ -178,29 +182,21 @@ namespace scratch
             actualMessages.ShouldBe(messages);
         }
 
-        protected void the_cli_should_output(string message)
-        {
-            the_cli_should_output(new[] {message});
-        }
-
         protected void the_cli_output_should_include(string message)
         {
-            the_cli_command_should_succeed();
             Logger.LogInformation($"checking the cli output includes '{message}'");
             NormalizeString(Console.Out.ToString()).ShouldContain(message);
         }
 
-        protected void the_cli_should_output_nothing()
+        protected void the_cli_should_error(ErrorCode code)
         {
-            the_cli_command_should_succeed();
-            Logger.LogInformation($"checking the cli output nothing");
-            Console.Out.ToString().Trim().ShouldBeEmpty();
+            Logger.LogInformation($"checking the command failed with {(int) code}");
+            CommandExitCode.ShouldBe((int) code);
         }
 
         protected void the_cli_should_error(ErrorCode code, string error)
         {
-            Logger.LogInformation($"checking the command failed with {(int) code}");
-            CommandExitCode.ShouldBe((int) code);
+            the_cli_should_error(code);
             Logger.LogInformation($"checking the cli errored '{error}'");
             NormalizeString(Console.Error.ToString()).ShouldBe(error);
         }
@@ -225,15 +221,8 @@ namespace scratch
         {
             Logger.LogInformation($"checking the configuration should be empty");
             var config = new ConfigurationFile(ProjectDirectory).Configuration;
-            config.Target.ShouldBeNull();
             config.Apps.Count.ShouldBe(0);
             config.Services.Count.ShouldBe(0);
-        }
-
-        protected void the_configuration_should_target(string env)
-        {
-            Logger.LogInformation($"checking the target config '{env}' exists");
-            new ConfigurationFile(ProjectDirectory).Configuration.Target.ShouldBe(env);
         }
 
         protected void the_configuration_should_contain_app(string app)

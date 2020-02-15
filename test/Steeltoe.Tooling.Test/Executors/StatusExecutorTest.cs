@@ -12,53 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Shouldly;
-using Steeltoe.Tooling.Executors;
-using Xunit;
-
 namespace Steeltoe.Tooling.Test.Executors
 {
     public class StatusExecutorTest : ToolingTest
     {
-        [Fact]
-        public void TestStatusServices()
-        {
-            Context.Configuration.AddService("my-service", "dummy-svc");
-            Context.Configuration.AddService("another-service", "dummy-svc");
-            ClearConsole();
-            new StatusExecutor().Execute(Context);
-            Console.ToString().ShouldContain("my-service offline");
-            Console.ToString().ShouldContain("another-service offline");
-
-            new DeployExecutor().Execute(Context);
-            ClearConsole();
-            new StatusExecutor().Execute(Context);
-            Console.ToString().ShouldContain("my-service online");
-            Console.ToString().ShouldContain("another-service online");
-
-            new UndeployExecutor().Execute(Context);
-            ClearConsole();
-            new StatusExecutor().Execute(Context);
-            Console.ToString().ShouldContain("my-service offline");
-            Console.ToString().ShouldContain("another-service offline");
-        }
-
-        [Fact]
-        public void TestStatusNoServices()
-        {
-            new StatusExecutor().Execute(Context);
-            Console.ToString().Trim().ShouldBeEmpty();
-        }
-
-        [Fact]
-        public void TestStatusNoTarget()
-        {
-            Context.Configuration.Target = null;
-            Context.Configuration.AddService("my-service", "dummy-svc");
-            var e = Assert.Throws<ToolingException>(
-                () => new StatusExecutor().Execute(Context)
-            );
-            e.Message.ShouldBe("Target not set");
-        }
     }
 }

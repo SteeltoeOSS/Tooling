@@ -27,7 +27,7 @@ namespace Steeltoe.Cli.Test
                 when => the_developer_runs_cli_command("doctor --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Check for potential problems",
+                    "Checks for potential problems",
                     $"Usage: {Program.Name} doctor [options]",
                     "Options:",
                     "-?|-h|--help Show help information",
@@ -42,27 +42,6 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("doctor_too_many_args"),
                 when => the_developer_runs_cli_command("doctor arg1"),
                 then => the_cli_should_fail_parse("Unrecognized command or argument 'arg1'")
-            );
-        }
-
-        [Scenario]
-        public void DoctorUninitialized()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("doctor_uninitialized"),
-                when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_output_should_include(
-                    $"initialized ... !!! no (run '{Program.Name} init' to initialize)")
-            );
-        }
-
-        [Scenario]
-        public void DoctorInitialized()
-        {
-            Runner.RunScenario(
-                given => a_steeltoe_project("doctor_initialized"),
-                when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_output_should_include("initialized ... yes")
             );
         }
 
@@ -83,28 +62,6 @@ namespace Steeltoe.Cli.Test
                 given => a_dotnet_project("doctor_dotnet_version"),
                 when => the_developer_runs_cli_command("doctor"),
                 then => the_cli_output_should_include("DotNet ... dotnet version ")
-            );
-        }
-
-        [Scenario]
-        public void DoctorTarget()
-        {
-            Runner.RunScenario(
-                given => a_steeltoe_project("doctor_target"),
-                when => the_developer_runs_cli_command("doctor"),
-                then => the_cli_output_should_include("target ... dummy-target")
-            );
-        }
-
-        [Scenario]
-        public void DoctorNoTarget()
-        {
-            Runner.RunScenario(
-                given => a_dotnet_project("doctor_no_target"),
-                when => the_developer_runs_cli_command("init"),
-                and => the_developer_runs_cli_command("doctor"),
-                then => the_cli_output_should_include(
-                    $"target ... !!! not set (run '{Program.Name} target <env>' to set)")
             );
         }
     }

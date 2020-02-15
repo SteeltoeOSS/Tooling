@@ -13,15 +13,14 @@
 // limitations under the License.
 
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling;
 using Steeltoe.Tooling.Executors;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Check for potential problems")]
+    [Command(Description = "Checks for potential problems")]
     public class DoctorCommand : Command
     {
-        public const string Name = "doctor";
+        public const string CommandName = "doctor";
 
         public DoctorCommand(IConsole console) : base(console)
         {
@@ -44,29 +43,6 @@ namespace Steeltoe.Cli
             var dotnetVersion = new Tooling.Cli("dotnet", Context.Shell).Run("--version", "getting dotnet version")
                 .Trim();
             Context.Console.WriteLine($"dotnet version {dotnetVersion}");
-
-            // is intialized?
-            Context.Console.Write("initialized ... ");
-            var cfgFile = new ConfigurationFile(Context.ProjectDirectory);
-            if (!cfgFile.Exists())
-            {
-                Context.Console.WriteLine($"!!! no (run '{Program.Name} {InitCommand.Name}' to initialize)");
-                return;
-            }
-
-            Context.Console.WriteLine("yes");
-
-            // target deployment environment
-            Context.Console.Write("target ... ");
-            string target = cfgFile.Configuration.Target;
-            if (target == null)
-            {
-                Context.Console.WriteLine($"!!! not set (run '{Program.Name} {TargetCommand.Name} <env>' to set)");
-                return;
-            }
-
-            Context.Console.WriteLine(target);
-            Registry.GetTarget(target).IsHealthy(Context);
         }
     }
 }

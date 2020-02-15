@@ -17,11 +17,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Tooling.Drivers.CloudFoundry;
-using Steeltoe.Tooling.Drivers.Docker;
-using Steeltoe.Tooling.Drivers.Dummy;
-using Steeltoe.Tooling.Drivers.Kubernetes;
 using YamlDotNet.Serialization;
+
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace Steeltoe.Tooling
@@ -160,34 +157,6 @@ namespace Steeltoe.Tooling
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Returns the named deployment target.
-        /// </summary>
-        /// <param name="target">Deployment target name.</param>
-        /// <returns>Named deployment target.</returns>
-        /// <exception cref="ToolingException">Thrown if there is no such deployment target.</exception>
-        public static Target GetTarget(string target)
-        {
-            TargetConfiguration targetCfg;
-            if (_configuration.TargetConfigurations.TryGetValue(target, out targetCfg))
-            {
-                targetCfg.Name = target;
-                switch (targetCfg.Name)
-                {
-                    case "cloud-foundry":
-                        return new CloudFoundryTarget(targetCfg);
-                    case "docker":
-                        return new DockerTarget(targetCfg);
-                    case "kubernetes":
-                        return new KubernetesTarget(targetCfg);
-                    case "dummy-target":
-                        return new DummyTarget(targetCfg);
-                }
-            }
-
-            throw new ToolingException($"Unknown target '{target}'");
         }
 
         private static void AddRegistryConfiguration(Configuration configuration)

@@ -23,11 +23,9 @@ namespace Steeltoe.Tooling.Test
         public void TestContext()
         {
             var cfg = new Configuration();
-            cfg.Target = "dummy-target";
             var ctx = new Context(null, cfg, Console, Shell);
             ctx.Configuration.ShouldBe(cfg);
             ctx.Shell.ShouldBe(Shell);
-            ctx.Target.Name.ShouldBe("dummy-target");
         }
     }
 }

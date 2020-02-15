@@ -26,7 +26,6 @@ namespace Steeltoe.Tooling.Test
             var file = Path.Combine(Context.ProjectDirectory, "config-file");
             File.WriteAllText(file, SampleConfig);
             var cfgFile = new ConfigurationFile(file);
-            cfgFile.Configuration.Target.ShouldBe("dummy-target");
             cfgFile.Configuration.GetServices().ShouldContain("my-service");
             cfgFile.Configuration.GetServiceInfo("my-service").ServiceType.ShouldBe("dummy-svc");
         }
@@ -37,7 +36,6 @@ namespace Steeltoe.Tooling.Test
             var defaultFile = Path.Combine(Context.ProjectDirectory, ConfigurationFile.DefaultFileName);
             File.WriteAllText(defaultFile, SampleConfig);
             var cfgFile = new ConfigurationFile(Context.ProjectDirectory);
-            cfgFile.Configuration.Target.ShouldBe("dummy-target");
             cfgFile.Configuration.GetServices().ShouldContain("my-service");
             cfgFile.Configuration.GetServiceInfo("my-service").ServiceType.ShouldBe("dummy-svc");
         }
@@ -47,7 +45,6 @@ namespace Steeltoe.Tooling.Test
         {
             var file = Path.Combine(Context.ProjectDirectory, "config-file");
             var cfgFile = new ConfigurationFile(file);
-            cfgFile.Configuration.Target = "dummy-target";
             cfgFile.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             cfgFile.Configuration.AddService("my-service", "dummy-svc");
             cfgFile.Store();
@@ -58,7 +55,6 @@ namespace Steeltoe.Tooling.Test
         public void TestStoreToDirectory()
         {
             var cfgFile = new ConfigurationFile(Context.ProjectDirectory);
-            cfgFile.Configuration.Target = "dummy-target";
             cfgFile.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
             cfgFile.Configuration.AddService("my-service", "dummy-svc");
             cfgFile.Store();
@@ -66,8 +62,7 @@ namespace Steeltoe.Tooling.Test
             File.ReadAllText(defaultFile).ShouldBe(SampleConfig);
         }
 
-        private const string SampleConfig = @"target: dummy-target
-apps:
+        private const string SampleConfig = @"apps:
   my-app:
     targetFramework: dummy-framework
     targetRuntime: dummy-runtime
