@@ -66,7 +66,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.RemoveApp("no-such-app")
             );
             e.Name.ShouldBe("no-such-app");
-            e.Description.ShouldBe("app");
         }
 
         [Fact]
@@ -96,7 +95,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.GetAppInfo("no-such-app")
             );
             e.Name.ShouldBe("no-such-app");
-            e.Description.ShouldBe("app");
         }
 
         [Fact]
@@ -124,7 +122,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.SetAppArgs("no-such-app", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-app");
-            e.Description.ShouldBe("app");
         }
 
         [Fact]
@@ -134,7 +131,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.SetAppArgs("no-such-app", "dummy-target", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-app");
-            e.Description.ShouldBe("app");
         }
 
         [Fact]
@@ -145,7 +141,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.SetAppArgs("my-app", "no-such-target", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-target");
-            e.Description.ShouldBe("target");
         }
 
         [Fact]
@@ -185,7 +180,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.GetAppArgs("no-such-app")
             );
             e.Name.ShouldBe("no-such-app");
-            e.Description.ShouldBe("app");
         }
 
         [Fact]
@@ -195,7 +189,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.GetAppArgs("no-such-app", "dummy-target")
             );
             e.Name.ShouldBe("no-such-app");
-            e.Description.ShouldBe("app");
         }
 
         [Fact]
@@ -206,7 +199,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.GetAppArgs("my-app", "no-such-target")
             );
             e.Name.ShouldBe("no-such-target");
-            e.Description.ShouldBe("target");
         }
 
         [Fact]
@@ -216,7 +208,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.AddService("my-service", "no-such-service-type")
             );
             e.Name.ShouldBe("no-such-service-type");
-            e.Description.ShouldBe("service type");
         }
 
         [Fact]
@@ -256,7 +247,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.RemoveService("no-such-service")
             );
             e.Name.ShouldBe("no-such-service");
-            e.Description.ShouldBe("service");
         }
 
         [Fact]
@@ -287,7 +277,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.GetServiceInfo("no-such-service")
             );
             e.Name.ShouldBe("no-such-service");
-            e.Description.ShouldBe("service");
         }
 
         [Fact]
@@ -315,7 +304,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.SetServiceArgs("no-such-service", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-service");
-            e.Description.ShouldBe("service");
         }
 
         [Fact]
@@ -325,7 +313,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.SetServiceArgs("no-such-service", "dummy-target", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-service");
-            e.Description.ShouldBe("service");
         }
 
         [Fact]
@@ -336,7 +323,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.SetServiceArgs("my-service", "no-such-target", "arg1 arg2")
             );
             e.Name.ShouldBe("no-such-target");
-            e.Description.ShouldBe("target");
         }
 
         [Fact]
@@ -376,7 +362,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.GetServiceArgs("no-such-service")
             );
             e.Name.ShouldBe("no-such-service");
-            e.Description.ShouldBe("service");
         }
 
         [Fact]
@@ -386,7 +371,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.GetServiceArgs("no-such-service", "dummy-target")
             );
             e.Name.ShouldBe("no-such-service");
-            e.Description.ShouldBe("service");
         }
 
         [Fact]
@@ -397,7 +381,6 @@ namespace Steeltoe.Tooling.Test
                 () => _cfg.GetServiceArgs("my-service", "no-such-target")
             );
             e.Name.ShouldBe("no-such-target");
-            e.Description.ShouldBe("target");
         }
 
         private class MyListener : IConfigurationListener

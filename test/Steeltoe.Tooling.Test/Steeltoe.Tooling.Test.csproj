@@ -19,6 +19,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Drivers" />
+    <Folder Include="Drivers\Docker" />
+    <Folder Include="Drivers\Dummy" />
   </ItemGroup>
   <Target Name="SpicNSpan" AfterTargets="Clean">
     <RemoveDir Directories="$(BaseOutputPath)" />

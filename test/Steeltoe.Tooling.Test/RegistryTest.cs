@@ -14,9 +14,6 @@
 
 using System.Collections.Generic;
 using Shouldly;
-using Steeltoe.Tooling.Drivers.CloudFoundry;
-using Steeltoe.Tooling.Drivers.Docker;
-using Steeltoe.Tooling.Drivers.Dummy;
 using Xunit;
 
 namespace Steeltoe.Tooling.Test
@@ -65,25 +62,6 @@ namespace Steeltoe.Tooling.Test
             }
 
             expected.ShouldBeEmpty();
-        }
-
-        [Fact]
-        public void TestDummyTarget()
-        {
-            Registry.GetTarget("dummy-target").ShouldBeOfType<DummyTarget>();
-        }
-
-        [Fact]
-        public void TestDockerTarget()
-        {
-            Registry.GetTarget("docker").ShouldBeOfType<DockerTarget>();
-            Registry.GetTarget("docker").GetProperty("dotnetRuntimeImage").ShouldBe("steeltoeoss/dotnet-runtime:2.1");
-        }
-
-        [Fact]
-        public void TestCloudFoundryTarget()
-        {
-            Registry.GetTarget("cloud-foundry").ShouldBeOfType<CloudFoundryTarget>();
         }
     }
 }

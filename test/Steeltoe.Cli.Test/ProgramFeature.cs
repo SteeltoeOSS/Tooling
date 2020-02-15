@@ -20,15 +20,16 @@ namespace Steeltoe.Cli.Test
 {
     public class ProgramFeature : FeatureSpecs
     {
-//        [Scenario]
-//        public void ProgramNoArgs()
-//        {
-//            Runner.RunScenario(
-//                given => a_dotnet_project("program_no_args"),
-//                when => the_developer_runs_cli_command(""),
-//                and => the_cli_should_error(1, "Usage: steeltoe [options] [command]")
-//            );
-//        }
+        [Scenario]
+        public void ProgramNoArgs()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("program_no_args"),
+                when => the_developer_runs_cli_command(""),
+                and => the_cli_should_error(ErrorCode.Argument),
+                and => the_cli_output_should_include("Usage: st [options] [command]")
+            );
+        }
 
         [Scenario]
         public void ProgramHelp()
@@ -36,7 +37,8 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => a_dotnet_project("program_help"),
                 when => the_developer_runs_cli_command("--help"),
-                then => the_cli_should_output(new[]
+                then => the_cli_command_should_succeed(),
+                and => the_cli_should_output(new[]
                 {
                     "*",
                     "Steeltoe Developer Tools",
@@ -48,17 +50,21 @@ namespace Steeltoe.Cli.Test
                     "-v|--verbose Enable verbose output",
                     "-?|-h|--help Show help information",
                     "Commands:",
-                    "add-app Add an app",
-                    "add-service Add a service",
-                    "args Set or get the arguments for an app or service",
-                    "deploy Deploy apps and services to the target",
-                    "doctor Check for potential problems",
-                    "init Initialize Steeltoe Developer Tools",
-                    "list List apps and services",
-                    "remove Remove an app or service",
-                    "status Show app and service statuses",
-                    "target Set or get the deployment target",
-                    "undeploy Undeploy apps and services from the target",
+                    "add-dep Adds a dependency",
+                    "def-dep Adds a custom dependency definition",
+                    "doctor Checks for potential problems",
+                    "list-cfgs Displays a list of available configurations",
+                    "list-deps Displays a list of available dependencies",
+                    "list-templates Displays a list of available templates",
+                    "new Creates a new project using Steeltoe Initializr",
+                    "new-cfg Creates configuration files for a target",
+                    "rem-dep Removes a dependency that was added using the add-dep command",
+                    "run Runs the project in the local Docker environment",
+                    "show Displays the project details",
+                    "show-cfg Displays configuration details",
+                    "show-topic Displays documentation on a topic",
+                    "stop Stops the project running in the local Docker environment",
+                    "undef-dep Removes a custom dependency definition",
                     $"Run 'st [command] --help' for more information about a command.",
                 })
             );

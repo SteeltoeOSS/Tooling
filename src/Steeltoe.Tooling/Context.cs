@@ -42,28 +42,6 @@ namespace Steeltoe.Tooling
         public Shell Shell { get; }
 
         /// <summary>
-        /// Steeltoe Tooling deployment target.
-        /// </summary>
-        /// <exception cref="ToolingException">Throw if the target has not been set.</exception>
-        public Target Target
-        {
-            get
-            {
-                if (Configuration?.Target == null)
-                {
-                    throw new ToolingException("Target not set");
-                }
-
-                return Registry.GetTarget(Configuration.Target);
-            }
-        }
-
-        /// <summary>
-        /// Steeltoe Tooling driver.  The driver is used to deploy applications and their services.
-        /// </summary>
-        public IDriver Driver => Target.GetDriver(this);
-
-        /// <summary>
         /// Creates a new Steeltoe Tooling Content.
         /// </summary>
         /// <param name="dir">Project directory.</param>
