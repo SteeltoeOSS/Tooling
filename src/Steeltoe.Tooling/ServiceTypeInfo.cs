@@ -37,7 +37,7 @@ namespace Steeltoe.Tooling
         /// Service description.
         /// </summary>
         [YamlMember(Alias = "description")]
-        public string Description { get; set;  }
+        public string Description { get; set; }
 
         /// <summary>
         /// Returns a human-readable representation of this ServiceTypeInfo.

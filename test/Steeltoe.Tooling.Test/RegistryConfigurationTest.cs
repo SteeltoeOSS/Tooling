@@ -53,19 +53,23 @@ namespace Steeltoe.Tooling.Test
             _registryCfg.DefineTarget("my-env", "my environment");
             _registryCfg.DefineTargetServiceTypeProperty("my-env", "my-service", "my-prop-a", "my value a");
             _registryCfg.DefineTargetServiceTypeProperty("my-env", "my-service", "my-prop-b", "my value b");
-            _registryCfg.DefineTargetServiceTypeProperty("my-env", "my-other-service", "my-other-prop", "my other value");
+            _registryCfg.DefineTargetServiceTypeProperty("my-env", "my-other-service", "my-other-prop",
+                "my other value");
             _registryCfg.DefineTargetServiceTypeProperty("my-other-env", "my-other-env-service", "my-other-env-prop",
                 "my other env value");
             _registryCfg.TargetConfigurations.Count.ShouldBe(2);
             _registryCfg.TargetConfigurations["my-env"].ShouldNotBeNull();
             _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-service"].ShouldNotBeNull();
-            _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-service"]["my-prop-a"].ShouldBe("my value a");
-            _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-service"]["my-prop-b"].ShouldBe("my value b");
+            _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-service"]["my-prop-a"]
+                .ShouldBe("my value a");
+            _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-service"]["my-prop-b"]
+                .ShouldBe("my value b");
             _registryCfg.TargetConfigurations["my-env"].ServiceTypeProperties["my-other-service"]["my-other-prop"]
                 .ShouldBe("my other value");
             _registryCfg.TargetConfigurations["my-other-env"].ShouldNotBeNull();
             _registryCfg.TargetConfigurations["my-other-env"].Description.ShouldBeNull();
-            _registryCfg.TargetConfigurations["my-other-env"].ServiceTypeProperties["my-other-env-service"]["my-other-env-prop"]
+            _registryCfg.TargetConfigurations["my-other-env"].ServiceTypeProperties["my-other-env-service"][
+                    "my-other-env-prop"]
                 .ShouldBe("my other env value");
         }
     }

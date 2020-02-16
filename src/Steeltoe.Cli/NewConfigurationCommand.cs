@@ -49,7 +49,9 @@ See Also:
     {
         public const string CommandName = "new-cfg";
 
-        [Option("-T|--target <target>", Description = "Sets the configuration target (one of: ‘Docker’, ‘Kubernetes’, ‘Cloud-Foundry’); default is 'Docker'")]
+        [Option("-T|--target <target>",
+            Description =
+                "Sets the configuration target (one of: ‘Docker’, ‘Kubernetes’, ‘Cloud-Foundry’); default is 'Docker'")]
         private string Target { get; set; } = "Docker";
 
         [Option("-n|--name <cfgname>", Description = "Sets the configuration name; default is the project name")]

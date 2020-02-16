@@ -34,7 +34,8 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
             /// <summary>
             /// Resource name.
             /// </summary>
-            [YamlMember(Alias = "name")] public string Name { get; set; }
+            [YamlMember(Alias = "name")]
+            public string Name { get; set; }
 
             /// <summary>
             /// Resource labels, e.g. "tier" -> "frontend".
@@ -51,17 +52,20 @@ namespace Steeltoe.Tooling.Drivers.Kubernetes
             /// <summary>
             /// Service port.
             /// </summary>
-            [YamlMember(Alias = "port")] public int Port { get; set; }
+            [YamlMember(Alias = "port")]
+            public int Port { get; set; }
 
             /// <summary>
             /// Service target port.
             /// </summary>
-            [YamlMember(Alias = "targetPort")] public int TargetPort { get; set; }
+            [YamlMember(Alias = "targetPort")]
+            public int TargetPort { get; set; }
 
             /// <summary>
             /// Service container port.
             /// </summary>
-            [YamlMember(Alias = "containerPort")] public int ContainerPort { get; set; }
+            [YamlMember(Alias = "containerPort")]
+            public int ContainerPort { get; set; }
         }
     }
 }
