@@ -1,5 +1,3 @@
-using System.IO;
-using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 
 namespace Steeltoe.Tooling.Drivers.Kubernetes

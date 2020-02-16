@@ -1,6 +1,4 @@
-using System.IO;
 using Microsoft.Extensions.Logging;
-using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.Drivers.Kubernetes
 {

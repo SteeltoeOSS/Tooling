@@ -25,12 +25,14 @@ namespace Steeltoe.Tooling
         /// <summary>
         /// Deployment target name.
         /// </summary>
-        [YamlMember(Alias = "name")] public string Name { get; set; }
+        [YamlMember(Alias = "name")]
+        public string Name { get; set; }
 
         /// <summary>
         /// Deployment target description.
         /// </summary>
-        [YamlMember(Alias = "description")] public string Description { get; set; }
+        [YamlMember(Alias = "description")]
+        public string Description { get; set; }
 
         /// <summary>
         /// Deployment target properties.

@@ -60,7 +60,7 @@ namespace Steeltoe.Tooling
 
             return result.Out;
         }
-        
+
         private static void OutputToConsole(string output)
         {
             if (!Settings.VerboseEnabled) return;
