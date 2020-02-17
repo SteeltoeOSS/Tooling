@@ -37,6 +37,8 @@ namespace Steeltoe.Cli.Test
                     "Overview:",
                     "Displays documentation for various topics. Run with no arguments for a list of available topics.",
                     "Examples:",
+                    "Display documentation topics:",
+                    "$ st help",
                     "Display documentation for autodetection:",
                     "$ st help autodetection",
                 })
