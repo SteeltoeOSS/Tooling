@@ -23,6 +23,7 @@ namespace Steeltoe.Cli
     [Subcommand(AddDependencyCommand.CommandName, typeof(AddDependencyCommand))]
     [Subcommand(DefineDependencyCommand.CommandName, typeof(DefineDependencyCommand))]
     [Subcommand(DoctorCommand.CommandName, typeof(DoctorCommand))]
+    [Subcommand(HelpCommand.CommandName, typeof(HelpCommand))]
     [Subcommand(ListConfigurationsCommand.CommandName, typeof(ListConfigurationsCommand))]
     [Subcommand(ListDependenciesCommand.CommandName, typeof(ListDependenciesCommand))]
     [Subcommand(ListTemplatesCommand.CommandName, typeof(ListTemplatesCommand))]
@@ -32,7 +33,6 @@ namespace Steeltoe.Cli
     [Subcommand(RunCommand.CommandName, typeof(RunCommand))]
     [Subcommand(ShowCommand.CommandName, typeof(ShowCommand))]
     [Subcommand(ShowConfigurationCommand.CommandName, typeof(ShowConfigurationCommand))]
-    [Subcommand(ShowTopicCommand.CommandName, typeof(ShowTopicCommand))]
     [Subcommand(StopCommand.CommandName, typeof(StopCommand))]
     [Subcommand(UndefineDependencyCommand.CommandName, typeof(UndefineDependencyCommand))]
     public class Program

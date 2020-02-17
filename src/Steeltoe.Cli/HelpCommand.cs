@@ -29,16 +29,16 @@ Overview:
 
 Examples:
   Display documentation for autodetection:
-  $ st show-topic autodetection"
+  $ st help autodetection"
     )]
-    public class ShowTopicCommand : Command
+    public class HelpCommand : Command
     {
-        public const string CommandName = "show-topic";
+        public const string CommandName = "help";
 
         [Argument(0, Name = "topic", Description = "Topic")]
         private string Topic { get; } = null;
 
-        public ShowTopicCommand(IConsole console) : base(console)
+        public HelpCommand(IConsole console) : base(console)
         {
         }
 
