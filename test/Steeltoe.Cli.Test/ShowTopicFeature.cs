@@ -35,9 +35,9 @@ namespace Steeltoe.Cli.Test
                     "Options:",
                     "-?|-h|--help Show help information",
                     "Overview:",
-                    "*** under construction ***",
+                    "Displays documentation for various topics. Run with no arguments for a list of available topics.",
                     "Examples:",
-                    "Display documentation on autodetection:",
+                    "Display documentation for autodetection:",
                     "$ st show-topic autodetection",
                 })
             );
