@@ -23,7 +23,7 @@ namespace Steeltoe.Cli.Test
         public void ShowTopicHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("show_topic_help"),
+                given => an_empty_directory("show_topic_help"),
                 when => the_developer_runs_cli_command("show-topic --help"),
                 then => the_cli_command_should_succeed(),
                 and => the_cli_should_output(new[]
@@ -47,9 +47,49 @@ namespace Steeltoe.Cli.Test
         public void ShowTopicTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("show_topic_too_many_args"),
+                given => an_empty_directory("show_topic_too_many_args"),
                 when => the_developer_runs_cli_command("show-topic arg1 arg2"),
                 then => the_cli_should_fail_parse("Unrecognized command or argument 'arg2'")
+            );
+        }
+
+        [Scenario]
+        public void ShowTopicList()
+        {
+            Runner.RunScenario(
+                given => an_empty_directory("show_topic_list"),
+                when => the_developer_runs_cli_command("show-topic"),
+                then => the_cli_command_should_succeed(),
+                and => the_cli_should_output(new[]
+                {
+                    "autodetection Application and Service Autodetection",
+                })
+            );
+        }
+
+        [Scenario]
+        public void ShowTopicNotFound()
+        {
+            Runner.RunScenario(
+                given => an_empty_directory("show_topic_not_found"),
+                when => the_developer_runs_cli_command("show-topic no-such-topic"),
+                then => the_cli_should_error(ErrorCode.Tooling, "'no-such-topic' does not exist")
+            );
+        }
+
+        [Scenario]
+        public void ShowTopicAutodetection()
+        {
+            Runner.RunScenario(
+                given => an_empty_directory("show_topic_autodetection"),
+                when => the_developer_runs_cli_command("show-topic autodetection"),
+                then => the_cli_command_should_succeed(),
+                and => the_cli_should_output(new[]
+                {
+                    "Application and Service Autodetection",
+                    "Application Autodetection",
+                    "***",
+                })
             );
         }
     }

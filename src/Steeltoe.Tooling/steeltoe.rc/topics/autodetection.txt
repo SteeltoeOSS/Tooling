@@ -1,0 +1,38 @@
+Application and Service Autodetection
+
+  Application Autodetection
+
+    Name
+      The application name is determined, in order of precedence:
+      *  The value of the –-name option
+      *  The output directory name if the output directory contains the file <name>.csproj
+      *  The file name <name>.csproj if the output directory contains one and only file with extension .csproj
+      If none of the above is satisfied, an error occurs.
+
+    Framework
+      The application framework is determined, in order of precedence:
+      *  The value of the  –-framework option
+      *  The value of the <TargetFramework> element in the project .csproj file
+      *  The first framework listed in the <TargetFrameworks> element in the project .csproj file
+      If none of the above is satisfied, an error occurs.
+
+  Service Autodetection
+      Services are autodetected by searching a project’s .csproj file for the presence of any of a service’s dependencies.
+      A dependency is considered present if any of the .csproj file elements matches one of the following XPath expressions:
+          /Project/ItemGroup/PackageReference[@Include='<dep>']
+          /Project/ItemGroup/Reference[@Include='<dep>']
+
+      Examples:
+      * A project with a dependency on RabbitMQ:
+          <Project>
+            <ItemGroup>
+              <PackageReference Include="RabbitMQ.Client" />
+            </ItemGroup>
+          </Project>
+
+      * A project with a dependency on GemFire:
+          <Project>
+            <ItemGroup>
+              <Reference Include="Pivotal.GemFire" />
+            </ItemGroup>
+          </Project>

@@ -170,9 +170,17 @@ namespace scratch
 
             var actualMessages = actual.ToArray();
 
-            // '*' denotes we don't care
+            // '*' denotes we don't care about this line
+            // '***' denotes we don't care about any further lines
             for (var i = 0; i < messages.Length; ++i)
             {
+                if (messages[i] == "***")
+                {
+                    Array.Resize(ref messages, i);
+                    Array.Resize(ref actualMessages, i);
+                    break;
+                }
+
                 if (messages[i] == "*")
                 {
                     actualMessages[i] = "*";

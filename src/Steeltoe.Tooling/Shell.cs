@@ -20,7 +20,7 @@ namespace Steeltoe.Tooling
     public abstract class Shell
     {
         /// <summary>
-        /// Implemetations return the result of running a command.
+        /// Implementations return the result of running a command.
         /// </summary>
         /// <param name="command">System command.</param>
         /// <param name="args">Command arguments.</param>
