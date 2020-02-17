@@ -17,19 +17,19 @@ using LightBDD.XUnit2;
 
 namespace Steeltoe.Cli.Test
 {
-    public class ShowTopicFeature : FeatureSpecs
+    public class HelpFeature : FeatureSpecs
     {
         [Scenario]
-        public void ShowTopicHelp()
+        public void HelpHelp()
         {
             Runner.RunScenario(
-                given => an_empty_directory("show_topic_help"),
-                when => the_developer_runs_cli_command("show-topic --help"),
+                given => an_empty_directory("help_help"),
+                when => the_developer_runs_cli_command("help --help"),
                 then => the_cli_command_should_succeed(),
                 and => the_cli_should_output(new[]
                 {
                     "Displays documentation on a topic",
-                    $"Usage: {Program.Name} show-topic [arguments] [options]",
+                    $"Usage: {Program.Name} help [arguments] [options]",
                     "Arguments:",
                     "topic Topic",
                     "Options:",
@@ -38,27 +38,27 @@ namespace Steeltoe.Cli.Test
                     "Displays documentation for various topics. Run with no arguments for a list of available topics.",
                     "Examples:",
                     "Display documentation for autodetection:",
-                    "$ st show-topic autodetection",
+                    "$ st help autodetection",
                 })
             );
         }
 
         [Scenario]
-        public void ShowTopicTooManyArgs()
+        public void HelpTooManyArgs()
         {
             Runner.RunScenario(
-                given => an_empty_directory("show_topic_too_many_args"),
-                when => the_developer_runs_cli_command("show-topic arg1 arg2"),
+                given => an_empty_directory("help_too_many_args"),
+                when => the_developer_runs_cli_command("help arg1 arg2"),
                 then => the_cli_should_fail_parse("Unrecognized command or argument 'arg2'")
             );
         }
 
         [Scenario]
-        public void ShowTopicList()
+        public void HelpTopicList()
         {
             Runner.RunScenario(
-                given => an_empty_directory("show_topic_list"),
-                when => the_developer_runs_cli_command("show-topic"),
+                given => an_empty_directory("help_topic_list"),
+                when => the_developer_runs_cli_command("help"),
                 then => the_cli_command_should_succeed(),
                 and => the_cli_should_output(new[]
                 {
@@ -68,21 +68,21 @@ namespace Steeltoe.Cli.Test
         }
 
         [Scenario]
-        public void ShowTopicNotFound()
+        public void HelpNotFound()
         {
             Runner.RunScenario(
-                given => an_empty_directory("show_topic_not_found"),
-                when => the_developer_runs_cli_command("show-topic no-such-topic"),
+                given => an_empty_directory("help_topic_not_found"),
+                when => the_developer_runs_cli_command("help no-such-topic"),
                 then => the_cli_should_error(ErrorCode.Tooling, "'no-such-topic' does not exist")
             );
         }
 
         [Scenario]
-        public void ShowTopicAutodetection()
+        public void HelpAutodetection()
         {
             Runner.RunScenario(
-                given => an_empty_directory("show_topic_autodetection"),
-                when => the_developer_runs_cli_command("show-topic autodetection"),
+                given => an_empty_directory("help_topic_autodetection"),
+                when => the_developer_runs_cli_command("help autodetection"),
                 then => the_cli_command_should_succeed(),
                 and => the_cli_should_output(new[]
                 {
