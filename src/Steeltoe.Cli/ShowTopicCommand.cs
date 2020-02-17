@@ -21,10 +21,10 @@ namespace Steeltoe.Cli
     [Command(Description = "Displays documentation on a topic",
         ExtendedHelpText = @"
 Overview:
-  *** under construction ***
+  Displays documentation for various topics.  Run with no arguments for a list of available topics.
 
 Examples:
-  Display documentation on autodetection:
+  Display documentation for autodetection:
   $ st show-topic autodetection"
     )]
     public class ShowTopicCommand : Command
