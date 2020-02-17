@@ -17,7 +17,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using YamlDotNet.Serialization;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
     /// Represents a configuration for a Steeltoe Tooling project.

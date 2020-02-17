@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Executors;
+using Steeltoe.Tooling.Controllers;
 
 namespace Steeltoe.Cli
 {
@@ -26,13 +26,13 @@ namespace Steeltoe.Cli
         {
         }
 
-        protected override Executor GetExecutor()
+        protected override Controller GetController()
         {
-            return new DoctorExecutor();
+            return new DoctorController();
         }
     }
 
-    internal class DoctorExecutor : Executor
+    internal class DoctorController : Controller
     {
         protected override void Execute()
         {

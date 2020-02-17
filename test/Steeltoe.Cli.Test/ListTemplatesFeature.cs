@@ -23,12 +23,12 @@ namespace Steeltoe.Cli.Test
         public void ListTemplatesHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_dependencies_help"),
-                when => the_developer_runs_cli_command("list-deps --help"),
+                given => a_dotnet_project("list_templates_help"),
+                when => the_developer_runs_cli_command("list-templates --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Displays a list of available dependencies",
-                    $"Usage: {Program.Name} list-deps [options]",
+                    "Displays a list of available templates",
+                    $"Usage: {Program.Name} list-templates [options]",
                     "Options:",
                     "-?|-h|--help Show help information",
                     "Overview:",
@@ -41,8 +41,8 @@ namespace Steeltoe.Cli.Test
         public void ListTemplatesTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("list_dependencies_too_many_args"),
-                when => the_developer_runs_cli_command("list-deps arg1"),
+                given => a_dotnet_project("list_templates_too_many_args"),
+                when => the_developer_runs_cli_command("list-templates arg1"),
                 then => the_cli_should_fail_parse("Unrecognized command or argument 'arg1'")
             );
         }

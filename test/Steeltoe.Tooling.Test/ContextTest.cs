@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Shouldly;
+using Steeltoe.Tooling.Models;
 using Xunit;
 
 namespace Steeltoe.Tooling.Test

@@ -14,6 +14,7 @@
 
 using System.IO;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Tooling.Models;
 using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling
