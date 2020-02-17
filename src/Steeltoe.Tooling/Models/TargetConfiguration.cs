@@ -15,10 +15,10 @@
 using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
-    /// Rerpresents the configuration of a deployment target.
+    /// Represents the configuration of a deployment target.
     /// </summary>
     public class TargetConfiguration
     {

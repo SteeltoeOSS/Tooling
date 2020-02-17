@@ -26,6 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Drivers" />
-    <Folder Include="Templates" />
+    <Folder Include="Drivers\Dummy" />
   </ItemGroup>
 </Project>

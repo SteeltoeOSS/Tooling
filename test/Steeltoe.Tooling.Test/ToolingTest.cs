@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using Steeltoe.Tooling.Models;
 
 namespace Steeltoe.Tooling.Test
 {

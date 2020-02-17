@@ -12,25 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
-    /// An application that can be deployed.
+    /// Defines the interface to receive alerts that the Steeltoe Tooling project configuration has changed.
     /// </summary>
-    public class AppInfo
+    public interface IConfigurationListener
     {
         /// <summary>
-        /// Application name.
+        /// Called when the Steeltoe Project configuration has changed.
         /// </summary>
-        public string App { get; }
-
-        /// <summary>
-        /// Creates a new AppInfo for the specified applicaition.
-        /// </summary>
-        /// <param name="app">Application name.</param>
-        public AppInfo(string app)
-        {
-            App = app;
-        }
+        void ConfigurationChangeEvent();
     }
 }

@@ -21,7 +21,7 @@ using YamlDotNet.Serialization;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
     /// Represents a Steeltoe Tooling projects available application service types and deployment targets.

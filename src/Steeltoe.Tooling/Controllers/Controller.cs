@@ -12,17 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Microsoft.Extensions.Logging;
-
-namespace Steeltoe.Tooling.Executors
+namespace Steeltoe.Tooling.Controllers
 {
     /// <summary>
     /// Represents a Steeltoe Tooling workflow.
     /// </summary>
-    public abstract class Executor
+    public abstract class Controller
     {
-        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Executor>();
-
         /// <summary>
         /// The context in which the workflow executes.
         /// </summary>
@@ -35,8 +31,6 @@ namespace Steeltoe.Tooling.Executors
         /// <exception cref="ToolingException">If an error occurs running the workflow.</exception>
         public void Execute(Context context)
         {
-            var type = GetType();
-            Logger.LogDebug($"executor is {type}");
             Context = context;
             Execute();
         }

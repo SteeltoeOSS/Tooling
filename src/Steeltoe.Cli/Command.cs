@@ -16,7 +16,8 @@ using System;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling;
-using Steeltoe.Tooling.Executors;
+using Steeltoe.Tooling.Controllers;
+using Steeltoe.Tooling.Models;
 
 namespace Steeltoe.Cli
 {
@@ -57,7 +58,7 @@ namespace Steeltoe.Cli
                     _console.Out,
                     new CommandShell()
                 );
-                GetExecutor().Execute(context);
+                GetController().Execute(context);
                 return 0;
             }
             catch (ArgumentException e)
@@ -86,6 +87,6 @@ namespace Steeltoe.Cli
             }
         }
 
-        protected abstract Executor GetExecutor();
+        protected abstract Controller GetController();
     }
 }

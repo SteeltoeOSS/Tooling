@@ -15,7 +15,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
-using Steeltoe.Tooling.Executors;
+using Steeltoe.Tooling.Controllers;
 
 namespace Steeltoe.Cli
 {
@@ -64,7 +64,7 @@ See Also:
         {
         }
 
-        protected override Executor GetExecutor()
+        protected override Controller GetController()
         {
             throw new NotImplementedException();
         }

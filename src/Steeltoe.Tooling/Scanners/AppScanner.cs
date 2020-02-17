@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Steeltoe.Tooling.Models;
 
 namespace Steeltoe.Tooling.Scanners
 {

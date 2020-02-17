@@ -14,7 +14,7 @@
 
 using YamlDotNet.Serialization;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
     /// Specifies a service.
