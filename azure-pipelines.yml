@@ -3,17 +3,11 @@ trigger:
 - dev
 
 variables:
-- group: '.NET Foundation'
-- name: Solution
-  value: 'Tooling'
-- name: ProductVersion
-  value: '0.5.0'
-- name: PackageVersion
-  value: $[format('0.5.0-{0}', variables['Build.BuildId'])]
-- name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
-  value: true
-- name: DOTNET_CLI_TELEMETRY_OPTOUT
-  value: 1
+  Solution: 'Tooling'
+  ProductVersion: '0.5.0'
+  PackageVersion: $[format('0.5.0-{0}', variables['Build.BuildId'])]
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 jobs:
 - job: 'Linux'
