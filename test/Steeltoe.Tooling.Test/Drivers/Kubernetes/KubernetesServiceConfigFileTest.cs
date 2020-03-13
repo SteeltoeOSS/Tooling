@@ -51,7 +51,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
                 },
             };
             cfgFile.Store();
-            File.ReadAllText(_configFile).ShouldBe(SampleConfig);
+            File.ReadAllText(_configFile).Replace("\r", "").ShouldBe(SampleConfig);
         }
 
         private const string SampleConfig = @"apiVersion: v1
