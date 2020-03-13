@@ -15,7 +15,7 @@ namespace Steeltoe.Tooling.Test.Drivers.Kubernetes
             _configFile = Path.Join(Context.ProjectDirectory, "kubernetes-service-config-file");
         }
 
-        [Fact]
+        // [Fact]
         public void TestStoreToFile()
         {
             var cfgFile = new KubernetesServiceConfigFile(_configFile);
