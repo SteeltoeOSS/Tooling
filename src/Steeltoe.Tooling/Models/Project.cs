@@ -37,6 +37,12 @@ namespace Steeltoe.Tooling.Models
         public string File { get; set; }
 
         /// <summary>
+        /// Project framework.
+        /// </summary>
+        [YamlMember(Alias = "framework")]
+        public string Framework { get; set; }
+
+        /// <summary>
         /// Network ports.
         /// </summary>
         [YamlMember(Alias = "services")]

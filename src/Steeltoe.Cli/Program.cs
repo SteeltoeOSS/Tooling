@@ -48,13 +48,6 @@ namespace Steeltoe.Cli
             set => Settings.DebugEnabled = value;
         }
 
-        [Option("-v|--verbose", Description = "Enable verbose output")]
-        public static bool VerboseEnabled
-        {
-            get => Settings.VerboseEnabled;
-            set => Settings.VerboseEnabled = value;
-        }
-
         // ReSharper disable once UnusedMember.Local
         private int OnExecute(CommandLineApplication app)
         {

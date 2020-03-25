@@ -47,7 +47,7 @@ namespace Steeltoe.Cli.Test
 
         static FeatureSpecs()
         {
-            Settings.DummiesEnabled = true;
+            Settings.DebugEnabled = true;
         }
 
         //

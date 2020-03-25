@@ -46,7 +46,6 @@ namespace Steeltoe.Cli.Test
                     "Options:",
                     "-V|--version Show version information",
                     "-D|--debug Enable debug output",
-                    "-v|--verbose Enable verbose output",
                     "-?|-h|--help Show help information",
                     "Commands:",
                     "help Displays documentation on a topic",

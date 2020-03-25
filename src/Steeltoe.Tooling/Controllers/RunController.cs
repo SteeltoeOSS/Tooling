@@ -14,6 +14,7 @@
 
 using System.IO;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Tooling.Models;
 using Steeltoe.Tooling.Templaters;
 
 namespace Steeltoe.Tooling.Controllers
@@ -31,16 +32,36 @@ namespace Steeltoe.Tooling.Controllers
         protected override void Execute()
         {
             var project = GetProject();
+            var images = new Images(project);
             string[] files = new string[] {"Dockerfile", "docker-compose.yml"};
             foreach (var file in files)
             {
                 Logger.LogDebug($"writing {file}");
                 var template = TemplateManager.GetTemplate($"{file}.st");
                 template.Bind("project", project);
+                template.Bind("images", images);
                 File.WriteAllText(file, template.Render());
             }
+
             var cli = new Cli("docker-compose", Context.Shell);
             cli.Run("up --build", $"running '{project.Name}' in Docker");
+        }
+
+        public class Images
+        {
+            public string DotnetSdk { get; }
+
+            public Images(Project project)
+            {
+                if (project.Framework.Equals("netcoreapp3.1"))
+                {
+                    DotnetSdk = "mcr.microsoft.com/dotnet/core/sdk:3.1";
+                }
+                else
+                {
+                    throw new ToolingException($"no Docker image available for framework: {project.Framework}");
+                }
+            }
         }
     }
 }

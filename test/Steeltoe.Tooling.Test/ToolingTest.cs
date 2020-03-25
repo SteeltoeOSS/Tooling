@@ -26,12 +26,6 @@ namespace Steeltoe.Tooling.Test
 
         protected StringWriter Console;
 
-        static ToolingTest()
-        {
-            Settings.DummiesEnabled = true;
-            Settings.MaxChecks = 10;
-        }
-
         public ToolingTest()
         {
             var path = new[] {"sandboxes", Guid.NewGuid().ToString()}.Aggregate(Path.Combine);
