@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.IO;
-using Steeltoe.Tooling.Helpers;
 using Steeltoe.Tooling.Models;
 
 namespace Steeltoe.Tooling.Controllers
