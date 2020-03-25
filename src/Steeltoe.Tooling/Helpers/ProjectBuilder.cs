@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using Steeltoe.Tooling.Models;
 using YamlDotNet.RepresentationModel;
 
@@ -48,11 +47,11 @@ namespace Steeltoe.Tooling.Helpers
                 Name = Path.GetFileNameWithoutExtension(projectFile),
                 File = Path.GetFileName(projectFile),
             };
-            project.Ports = DiscoverPorts(projectFile);
+            project.Services = DiscoverServices(projectFile);
             return project;
         }
 
-        private List<Port> DiscoverPorts(string projectFile)
+        private List<Service> DiscoverServices(string projectFile)
         {
             var launchSettingsPath =
                 Path.Join(Path.GetDirectoryName(projectFile), "Properties", "launchSettings.json");
@@ -78,9 +77,9 @@ namespace Steeltoe.Tooling.Helpers
                 return null;
             }
 
-            var ports = urls.Select(url => new Uri(url)).Select(uri => new Port(uri.Port)).ToList();
-            ports.Sort();
-            return ports;
+            var services = urls.Select(url => new Uri(url)).Select(uri => new Service(uri.Scheme, uri.Port)).ToList();
+            services.Sort();
+            return services;
         }
     }
 }

@@ -60,9 +60,11 @@ namespace Steeltoe.Cli.Test
                 {
                     "show:",
                     "file: show.csproj",
-                    "bindings:",
-                    "- port: 5000",
-                    "- port: 5001",
+                    "services:",
+                    "- protocol: http",
+                    "port: 5000",
+                    "- protocol: https",
+                    "port: 5001",
                 })
             );
         }

@@ -20,32 +20,47 @@ namespace Steeltoe.Tooling.Models
     /// <summary>
     /// A network port.
     /// </summary>
-    public class Port : IComparable
+    public class Service : IComparable
     {
         /// <summary>
-        /// Port value.
+        /// Service protocol.
+        /// </summary>
+        [YamlMember(Alias = "protocol")]
+        public string Protocol { get; }
+
+        /// <summary>
+        /// Service port.
         /// </summary>
         [YamlMember(Alias = "port")]
-        public int Value { get; }
+        public int Port { get; }
 
         /// <summary>
-        /// Create a new port.
+        /// Create a new service.
         /// </summary>
-        /// <param name="port">Network port value.</param>
-        public Port(int port)
+        /// <param name="protocol">Service protocol.</param>
+        /// <param name="port">Service port.</param>
+        public Service(string protocol, int port)
         {
-            Value = port;
+            Protocol = protocol;
+            Port = port;
         }
 
+
         /// <summary>
-        /// Returns a comparison of the Ports' Values.
+        /// Returns a comparison of the Services' protocols, and if equal, a comparison of the ports.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         public int CompareTo(object obj)
         {
-            var port = (Port) obj;
-            return Value.CompareTo(port.Value);
+            var svc = (Service) obj;
+            var compare = Protocol.CompareTo(svc.Protocol);
+            if (compare != 0)
+            {
+                return compare;
+            }
+
+            return Port.CompareTo(svc.Port);
         }
     }
 }
