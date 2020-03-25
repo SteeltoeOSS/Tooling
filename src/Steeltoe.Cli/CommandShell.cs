@@ -87,7 +87,6 @@ namespace Steeltoe.Cli
 
         private static void OutputToConsole(string output)
         {
-            if (!Settings.VerboseEnabled) return;
             var oldFg = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.Out.WriteLine(output);
