@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling.Models;
 using YamlDotNet.RepresentationModel;
 
@@ -27,6 +28,15 @@ namespace Steeltoe.Tooling.Helpers
     /// </summary>
     public class ProjectBuilder
     {
+        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ProjectBuilder>();
+
+        private static readonly List<Service> DefaultServices = new List<Service>();
+
+        static ProjectBuilder()
+        {
+            DefaultServices.Add(new Service("http", 8080));
+        }
+
         /// <summary>
         /// Project file.
         /// </summary>
@@ -38,6 +48,7 @@ namespace Steeltoe.Tooling.Helpers
         /// <returns>project model</returns>
         public Project BuildProject(string projectFile)
         {
+            Logger.LogDebug($"loading project file: {projectFile}");
             if (!File.Exists(projectFile))
             {
                 throw new ToolingException($"project file not found: {projectFile}");
@@ -58,12 +69,18 @@ namespace Steeltoe.Tooling.Helpers
             XmlDocument projectDoc = new XmlDocument();
             projectDoc.Load(projectFile);
             XmlNodeList nodes = projectDoc.SelectNodes("/Project/PropertyGroup/TargetFramework");
-            if (nodes.Count == 0)
+            if (nodes.Count > 0)
             {
-                throw new ToolingException("could not determine framework");
+                return nodes[0].InnerText;
             }
 
-            return nodes[0].InnerText;
+            nodes = projectDoc.SelectNodes("/Project/PropertyGroup/TargetFrameworks");
+            if (nodes.Count > 0)
+            {
+                return nodes[0].InnerText.Split(';')[0];
+            }
+
+            throw new ToolingException("could not determine framework");
         }
 
         private List<Service> GetServices(string projectFile)
@@ -72,9 +89,10 @@ namespace Steeltoe.Tooling.Helpers
                 Path.Join(Path.GetDirectoryName(projectFile), "Properties", "launchSettings.json");
             if (!File.Exists(launchSettingsPath))
             {
-                return null;
+                return DefaultServices;
             }
 
+            Logger.LogDebug($"loading launch settings: {launchSettingsPath}");
             var yaml = new YamlStream();
             using (var reader = new StreamReader(launchSettingsPath))
             {
@@ -85,11 +103,16 @@ namespace Steeltoe.Tooling.Helpers
             var profiles = (YamlMappingNode) root.Children[new YamlScalarNode("profiles")];
             var profile =
                 (YamlMappingNode) profiles.Children[new YamlScalarNode(Path.GetFileNameWithoutExtension(projectFile))];
+            if (!profile.Children.ContainsKey(new YamlScalarNode("applicationUrl")))
+            {
+                return DefaultServices;
+            }
+
             var urlSpec = profile.Children[new YamlScalarNode("applicationUrl")];
             var urls = $"{urlSpec}".Split(';');
             if (urls.Length == 0)
             {
-                return null;
+                return DefaultServices;
             }
 
             var services = urls.Select(url => new Uri(url)).Select(uri => new Service(uri.Scheme, uri.Port)).ToList();
