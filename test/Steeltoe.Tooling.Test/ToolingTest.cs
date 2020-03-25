@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Test
 
         protected readonly MockShell Shell;
 
-        protected StringWriter Console;
+        protected readonly StringWriter Console;
 
         public ToolingTest()
         {
@@ -32,7 +32,12 @@ namespace Steeltoe.Tooling.Test
             Directory.CreateDirectory(path);
             Console = new StringWriter();
             Shell = new MockShell();
-            Context = new Context(path, Console, Shell);
+            Context = new Context
+            {
+                WorkingDirectory = path,
+                Console = Console,
+                Shell = Shell
+            };
         }
 
         public void Dispose()

@@ -24,29 +24,21 @@ namespace Steeltoe.Tooling
         /// <summary>
         /// Steeltoe Tooling working directory.
         /// </summary>
-        public string WorkingDirectory { get; }
+        public string WorkingDirectory { get; set; }
 
         /// <summary>
         /// Steeltoe Tooling console.  Typically the console is used to display messages to the user.
         /// </summary>
-        public TextWriter Console { get; }
+        public TextWriter Console { get; set; }
 
         /// <summary>
         /// Shell which which to run system commands.
         /// </summary>
-        public Shell Shell { get; }
+        public Shell Shell { get; set; }
 
         /// <summary>
-        /// Creates a new Steeltoe Tooling Content.
+        /// Tooling registry.
         /// </summary>
-        /// <param name="dir">Project directory.</param>
-        /// <param name="console">User console.</param>
-        /// <param name="shell">Command shell.</param>
-        public Context(string dir, TextWriter console, Shell shell)
-        {
-            WorkingDirectory = dir;
-            Console = console;
-            Shell = shell;
-        }
+        public Registry Registry { get; set; }
     }
 }

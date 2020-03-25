@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System;
+using System.IO;
+using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling;
@@ -36,11 +38,16 @@ namespace Steeltoe.Cli
             try
             {
                 Logger.LogDebug($"working directory: {app.WorkingDirectory}");
-                var context = new Context(
-                    app.WorkingDirectory,
-                    _console.Out,
-                    new CommandShell()
-                );
+                var context = new Context
+                {
+                    WorkingDirectory = app.WorkingDirectory,
+                    Console = Console.Out,
+                    Shell = new CommandShell(),
+                    Registry = new Registry()
+                };
+                context.Registry.Load(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    "steeltoe.rc",
+                    "registry"));
                 GetController().Execute(context);
                 return 0;
             }
