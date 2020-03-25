@@ -37,7 +37,7 @@ namespace Steeltoe.Tooling.Models
         /// <summary>
         /// Network ports.
         /// </summary>
-        [YamlMember(Alias = "bindings")]
-        public List<Port> Ports { get; set; }
+        [YamlMember(Alias = "services")]
+        public List<Service> Services { get; set; }
     }
 }
