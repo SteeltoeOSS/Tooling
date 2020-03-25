@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using Steeltoe.Tooling.Models;
 using YamlDotNet.RepresentationModel;
 
@@ -46,12 +47,26 @@ namespace Steeltoe.Tooling.Helpers
             {
                 Name = Path.GetFileNameWithoutExtension(projectFile),
                 File = Path.GetFileName(projectFile),
+                Framework = GetFramework(projectFile),
+                Services = GetServices(projectFile)
             };
-            project.Services = DiscoverServices(projectFile);
             return project;
         }
 
-        private List<Service> DiscoverServices(string projectFile)
+        private string GetFramework(string projectFile)
+        {
+            XmlDocument projectDoc = new XmlDocument();
+            projectDoc.Load(projectFile);
+            XmlNodeList nodes = projectDoc.SelectNodes("/Project/PropertyGroup/TargetFramework");
+            if (nodes.Count == 0)
+            {
+                throw new ToolingException("could not determine framework");
+            }
+
+            return nodes[0].InnerText;
+        }
+
+        private List<Service> GetServices(string projectFile)
         {
             var launchSettingsPath =
                 Path.Join(Path.GetDirectoryName(projectFile), "Properties", "launchSettings.json");

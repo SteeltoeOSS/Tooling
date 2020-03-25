@@ -60,6 +60,7 @@ namespace Steeltoe.Cli.Test
                 {
                     "show:",
                     "file: show.csproj",
+                    "framework: netcoreapp3.1",
                     "services:",
                     "- protocol: http",
                     "port: 5000",
