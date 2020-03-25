@@ -39,7 +39,7 @@ See Also:
 
         protected override Controller GetController()
         {
-            throw new NotImplementedException();
+            return new StopController();
         }
     }
 }

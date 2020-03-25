@@ -63,7 +63,6 @@ namespace Steeltoe.Tooling
 
         private static void OutputToConsole(string output)
         {
-            if (!Settings.VerboseEnabled) return;
             var oldFg = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Out.WriteLine(output);
