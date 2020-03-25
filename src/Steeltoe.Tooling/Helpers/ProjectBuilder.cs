@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using Steeltoe.Tooling.Models;
 using YamlDotNet.RepresentationModel;
 
@@ -37,6 +38,11 @@ namespace Steeltoe.Tooling.Helpers
         /// <returns>project model</returns>
         public Project BuildProject(string projectFile)
         {
+            if (!File.Exists(projectFile))
+            {
+                throw new ToolingException($"project file not found: {projectFile}");
+            }
+
             var project = new Project
             {
                 Name = Path.GetFileNameWithoutExtension(projectFile),
@@ -50,6 +56,11 @@ namespace Steeltoe.Tooling.Helpers
         {
             var launchSettingsPath =
                 Path.Join(Path.GetDirectoryName(projectFile), "Properties", "launchSettings.json");
+            if (!File.Exists(launchSettingsPath))
+            {
+                return null;
+            }
+
             var yaml = new YamlStream();
             using (var reader = new StreamReader(launchSettingsPath))
             {
