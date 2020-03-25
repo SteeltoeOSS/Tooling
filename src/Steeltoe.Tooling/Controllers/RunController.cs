@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Tooling.Models;
 using Steeltoe.Tooling.Templaters;
 
 namespace Steeltoe.Tooling.Controllers

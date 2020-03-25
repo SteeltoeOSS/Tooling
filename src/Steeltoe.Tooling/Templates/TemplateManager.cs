@@ -24,7 +24,7 @@ namespace Steeltoe.Tooling.Templaters
     /// </summary>
     public class TemplateManager
     {
-        private static readonly object Locker = new object();
+        private static readonly object TemplaterLock = new object();
 
         /// <summary>
         /// Gets the named template.
@@ -38,14 +38,14 @@ namespace Steeltoe.Tooling.Templaters
             var template = File.ReadAllText(path);
             try
             {
-                lock (Locker) // StringTemplate doesn't seem to be tread safe
+                lock (TemplaterLock) // AntlrStringTemplate doesn't seem to be thread safe
                 {
                     return new AntlrStringTemplate(template);
                 }
             }
             catch (Exception e)
             {
-                throw new ToolingException($"failed to load template '{name}': {e.Message}");
+                throw new ToolingException($"failed to load template: {name} [{e.Message}]");
             }
         }
 

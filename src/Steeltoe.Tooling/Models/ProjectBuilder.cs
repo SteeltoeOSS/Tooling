@@ -18,10 +18,9 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Tooling.Models;
 using YamlDotNet.RepresentationModel;
 
-namespace Steeltoe.Tooling.Helpers
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
     /// Helper for building a Project.
@@ -30,11 +29,11 @@ namespace Steeltoe.Tooling.Helpers
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ProjectBuilder>();
 
-        private static readonly List<Service> DefaultServices = new List<Service>();
+        private static readonly List<Protocol> DefaultServices = new List<Protocol>();
 
         static ProjectBuilder()
         {
-            DefaultServices.Add(new Service("http", 8080));
+            DefaultServices.Add(new Protocol("http", 8080));
         }
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace Steeltoe.Tooling.Helpers
                 Name = Path.GetFileNameWithoutExtension(projectFile),
                 File = Path.GetFileName(projectFile),
                 Framework = GetFramework(projectFile),
-                Services = GetServices(projectFile)
+                Protocols = GetServices(projectFile)
             };
             return project;
         }
@@ -83,7 +82,7 @@ namespace Steeltoe.Tooling.Helpers
             throw new ToolingException("could not determine framework");
         }
 
-        private List<Service> GetServices(string projectFile)
+        private List<Protocol> GetServices(string projectFile)
         {
             var launchSettingsPath =
                 Path.Join(Path.GetDirectoryName(projectFile), "Properties", "launchSettings.json");
@@ -115,7 +114,7 @@ namespace Steeltoe.Tooling.Helpers
                 return DefaultServices;
             }
 
-            var services = urls.Select(url => new Uri(url)).Select(uri => new Service(uri.Scheme, uri.Port)).ToList();
+            var services = urls.Select(url => new Uri(url)).Select(uri => new Protocol(uri.Scheme, uri.Port)).ToList();
             services.Sort();
             return services;
         }

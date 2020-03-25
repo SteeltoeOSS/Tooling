@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  show:
+  <project.Name>:
     build: .
     ports:
       <project.Services: {svc|- "<svc.Port>:<svc.Port>"}; separator="\n">

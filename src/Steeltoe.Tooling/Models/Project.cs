@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
-using System.IO;
 using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.Models
@@ -28,7 +26,13 @@ namespace Steeltoe.Tooling.Models
         /// Project name.
         /// </summary>
         [YamlIgnore]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set => _name = value.ToLower();
+        }
+
+        private string _name;
 
         /// <summary>
         /// Project file path.
@@ -45,7 +49,7 @@ namespace Steeltoe.Tooling.Models
         /// <summary>
         /// Network ports.
         /// </summary>
-        [YamlMember(Alias = "services")]
-        public List<Service> Services { get; set; }
+        [YamlMember(Alias = "protocols")]
+        public List<Protocol> Protocols { get; set; }
     }
 }
