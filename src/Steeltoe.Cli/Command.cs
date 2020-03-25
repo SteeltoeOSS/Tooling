@@ -41,7 +41,7 @@ namespace Steeltoe.Cli
                 var context = new Context
                 {
                     WorkingDirectory = app.WorkingDirectory,
-                    Console = Console.Out,
+                    Console = _console.Out,
                     Shell = new CommandShell(),
                     Registry = new Registry()
                 };

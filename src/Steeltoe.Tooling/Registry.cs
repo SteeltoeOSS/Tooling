@@ -15,6 +15,9 @@ namespace Steeltoe.Tooling
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Registry>();
 
+        /// <summary>
+        /// Docker images for frameworks and services.
+        /// </summary>
         public Dictionary<string, string> Images { get; private set; }
 
         /// <summary>
