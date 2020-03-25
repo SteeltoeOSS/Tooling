@@ -32,13 +32,16 @@ See Also:
     {
         public const string CommandName = "run";
 
+        [Option("-g|--generate-only", Description = "Only generate configuration files (don't run in Docker).")]
+        private bool GenerateOnly { get; }
+
         public RunCommand(IConsole console) : base(console)
         {
         }
 
         protected override Controller GetController()
         {
-            return new RunController();
+            return new RunController(!GenerateOnly);
         }
     }
 }

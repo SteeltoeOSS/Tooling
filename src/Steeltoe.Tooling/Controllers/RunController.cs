@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling.Models;
@@ -26,42 +27,41 @@ namespace Steeltoe.Tooling.Controllers
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<RunController>();
 
+        private readonly bool _runInDocker;
+
+        /// <summary>
+        /// Runs the project in the local Docker environment.
+        /// </summary>
+        /// <param name="runInDocker"></param>
+        public RunController(bool runInDocker)
+        {
+            _runInDocker = runInDocker;
+        }
+
         /// <summary>
         /// Runs the project in the local Docker environment.
         /// </summary>
         protected override void Execute()
         {
             var project = GetProject();
-            var images = new Images(project);
-            string[] files = new string[] {"Dockerfile", "docker-compose.yml"};
+            if (!Context.Registry.Images.TryGetValue(project.Framework, out var image))
+            {
+                throw new ToolingException($"no image for framework: {project.Framework}");
+            }
+
+            var files = new string[] {"Dockerfile", "docker-compose.yml"};
             foreach (var file in files)
             {
                 Logger.LogDebug($"writing {file}");
                 var template = TemplateManager.GetTemplate($"{file}.st");
                 template.Bind("project", project);
-                template.Bind("images", images);
+                template.Bind("image", image);
                 File.WriteAllText(file, template.Render());
             }
 
+            if (!_runInDocker) return;
             var cli = new Cli("docker-compose", Context.Shell);
             cli.Run("up --build", $"running '{project.Name}' in Docker");
-        }
-
-        public class Images
-        {
-            public string DotnetSdk { get; }
-
-            public Images(Project project)
-            {
-                if (project.Framework.Equals("netcoreapp3.1"))
-                {
-                    DotnetSdk = "mcr.microsoft.com/dotnet/core/sdk:3.1";
-                }
-                else
-                {
-                    throw new ToolingException($"no Docker image available for framework: {project.Framework}");
-                }
-            }
         }
     }
 }
