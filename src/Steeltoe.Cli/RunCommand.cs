@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Controllers;
 
@@ -27,19 +26,11 @@ Examples:
   Run the default configuration:
   $ st run
 
-  Run a specific configuration:
-  $ st run -n MyDockerConfig
-
 See Also:
-  stop
-  list-cfgs")]
+  stop")]
     public class RunCommand : Command
     {
         public const string CommandName = "run";
-
-        [Option("-n|--name <name>",
-            Description = "Sets the name of the configuration to be run (must be a Docker configuration)")]
-        private string Name { get; set; }
 
         public RunCommand(IConsole console) : base(console)
         {
@@ -47,7 +38,7 @@ See Also:
 
         protected override Controller GetController()
         {
-            throw new NotImplementedException();
+            return new RunController();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Steeltoe.Cli
         {
             try
             {
-                Logger.LogDebug($"tooling working directory: {app.WorkingDirectory}");
+                Logger.LogDebug($"working directory: {app.WorkingDirectory}");
                 var context = new Context(
                     app.WorkingDirectory,
                     _console.Out,
