@@ -12,30 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using McMaster.Extensions.CommandLineUtils;
 using Steeltoe.Tooling.Controllers;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Displays the project details",
+    [Command(Description = "Displays project details",
         ExtendedHelpText = @"
 Overview:
   *** under construction ***
 
 Examples:
   Show the details of the project in the current directory:
-  $ st show
-
-  Show the details of the project in a specific directory:
-  $ st show --project src/MyProj")]
+  $ st show")]
     public class ShowCommand : Command
     {
         public const string CommandName = "show";
-
-        [Option("--project-dir <path>",
-            Description = "Sets the location of the project; default is the current directory")]
-        private string ProjectDirectory { get; set; }
 
         public ShowCommand(IConsole console) : base(console)
         {
@@ -43,7 +35,7 @@ Examples:
 
         protected override Controller GetController()
         {
-            throw new NotImplementedException();
+            return new ShowController();
         }
     }
 }

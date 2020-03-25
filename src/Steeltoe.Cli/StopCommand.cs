@@ -18,7 +18,7 @@ using Steeltoe.Tooling.Controllers;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Stops the project running in the local Docker environment",
+    [Command(Description = "Stops project running in the local Docker environment",
         ExtendedHelpText = @"
 Overview:
   Stops the project application and its dependencies in the local Docker environment.

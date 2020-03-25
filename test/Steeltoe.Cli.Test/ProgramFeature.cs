@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+﻿// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ namespace Steeltoe.Cli.Test
         public void ProgramNoArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("program_no_args"),
+                given => an_empty_directory("program_no_args"),
                 when => the_developer_runs_cli_command(""),
                 and => the_cli_should_error(ErrorCode.Argument),
                 and => the_cli_output_should_include("Usage: st [options] [command]")
@@ -35,7 +35,7 @@ namespace Steeltoe.Cli.Test
         public void ProgramHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("program_help"),
+                given => an_empty_directory("program_help"),
                 when => the_developer_runs_cli_command("--help"),
                 then => the_cli_command_should_succeed(),
                 and => the_cli_should_output(new[]
@@ -45,26 +45,14 @@ namespace Steeltoe.Cli.Test
                     $"Usage: st [options] [command]",
                     "Options:",
                     "-V|--version Show version information",
-                    $"-C|--config-file Configure tooling using the specified file instead of steeltoe.yaml",
                     "-D|--debug Enable debug output",
                     "-v|--verbose Enable verbose output",
                     "-?|-h|--help Show help information",
                     "Commands:",
-                    "add-dep Adds a dependency",
-                    "def-dep Adds a custom dependency definition",
-                    "doctor Checks for potential problems",
                     "help Displays documentation on a topic",
-                    "list-cfgs Displays a list of available configurations",
-                    "list-deps Displays a list of available dependencies",
-                    "list-templates Displays a list of available templates",
-                    "new Creates a new project using Steeltoe Initializr",
-                    "new-cfg Creates configuration files for a target",
-                    "rem-dep Removes a dependency that was added using the add-dep command",
-                    "run Runs the project in the local Docker environment",
-                    "show Displays the project details",
-                    "show-cfg Displays configuration details",
-                    "stop Stops the project running in the local Docker environment",
-                    "undef-dep Removes a custom dependency definition",
+                    "run Runs project in the local Docker environment",
+                    "show Displays project details",
+                    "stop Stops project running in the local Docker environment",
                     $"Run 'st [command] --help' for more information about a command.",
                 })
             );
@@ -74,7 +62,7 @@ namespace Steeltoe.Cli.Test
         public void ProgramVersion()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("program_version"),
+                given => an_empty_directory("program_version"),
                 when => the_developer_runs_cli_command("--version"),
                 then => the_cli_command_should_succeed()
             );
@@ -84,7 +72,7 @@ namespace Steeltoe.Cli.Test
         public void ProgramDebug()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("program_debug"),
+                given => an_empty_directory("program_debug"),
                 when => the_developer_runs_cli_command("--debug --version"),
                 then => setting_should_be(Settings.DebugEnabled, true)
             );

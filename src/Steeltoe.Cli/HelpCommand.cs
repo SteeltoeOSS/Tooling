@@ -99,12 +99,19 @@ Examples:
                 var topicPath = Path.Combine(_topicsPath, $"{topic}.txt");
                 if (!File.Exists(topicPath))
                 {
-                    throw new ItemDoesNotExistException(topic);
+                    throw new TopicDoesNotExistException(topic);
                 }
 
                 foreach (var line in File.ReadLines(topicPath))
                 {
                     Context.Console.WriteLine(line);
+                }
+            }
+
+            class TopicDoesNotExistException : ToolingException
+            {
+                public TopicDoesNotExistException(string topic) : base($"Topic does not exist: {topic}")
+                {
                 }
             }
         }

@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,33 +18,26 @@ using YamlDotNet.Serialization;
 namespace Steeltoe.Tooling.Models
 {
     /// <summary>
-    /// Represents the configuration of a deployment target.
+    /// A model of a DotNet project.
     /// </summary>
-    public class TargetConfiguration
+    public class Project
     {
         /// <summary>
-        /// Deployment target name.
+        /// Project name.
         /// </summary>
-        [YamlMember(Alias = "name")]
+        [YamlIgnore]
         public string Name { get; set; }
 
         /// <summary>
-        /// Deployment target description.
+        /// Project file path.
         /// </summary>
-        [YamlMember(Alias = "description")]
-        public string Description { get; set; }
+        [YamlMember(Alias = "file")]
+        public string File { get; set; }
 
         /// <summary>
-        /// Deployment target properties.
+        /// Network ports.
         /// </summary>
-        [YamlMember(Alias = "properties")]
-        public Dictionary<string, string> Properties { get; set; } = new Dictionary<string, string>();
-
-        /// <summary>
-        /// Deployment target application service type properties.
-        /// </summary>
-        [YamlMember(Alias = "serviceTypeProperties")]
-        public Dictionary<string, Dictionary<string, string>> ServiceTypeProperties { get; set; } =
-            new Dictionary<string, Dictionary<string, string>>();
+        [YamlMember(Alias = "bindings")]
+        public List<Port> Ports { get; set; }
     }
 }

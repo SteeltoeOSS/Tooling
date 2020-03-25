@@ -75,7 +75,7 @@ namespace Steeltoe.Cli.Test
             Runner.RunScenario(
                 given => an_empty_directory("help_topic_not_found"),
                 when => the_developer_runs_cli_command("help no-such-topic"),
-                then => the_cli_should_error(ErrorCode.Tooling, "'no-such-topic' does not exist")
+                then => the_cli_should_error(ErrorCode.Tooling, "Topic does not exist: no-such-topic")
             );
         }
 

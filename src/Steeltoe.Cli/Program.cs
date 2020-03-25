@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,21 +20,10 @@ namespace Steeltoe.Cli
 {
     [Command(Name = Name, Description = "Steeltoe Developer Tools")]
     [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]
-    [Subcommand(AddDependencyCommand.CommandName, typeof(AddDependencyCommand))]
-    [Subcommand(DefineDependencyCommand.CommandName, typeof(DefineDependencyCommand))]
-    [Subcommand(DoctorCommand.CommandName, typeof(DoctorCommand))]
     [Subcommand(HelpCommand.CommandName, typeof(HelpCommand))]
-    [Subcommand(ListConfigurationsCommand.CommandName, typeof(ListConfigurationsCommand))]
-    [Subcommand(ListDependenciesCommand.CommandName, typeof(ListDependenciesCommand))]
-    [Subcommand(ListTemplatesCommand.CommandName, typeof(ListTemplatesCommand))]
-    [Subcommand(NewConfigurationCommand.CommandName, typeof(NewConfigurationCommand))]
-    [Subcommand(NewCommand.CommandName, typeof(NewCommand))]
-    [Subcommand(RemoveDependencyCommand.CommandName, typeof(RemoveDependencyCommand))]
     [Subcommand(RunCommand.CommandName, typeof(RunCommand))]
     [Subcommand(ShowCommand.CommandName, typeof(ShowCommand))]
-    [Subcommand(ShowConfigurationCommand.CommandName, typeof(ShowConfigurationCommand))]
     [Subcommand(StopCommand.CommandName, typeof(StopCommand))]
-    [Subcommand(UndefineDependencyCommand.CommandName, typeof(UndefineDependencyCommand))]
     public class Program
     {
         public const string Name = "st";
@@ -51,11 +40,6 @@ namespace Steeltoe.Cli
             return
                 $"{version} (build {build} -> https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/results?buildId={build})";
         }
-
-        [Option("-C|--config-file", Description =
-            "Configure tooling using the specified file instead of steeltoe.yaml")]
-        // ReSharper disable once UnassignedGetOnlyAutoProperty
-        public static string ProjectConfigurationPath { get; }
 
         [Option("-D|--debug", Description = "Enable debug output")]
         public static bool DebugEnabled
