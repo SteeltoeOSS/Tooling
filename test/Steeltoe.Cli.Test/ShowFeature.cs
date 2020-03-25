@@ -23,22 +23,19 @@ namespace Steeltoe.Cli.Test
         public void ShowHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("show_help"),
-                when => the_developer_runs_cli_command("show --help"),
+                given => an_empty_directory("show_help"),
+                when => the_developer_runs_cli_command($"show --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Displays the project details",
+                    "Displays project details",
                     $"Usage: {Program.Name} show [options]",
                     "Options:",
-                    "--project-dir <path> Sets the location of the project; default is the current directory",
                     "-?|-h|--help Show help information",
                     "Overview:",
                     "*** under construction ***",
                     "Examples:",
                     "Show the details of the project in the current directory:",
                     "$ st show",
-                    "Show the details of the project in a specific directory:",
-                    "$ st show --project src/MyProj",
                 })
             );
         }
@@ -47,9 +44,26 @@ namespace Steeltoe.Cli.Test
         public void ShowTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("show_too_many_args"),
+                given => an_empty_directory("show_too_many_args"),
                 when => the_developer_runs_cli_command("show arg1"),
                 then => the_cli_should_fail_parse("Unrecognized command or argument 'arg1'")
+            );
+        }
+
+        [Scenario]
+        public void Show()
+        {
+            Runner.RunScenario(
+                given => a_dotnet_project("show"),
+                when => the_developer_runs_cli_command("show"),
+                then => the_cli_should_output(new[]
+                {
+                    "show:",
+                    "file: show.csproj",
+                    "bindings:",
+                    "- port: 5000",
+                    "- port: 5001",
+                })
             );
         }
     }

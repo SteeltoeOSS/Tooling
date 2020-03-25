@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using Steeltoe.Tooling.Models;
 
 namespace Steeltoe.Tooling.Test
 {
@@ -35,12 +34,11 @@ namespace Steeltoe.Tooling.Test
 
         public ToolingTest()
         {
-            var cfg = new Configuration();
             var path = new[] {"sandboxes", Guid.NewGuid().ToString()}.Aggregate(Path.Combine);
             Directory.CreateDirectory(path);
             Console = new StringWriter();
             Shell = new MockShell();
-            Context = new Context(path, cfg, Console, Shell);
+            Context = new Context(path, Console, Shell);
         }
 
         public void Dispose()

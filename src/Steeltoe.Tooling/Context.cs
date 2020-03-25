@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+﻿// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.IO;
-using Steeltoe.Tooling.Models;
 
 namespace Steeltoe.Tooling
 {
@@ -23,14 +22,9 @@ namespace Steeltoe.Tooling
     public class Context
     {
         /// <summary>
-        /// Steeltoe Tooling project directory.
+        /// Steeltoe Tooling working directory.
         /// </summary>
-        public string ProjectDirectory { get; }
-
-        /// <summary>
-        /// Steeltoe Tooling configuration.
-        /// </summary>
-        public Configuration Configuration { get; set; }
+        public string WorkingDirectory { get; }
 
         /// <summary>
         /// Steeltoe Tooling console.  Typically the console is used to display messages to the user.
@@ -46,13 +40,11 @@ namespace Steeltoe.Tooling
         /// Creates a new Steeltoe Tooling Content.
         /// </summary>
         /// <param name="dir">Project directory.</param>
-        /// <param name="config">Project configuration.{</param>
         /// <param name="console">User console.</param>
         /// <param name="shell">Command shell.</param>
-        public Context(string dir, Configuration config, TextWriter console, Shell shell)
+        public Context(string dir, TextWriter console, Shell shell)
         {
-            ProjectDirectory = dir;
-            Configuration = config;
+            WorkingDirectory = dir;
             Console = console;
             Shell = shell;
         }

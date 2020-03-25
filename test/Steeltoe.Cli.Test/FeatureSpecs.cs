@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+﻿// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using LightBDD.XUnit2;
 using McMaster.Extensions.CommandLineUtils;
@@ -55,42 +56,43 @@ namespace Steeltoe.Cli.Test
 
         protected void an_empty_directory(string name)
         {
-            CreateProjectDirectory(name);
+            Logger.LogInformation($"creating empty directory '{ProjectDirectory}'");
+            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), name);
+            if (Directory.Exists(ProjectDirectory))
+            {
+                Directory.Delete(ProjectDirectory, true);
+            }
+
+            Directory.CreateDirectory(ProjectDirectory);
         }
 
         protected void a_dotnet_project(string name)
         {
             an_empty_directory(name);
             Logger.LogInformation($"rigging a dotnet project '{name}'");
-            CreateProjectDirectory(name);
-            var csprojFile = Path.Combine(ProjectDirectory, $"{name}.csproj");
-            File.WriteAllText(csprojFile, @"<Project Sdk=""Microsoft.NET.Sdk"">
-
-    <PropertyGroup>
-        <TargetFramework>netcoreapp3.1;netcoreapp2.1;net461</TargetFramework>
-    </PropertyGroup>
-
-</Project>
-");
-            var sourceCodeFile = Path.Combine(ProjectDirectory, "Class1.cs");
-            File.WriteAllText(sourceCodeFile, @"using System;
-
-namespace scratch
-{
-    public class Class1
-    {
-    }
-}
-");
-            File.Create(Path.Combine(ProjectDirectory, ".steeltoe.dummies")).Dispose();
+            var p = new Process
+            {
+                StartInfo = new ProcessStartInfo("dotnet", "new web")
+                {
+                    WorkingDirectory = ProjectDirectory,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                },
+            };
+            p.Start();
+            p.WaitForExit();
+            if (p.ExitCode != 0)
+            {
+                throw new CommandException(p.ExitCode, p.StandardError.ReadToEnd());
+            }
         }
 
         protected void a_steeltoe_project(string name)
         {
             a_dotnet_project(name);
             Logger.LogInformation($"enabling steeltoe developer tools");
-            var cfgFile = new ConfigurationFile(ProjectDirectory);
-            cfgFile.Store();
+            // var cfgFile = new ConfigurationFile(ProjectDirectory);
+            // cfgFile.Store();
         }
 
         //
@@ -225,93 +227,8 @@ namespace scratch
             setting.ShouldBe(expected);
         }
 
-        protected void the_configuration_should_be_empty()
-        {
-            Logger.LogInformation($"checking the configuration should be empty");
-            var config = new ConfigurationFile(ProjectDirectory).Configuration;
-            config.Apps.Count.ShouldBe(0);
-            config.Services.Count.ShouldBe(0);
-        }
-
-        protected void the_configuration_should_contain_app(string app)
-        {
-            Logger.LogInformation($"checking the app '{app}' exists");
-            var cfg = new ConfigurationFile(ProjectDirectory);
-            cfg.Configuration.Apps.Keys.ShouldContain(app);
-        }
-
-        protected void the_configuration_should_not_contain_app(string app)
-        {
-            Logger.LogInformation($"checking the app '{app}' does not exist");
-            new ConfigurationFile(ProjectDirectory).Configuration.Apps.Keys.ShouldNotContain(app);
-        }
-
-        protected void the_configuration_should_contain_app_framework(string app, string framework)
-        {
-            Logger.LogInformation($"checking the app '{app}' contains framework '{framework}'");
-            var cfg = new ConfigurationFile(ProjectDirectory);
-            cfg.Configuration.Apps[app].TargetFramework.ShouldBe(framework);
-        }
-
-        protected void the_configuration_should_contain_app_runtime(string app, string runtime)
-        {
-            Logger.LogInformation($"checking the app '{app}' contains runtime '{runtime}'");
-            var cfg = new ConfigurationFile(ProjectDirectory);
-            cfg.Configuration.Apps[app].TargetRuntime.ShouldBe(runtime);
-        }
-
-        protected void the_configuration_should_contain_app_args(string app, string args)
-        {
-            Logger.LogInformation($"checking the app '{app}' contains args '{args}'");
-            var cfg = new ConfigurationFile(ProjectDirectory);
-            cfg.Configuration.Apps[app].Args.ShouldBe(args);
-        }
-
-        protected void the_configuration_should_contain_app_args(string app, string target, string args)
-        {
-            Logger.LogInformation($"checking the app '{app}' contains args '{args}' for target '{target}");
-            var cfg = new ConfigurationFile(ProjectDirectory);
-            cfg.Configuration.Apps[app].DeployArgs[target].ShouldBe(args);
-        }
-
-        protected void the_configuration_should_contain_service(string service, string serviceType)
-        {
-            Logger.LogInformation($"checking the service {serviceType} '{service}' exists");
-            var cfg = new ConfigurationFile(ProjectDirectory);
-            cfg.Configuration.Services.Keys.ShouldContain(service);
-            cfg.Configuration.Services[service].ServiceTypeName.ShouldBe(serviceType);
-        }
-
-        protected void the_configuration_should_not_contain_service(string service)
-        {
-            Logger.LogInformation($"checking the service '{service}' does not exist");
-            new ConfigurationFile(ProjectDirectory).Configuration.Services.Keys.ShouldNotContain(service);
-        }
-
-        protected void the_configuration_should_contain_service_args(string service, string args)
-        {
-            Logger.LogInformation($"checking the service '{service}' contains args '{args}'");
-            var cfg = new ConfigurationFile(ProjectDirectory);
-            cfg.Configuration.Services[service].Args.ShouldBe(args);
-        }
-
-        protected void the_configuration_should_contain_service_args(string service, string target, string args)
-        {
-            Logger.LogInformation($"checking the service '{service}' contains args '{args}' for target '{target}");
-            var cfg = new ConfigurationFile(ProjectDirectory);
-            cfg.Configuration.Services[service].DeployArgs[target].ShouldBe(args);
-        }
-
         private void CreateProjectDirectory(string name)
         {
-            Logger.LogInformation($"creating project directory '{ProjectDirectory}'");
-            ProjectDirectory = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "sandboxes"), name);
-            if (Directory.Exists(ProjectDirectory))
-            {
-                Directory.Delete(ProjectDirectory, true);
-            }
-
-            Directory.CreateDirectory(ProjectDirectory);
         }
 
         private static string NormalizeString(string s)
@@ -323,5 +240,19 @@ namespace scratch
 
             return string.Join(" ", s.Split(new char[0], StringSplitOptions.RemoveEmptyEntries));
         }
+    }
+
+    public class CommandException : Exception
+    {
+        private readonly int _exitCode;
+        private readonly string _errorMessage;
+
+        public CommandException(int exitCode, string error)
+        {
+            _exitCode = exitCode;
+            _errorMessage = error;
+        }
+
+        public override string Message => $"{_exitCode}: {_errorMessage}";
     }
 }

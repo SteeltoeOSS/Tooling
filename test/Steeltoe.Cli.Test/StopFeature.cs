@@ -23,11 +23,11 @@ namespace Steeltoe.Cli.Test
         public void StopHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("stop_help"),
+                given => an_empty_directory("stop_help"),
                 when => the_developer_runs_cli_command("stop --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Stops the project running in the local Docker environment",
+                    "Stops project running in the local Docker environment",
                     $"Usage: {Program.Name} stop [options]",
                     "Options:",
                     "-?|-h|--help Show help information",
@@ -46,7 +46,7 @@ namespace Steeltoe.Cli.Test
         public void StopTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("stop_too_many_args"),
+                given => an_empty_directory("stop_too_many_args"),
                 when => the_developer_runs_cli_command("stop arg1"),
                 then => the_cli_should_fail_parse("Unrecognized command or argument 'arg1'")
             );

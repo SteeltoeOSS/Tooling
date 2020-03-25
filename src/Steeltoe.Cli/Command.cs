@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling;
 using Steeltoe.Tooling.Controllers;
-using Steeltoe.Tooling.Models;
 
 namespace Steeltoe.Cli
 {
@@ -37,24 +36,8 @@ namespace Steeltoe.Cli
             try
             {
                 Logger.LogDebug($"tooling working directory: {app.WorkingDirectory}");
-                var cfgFilePath = Program.ProjectConfigurationPath ?? app.WorkingDirectory;
-
-                Configuration cfg;
-                var cfgFile = new ConfigurationFile(cfgFilePath);
-                if (cfgFile.Exists())
-                {
-                    cfg = cfgFile.Configuration;
-                    Logger.LogDebug($"tooling configuration file: {cfgFile.File}");
-                }
-                else
-                {
-                    cfg = null;
-                    Logger.LogDebug($"tooling configuration file not found: {cfgFile.File}");
-                }
-
                 var context = new Context(
                     app.WorkingDirectory,
-                    cfg,
                     _console.Out,
                     new CommandShell()
                 );

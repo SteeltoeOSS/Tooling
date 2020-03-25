@@ -23,11 +23,11 @@ namespace Steeltoe.Cli.Test
         public void RunHelp()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("run_help"),
+                given => an_empty_directory("run_help"),
                 when => the_developer_runs_cli_command("run --help"),
                 then => the_cli_should_output(new[]
                 {
-                    "Runs the project in the local Docker environment",
+                    "Runs project in the local Docker environment",
                     $"Usage: {Program.Name} run [options]",
                     "Options:",
                     "-n|--name <name> Sets the name of the configuration to be run (must be a Docker configuration)",
@@ -50,7 +50,7 @@ namespace Steeltoe.Cli.Test
         public void RunTooManyArgs()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("run_too_many_args"),
+                given => an_empty_directory("run_too_many_args"),
                 when => the_developer_runs_cli_command("run arg1"),
                 then => the_cli_should_fail_parse("Unrecognized command or argument 'arg1'")
             );

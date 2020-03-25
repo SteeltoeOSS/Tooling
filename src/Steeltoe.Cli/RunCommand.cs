@@ -18,7 +18,7 @@ using Steeltoe.Tooling.Controllers;
 
 namespace Steeltoe.Cli
 {
-    [Command(Description = "Runs the project in the local Docker environment",
+    [Command(Description = "Runs project in the local Docker environment",
         ExtendedHelpText = @"
 Overview:
   Starts the project application and its dependencies in the local Docker environment.

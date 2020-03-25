@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Shouldly;
-using Steeltoe.Tooling.Models;
 using Xunit;
 
 namespace Steeltoe.Tooling.Test
@@ -23,9 +22,8 @@ namespace Steeltoe.Tooling.Test
         [Fact]
         public void TestContext()
         {
-            var cfg = new Configuration();
-            var ctx = new Context(null, cfg, Console, Shell);
-            ctx.Configuration.ShouldBe(cfg);
+            var ctx = new Context(null, Console, Shell);
+            ctx.Console.ShouldBe(Console);
             ctx.Shell.ShouldBe(Shell);
         }
     }

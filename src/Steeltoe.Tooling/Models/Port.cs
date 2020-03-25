@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,32 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using YamlDotNet.Serialization;
+
 namespace Steeltoe.Tooling.Models
 {
     /// <summary>
-    /// An application service, such as a database, that can be deployed.
+    /// A network port.
     /// </summary>
-    public class ServiceInfo
+    public class Port : IComparable
     {
         /// <summary>
-        /// Service name.
+        /// Port value.
         /// </summary>
-        public string Service { get; }
+        [YamlMember(Alias = "port")]
+        public int Value { get; }
 
         /// <summary>
-        /// Service type.
+        /// Create a new port.
         /// </summary>
-        public string ServiceType { get; }
-
-        /// <summary>
-        /// Creates a new ServiceInfo instance.
-        /// </summary>
-        /// <param name="service">Service name.</param>
-        /// <param name="serviceType">Service type.</param>
-        public ServiceInfo(string service, string serviceType)
+        /// <param name="port">Network port value.</param>
+        public Port(int port)
         {
-            Service = service;
-            ServiceType = serviceType;
+            Value = port;
+        }
+
+        /// <summary>
+        /// Returns a comparison of the Ports' Values.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int CompareTo(object obj)
+        {
+            var port = (Port) obj;
+            return Value.CompareTo(port.Value);
         }
     }
 }
