@@ -30,18 +30,14 @@ namespace Steeltoe.Cli.Test
                     "Runs project in the local Docker environment",
                     $"Usage: {Program.Name} run [options]",
                     "Options:",
-                    "-n|--name <name> Sets the name of the configuration to be run (must be a Docker configuration)",
                     "-?|-h|--help Show help information",
                     "Overview:",
                     "Starts the project application and its dependencies in the local Docker environment.",
                     "Examples:",
                     "Run the default configuration:",
                     "$ st run",
-                    "Run a specific configuration:",
-                    "$ st run -n MyDockerConfig",
                     "See Also:",
                     "stop",
-                    "list-cfgs",
                 })
             );
         }

@@ -12,37 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using Steeltoe.Tooling.Helpers;
-using Steeltoe.Tooling.Models;
-using YamlDotNet.Serialization;
+using Microsoft.Extensions.Logging;
+using Steeltoe.Tooling.Templaters;
 
 namespace Steeltoe.Tooling.Controllers
 {
     /// <summary>
-    /// Controls the "show" operation.
+    /// Controls the "run" operation.
     /// </summary>
-    public class ShowController : Controller
+    public class RunController : Controller
     {
-        /// <summary>
-        /// Creates a new ShowController.
-        /// </summary>
-        public ShowController()
-        {
-        }
+        private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<RunController>();
 
         /// <summary>
-        /// Shows project details.
+        /// Runs the project in the local Docker environment.
         /// </summary>
         protected override void Execute()
         {
-            Dictionary<string, Project> projects = new Dictionary<string, Project>();
             var project = GetProject();
-            projects.Add(project.Name, project);
-            var serializer = new SerializerBuilder().Build();
-            Context.Console.WriteLine(serializer.Serialize(projects));
+            string[] files = new string[] {"Dockerfile", "docker-compose.yml"};
+            foreach (var file in files)
+            {
+                Logger.LogDebug($"writing {file}");
+                var template = TemplateManager.GetTemplate($"{file}.st");
+                template.Bind("project", project);
+                File.WriteAllText(file, template.Render());
+            }
+            var cli = new Cli("docker-compose", Context.Shell);
+            cli.Run("up --build", $"running '{project.Name}' in Docker");
         }
     }
 }

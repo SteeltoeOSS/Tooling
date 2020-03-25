@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
+using Steeltoe.Tooling.Helpers;
+using Steeltoe.Tooling.Models;
+
 namespace Steeltoe.Tooling.Controllers
 {
     /// <summary>
@@ -39,5 +43,16 @@ namespace Steeltoe.Tooling.Controllers
         /// Sub-classes implement this to perform their specific workflow.
         /// </summary>
         protected abstract void Execute();
+
+        /// <summary>
+        /// Returns the project.
+        /// </summary>
+        /// <returns>The project.</returns>
+        protected Project GetProject()
+        {
+            var projectDir = Context.WorkingDirectory;
+            var projectName = Path.GetFileName(projectDir);
+            return new ProjectBuilder().BuildProject($"{projectDir}/{projectName}.csproj");
+        }
     }
 }
