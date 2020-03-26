@@ -17,9 +17,9 @@ jobs:
   steps:
   - task: UseDotNet@2
     displayName: 'Setup DotNet $(DotNetVersion)'
-      inputs:
-        packageType: sdk
-        version: $(DotNetVersion)
+    inputs:
+      packageType: sdk
+      version: $(DotNetVersion)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
@@ -37,9 +37,9 @@ jobs:
   steps:
   - task: UseDotNet@2
     displayName: 'Setup DotNet $(DotNetVersion)'
-      inputs:
-        packageType: sdk
-        version: $(DotNetVersion)
+    inputs:
+      packageType: sdk
+      version: $(DotNetVersion)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
@@ -72,9 +72,9 @@ jobs:
     displayName: 'Version'
   - task: UseDotNet@2
     displayName: 'Setup DotNet $(DotNetVersion)'
-      inputs:
-        packageType: sdk
-        version: $(DotNetVersion)
+    inputs:
+      packageType: sdk
+      version: $(DotNetVersion)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
