@@ -47,11 +47,9 @@ namespace Steeltoe.Tooling.Controllers
         /// Returns the project.
         /// </summary>
         /// <returns>The project.</returns>
-        protected Project GetProject()
+        protected Deployment GetDeployment()
         {
-            var projectDir = Context.WorkingDirectory;
-            var projectName = Path.GetFileName(projectDir);
-            return new ProjectBuilder().BuildProject($"{projectDir}/{projectName}.csproj");
+            return new DeploymentBuilder().BuildDeployment(Context.WorkingDirectory);
         }
     }
 }

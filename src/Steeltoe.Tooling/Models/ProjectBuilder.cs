@@ -29,11 +29,11 @@ namespace Steeltoe.Tooling.Models
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ProjectBuilder>();
 
-        private static readonly List<Protocol> DefaultServices = new List<Protocol>();
+        private static readonly List<Protocol> DefaultProtocols = new List<Protocol>();
 
         static ProjectBuilder()
         {
-            DefaultServices.Add(new Protocol("http", 8080));
+            DefaultProtocols.Add(new Protocol("http", 8080));
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Steeltoe.Tooling.Models
                 Name = Path.GetFileNameWithoutExtension(projectFile),
                 File = Path.GetFileName(projectFile),
                 Framework = GetFramework(projectFile),
-                Protocols = GetServices(projectFile)
+                Protocols = GetProtocols(projectFile)
             };
             return project;
         }
@@ -82,13 +82,13 @@ namespace Steeltoe.Tooling.Models
             throw new ToolingException("could not determine framework");
         }
 
-        private List<Protocol> GetServices(string projectFile)
+        private List<Protocol> GetProtocols(string projectFile)
         {
             var launchSettingsPath =
                 Path.Join(Path.GetDirectoryName(projectFile), "Properties", "launchSettings.json");
             if (!File.Exists(launchSettingsPath))
             {
-                return DefaultServices;
+                return DefaultProtocols;
             }
 
             Logger.LogDebug($"loading launch settings: {launchSettingsPath}");
@@ -104,19 +104,19 @@ namespace Steeltoe.Tooling.Models
                 (YamlMappingNode) profiles.Children[new YamlScalarNode(Path.GetFileNameWithoutExtension(projectFile))];
             if (!profile.Children.ContainsKey(new YamlScalarNode("applicationUrl")))
             {
-                return DefaultServices;
+                return DefaultProtocols;
             }
 
             var urlSpec = profile.Children[new YamlScalarNode("applicationUrl")];
             var urls = $"{urlSpec}".Split(';');
             if (urls.Length == 0)
             {
-                return DefaultServices;
+                return DefaultProtocols;
             }
 
-            var services = urls.Select(url => new Uri(url)).Select(uri => new Protocol(uri.Scheme, uri.Port)).ToList();
-            services.Sort();
-            return services;
+            var protocols = urls.Select(url => new Uri(url)).Select(uri => new Protocol(uri.Scheme, uri.Port)).ToList();
+            protocols.Sort();
+            return protocols;
         }
     }
 }

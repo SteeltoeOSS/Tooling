@@ -25,7 +25,7 @@ namespace Steeltoe.Tooling.Models
         /// <summary>
         /// Project name.
         /// </summary>
-        [YamlIgnore]
+        [YamlMember(Alias = "name")]
         public string Name
         {
             get => _name;
@@ -33,7 +33,6 @@ namespace Steeltoe.Tooling.Models
         }
 
         private string _name;
-
         /// <summary>
         /// Project file path.
         /// </summary>
@@ -51,5 +50,11 @@ namespace Steeltoe.Tooling.Models
         /// </summary>
         [YamlMember(Alias = "protocols")]
         public List<Protocol> Protocols { get; set; }
+
+        /// <summary>
+        /// Project service dependencies to be deployed.
+        /// </summary>
+        [YamlMember(Alias = "services")]
+        public List<Service> Services { get; }
     }
 }
