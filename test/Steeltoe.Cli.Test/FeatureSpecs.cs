@@ -66,13 +66,13 @@ namespace Steeltoe.Cli.Test
             Directory.CreateDirectory(ProjectDirectory);
         }
 
-        protected void a_dotnet_project(string name)
+        protected void a_dotnet31_project(string name)
         {
             an_empty_directory(name);
             Logger.LogInformation($"rigging a dotnet project '{name}'");
             var p = new Process
             {
-                StartInfo = new ProcessStartInfo("dotnet", "new web")
+                StartInfo = new ProcessStartInfo("dotnet", "new web --framework netcoreapp3.1")
                 {
                     WorkingDirectory = ProjectDirectory,
                     RedirectStandardOutput = true,
@@ -89,7 +89,7 @@ namespace Steeltoe.Cli.Test
 
         protected void a_steeltoe_project(string name)
         {
-            a_dotnet_project(name);
+            a_dotnet31_project(name);
             Logger.LogInformation($"enabling steeltoe developer tools");
             // var cfgFile = new ConfigurationFile(ProjectDirectory);
             // cfgFile.Store();

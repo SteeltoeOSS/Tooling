@@ -54,7 +54,7 @@ namespace Steeltoe.Cli.Test
         public void Show()
         {
             Runner.RunScenario(
-                given => a_dotnet_project("show"),
+                given => a_dotnet31_project("show"),
                 when => the_developer_runs_cli_command("show"),
                 then => the_cli_should_output(new[]
                 {
@@ -62,7 +62,7 @@ namespace Steeltoe.Cli.Test
                     "project:",
                     "name: show",
                     "file: show.csproj",
-                    "*",
+                    "framework: netcoreapp3.1",
                     "image: mcr.microsoft.com/dotnet/core/sdk:3.1",
                     "protocols:",
                     "- name: http",
