@@ -12,18 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using YamlDotNet.Serialization;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Controllers
 {
     /// <summary>
-    /// Represents Steeltoe Tooling project settings.
+    /// Controls the "show" operation.
     /// </summary>
-    public static class Settings
+    public class ShowController : Controller
     {
         /// <summary>
-        /// Whether debugging has been enabled.
+        /// Creates a new ShowController.
         /// </summary>
-        public static bool DebugEnabled { get; set; }
+        public ShowController()
+        {
+        }
+
+        /// <summary>
+        /// Shows project details.
+        /// </summary>
+        protected override void Execute()
+        {
+            var serializer = new SerializerBuilder().Build();
+            Context.Console.WriteLine(serializer.Serialize(GetDeployment()));
+        }
     }
 }

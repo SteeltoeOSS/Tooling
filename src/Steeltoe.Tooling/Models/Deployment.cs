@@ -12,6 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Runtime.CompilerServices;
+using YamlDotNet.Serialization;
 
-[assembly: InternalsVisibleTo("Steeltoe.Tooling.Test")]
+namespace Steeltoe.Tooling.Models
+{
+    /// <summary>
+    /// A model of a Docker deployment.
+    /// </summary>
+    public class Deployment
+    {
+        /// <summary>
+        /// Deployment name.
+        /// </summary>
+        [YamlMember(Alias = "name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Project to be deployed.
+        /// </summary>
+        [YamlMember(Alias = "project")]
+        public Project Project { get; set; }
+    }
+}

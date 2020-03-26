@@ -1,4 +1,4 @@
-﻿// Copyright 2020 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,33 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using System.Collections.Generic;
+using YamlDotNet.Serialization;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
-    /// Represents the context in which Steeltoe Tooling operations are performed.
+    /// A model of a service specification.
     /// </summary>
-    public class Context
+    public class ServiceSpecification
     {
         /// <summary>
-        /// Steeltoe Tooling working directory.
+        /// Service type.
         /// </summary>
-        public string WorkingDirectory { get; set; }
+        [YamlMember(Alias = "type")]
+        public string Type { get; set; }
 
         /// <summary>
-        /// Steeltoe Tooling console.  Typically the console is used to display messages to the user.
+        /// Docker image.
         /// </summary>
-        public TextWriter Console { get; set; }
+        [YamlMember(Alias = "image")]
+        public string Image { get; set; }
 
         /// <summary>
-        /// Shell which which to run system commands.
+        /// Service port.
         /// </summary>
-        public Shell Shell { get; set; }
+        [YamlMember(Alias = "port")]
+        public int Port { get; set; }
 
         /// <summary>
-        /// Tooling registry.
+        /// Nugets.
         /// </summary>
-        public Registry Registry { get; set; }
+        [YamlMember(Alias = "nugets")]
+        public List<string> NuGets { get; set; }
     }
 }

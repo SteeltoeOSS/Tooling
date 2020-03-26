@@ -12,18 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using YamlDotNet.Serialization;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
-    /// Represents Steeltoe Tooling project settings.
+    /// A model of a project service dependency.
     /// </summary>
-    public static class Settings
+    public class Service
     {
         /// <summary>
-        /// Whether debugging has been enabled.
+        /// Service name.
         /// </summary>
-        public static bool DebugEnabled { get; set; }
+        [YamlMember(Alias = "name")]
+        public string Name
+        {
+            get => _name;
+            set => _name = value.ToLower();
+        }
+
+        private string _name;
+
+        /// <summary>
+        /// Docker image.
+        /// </summary>
+        [YamlMember(Alias = "image")]
+        public string Image { get; set; }
+
+        /// <summary>
+        /// Service port.
+        /// </summary>
+        [YamlMember(Alias = "port")]
+        public int Port { get; set; }
     }
 }

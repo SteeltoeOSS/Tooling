@@ -24,8 +24,4 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Drivers" />
-    <Folder Include="Templates" />
-  </ItemGroup>
 </Project>

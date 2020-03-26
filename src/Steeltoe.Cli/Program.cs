@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,17 +20,10 @@ namespace Steeltoe.Cli
 {
     [Command(Name = Name, Description = "Steeltoe Developer Tools")]
     [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]
-    [Subcommand(InitCommand.Name, typeof(InitCommand))]
-    [Subcommand(TargetCommand.Name, typeof(TargetCommand))]
-    [Subcommand(AddAppCommand.Name, typeof(AddAppCommand))]
-    [Subcommand(AddServiceCommand.Name, typeof(AddServiceCommand))]
-    [Subcommand(RemoveCommand.Name, typeof(RemoveCommand))]
-    [Subcommand(DeployCommand.Name, typeof(DeployCommand))]
-    [Subcommand(UndeployCommand.Name, typeof(UndeployCommand))]
-    [Subcommand(StatusCommand.Name, typeof(StatusCommand))]
-    [Subcommand(ArgsCommand.Name, typeof(ArgsCommand))]
-    [Subcommand(ListCommand.Name, typeof(ListCommand))]
-    [Subcommand(DoctorCommand.Name, typeof(DoctorCommand))]
+    [Subcommand(HelpCommand.CommandName, typeof(HelpCommand))]
+    [Subcommand(RunCommand.CommandName, typeof(RunCommand))]
+    [Subcommand(ShowCommand.CommandName, typeof(ShowCommand))]
+    [Subcommand(StopCommand.CommandName, typeof(StopCommand))]
     public class Program
     {
         public const string Name = "st";
@@ -48,23 +41,11 @@ namespace Steeltoe.Cli
                 $"{version} (build {build} -> https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/results?buildId={build})";
         }
 
-        [Option("-C|--config-file", Description =
-            "Configure tooling using the specified file instead of steeltoe.yaml")]
-        // ReSharper disable once UnassignedGetOnlyAutoProperty
-        public static string ProjectConfigurationPath { get; }
-
         [Option("-D|--debug", Description = "Enable debug output")]
         public static bool DebugEnabled
         {
             get => Settings.DebugEnabled;
             set => Settings.DebugEnabled = value;
-        }
-
-        [Option("-v|--verbose", Description = "Enable verbose output")]
-        public static bool VerboseEnabled
-        {
-            get => Settings.VerboseEnabled;
-            set => Settings.VerboseEnabled = value;
         }
 
         // ReSharper disable once UnusedMember.Local

@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,23 +24,20 @@ namespace Steeltoe.Tooling.Test
 
         protected readonly MockShell Shell;
 
-        protected StringWriter Console;
-
-        static ToolingTest()
-        {
-            Settings.DummiesEnabled = true;
-            Settings.MaxChecks = 10;
-        }
+        protected readonly StringWriter Console;
 
         public ToolingTest()
         {
-            var cfg = new Configuration();
             var path = new[] {"sandboxes", Guid.NewGuid().ToString()}.Aggregate(Path.Combine);
             Directory.CreateDirectory(path);
-            cfg.Target = "dummy-target";
             Console = new StringWriter();
             Shell = new MockShell();
-            Context = new Context(path, cfg, Console, Shell);
+            Context = new Context
+            {
+                WorkingDirectory = path,
+                Console = Console,
+                Shell = Shell
+            };
         }
 
         public void Dispose()

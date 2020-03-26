@@ -12,18 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling.Controllers;
 
-namespace Steeltoe.Tooling
+namespace Steeltoe.Cli
 {
-    /// <summary>
-    /// Represents Steeltoe Tooling project settings.
-    /// </summary>
-    public static class Settings
+    [Command(Description = "Displays project details",
+        ExtendedHelpText = @"
+Overview:
+  *** under construction ***
+
+Examples:
+  Show the details of the project in the current directory:
+  $ st show")]
+    public class ShowCommand : Command
     {
-        /// <summary>
-        /// Whether debugging has been enabled.
-        /// </summary>
-        public static bool DebugEnabled { get; set; }
+        public const string CommandName = "show";
+
+        public ShowCommand(IConsole console) : base(console)
+        {
+        }
+
+        protected override Controller GetController()
+        {
+            return new ShowController();
+        }
     }
 }

@@ -1,0 +1,4 @@
+netcoreapp2.1: mcr.microsoft.com/dotnet/core/sdk:2.1
+netcoreapp2.2: mcr.microsoft.com/dotnet/core/sdk:2.2
+netcoreapp3.1: mcr.microsoft.com/dotnet/core/sdk:3.1
+

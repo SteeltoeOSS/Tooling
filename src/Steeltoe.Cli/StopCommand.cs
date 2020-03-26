@@ -12,25 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Shouldly;
-using Xunit;
+using System;
+using McMaster.Extensions.CommandLineUtils;
+using Steeltoe.Tooling.Controllers;
 
-namespace Steeltoe.Tooling.Test
+namespace Steeltoe.Cli
 {
-    public class LifecycleExceptionTest
+    [Command(Description = "Stops project running in the local Docker environment",
+        ExtendedHelpText = @"
+Overview:
+  Stops the project application and its dependencies in the local Docker environment.
+
+Examples:
+  Stop the running project:
+  $ st stop
+
+See Also:
+  run")]
+    public class StopCommand : Command
     {
-        [Fact]
-        public void TestMessage()
+        public const string CommandName = "stop";
+
+        public StopCommand(IConsole console) : base(console)
         {
-            var e = new LifecycleException(Lifecycle.Status.Offline);
-            e.Message.ShouldBe($"Invalid status 'offline'");
         }
 
-        [Fact]
-        public void TestState()
+        protected override Controller GetController()
         {
-            var e = new LifecycleException(Lifecycle.Status.Offline);
-            e.Status.ShouldBe(Lifecycle.Status.Offline);
+            return new StopController();
         }
     }
 }

@@ -12,6 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Steeltoe.Tooling.Test")]
+namespace Steeltoe.Tooling.Controllers
+{
+    /// <summary>
+    /// Controls the "stop" operation.
+    /// </summary>
+    public class StopController : Controller
+    {
+        /// <summary>
+        /// Stops the project in the local Docker environment.
+        /// </summary>
+        protected override void Execute()
+        {
+            var project = GetDeployment().Project;
+            var cli = new Cli("docker-compose", Context.Shell);
+            cli.Run("down", $"stopping '{project.Name}' in Docker");
+        }
+    }
+}

@@ -12,6 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Runtime.CompilerServices;
+namespace Steeltoe.Tooling
+{
+    /// <summary>
+    /// Template abstraction.
+    /// </summary>
+    public interface ITemplate
+    {
+        /// <summary>
+        /// Binds the object to the named template variable.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="obj"></param>
+        void Bind(string name, object obj);
 
-[assembly: InternalsVisibleTo("Steeltoe.Tooling.Test")]
+        /// <summary>
+        /// Returns the rendered template.
+        /// </summary>
+        /// <returns></returns>
+        string Render();
+    }
+}
