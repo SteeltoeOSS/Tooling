@@ -1,2 +1,7 @@
+mssql: steeltoeoss/mssql-amd64-linux
+mysql: steeltoeoss/mysql:5.7
+pgsql: steeltoeoss/postgresql:10.8
+rabbitmq: steeltoeoss/rabbitmq:3.7
+redis: steeltoeoss/redis-amd64-linux:4.0.11
 netcoreapp2.1: mcr.microsoft.com/dotnet/core/sdk:2.1
 netcoreapp3.1: mcr.microsoft.com/dotnet/core/sdk:3.1

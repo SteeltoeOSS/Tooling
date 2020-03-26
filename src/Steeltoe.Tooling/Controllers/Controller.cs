@@ -49,7 +49,7 @@ namespace Steeltoe.Tooling.Controllers
         /// <returns>The project.</returns>
         protected Deployment GetDeployment()
         {
-            return new DeploymentBuilder().BuildDeployment(Context.WorkingDirectory);
+            return new DeploymentBuilder(Context).BuildDeployment();
         }
     }
 }

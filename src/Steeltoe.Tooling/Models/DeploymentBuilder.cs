@@ -21,17 +21,27 @@ namespace Steeltoe.Tooling.Models
     /// </summary>
     public class DeploymentBuilder
     {
+        private readonly Context _context;
+
+        /// <summary>
+        /// Create a DocumentBuilder for the specified directory.
+        /// </summary>
+        public DeploymentBuilder(Context context)
+        {
+            _context = context;
+        }
+
         /// <summary>
         /// Returns a deployment for the specified directory.
         /// </summary>
         /// <returns>deployment model</returns>
-        public Deployment BuildDeployment(string directory)
+        public Deployment BuildDeployment()
         {
-            var name = Path.GetFileName(directory);
+            var name = Path.GetFileName(_context.WorkingDirectory);
             var deployment = new Deployment
             {
                 Name = name,
-                Project = new ProjectBuilder().BuildProject(Path.Join(directory, $"{name}.csproj"))
+                Project = new ProjectBuilder(_context, Path.Join(_context.WorkingDirectory, $"{name}.csproj")).BuildProject()
             };
             return deployment;
         }

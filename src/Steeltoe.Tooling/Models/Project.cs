@@ -33,6 +33,7 @@ namespace Steeltoe.Tooling.Models
         }
 
         private string _name;
+
         /// <summary>
         /// Project file path.
         /// </summary>
@@ -46,6 +47,12 @@ namespace Steeltoe.Tooling.Models
         public string Framework { get; set; }
 
         /// <summary>
+        /// Docker image.
+        /// </summary>
+        [YamlMember(Alias = "image")]
+        public string Image { get; set; }
+
+        /// <summary>
         /// Network ports.
         /// </summary>
         [YamlMember(Alias = "protocols")]
@@ -55,6 +62,6 @@ namespace Steeltoe.Tooling.Models
         /// Project service dependencies to be deployed.
         /// </summary>
         [YamlMember(Alias = "services")]
-        public List<Service> Services { get; }
+        public List<Service> Services { get; set; }
     }
 }
