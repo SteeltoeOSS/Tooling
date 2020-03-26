@@ -14,11 +14,7 @@
 
 using System.IO;
 using Microsoft.Extensions.Logging;
-<<<<<<< HEAD
 using Steeltoe.Tooling.Templates;
-=======
-using Steeltoe.Tooling.Templaters;
->>>>>>> Revamp of CLI for .0.7.0-rc1 release
 
 namespace Steeltoe.Tooling.Controllers
 {

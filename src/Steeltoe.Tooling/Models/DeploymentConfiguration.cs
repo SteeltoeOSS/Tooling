@@ -19,20 +19,12 @@ namespace Steeltoe.Tooling.Models
     /// <summary>
     /// A model of a Docker deployment.
     /// </summary>
-<<<<<<< HEAD:src/Steeltoe.Tooling/Models/DeploymentConfiguration.cs
     public class DeploymentConfiguration
-=======
-    public class Deployment
->>>>>>> Revamp of CLI for .0.7.0-rc1 release:src/Steeltoe.Tooling/Models/Deployment.cs
     {
         /// <summary>
         /// Deployment name.
         /// </summary>
-<<<<<<< HEAD:src/Steeltoe.Tooling/Models/DeploymentConfiguration.cs
         [YamlMember(Alias = "configuration")]
-=======
-        [YamlMember(Alias = "name")]
->>>>>>> Revamp of CLI for .0.7.0-rc1 release:src/Steeltoe.Tooling/Models/Deployment.cs
         public string Name { get; set; }
 
         /// <summary>
