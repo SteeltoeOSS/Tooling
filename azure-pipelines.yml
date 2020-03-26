@@ -6,7 +6,8 @@ variables:
   Solution: 'Tooling'
   ProductVersion: '0.7.0'
   PackageVersion: $[format('0.7.0-{0}', variables['Build.BuildId'])]
-  DotNetVersion: 3.1.x
+  DotNet2Version: 2.1.x
+  DotNet3Version: 3.1.x
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
@@ -16,10 +17,15 @@ jobs:
     vmImage: 'Ubuntu-16.04'
   steps:
   - task: UseDotNet@2
-    displayName: 'Setup DotNet $(DotNetVersion)'
+    displayName: 'Setup DotNet2 $(DotNet2Version)'
     inputs:
       packageType: sdk
-      version: $(DotNetVersion)
+      version: $(DotNet2Version)
+  - task: UseDotNet@2
+    displayName: 'Setup DotNet3 $(DotNet3Version)'
+    inputs:
+      packageType: sdk
+      version: $(DotNet3Version)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
@@ -36,10 +42,15 @@ jobs:
     vmImage: 'macOS-10.14'
   steps:
   - task: UseDotNet@2
-    displayName: 'Setup DotNet $(DotNetVersion)'
+    displayName: 'Setup DotNet2 $(DotNet2Version)'
     inputs:
       packageType: sdk
-      version: $(DotNetVersion)
+      version: $(DotNet2Version)
+  - task: UseDotNet@2
+    displayName: 'Setup DotNet3 $(DotNet3Version)'
+    inputs:
+      packageType: sdk
+      version: $(DotNet3Version)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
@@ -71,10 +82,15 @@ jobs:
       PackageVersion: $(PackageVersion)
     displayName: 'Version'
   - task: UseDotNet@2
-    displayName: 'Setup DotNet $(DotNetVersion)'
+    displayName: 'Setup DotNet2 $(DotNet2Version)'
     inputs:
       packageType: sdk
-      version: $(DotNetVersion)
+      version: $(DotNet2Version)
+  - task: UseDotNet@2
+    displayName: 'Setup DotNet3 $(DotNet3Version)'
+    inputs:
+      packageType: sdk
+      version: $(DotNet3Version)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
