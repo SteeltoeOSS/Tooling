@@ -69,7 +69,7 @@ namespace Steeltoe.Tooling.Models
                 File = Path.GetFileName(_projectFile)
             };
             project.Framework = GetFramework();
-            if (_context.Registry.Images.TryGetValue(project.Framework, out var image))
+            if (_context.Registry.DotnetImages.TryGetValue(project.Framework, out var image))
             {
                 project.Image = image;
             }
@@ -143,52 +143,30 @@ namespace Steeltoe.Tooling.Models
         private List<Service> GetServices()
         {
             List<Service> services = new List<Service>();
-            Dictionary<string, string> serviceNugets = new Dictionary<string, string>();
-            serviceNugets["Pivotal.GemFire"] = "gemfire";
-            serviceNugets["Microsoft.EntityFrameworkCore.SqlServer"] = "mssql";
-            serviceNugets["MySql.Data"] = "mysql";
-            serviceNugets["Pomelo.EntityFrameworkCore.MySql"] = "mysql";
-            serviceNugets["Npgsql"] = "pgsql";
-            serviceNugets["Npgsql.EntityFrameworkCore.PostgreSQL"] = "pgsql";
-            serviceNugets["RabbitMQ.Client"] = "rabbitmq";
-            serviceNugets["Microsoft.Extensions.Caching.StackExchangeRedis"] = "redis";
-            foreach (var serviceNuget in serviceNugets.Keys)
+            foreach (var svcspec in _context.Registry.ServiceSpecifications)
             {
-                var xpath = $"/Project/ItemGroup/PackageReference[@Include='{serviceNuget}']";
-                if (_projectDoc.SelectNodes(xpath).Count == 0)
+                foreach (var nuget in svcspec.NuGets)
                 {
-                    xpath = $"/Project/ItemGroup/Reference[@Include='{serviceNuget}']";
+                    var xpath = $"/Project/ItemGroup/PackageReference[@Include='{nuget}']";
                     if (_projectDoc.SelectNodes(xpath).Count == 0)
                     {
-                        continue;
+                        xpath = $"/Project/ItemGroup/Reference[@Include='{nuget}']";
+                        if (_projectDoc.SelectNodes(xpath).Count == 0)
+                        {
+                            continue;
+                        }
                     }
-                }
 
-                var serviceName = serviceNugets[serviceNuget];
-                var service = new Service()
-                {
-                    Name = serviceName,
-                    Type = serviceName
-                };
-                if (_context.Registry.Images.TryGetValue(service.Name, out var image))
-                {
-                    service.Image = image;
-                }
-                else
-                {
-                    throw new ToolingException($"no image for service: {service.Name}");
-                }
+                    var service = new Service()
+                    {
+                        Name = svcspec.Type,
+                        Type = svcspec.Type,
+                        Image = svcspec.Image,
+                        Port = svcspec.Port
+                    };
 
-                if (_context.Registry.Ports.TryGetValue(service.Name, out var port))
-                {
-                    service.Port = port;
+                    services.Add(service);
                 }
-                else
-                {
-                    throw new ToolingException($"no port for service: {service.Name}");
-                }
-
-                services.Add(service);
             }
 
             if (services.Count == 0)

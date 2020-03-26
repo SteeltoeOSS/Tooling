@@ -42,7 +42,7 @@ namespace Steeltoe.Tooling.Controllers
         protected override void Execute()
         {
             var deployment = GetDeployment();
-            if (!Context.Registry.Images.TryGetValue(deployment.Project.Framework, out var image))
+            if (!Context.Registry.DotnetImages.TryGetValue(deployment.Project.Framework, out var image))
             {
                 throw new ToolingException($"no image for framework: {deployment.Project.Framework}");
             }
