@@ -62,7 +62,7 @@ namespace Steeltoe.Cli.Test
                     "project:",
                     "name: show",
                     "file: show.csproj",
-                    "framework: netcoreapp3.1",
+                    "*",
                     "image: mcr.microsoft.com/dotnet/core/sdk:3.1",
                     "protocols:",
                     "- name: http",
