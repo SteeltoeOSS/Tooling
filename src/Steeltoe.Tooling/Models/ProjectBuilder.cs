@@ -28,17 +28,11 @@ namespace Steeltoe.Tooling.Models
     public class ProjectBuilder
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ProjectBuilder>();
-        private static readonly List<Protocol> DefaultProtocols = new List<Protocol>();
 
         private Context _context;
         private readonly string _projectFile;
         private readonly string _launchSettingsFile;
         private XmlDocument _projectDoc;
-
-        static ProjectBuilder()
-        {
-            DefaultProtocols.Add(new Protocol("http", 8080));
-        }
 
         /// <summary>
         /// Project file.
@@ -108,35 +102,40 @@ namespace Steeltoe.Tooling.Models
 
         private List<Protocol> GetProtocols()
         {
-            if (!File.Exists(_launchSettingsFile))
+            var protocols = new List<Protocol>();
+            if (File.Exists(_launchSettingsFile))
             {
-                return DefaultProtocols;
+                Logger.LogDebug($"loading launch settings: {_launchSettingsFile}");
+                var yaml = new YamlStream();
+                using (var reader = new StreamReader(_launchSettingsFile))
+                {
+                    yaml.Load(reader);
+                }
+
+                var root = (YamlMappingNode) yaml.Documents[0].RootNode;
+                var profiles = (YamlMappingNode) root.Children[new YamlScalarNode("profiles")];
+                foreach (var entry in profiles.Children)
+                {
+                    var profile = (YamlMappingNode) entry.Value;
+                    if (profile.Children.ContainsKey(new YamlScalarNode("applicationUrl")))
+                    {
+                        var urlSpec = profile.Children[new YamlScalarNode("applicationUrl")];
+                        var urls = $"{urlSpec}".Split(';');
+                        foreach (var url in urls)
+                        {
+                            var uri = new Uri(url);
+                            protocols.Add(new Protocol(uri.Scheme, uri.Port));
+                        }
+                    }
+                }
             }
 
-            Logger.LogDebug($"loading launch settings: {_launchSettingsFile}");
-            var yaml = new YamlStream();
-            using (var reader = new StreamReader(_launchSettingsFile))
+            // ensure a default protocol
+            if (protocols.Count == 0)
             {
-                yaml.Load(reader);
+                protocols.Add(new Protocol("http", 8080));
             }
 
-            var root = (YamlMappingNode) yaml.Documents[0].RootNode;
-            var profiles = (YamlMappingNode) root.Children[new YamlScalarNode("profiles")];
-            var profile =
-                (YamlMappingNode) profiles.Children[new YamlScalarNode(Path.GetFileNameWithoutExtension(_projectFile))];
-            if (!profile.Children.ContainsKey(new YamlScalarNode("applicationUrl")))
-            {
-                return DefaultProtocols;
-            }
-
-            var urlSpec = profile.Children[new YamlScalarNode("applicationUrl")];
-            var urls = $"{urlSpec}".Split(';');
-            if (urls.Length == 0)
-            {
-                return DefaultProtocols;
-            }
-
-            var protocols = urls.Select(url => new Uri(url)).Select(uri => new Protocol(uri.Scheme, uri.Port)).ToList();
             protocols.Sort();
             return protocols;
         }
