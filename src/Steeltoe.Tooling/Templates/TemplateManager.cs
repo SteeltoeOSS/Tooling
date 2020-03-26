@@ -17,7 +17,7 @@ using System.IO;
 using System.Reflection;
 using Antlr4.StringTemplate;
 
-namespace Steeltoe.Tooling.Templaters
+namespace Steeltoe.Tooling.Templates
 {
     /// <summary>
     /// Acts as a facade for template implementations.

@@ -14,7 +14,7 @@
 
 using System.IO;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Tooling.Templaters;
+using Steeltoe.Tooling.Templates;
 
 namespace Steeltoe.Tooling.Controllers
 {

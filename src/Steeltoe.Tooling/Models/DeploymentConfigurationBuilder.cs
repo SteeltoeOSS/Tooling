@@ -17,31 +17,32 @@ using System.IO;
 namespace Steeltoe.Tooling.Models
 {
     /// <summary>
-    /// Helper for building a Deployment.
+    /// Helper for building a deployment configuration.
     /// </summary>
-    public class DeploymentBuilder
+    public class DeploymentConfigurationBuilder
     {
         private readonly Context _context;
 
         /// <summary>
-        /// Create a DocumentBuilder for the specified directory.
+        /// Create a DeploymentConfigurationBuilder for the specified directory.
         /// </summary>
-        public DeploymentBuilder(Context context)
+        public DeploymentConfigurationBuilder(Context context)
         {
             _context = context;
         }
 
         /// <summary>
-        /// Returns a deployment for the specified directory.
+        /// Returns a deployment configuration.
         /// </summary>
-        /// <returns>deployment model</returns>
-        public Deployment BuildDeployment()
+        /// <returns>deployment configuration model</returns>
+        public DeploymentConfiguration BuildDeployment()
         {
             var name = Path.GetFileName(_context.WorkingDirectory);
-            var deployment = new Deployment
+            var deployment = new DeploymentConfiguration
             {
                 Name = name,
-                Project = new ProjectBuilder(_context, Path.Join(_context.WorkingDirectory, $"{name}.csproj")).BuildProject()
+                Project = new ProjectBuilder(_context, Path.Join(_context.WorkingDirectory, $"{name}.csproj"))
+                    .BuildProject()
             };
             return deployment;
         }

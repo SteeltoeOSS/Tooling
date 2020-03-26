@@ -19,12 +19,12 @@ namespace Steeltoe.Tooling.Models
     /// <summary>
     /// A model of a Docker deployment.
     /// </summary>
-    public class Deployment
+    public class DeploymentConfiguration
     {
         /// <summary>
         /// Deployment name.
         /// </summary>
-        [YamlMember(Alias = "name")]
+        [YamlMember(Alias = "configuration")]
         public string Name { get; set; }
 
         /// <summary>

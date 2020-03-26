@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using Steeltoe.Tooling.Models;
 
 namespace Steeltoe.Tooling.Controllers
@@ -47,9 +46,9 @@ namespace Steeltoe.Tooling.Controllers
         /// Returns the project.
         /// </summary>
         /// <returns>The project.</returns>
-        protected Deployment GetDeployment()
+        protected DeploymentConfiguration GetDeployment()
         {
-            return new DeploymentBuilder(Context).BuildDeployment();
+            return new DeploymentConfigurationBuilder(Context).BuildDeployment();
         }
     }
 }
