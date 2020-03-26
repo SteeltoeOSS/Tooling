@@ -21,6 +21,11 @@ namespace Steeltoe.Tooling
         public Dictionary<string, string> Images { get; private set; }
 
         /// <summary>
+        /// Service ports.
+        /// </summary>
+        public Dictionary<string, int> Ports { get; private set; }
+
+        /// <summary>
         /// Load the registry from the specified directory.
         /// </summary>
         /// <param name="directory"></param>
@@ -31,6 +36,10 @@ namespace Steeltoe.Tooling
             using (var reader = new StreamReader(Path.Join(directory, "images.yml")))
             {
                 Images = deserializer.Deserialize<Dictionary<string, string>>(reader);
+            }
+            using (var reader = new StreamReader(Path.Join(directory, "ports.yml")))
+            {
+                Ports = deserializer.Deserialize<Dictionary<string, int>>(reader);
             }
         }
     }

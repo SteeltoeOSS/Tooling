@@ -28,8 +28,12 @@ namespace Steeltoe.Tooling.Models
     public class ProjectBuilder
     {
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ProjectBuilder>();
-
         private static readonly List<Protocol> DefaultProtocols = new List<Protocol>();
+
+        private Context _context;
+        private readonly string _projectFile;
+        private readonly string _launchSettingsFile;
+        private XmlDocument _projectDoc;
 
         static ProjectBuilder()
         {
@@ -42,38 +46,58 @@ namespace Steeltoe.Tooling.Models
         public string ProjectFile { get; set; }
 
         /// <summary>
+        /// Create a ProjectBuilder for the specified project file.
+        /// </summary>
+        public ProjectBuilder(Context context, string projectFile)
+        {
+            _context = context;
+            _projectFile = projectFile;
+            _launchSettingsFile = Path.Join(Path.GetDirectoryName(projectFile), "Properties", "launchSettings.json");
+        }
+
+        /// <summary>
         /// Returns a Project representation of the ProjectFile.
         /// </summary>
         /// <returns>project model</returns>
-        public Project BuildProject(string projectFile)
+        public Project BuildProject()
         {
-            Logger.LogDebug($"loading project file: {projectFile}");
-            if (!File.Exists(projectFile))
+            Logger.LogDebug($"loading project file: {_projectFile}");
+            if (!File.Exists(_projectFile))
             {
-                throw new ToolingException($"project file not found: {projectFile}");
+                throw new ToolingException($"project file not found: {_projectFile}");
             }
 
+            _projectDoc = new XmlDocument();
+            _projectDoc.Load(_projectFile);
             var project = new Project
             {
-                Name = Path.GetFileNameWithoutExtension(projectFile),
-                File = Path.GetFileName(projectFile),
-                Framework = GetFramework(projectFile),
-                Protocols = GetProtocols(projectFile)
+                Name = Path.GetFileNameWithoutExtension(_projectFile),
+                File = Path.GetFileName(_projectFile)
             };
+            project.Framework = GetFramework();
+            if (_context.Registry.Images.TryGetValue(project.Framework, out var image))
+            {
+                project.Image = image;
+            }
+            else
+            {
+                throw new ToolingException($"no image for framework: {project.Framework}");
+            }
+
+            project.Protocols = GetProtocols();
+            project.Services = GetServices();
             return project;
         }
 
-        private string GetFramework(string projectFile)
+        private string GetFramework()
         {
-            XmlDocument projectDoc = new XmlDocument();
-            projectDoc.Load(projectFile);
-            XmlNodeList nodes = projectDoc.SelectNodes("/Project/PropertyGroup/TargetFramework");
+            XmlNodeList nodes = _projectDoc.SelectNodes("/Project/PropertyGroup/TargetFramework");
             if (nodes.Count > 0)
             {
                 return nodes[0].InnerText;
             }
 
-            nodes = projectDoc.SelectNodes("/Project/PropertyGroup/TargetFrameworks");
+            nodes = _projectDoc.SelectNodes("/Project/PropertyGroup/TargetFrameworks");
             if (nodes.Count > 0)
             {
                 return nodes[0].InnerText.Split(';')[0];
@@ -82,18 +106,16 @@ namespace Steeltoe.Tooling.Models
             throw new ToolingException("could not determine framework");
         }
 
-        private List<Protocol> GetProtocols(string projectFile)
+        private List<Protocol> GetProtocols()
         {
-            var launchSettingsPath =
-                Path.Join(Path.GetDirectoryName(projectFile), "Properties", "launchSettings.json");
-            if (!File.Exists(launchSettingsPath))
+            if (!File.Exists(_launchSettingsFile))
             {
                 return DefaultProtocols;
             }
 
-            Logger.LogDebug($"loading launch settings: {launchSettingsPath}");
+            Logger.LogDebug($"loading launch settings: {_launchSettingsFile}");
             var yaml = new YamlStream();
-            using (var reader = new StreamReader(launchSettingsPath))
+            using (var reader = new StreamReader(_launchSettingsFile))
             {
                 yaml.Load(reader);
             }
@@ -101,7 +123,7 @@ namespace Steeltoe.Tooling.Models
             var root = (YamlMappingNode) yaml.Documents[0].RootNode;
             var profiles = (YamlMappingNode) root.Children[new YamlScalarNode("profiles")];
             var profile =
-                (YamlMappingNode) profiles.Children[new YamlScalarNode(Path.GetFileNameWithoutExtension(projectFile))];
+                (YamlMappingNode) profiles.Children[new YamlScalarNode(Path.GetFileNameWithoutExtension(_projectFile))];
             if (!profile.Children.ContainsKey(new YamlScalarNode("applicationUrl")))
             {
                 return DefaultProtocols;
@@ -117,6 +139,65 @@ namespace Steeltoe.Tooling.Models
             var protocols = urls.Select(url => new Uri(url)).Select(uri => new Protocol(uri.Scheme, uri.Port)).ToList();
             protocols.Sort();
             return protocols;
+        }
+
+        private List<Service> GetServices()
+        {
+            List<Service> services = new List<Service>();
+            Dictionary<string, string> serviceNugets = new Dictionary<string, string>();
+            serviceNugets["Pivotal.GemFire"] = "gemfire";
+            serviceNugets["Microsoft.EntityFrameworkCore.SqlServer"] = "mssql";
+            serviceNugets["MySql.Data"] = "mysql";
+            serviceNugets["Pomelo.EntityFrameworkCore.MySql"] = "mysql";
+            serviceNugets["Npgsql"] = "pgsql";
+            serviceNugets["Npgsql.EntityFrameworkCore.PostgreSQL"] = "pgsql";
+            serviceNugets["RabbitMQ.Client"] = "rabbitmq";
+            serviceNugets["Microsoft.Extensions.Caching.StackExchangeRedis"] = "redis";
+            foreach (var serviceNuget in serviceNugets.Keys)
+            {
+                var xpath = $"/Project/ItemGroup/PackageReference[@Include='{serviceNuget}']";
+                if (_projectDoc.SelectNodes(xpath).Count == 0)
+                {
+                    xpath = $"/Project/ItemGroup/Reference[@Include='{serviceNuget}']";
+                    if (_projectDoc.SelectNodes(xpath).Count == 0)
+                    {
+                        continue;
+                    }
+                }
+
+                var serviceName = serviceNugets[serviceNuget];
+                var service = new Service()
+                {
+                    Name = serviceName,
+                    Type = serviceName
+                };
+                if (_context.Registry.Images.TryGetValue(service.Name, out var image))
+                {
+                    service.Image = image;
+                }
+                else
+                {
+                    throw new ToolingException($"no image for service: {service.Name}");
+                }
+
+                if (_context.Registry.Ports.TryGetValue(service.Name, out var port))
+                {
+                    service.Port = port;
+                }
+                else
+                {
+                    throw new ToolingException($"no port for service: {service.Name}");
+                }
+
+                services.Add(service);
+            }
+
+            if (services.Count == 0)
+            {
+                return null;
+            }
+
+            return services;
         }
     }
 }
