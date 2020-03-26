@@ -160,7 +160,6 @@ namespace Steeltoe.Tooling.Models
                     var service = new Service()
                     {
                         Name = svcspec.Type,
-                        Type = svcspec.Type,
                         Image = svcspec.Image,
                         Port = svcspec.Port
                     };

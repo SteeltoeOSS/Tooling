@@ -34,21 +34,15 @@ namespace Steeltoe.Tooling.Models
         private string _name;
 
         /// <summary>
-        /// Service type.
+        /// Docker image.
         /// </summary>
-        [YamlMember(Alias = "type")]
-        public string Type { get; set; }
+        [YamlMember(Alias = "image")]
+        public string Image { get; set; }
 
         /// <summary>
         /// Service port.
         /// </summary>
         [YamlMember(Alias = "port")]
         public int Port { get; set; }
-
-        /// <summary>
-        /// Docker image.
-        /// </summary>
-        [YamlMember(Alias = "image")]
-        public string Image { get; set; }
     }
 }
