@@ -4,8 +4,8 @@ trigger:
 
 variables:
   Solution: 'Tooling'
-  ProductVersion: '0.5.0'
-  PackageVersion: $[format('0.5.0-{0}', variables['Build.BuildId'])]
+  ProductVersion: '0.7.0'
+  PackageVersion: $[format('0.7.0-{0}', variables['Build.BuildId'])]
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
