@@ -12,21 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Steeltoe.Tooling.Controllers
+using System.IO;
+
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
-    /// Controls the "stop" operation.
+    /// Helper for building a Deployment.
     /// </summary>
-    public class StopController : Controller
+    public class DeploymentBuilder
     {
         /// <summary>
-        /// Stops the project in the local Docker environment.
+        /// Returns a deployment for the specified directory.
         /// </summary>
-        protected override void Execute()
+        /// <returns>deployment model</returns>
+        public Deployment BuildDeployment(string directory)
         {
-            var project = GetDeployment().Project;
-            var cli = new Cli("docker-compose", Context.Shell);
-            cli.Run("down", $"stopping '{project.Name}' in Docker");
+            var name = Path.GetFileName(directory);
+            var deployment = new Deployment
+            {
+                Name = name,
+                Project = new ProjectBuilder().BuildProject(Path.Join(directory, $"{name}.csproj"))
+            };
+            return deployment;
         }
     }
 }

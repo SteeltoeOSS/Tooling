@@ -3,6 +3,6 @@ services:
   <project.Name>:
     build: .
     ports:
-      <project.Services: {svc|- "<svc.Port>:<svc.Port>"}; separator="\n">
+      <project.Protocols: {protocol |- "<protocol.Port>:<protocol.Port>"}; separator="\n">
     volumes:
       - .:/<project.Name>

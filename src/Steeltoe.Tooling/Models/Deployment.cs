@@ -12,21 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Steeltoe.Tooling.Controllers
+using YamlDotNet.Serialization;
+
+namespace Steeltoe.Tooling.Models
 {
     /// <summary>
-    /// Controls the "stop" operation.
+    /// A model of a Docker deployment.
     /// </summary>
-    public class StopController : Controller
+    public class Deployment
     {
         /// <summary>
-        /// Stops the project in the local Docker environment.
+        /// Deployment name.
         /// </summary>
-        protected override void Execute()
-        {
-            var project = GetDeployment().Project;
-            var cli = new Cli("docker-compose", Context.Shell);
-            cli.Run("down", $"stopping '{project.Name}' in Docker");
-        }
+        [YamlMember(Alias = "name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Project to be deployed.
+        /// </summary>
+        [YamlMember(Alias = "project")]
+        public Project Project { get; set; }
     }
 }

@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-using Steeltoe.Tooling.Models;
 using YamlDotNet.Serialization;
 
 namespace Steeltoe.Tooling.Controllers
@@ -35,11 +33,8 @@ namespace Steeltoe.Tooling.Controllers
         /// </summary>
         protected override void Execute()
         {
-            Dictionary<string, Project> projects = new Dictionary<string, Project>();
-            var project = GetProject();
-            projects.Add(project.Name, project);
             var serializer = new SerializerBuilder().Build();
-            Context.Console.WriteLine(serializer.Serialize(projects));
+            Context.Console.WriteLine(serializer.Serialize(GetDeployment()));
         }
     }
 }

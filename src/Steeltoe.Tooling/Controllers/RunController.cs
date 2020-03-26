@@ -41,10 +41,10 @@ namespace Steeltoe.Tooling.Controllers
         /// </summary>
         protected override void Execute()
         {
-            var project = GetProject();
-            if (!Context.Registry.Images.TryGetValue(project.Framework, out var image))
+            var deployment = GetDeployment();
+            if (!Context.Registry.Images.TryGetValue(deployment.Project.Framework, out var image))
             {
-                throw new ToolingException($"no image for framework: {project.Framework}");
+                throw new ToolingException($"no image for framework: {deployment.Project.Framework}");
             }
 
             var files = new string[] {"Dockerfile", "docker-compose.yml"};
@@ -52,14 +52,14 @@ namespace Steeltoe.Tooling.Controllers
             {
                 Logger.LogDebug($"writing {file}");
                 var template = TemplateManager.GetTemplate($"{file}.st");
-                template.Bind("project", project);
+                template.Bind("project", deployment.Project);
                 template.Bind("image", image);
                 File.WriteAllText(file, template.Render());
             }
 
             if (!_runInDocker) return;
             var cli = new Cli("docker-compose", Context.Shell);
-            cli.Run("up --build", $"running '{project.Name}' in Docker");
+            cli.Run("up --build", $"running '{deployment.Project.Name}' in Docker");
         }
     }
 }
