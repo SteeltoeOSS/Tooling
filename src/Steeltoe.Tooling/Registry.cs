@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling.Controllers;
+using Steeltoe.Tooling.Models;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NodeDeserializers;
 
@@ -16,14 +17,14 @@ namespace Steeltoe.Tooling
         private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<Registry>();
 
         /// <summary>
-        /// Docker images for frameworks and services.
+        /// Docker images for dotnet SDKs.
         /// </summary>
-        public Dictionary<string, string> Images { get; private set; }
+        public Dictionary<string, string> DotnetImages { get; private set; }
 
         /// <summary>
-        /// Service ports.
+        /// Services.
         /// </summary>
-        public Dictionary<string, int> Ports { get; private set; }
+        public List<ServiceSpecification> ServiceSpecifications { get; private set; }
 
         /// <summary>
         /// Load the registry from the specified directory.
@@ -33,13 +34,13 @@ namespace Steeltoe.Tooling
         {
             Logger.LogDebug($"loading registry: {directory}");
             var deserializer = new DeserializerBuilder().Build();
-            using (var reader = new StreamReader(Path.Join(directory, "images.yml")))
+            using (var reader = new StreamReader(Path.Join(directory, "dotnet.yml")))
             {
-                Images = deserializer.Deserialize<Dictionary<string, string>>(reader);
+                DotnetImages = deserializer.Deserialize<Dictionary<string, string>>(reader);
             }
-            using (var reader = new StreamReader(Path.Join(directory, "ports.yml")))
+            using (var reader = new StreamReader(Path.Join(directory, "dependencies.yml")))
             {
-                Ports = deserializer.Deserialize<Dictionary<string, int>>(reader);
+                ServiceSpecifications = deserializer.Deserialize<List<ServiceSpecification>>(reader);
             }
         }
     }

@@ -1,5 +1,0 @@
-mssql: 1433
-mysql: 3306
-pgsql: 5432
-rabbitmq: 5672
-redis: 5672
