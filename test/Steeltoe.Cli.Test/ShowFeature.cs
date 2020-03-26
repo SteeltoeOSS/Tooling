@@ -54,6 +54,7 @@ namespace Steeltoe.Cli.Test
         public void Show()
         {
             Runner.RunScenario(
+<<<<<<< HEAD
                 given => a_dotnet31_project("show"),
                 when => the_developer_runs_cli_command("show"),
                 then => the_cli_should_output(new[]
@@ -64,6 +65,15 @@ namespace Steeltoe.Cli.Test
                     "file: show.csproj",
                     "framework: netcoreapp3.1",
                     "image: mcr.microsoft.com/dotnet/core/sdk:3.1",
+=======
+                given => a_dotnet_project("show"),
+                when => the_developer_runs_cli_command("show"),
+                then => the_cli_should_output(new[]
+                {
+                    "show:",
+                    "file: show.csproj",
+                    "framework: netcoreapp3.1",
+>>>>>>> Revamp of CLI for .0.7.0-rc1 release
                     "protocols:",
                     "- name: http",
                     "port: 5000",

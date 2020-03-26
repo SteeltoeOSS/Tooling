@@ -22,7 +22,11 @@
     - RabbitMQ.Client
 - type: redis
   image: steeltoeoss/redis-amd64-linux:4.0.11
+<<<<<<< HEAD
   port: 6379
+=======
+  port: 5672
+>>>>>>> Revamp of CLI for .0.7.0-rc1 release
   nugets:
     - Microsoft.Extensions.Caching.Redis
     - Microsoft.Extensions.Caching.StackExchangeRedis

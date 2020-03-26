@@ -15,6 +15,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+<<<<<<< HEAD
+=======
+using System.Linq;
+>>>>>>> Revamp of CLI for .0.7.0-rc1 release
 using System.Xml;
 using Microsoft.Extensions.Logging;
 using YamlDotNet.RepresentationModel;

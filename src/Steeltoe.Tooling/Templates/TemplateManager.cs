@@ -17,7 +17,11 @@ using System.IO;
 using System.Reflection;
 using Antlr4.StringTemplate;
 
+<<<<<<< HEAD
 namespace Steeltoe.Tooling.Templates
+=======
+namespace Steeltoe.Tooling.Templaters
+>>>>>>> Revamp of CLI for .0.7.0-rc1 release
 {
     /// <summary>
     /// Acts as a facade for template implementations.
