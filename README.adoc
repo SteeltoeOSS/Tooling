@@ -13,7 +13,7 @@ image:{uri-build-status}["Build Status", link={uri-build}]
 Tools for Steeltoe Developers.
 
 The goal of this project is to provide tools to assist Steeltoe Developers.
-The current focus is an API and CLI to help with deploying Steeltoe Applications and dependent services to Cloud Foundry and Docker.
+The current focus is an API and CLI to help with deploying Steeltoe Applications locally to Docker.
 
 Subsequent goals include:
 
@@ -21,94 +21,15 @@ Subsequent goals include:
 * plugins for other IDES, such as Visual Studio Code and JetBrains Riser
 * Visual Studio/DotNET templates
 
-== Quick Start
-
-In this Quick Start, you'll install the Steeloe Tooling CLI and use it to deploy a sample SteeltoeOSS project to Docker.
+== Install
 
 .install Steeltoe Tooling CLI and check version
 ----
-$ dotnet tool install --global --version 1.0.0-m1 Steeltoe.Cli
+$ dotnet tool install -g Steeltoe.Cli --version 0.7.0-1904 --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json
 $ st --version
-1.0.0-m1
-----
-
-.checkout Steeltoe Samples and navigate to the SimpleCloudFoundry project
-----
-$ git clone https://github.com/SteeltoeOSS/Samples.git
-$ cd Samples/Configuration/src/AspDotNetCore/SimpleCloudFoundry
-----
-
-.add Steeltoe Tooling to project
-----
-$ st init
-Initialized Steeltoe Developer Tools
-----
-
-.add application and config-server to deployment configuration
-----
-$ st add config-server myConfigServer
-Added config-server service 'myConfigServer'
-
-$ st add app SimpleCloudFoundry
-Added app 'SimpleCloudFoundry'
-----
-
-.target Docker for deployment
-----
-$ st target docker
-Docker ... Docker version 18.09.1, build 4c52b90
-Docker host OS ... Docker for Mac
-Docker container OS ... linux
-Target set to 'docker'
-----
-
-.deploy
-----
-$ st deploy
-Deploying service 'myConfigServer'
-Deploying app 'SimpleCloudFoundry'
-----
-
-.check status, then navigate to application
-----
-$ st status
-myConfigServer online
-SimpleCloudFoundry online
-----
-
-Open http://localhost:8080/
-
-.undeploy
-----
-$ st undeploy
-Undeploying app 'SimpleCloudFoundry'
-Undeploying service 'myConfigServer'
-----
-
-.deploy to Cloud Foundry
-----
-$ st target cloud-foundry
-Cloud Foundry ... cf version 6.46.0+29d6257f1.2019-07-09
-logged into Cloud Foundry ... yes
-Target set to 'cloud-foundry'
-
-$ st deploy
-...
-----
-
-.deploy to Kubernetes
-----
-$ eval $(minikube docker-env)  # if using minikube's Docker
-
-$ st target kubernetes
-Kubernetes ... kubectl client version 1.15, server version 1.15
-current context ... minikube
-Target set to 'kubernetes'
-
-$ st deploy
-...
+0.7.0 (build 1904 -> https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/results?buildId=1904)
 ----
 
 == Further Reading
 
-See link:docs/[Steeltoe Tooling Documentation] for more user and developer information.
+See https://dev.steeltoe.io/docs/3/developer-tools/cli/[Steeltoe Tooling Documentation] for more user and developer information.
