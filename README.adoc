@@ -23,7 +23,7 @@ Subsequent goals include:
 
 == Install
 
-.install Steeltoe Tooling CLI and check version
+.Install Steeltoe Tooling CLI and check version
 ----
 $ dotnet tool install -g Steeltoe.Cli --version 0.7.0-1904 --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json
 $ st --version
