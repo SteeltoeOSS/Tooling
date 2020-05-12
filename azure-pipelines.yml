@@ -4,23 +4,29 @@ trigger:
 - refs/tags/*
 
 variables:
-- group: '.NET Foundation'
-- name: Solution
-  value: 'Tooling'
-- name: ProductVersion
-  value: '0.5.0'
-- name: PackageVersion
-  value: $[format('0.5.0-{0}', variables['Build.BuildId'])]
-- name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
-  value: true
-- name: DOTNET_CLI_TELEMETRY_OPTOUT
-  value: 1
+  Solution: 'Tooling'
+  ProductVersion: '0.7.0'
+  PackageVersion: $[format('0.7.0-{0}', variables['Build.BuildId'])]
+  DotNet2Version: 2.1.x
+  DotNet3Version: 3.1.x
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 jobs:
 - job: 'Linux'
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
+  - task: UseDotNet@2
+    displayName: 'Setup DotNet2 $(DotNet2Version)'
+    inputs:
+      packageType: sdk
+      version: $(DotNet2Version)
+  - task: UseDotNet@2
+    displayName: 'Setup DotNet3 $(DotNet3Version)'
+    inputs:
+      packageType: sdk
+      version: $(DotNet3Version)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
@@ -36,6 +42,16 @@ jobs:
   pool:
     vmImage: 'macOS-10.14'
   steps:
+  - task: UseDotNet@2
+    displayName: 'Setup DotNet2 $(DotNet2Version)'
+    inputs:
+      packageType: sdk
+      version: $(DotNet2Version)
+  - task: UseDotNet@2
+    displayName: 'Setup DotNet3 $(DotNet3Version)'
+    inputs:
+      packageType: sdk
+      version: $(DotNet3Version)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:
@@ -66,6 +82,16 @@ jobs:
     env:
       PackageVersion: $(PackageVersion)
     displayName: 'Version'
+  - task: UseDotNet@2
+    displayName: 'Setup DotNet2 $(DotNet2Version)'
+    inputs:
+      packageType: sdk
+      version: $(DotNet2Version)
+  - task: UseDotNet@2
+    displayName: 'Setup DotNet3 $(DotNet3Version)'
+    inputs:
+      packageType: sdk
+      version: $(DotNet3Version)
   - task: 'DotNetCoreCLI@2'
     displayName: 'Build'
     inputs:

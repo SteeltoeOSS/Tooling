@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+﻿// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -87,7 +87,6 @@ namespace Steeltoe.Cli
 
         private static void OutputToConsole(string output)
         {
-            if (!Settings.VerboseEnabled) return;
             var oldFg = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.Out.WriteLine(output);

@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +13,12 @@
 // limitations under the License.
 
 using System;
+using System.IO;
+using System.Reflection;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Tooling;
-using Steeltoe.Tooling.Executors;
+using Steeltoe.Tooling.Controllers;
 
 namespace Steeltoe.Cli
 {
@@ -35,29 +37,18 @@ namespace Steeltoe.Cli
         {
             try
             {
-                Logger.LogDebug($"tooling working directory: {app.WorkingDirectory}");
-                var cfgFilePath = Program.ProjectConfigurationPath ?? app.WorkingDirectory;
-
-                Configuration cfg;
-                var cfgFile = new ConfigurationFile(cfgFilePath);
-                if (cfgFile.Exists())
+                Logger.LogDebug($"working directory: {app.WorkingDirectory}");
+                var context = new Context
                 {
-                    cfg = cfgFile.Configuration;
-                    Logger.LogDebug($"tooling configuration file: {cfgFile.File}");
-                }
-                else
-                {
-                    cfg = null;
-                    Logger.LogDebug($"tooling configuration file not found: {cfgFile.File}");
-                }
-
-                var context = new Context(
-                    app.WorkingDirectory,
-                    cfg,
-                    _console.Out,
-                    new CommandShell()
-                );
-                GetExecutor().Execute(context);
+                    WorkingDirectory = app.WorkingDirectory,
+                    Console = _console.Out,
+                    Shell = new CommandShell(),
+                    Registry = new Registry()
+                };
+                context.Registry.Load(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    "steeltoe.rc",
+                    "registry"));
+                GetController().Execute(context);
                 return 0;
             }
             catch (ArgumentException e)
@@ -86,6 +77,6 @@ namespace Steeltoe.Cli
             }
         }
 
-        protected abstract Executor GetExecutor();
+        protected abstract Controller GetController();
     }
 }

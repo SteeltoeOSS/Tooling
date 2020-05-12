@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\config\versions.props" />
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;netcoreapp2.1</TargetFrameworks>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
@@ -16,9 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Steeltoe.Tooling\Steeltoe.Tooling.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Drivers" />
   </ItemGroup>
   <Target Name="SpicNSpan" AfterTargets="Clean">
     <RemoveDir Directories="$(BaseOutputPath)" />

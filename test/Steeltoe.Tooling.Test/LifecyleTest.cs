@@ -1,4 +1,4 @@
-// Copyright 2018 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,66 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Shouldly;
-using Xunit;
-
 namespace Steeltoe.Tooling.Test
 {
     public class LifecyleTest : ToolingTest
     {
-        [Fact]
-        public void TestAppStateMachine()
-        {
-            Context.Configuration.AddApp("my-app", "dummy-framework", "dummy-runtime");
-            var lifecycle = new Lifecycle(Context, "my-app");
-
-            // start state -> offline
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
-
-            // offline -> undeploy -> offline
-            lifecycle.Undeploy();
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
-
-            // offline -> deploy -> online
-            lifecycle.Deploy();
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Online);
-
-            // online -> deploy -> online
-            lifecycle.Deploy();
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Online);
-
-            // online -> undeploy -> offline
-            lifecycle.Undeploy();
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
-        }
-
-        [Fact]
-        public void TestServiceStateMachine()
-        {
-            Context.Configuration.AddService("my-service", "dummy-svc");
-            var lifecycle = new Lifecycle(Context, "my-service");
-
-            // start state -> offline
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
-
-            // offline -> undeploy -> offline
-            lifecycle.Undeploy();
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
-
-            // offline -> deploy -> starting -> online
-            lifecycle.Deploy();
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Starting);
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Online);
-
-            // online -> deploy -> online
-            lifecycle.Deploy();
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Online);
-
-            // online -> undeploy -> stopping -> offline
-            lifecycle.Undeploy();
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Stopping);
-            lifecycle.GetStatus().ShouldBe(Lifecycle.Status.Offline);
-        }
-
     }
 }

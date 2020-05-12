@@ -1,4 +1,4 @@
-﻿// Copyright 2018 the original author or authors.
+﻿// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,60 +22,23 @@ namespace Steeltoe.Tooling
     public class Context
     {
         /// <summary>
-        /// Steeltoe Tooling project directory.
+        /// Steeltoe Tooling working directory.
         /// </summary>
-        public string ProjectDirectory { get; }
-
-        /// <summary>
-        /// Steeltoe Tooling configuration.
-        /// </summary>
-        public Configuration Configuration { get; set; }
+        public string WorkingDirectory { get; set; }
 
         /// <summary>
         /// Steeltoe Tooling console.  Typically the console is used to display messages to the user.
         /// </summary>
-        public TextWriter Console { get; }
+        public TextWriter Console { get; set; }
 
         /// <summary>
         /// Shell which which to run system commands.
         /// </summary>
-        public Shell Shell { get; }
+        public Shell Shell { get; set; }
 
         /// <summary>
-        /// Steeltoe Tooling deployment target.
+        /// Tooling registry.
         /// </summary>
-        /// <exception cref="ToolingException">Throw if the target has not been set.</exception>
-        public Target Target
-        {
-            get
-            {
-                if (Configuration?.Target == null)
-                {
-                    throw new ToolingException("Target not set");
-                }
-
-                return Registry.GetTarget(Configuration.Target);
-            }
-        }
-
-        /// <summary>
-        /// Steeltoe Tooling driver.  The driver is used to deploy applications and their services.
-        /// </summary>
-        public IDriver Driver => Target.GetDriver(this);
-
-        /// <summary>
-        /// Creates a new Steeltoe Tooling Content.
-        /// </summary>
-        /// <param name="dir">Project directory.</param>
-        /// <param name="config">Project configuration.{</param>
-        /// <param name="console">User console.</param>
-        /// <param name="shell">Command shell.</param>
-        public Context(string dir, Configuration config, TextWriter console, Shell shell)
-        {
-            ProjectDirectory = dir;
-            Configuration = config;
-            Console = console;
-            Shell = shell;
-        }
+        public Registry Registry { get; set; }
     }
 }
