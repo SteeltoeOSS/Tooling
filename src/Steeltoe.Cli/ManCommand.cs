@@ -34,14 +34,14 @@ Examples:
   Display documentation for autodetection:
   $ st help autodetection"
     )]
-    public class HelpCommand : Command
+    public class ManCommand : Command
     {
-        public const string CommandName = "help";
+        public const string CommandName = "man";
 
         [Argument(0, Name = "topic", Description = "Topic")]
         private string Topic { get; } = null;
 
-        public HelpCommand(IConsole console) : base(console)
+        public ManCommand(IConsole console) : base(console)
         {
         }
 

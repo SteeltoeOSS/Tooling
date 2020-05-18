@@ -48,7 +48,7 @@ namespace Steeltoe.Cli.Test
                     "-D|--debug Enable debug output",
                     "-?|-h|--help Show help information",
                     "Commands:",
-                    "help Displays documentation on a topic",
+                    "man Displays documentation on a topic",
                     "run Runs project in the local Docker environment",
                     "show Displays project details",
                     "stop Stops project running in the local Docker environment",
