@@ -86,7 +86,10 @@ Examples:
                 var maxTopicLength = topicPaths.Select(Path.GetFileNameWithoutExtension)
                     .Select(topic => topic.Length).Concat(new[] {0}).Max();
                 var descriptionColumn = maxTopicLength + 4;
+<<<<<<< HEAD
                 Context.Console.WriteLine("Topic".PadRight(descriptionColumn) + "Description");
+=======
+>>>>>>> Rename "help" command to "man"
                 foreach (var topicPath in topicPaths)
                 {
                     var topic = Path.GetFileNameWithoutExtension(topicPath);

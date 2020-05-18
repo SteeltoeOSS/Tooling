@@ -64,7 +64,10 @@ namespace Steeltoe.Cli.Test
                 then => the_cli_command_should_succeed(),
                 and => the_cli_should_output(new[]
                 {
+<<<<<<< HEAD
                     "Topic Description",
+=======
+>>>>>>> Rename "help" command to "man"
                     "autodetection Application and Service Autodetection",
                 })
             );
