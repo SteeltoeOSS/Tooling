@@ -64,6 +64,7 @@ namespace Steeltoe.Cli.Test
                 then => the_cli_command_should_succeed(),
                 and => the_cli_should_output(new[]
                 {
+                    "Topic Description",
                     "autodetection Application and Service Autodetection",
                 })
             );
