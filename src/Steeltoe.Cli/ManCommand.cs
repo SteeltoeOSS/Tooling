@@ -1,4 +1,4 @@
-﻿// Copyright 2020 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,10 +86,7 @@ Examples:
                 var maxTopicLength = topicPaths.Select(Path.GetFileNameWithoutExtension)
                     .Select(topic => topic.Length).Concat(new[] {0}).Max();
                 var descriptionColumn = maxTopicLength + 4;
-<<<<<<< HEAD
                 Context.Console.WriteLine("Topic".PadRight(descriptionColumn) + "Description");
-=======
->>>>>>> Rename "help" command to "man"
                 foreach (var topicPath in topicPaths)
                 {
                     var topic = Path.GetFileNameWithoutExtension(topicPath);

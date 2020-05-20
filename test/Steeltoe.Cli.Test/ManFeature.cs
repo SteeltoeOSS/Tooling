@@ -1,4 +1,4 @@
-﻿// Copyright 2020 the original author or authors.
+// Copyright 2020 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,10 +64,7 @@ namespace Steeltoe.Cli.Test
                 then => the_cli_command_should_succeed(),
                 and => the_cli_should_output(new[]
                 {
-<<<<<<< HEAD
                     "Topic Description",
-=======
->>>>>>> Rename "help" command to "man"
                     "autodetection Application and Service Autodetection",
                 })
             );
