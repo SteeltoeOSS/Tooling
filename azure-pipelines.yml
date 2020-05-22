@@ -1,7 +1,5 @@
 trigger:
-- master
 - dev
-- refs/tags/*
 
 variables:
   Solution: 'Tooling'
