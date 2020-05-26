@@ -20,7 +20,7 @@ namespace Steeltoe.Cli
 {
     [Command(Name = Name, Description = "Steeltoe Developer Tools")]
     [VersionOptionFromMember("-V|--version", MemberName = nameof(GetVersion))]
-    [Subcommand(HelpCommand.CommandName, typeof(HelpCommand))]
+    [Subcommand(ManCommand.CommandName, typeof(ManCommand))]
     [Subcommand(RunCommand.CommandName, typeof(RunCommand))]
     [Subcommand(ShowCommand.CommandName, typeof(ShowCommand))]
     [Subcommand(StopCommand.CommandName, typeof(StopCommand))]

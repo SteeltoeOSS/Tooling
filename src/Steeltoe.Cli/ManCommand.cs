@@ -34,14 +34,14 @@ Examples:
   Display documentation for autodetection:
   $ st help autodetection"
     )]
-    public class HelpCommand : Command
+    public class ManCommand : Command
     {
-        public const string CommandName = "help";
+        public const string CommandName = "man";
 
         [Argument(0, Name = "topic", Description = "Topic")]
         private string Topic { get; } = null;
 
-        public HelpCommand(IConsole console) : base(console)
+        public ManCommand(IConsole console) : base(console)
         {
         }
 
@@ -86,6 +86,7 @@ Examples:
                 var maxTopicLength = topicPaths.Select(Path.GetFileNameWithoutExtension)
                     .Select(topic => topic.Length).Concat(new[] {0}).Max();
                 var descriptionColumn = maxTopicLength + 4;
+                Context.Console.WriteLine("Topic".PadRight(descriptionColumn) + "Description");
                 foreach (var topicPath in topicPaths)
                 {
                     var topic = Path.GetFileNameWithoutExtension(topicPath);
