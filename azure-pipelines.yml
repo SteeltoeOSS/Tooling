@@ -1,4 +1,6 @@
 trigger:
+- master
+- refs/tags/*
 - dev
 
 variables:
