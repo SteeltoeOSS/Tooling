@@ -12,6 +12,8 @@ variables:
   DotNet3Version: 3.1.x
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  SignClientUser: FooUser
+  SignClientSecret: FooSecret
 
 jobs:
 - job: 'Windows'
