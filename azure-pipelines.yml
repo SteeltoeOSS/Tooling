@@ -14,14 +14,19 @@ trigger:
 #   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 #   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 variables:
-  - group: '.NET%20Foundation'
-  # - group: 'Samples Configuration and Credentials'
+  # - group: '.NET%20Foundation'
+  - group: 'Samples Configuration and Credentials'
   - name: Solution
     value: 'Tooling'
   - name: ProductVersion
-    value: '0.5.0'
+    value: '0.8.0'
   - name: PackageVersion
-    value: $[format('0.5.0-{0}', variables['Build.BuildId'])]
+    value: $[format('0.8.0-{0}', variables['Build.BuildId'])]
+  - name: DotNet2Version
+    value: 2.1.x
+  - name: DotNet3Version
+    value: 3.1.x
+#   DotNet3Version: 3.1.x
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
     value: true
   - name: DOTNET_CLI_TELEMETRY_OPTOUT
