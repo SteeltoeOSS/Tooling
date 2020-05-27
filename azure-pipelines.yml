@@ -14,7 +14,8 @@ trigger:
 #   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 #   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 variables:
-  - group: '.NET Foundation'
+  # - group: '.NET Foundation'
+  - group: 'Samples Configuration and Credentials'
   - name: Solution
     value: 'Tooling'
   - name: ProductVersion
