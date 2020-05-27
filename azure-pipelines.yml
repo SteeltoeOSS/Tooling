@@ -2,67 +2,18 @@ trigger:
 - master
 - refs/tags/*
 - dev
+- sandbox
 
 variables:
   Solution: 'Tooling'
-  ProductVersion: '0.7.0'
-  PackageVersion: $[format('0.7.0-{0}', variables['Build.BuildId'])]
+  ProductVersion: '0.8.0'
+  PackageVersion: $[format('0.8.0-{0}', variables['Build.BuildId'])]
   DotNet2Version: 2.1.x
   DotNet3Version: 3.1.x
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 jobs:
-- job: 'Linux'
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  steps:
-  - task: UseDotNet@2
-    displayName: 'Setup DotNet2 $(DotNet2Version)'
-    inputs:
-      packageType: sdk
-      version: $(DotNet2Version)
-  - task: UseDotNet@2
-    displayName: 'Setup DotNet3 $(DotNet3Version)'
-    inputs:
-      packageType: sdk
-      version: $(DotNet3Version)
-  - task: 'DotNetCoreCLI@2'
-    displayName: 'Build'
-    inputs:
-      command: 'build'
-      projects: '$(Solution).sln'
-      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
-  - task: 'DotNetCoreCLI@2'
-    displayName: 'Test'
-    inputs:
-      command: 'test'
-      projects: '$(Solution).sln'
-- job: 'OSX'
-  pool:
-    vmImage: 'macOS-10.14'
-  steps:
-  - task: UseDotNet@2
-    displayName: 'Setup DotNet2 $(DotNet2Version)'
-    inputs:
-      packageType: sdk
-      version: $(DotNet2Version)
-  - task: UseDotNet@2
-    displayName: 'Setup DotNet3 $(DotNet3Version)'
-    inputs:
-      packageType: sdk
-      version: $(DotNet3Version)
-  - task: 'DotNetCoreCLI@2'
-    displayName: 'Build'
-    inputs:
-      command: 'build'
-      projects: '$(Solution).sln'
-      arguments: '--configuration Release /p:TreatWarningsAsErrors=True'
-  - task: 'DotNetCoreCLI@2'
-    displayName: 'Test'
-    inputs:
-      command: 'test'
-      projects: '$(Solution).sln'
 - job: 'Windows'
   pool:
     vmImage: 'Windows-2019'
@@ -113,7 +64,7 @@ jobs:
       SignClientUser: $(SignClientUser)
       SignClientSecret: $(SignClientSecret)
       ArtifactDirectory: $(Build.ArtifactStagingDirectory)
-    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
   - task: 'PublishBuildArtifacts@1'
     displayName: 'Publish'
     inputs:
