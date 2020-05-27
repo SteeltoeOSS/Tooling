@@ -27,7 +27,7 @@ $nupkgs = Get-ChildItem $artifactDirectory/Steeltoe*.*nupkg -recurse | Select-Ob
 if ($nupkgs) {
     foreach ($nupkg in $nupkgs) {
         "signing $nupkg"
-        $"$toolDir/SignClient 'sign' -c $appSettings -i $nupkg -r $Env:SignClientUser -s $Env:SignClientSecret -n 'Steeltoe' -d 'Steeltoe' -u 'https://github.com/SteeltoeOSS'"
+        write-host "$toolDir/SignClient 'sign' -c $appSettings -i $nupkg -r $Env:SignClientUser -s $Env:SignClientSecret -n 'Steeltoe' -d 'Steeltoe' -u 'https://github.com/SteeltoeOSS'"
         & $toolDir/SignClient 'sign' -c $appSettings -i $nupkg -r $Env:SignClientUser -s $Env:SignClientSecret -n 'Steeltoe' -d 'Steeltoe' -u 'https://github.com/SteeltoeOSS'
     }
 }
