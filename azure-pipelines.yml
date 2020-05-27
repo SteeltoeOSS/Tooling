@@ -6,14 +6,13 @@ trigger:
 
 variables:
   Solution: 'Tooling'
+  Group: '.NET Foundation'
   ProductVersion: '0.8.0'
   PackageVersion: $[format('0.8.0-{0}', variables['Build.BuildId'])]
   DotNet2Version: 2.1.x
   DotNet3Version: 3.1.x
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
-  SignClientUser: FooUser
-  SignClientSecret: FooSecret
 
 jobs:
 - job: 'Windows'
