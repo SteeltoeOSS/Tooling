@@ -4,13 +4,21 @@ trigger:
 - dev
 
 variables:
-  Solution: 'Tooling'
-  ProductVersion: '0.7.0'
-  PackageVersion: $[format('0.7.0-{0}', variables['Build.BuildId'])]
-  DotNet2Version: 2.1.x
-  DotNet3Version: 3.1.x
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  - name: Solution
+    value: 'Tooling'
+  - name: ProductVersion
+    value: '0.7.0'
+  - name: PackageVersion
+    value: $[format('0.7.0-{0}', variables['Build.BuildId'])]
+  - name: DotNet2Version
+    value: 2.1.x
+  - name: DotNet3Version
+    value: 3.1.x
+  - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
+    value: true
+  - name: DOTNET_CLI_TELEMETRY_OPTOUT
+    value: 1
+  - group: 'PackageSigningSecrets'
 
 jobs:
 - job: 'Linux'
