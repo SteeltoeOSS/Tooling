@@ -7,9 +7,9 @@ variables:
   - name: Solution
     value: 'Tooling'
   - name: ProductVersion
-    value: '0.7.0'
+    value: '0.7.1'
   - name: PackageVersion
-    value: $[format('0.7.0-{0}', variables['Build.BuildId'])]
+    value: $[format('0.7.1-{0}', variables['Build.BuildId'])]
   - name: DotNet2Version
     value: 2.1.x
   - name: DotNet3Version

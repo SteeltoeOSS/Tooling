@@ -23,17 +23,9 @@ Subsequent goals include:
 
 == Install
 
-.Install Steeltoe Tooling CLI and check version
+.Install Steeltoe Tooling CLI from Source
 ----
-$ dotnet tool install -g Steeltoe.Cli --version 0.7.0-1904 --add-source https://www.myget.org/F/steeltoedev/api/v3/index.json
-You can invoke the tool using the following command: st
-Tool 'steeltoe.cli' (version '0.7.0-1904') was successfully installed.
-
-# NOTE: The dotnet tool option requires adding the tools path to the PATH variable in your environment.
-# This must be done before the next step.
-
-$ st --version
-0.7.0 (build 1904 -> https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/results?buildId=1904)
+$ ./scripts/install.ps1
 ----
 
 == Further Instructions for Using Steeltoe Tooling CLI
