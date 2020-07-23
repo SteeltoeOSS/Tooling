@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>Steeltoe CLI</Title>
     <Description>Commandline interface to Steeltoe Tooling</Description>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;</TargetFrameworks>
     <ToolCommandName>st</ToolCommandName>
     <PackAsTool>true</PackAsTool>
     <OutputType>exe</OutputType>
